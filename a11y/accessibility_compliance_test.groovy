@@ -12,7 +12,7 @@ void call(){
       A11y Library needs the target url.
       libraries{
         a11y{
-          url = "http://example.com"
+          url = "https://example.com"
         }
       }
       """
