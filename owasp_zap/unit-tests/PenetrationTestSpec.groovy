@@ -45,7 +45,7 @@ public class PenetrationTestSpec extends JenkinsPipelineSpecification {
 
   def "Default Vulnerability Treshold is High" () {
     setup:
-      PenetrationTest.getBinding().setVariable("config", [ target: "http://example.com", vulnerability_threshold: null ])
+      PenetrationTest.getBinding().setVariable("config", [ target: "https://example.com", vulnerability_threshold: null ])
     when:
       PenetrationTest()
     then:
@@ -54,7 +54,7 @@ public class PenetrationTestSpec extends JenkinsPipelineSpecification {
 
   def "Error Thrown if vulnerability_threshold is invalid" () {
     setup:
-      PenetrationTest.getBinding().setVariable("config", [target: "http://example.com", vulnerability_threshold: x])
+      PenetrationTest.getBinding().setVariable("config", [target: "https://example.com", vulnerability_threshold: x])
     when:
       PenetrationTest()
     then:
@@ -72,7 +72,7 @@ public class PenetrationTestSpec extends JenkinsPipelineSpecification {
 
   def "ZAP Scan is Run" () {
     setup:
-      PenetrationTest.getBinding().setVariable("config", [ target: "http://example.com"])
+      PenetrationTest.getBinding().setVariable("config", [ target: "https://example.com"])
     when:
       PenetrationTest()
     then:
@@ -94,9 +94,9 @@ public class PenetrationTestSpec extends JenkinsPipelineSpecification {
       }
       1 * getPipelineMock("sh")({it =~ / zap-cli .+/}) >> { _arguments ->
         def tokens = _arguments[0].split(/\s\s+/)
-        assert tokens[0] == " zap-cli open-url http://example.com &&"
-        assert tokens[1] == "zap-cli spider http://example.com &&"
-        assert tokens[2] == "zap-cli active-scan -r http://example.com &&"
+        assert tokens[0] == " zap-cli open-url https://example.com &&"
+        assert tokens[1] == "zap-cli spider https://example.com &&"
+        assert tokens[2] == "zap-cli active-scan -r https://example.com &&"
         assert tokens[3] == "zap-cli report -o zap.html -f html"
         assert tokens.length == 4
       }
@@ -104,7 +104,7 @@ public class PenetrationTestSpec extends JenkinsPipelineSpecification {
 
   def "Scan Results are Archived" () {
     setup:
-      PenetrationTest.getBinding().setVariable("config", [ target: "http://example.com"])
+      PenetrationTest.getBinding().setVariable("config", [ target: "https://example.com"])
     when:
       PenetrationTest()
     then:
@@ -113,7 +113,7 @@ public class PenetrationTestSpec extends JenkinsPipelineSpecification {
 
   def "Vulnerabilities Over Threshold Throw Error" () {
     setup:
-      PenetrationTest.getBinding().setVariable("config", [ target: "http://example.com", vulnerability_threshold: "Low"])
+      PenetrationTest.getBinding().setVariable("config", [ target: "https://example.com", vulnerability_threshold: "Low"])
     when:
       PenetrationTest()
     then:
@@ -123,7 +123,7 @@ public class PenetrationTestSpec extends JenkinsPipelineSpecification {
 
   def "Test Passes If No Vulnerabilities Over Threshold Are Found" () {
     setup:
-      PenetrationTest.getBinding().setVariable("config", [ target: "http://example.com"])
+      PenetrationTest.getBinding().setVariable("config", [ target: "https://example.com"])
     when:
       PenetrationTest()
     then:
@@ -133,7 +133,7 @@ public class PenetrationTestSpec extends JenkinsPipelineSpecification {
 
   def "If vulnerability_threshold == Ignore then Vulnerabilities Are Not Counted" () {
     setup:
-      PenetrationTest.getBinding().setVariable("config", [ target: "http://example.com", vulnerability_threshold: "Ignore"])
+      PenetrationTest.getBinding().setVariable("config", [ target: "https://example.com", vulnerability_threshold: "Ignore"])
     when:
       PenetrationTest()
     then:
