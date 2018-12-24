@@ -13,10 +13,10 @@
   }
 */
 void call(String img, Closure body){
-  def sdp_img_repo = pipeline_config().sdp_image_repository ?:
+  def sdp_img_repo = pipelineConfig.sdp_image_repository ?:
                      { error "SDP Image Repository not defined in Pipeline Config" }()
                      
-  def sdp_img_repo_cred = pipeline_config().sdp_image_repository_credential ?:
+  def sdp_img_repo_cred = pipelineConfig.sdp_image_repository_credential ?:
                           { error "SDP Image Repository Credential not defined in Pipeline Config" }()
   
   docker.withRegistry(sdp_img_repo, sdp_img_repo_cred){
