@@ -17,7 +17,7 @@ void call(app_env, Closure body){
         // or - a globally defined github credential at the root of the pipeline config "github_credential"
         def git_cred = app_env.helm_configuration_repository_credential ?:
                 config.helm_configuration_repository_credential  ?:
-                        pipeline_config().github_credential              ?:
+                        pipelineConfig.github_credential              ?:
                                 {error "GitHub Credential For Configuration Repository Not Defined"}()
 
         /*
