@@ -15,7 +15,7 @@ public class DeployToSpec extends JenkinsPipelineSpecification {
 
   def setup() {
     DeployTo = loadPipelineScriptForTest("openshift/deploy_to.groovy")
-    explicitlyMockPipelineVariable("pipeline_config")
+    explicitlyMockPipelineVariable("pipelineConfig")
     explicitlyMockPipelineVariable("out")
     explicitlyMockPipelineVariable("push")
     explicitlyMockPipelineStep("withGit")
@@ -39,7 +39,7 @@ public class DeployToSpec extends JenkinsPipelineSpecification {
     setup:
       def app_env = [short_name: 'env', long_name: 'Environment']
       DeployTo.getBinding().setVariable("config", [:])
-      getPipelineMock("pipeline_config.call")() >> [github_credential: null]
+      DeployTo.getBinding().setVariable("pipelineConfig", [github_credential: null])
     when:
       DeployTo(app_env)
     then:
@@ -50,7 +50,7 @@ public class DeployToSpec extends JenkinsPipelineSpecification {
     setup:
       def app_env = [short_name: 'env', long_name: 'Environment', helm_configuration_repository: null]
       DeployTo.getBinding().setVariable("config", [helm_configuration_repository: "config_hcr"])
-      getPipelineMock("pipeline_config.call")() >> [github_credential: null]
+      DeployTo.getBinding().setVariable("pipelineConfig", [github_credential: null])
     when:
       DeployTo(app_env)
     then:
@@ -63,7 +63,7 @@ public class DeployToSpec extends JenkinsPipelineSpecification {
     setup:
       def app_env = [short_name: 'env', long_name: 'Environment', helm_configuration_repository: "app_env_hcr"]
       DeployTo.getBinding().setVariable("config", [helm_configuration_repository: "config_hcr"])
-      getPipelineMock("pipeline_config.call")() >> [github_credential: null]
+      DeployTo.getBinding().setVariable("pipelineConfig", [github_credential: null])
     when:
       DeployTo(app_env)
     then:
@@ -76,7 +76,7 @@ public class DeployToSpec extends JenkinsPipelineSpecification {
     setup:
       def app_env = [short_name: 'env', long_name: 'Environment', helm_configuration_repository_credential: null]
       DeployTo.getBinding().setVariable("config", [helm_configuration_repository_credential: null])
-      getPipelineMock("pipeline_config.call")() >> [github_credential: null]
+      DeployTo.getBinding().setVariable("pipelineConfig", [github_credential: null])
     when:
       DeployTo(app_env)
     then:
@@ -87,7 +87,7 @@ public class DeployToSpec extends JenkinsPipelineSpecification {
     setup:
       def app_env = [short_name: 'env', long_name: 'Environment', helm_configuration_repository_credential: null]
       DeployTo.getBinding().setVariable("config", [helm_configuration_repository_credential: null])
-      getPipelineMock("pipeline_config.call")() >> [github_credential: "github_credential"]
+      DeployTo.getBinding().setVariable("pipelineConfig", [github_credential: "github_credential"])
     when:
       DeployTo(app_env)
     then:
@@ -100,7 +100,7 @@ public class DeployToSpec extends JenkinsPipelineSpecification {
     setup:
       def app_env = [short_name: 'env', long_name: 'Environment', helm_configuration_repository_credential: null]
       DeployTo.getBinding().setVariable("config", [helm_configuration_repository_credential: "config_hcrc"])
-      getPipelineMock("pipeline_config.call")() >> [github_credential: "github_credential"]
+      DeployTo.getBinding().setVariable("pipelineConfig", [github_credential: "github_credential"])
     when:
       DeployTo(app_env)
     then:
@@ -113,7 +113,7 @@ public class DeployToSpec extends JenkinsPipelineSpecification {
     setup:
       def app_env = [short_name: 'env', long_name: 'Environment', helm_configuration_repository_credential: "app_env_hcrc"]
       DeployTo.getBinding().setVariable("config", [helm_configuration_repository_credential: "config_hcrc"])
-      getPipelineMock("pipeline_config.call")() >> [github_credential: "github_credential"]
+      DeployTo.getBinding().setVariable("pipelineConfig", [github_credential: "github_credential"])
     when:
       DeployTo(app_env)
     then:
@@ -126,7 +126,7 @@ public class DeployToSpec extends JenkinsPipelineSpecification {
     setup:
       def app_env = [short_name: 'env', long_name: 'Environment', tiller_namespace: null]
       DeployTo.getBinding().setVariable("config", [tiller_namespace: null])
-      getPipelineMock("pipeline_config.call")() >> [github_credential: null]
+      DeployTo.getBinding().setVariable("pipelineConfig", [github_credential: null])
     when:
       DeployTo(app_env)
     then:
@@ -137,7 +137,7 @@ public class DeployToSpec extends JenkinsPipelineSpecification {
     setup:
       def app_env = [short_name: 'env', long_name: 'Environment', tiller_namespace: null]
       DeployTo.getBinding().setVariable("config", [tiller_namespace: "config_tiller"])
-      getPipelineMock("pipeline_config.call")() >> [github_credential: null]
+      DeployTo.getBinding().setVariable("pipelineConfig", [github_credential: null])
     when:
       DeployTo(app_env)
     then:
@@ -150,7 +150,7 @@ public class DeployToSpec extends JenkinsPipelineSpecification {
     setup:
       def app_env = [short_name: 'env', long_name: 'Environment', tiller_namespace: "app_env_tiller"]
       DeployTo.getBinding().setVariable("config", [tiller_namespace: "config_tiller"])
-      getPipelineMock("pipeline_config.call")() >> [github_credential: null]
+      DeployTo.getBinding().setVariable("pipelineConfig", [github_credential: null])
     when:
       DeployTo(app_env)
     then:
@@ -163,7 +163,7 @@ public class DeployToSpec extends JenkinsPipelineSpecification {
     setup:
       def app_env = [short_name: 'env', long_name: 'Environment', tiller_credential: null]
       DeployTo.getBinding().setVariable("config", [tiller_credential: null])
-      getPipelineMock("pipeline_config.call")() >> [github_credential: null]
+      DeployTo.getBinding().setVariable("pipelineConfig", [github_credential: null])
     when:
       DeployTo(app_env)
     then:
@@ -174,7 +174,7 @@ public class DeployToSpec extends JenkinsPipelineSpecification {
     setup:
       def app_env = [short_name: 'env', long_name: 'Environment', tiller_credential: null]
       DeployTo.getBinding().setVariable("config", [tiller_credential: "config_tc"])
-      getPipelineMock("pipeline_config.call")() >> [github_credential: null]
+      DeployTo.getBinding().setVariable("pipelineConfig", [github_credential: null])
     when:
       DeployTo(app_env)
     then:
@@ -187,7 +187,7 @@ public class DeployToSpec extends JenkinsPipelineSpecification {
     setup:
       def app_env = [short_name: 'env', long_name: 'Environment', tiller_credential: "app_env_tc"]
       DeployTo.getBinding().setVariable("config", [tiller_credential: "config_tc"])
-      getPipelineMock("pipeline_config.call")() >> [github_credential: null]
+      DeployTo.getBinding().setVariable("pipelineConfig", [github_credential: null])
     when:
       DeployTo(app_env)
     then:
@@ -200,7 +200,7 @@ public class DeployToSpec extends JenkinsPipelineSpecification {
     setup:
       def app_env = [short_name: 'env', long_name: 'Environment', openshift_url: null]
       DeployTo.getBinding().setVariable("config", [url: null])
-      getPipelineMock("pipeline_config.call")() >> [github_credential: null]
+      DeployTo.getBinding().setVariable("pipelineConfig", [github_credential: null])
     when:
       DeployTo(app_env)
     then:
@@ -211,7 +211,7 @@ public class DeployToSpec extends JenkinsPipelineSpecification {
     setup:
       def app_env = [short_name: 'env', long_name: 'Environment', openshift_url: null]
       DeployTo.getBinding().setVariable("config", [url: "config_url"])
-      getPipelineMock("pipeline_config.call")() >> [github_credential: null]
+      DeployTo.getBinding().setVariable("pipelineConfig", [github_credential: null])
     when:
       DeployTo(app_env)
     then:
@@ -222,7 +222,7 @@ public class DeployToSpec extends JenkinsPipelineSpecification {
     setup:
       def app_env = [short_name: 'env', long_name: 'Environment', openshift_url: "app_env_url"]
       DeployTo.getBinding().setVariable("config", [url: "config_url"])
-      getPipelineMock("pipeline_config.call")() >> [github_credential: null]
+      DeployTo.getBinding().setVariable("pipelineConfig", [github_credential: null])
     when:
       DeployTo(app_env)
     then:
@@ -233,7 +233,7 @@ public class DeployToSpec extends JenkinsPipelineSpecification {
     setup:
       def app_env = [short_name: null, long_name: 'Environment', tiller_release_name: null]
       DeployTo.getBinding().setVariable("config", [:])
-      getPipelineMock("pipeline_config.call")() >> [github_credential: null]
+      DeployTo.getBinding().setVariable("pipelineConfig", [github_credential: null])
     when:
       DeployTo(app_env)
     then:
@@ -244,7 +244,7 @@ public class DeployToSpec extends JenkinsPipelineSpecification {
     setup:
       def app_env = [short_name: 'short_name', long_name: 'Environment', tiller_release_name: null]
       DeployTo.getBinding().setVariable("config", [:])
-      getPipelineMock("pipeline_config.call")() >> [github_credential: null]
+      DeployTo.getBinding().setVariable("pipelineConfig", [github_credential: null])
     when:
       DeployTo(app_env)
     then:
@@ -255,7 +255,7 @@ public class DeployToSpec extends JenkinsPipelineSpecification {
     setup:
       def app_env = [short_name: 'short_name', long_name: 'Environment', tiller_release_name: "app_env_trn"]
       DeployTo.getBinding().setVariable("config", [:])
-      getPipelineMock("pipeline_config.call")() >> [github_credential: null]
+      DeployTo.getBinding().setVariable("pipelineConfig", [github_credential: null])
     when:
       DeployTo(app_env)
     then:
@@ -266,7 +266,7 @@ public class DeployToSpec extends JenkinsPipelineSpecification {
     setup:
       def app_env = [short_name: null, long_name: 'Environment', chart_values_file: null]
       DeployTo.getBinding().setVariable("config", [:])
-      getPipelineMock("pipeline_config.call")() >> [github_credential: null]
+      DeployTo.getBinding().setVariable("pipelineConfig", [github_credential: null])
     when:
       DeployTo(app_env)
     then:
@@ -277,7 +277,7 @@ public class DeployToSpec extends JenkinsPipelineSpecification {
     setup:
       def app_env = [short_name: 'env', long_name: 'Environment', chart_values_file: null]
       DeployTo.getBinding().setVariable("config", [:])
-      getPipelineMock("pipeline_config.call")() >> [github_credential: null]
+      DeployTo.getBinding().setVariable("pipelineConfig", [github_credential: null])
     when:
       DeployTo(app_env)
     then:
@@ -288,7 +288,7 @@ public class DeployToSpec extends JenkinsPipelineSpecification {
     setup:
       def app_env = [short_name: 'env', long_name: 'Environment', chart_values_file: "special_values_file.yaml"]
       DeployTo.getBinding().setVariable("config", [:])
-      getPipelineMock("pipeline_config.call")() >> [github_credential: null]
+      DeployTo.getBinding().setVariable("pipelineConfig", [github_credential: null])
     when:
       DeployTo(app_env)
     then:
@@ -303,7 +303,7 @@ public class DeployToSpec extends JenkinsPipelineSpecification {
     setup:
       def app_env = [short_name: 'env', long_name: 'Environment', chart_values_file: "The limit of f(x) as x approaches 0"]
       DeployTo.getBinding().setVariable("config", [helm_configuration_repository: "the equation f(x) = 1/x"])
-      getPipelineMock("pipeline_config.call")() >> [github_credential: null]
+      DeployTo.getBinding().setVariable("pipelineConfig", [github_credential: null])
     when:
       DeployTo(app_env)
     then:
@@ -316,7 +316,7 @@ public class DeployToSpec extends JenkinsPipelineSpecification {
       def app_env = [short_name: 'env', long_name: 'Environment']
       DeployTo.getBinding().setVariable("config", [:])
       // env.REPO_NAME and env.GIT_SHA set above in setup()
-      getPipelineMock("pipeline_config.call")() >> [github_credential: null]
+      DeployTo.getBinding().setVariable("pipelineConfig", [github_credential: null])
     when:
       DeployTo(app_env)
     then:
@@ -331,7 +331,7 @@ public class DeployToSpec extends JenkinsPipelineSpecification {
       def app_env = [short_name: 'env', long_name: 'Environment']
       DeployTo.getBinding().setVariable("config", [:])
       // env.REPO_NAME and env.GIT_SHA set above in setup()
-      getPipelineMock("pipeline_config.call")() >> [github_credential: null]
+      DeployTo.getBinding().setVariable("pipelineConfig", [github_credential: null])
     when:
       DeployTo(app_env)
     then:
@@ -346,7 +346,7 @@ public class DeployToSpec extends JenkinsPipelineSpecification {
     setup:
       def app_env = [short_name: 'env', long_name: 'Environment']
       DeployTo.getBinding().setVariable("config", [:])
-      getPipelineMock("pipeline_config.call")() >> [github_credential: null]
+      DeployTo.getBinding().setVariable("pipelineConfig", [github_credential: null])
     when:
       DeployTo(app_env)
     then:
@@ -360,7 +360,7 @@ public class DeployToSpec extends JenkinsPipelineSpecification {
     setup:
       def app_env = [short_name: 'env', long_name: 'Environment']
       DeployTo.getBinding().setVariable("config", [:])
-      getPipelineMock("pipeline_config.call")() >> [github_credential: null]
+      DeployTo.getBinding().setVariable("pipelineConfig", [github_credential: null])
     when:
       DeployTo(app_env)
     then:
@@ -372,7 +372,7 @@ public class DeployToSpec extends JenkinsPipelineSpecification {
     setup:
       def app_env = [short_name: 'env', long_name: 'Environment']
       DeployTo.getBinding().setVariable("config", [:])
-      getPipelineMock("pipeline_config.call")() >> [github_credential: null]
+      DeployTo.getBinding().setVariable("pipelineConfig", [github_credential: null])
     when:
       DeployTo(app_env)
     then:
@@ -388,7 +388,7 @@ public class DeployToSpec extends JenkinsPipelineSpecification {
       def app_env = [short_name: 'env', long_name: 'Environment', openshift_url: "specified_url"]
       DeployTo.getBinding().setVariable("config", [:])
       DeployTo.getBinding().setVariable("token", "provided_token")
-      getPipelineMock("pipeline_config.call")() >> [github_credential: null]
+      DeployTo.getBinding().setVariable("pipelineConfig", [github_credential: null])
     when:
       DeployTo(app_env)
     then:
@@ -400,7 +400,7 @@ public class DeployToSpec extends JenkinsPipelineSpecification {
       def app_env = [short_name: 'env', long_name: 'Environment', openshift_url: "specified_url"]
       DeployTo.getBinding().setVariable("config", [:])
       DeployTo.getBinding().setVariable("user", "user")
-      getPipelineMock("pipeline_config.call")() >> [github_credential: null]
+      DeployTo.getBinding().setVariable("pipelineConfig", [github_credential: null])
     when:
       DeployTo(app_env)
     then:
@@ -415,7 +415,7 @@ public class DeployToSpec extends JenkinsPipelineSpecification {
     setup:
       def app_env = [short_name: 'env', long_name: 'Environment']
       DeployTo.getBinding().setVariable("config", [:])
-      getPipelineMock("pipeline_config.call")() >> [github_credential: null]
+      DeployTo.getBinding().setVariable("pipelineConfig", [github_credential: null])
     when:
       DeployTo(app_env)
     then:

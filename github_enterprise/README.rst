@@ -109,3 +109,8 @@ Example Pipeline Templates
     on_merge to: master, {
       // PR was merged into master
     }
+
+External Dependencies
+=====================
+
+- The Github Enterprise library and the sdp library needs to be loaded as libraries inside your pipeline_config.groovy file.
