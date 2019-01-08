@@ -113,4 +113,4 @@ Example Pipeline Templates
 External Dependencies
 =====================
 
-- The Github Enterprise library and the sdp library needs to be loaded as libraries inside your pipeline_config.groovy file.
+- The github_enterprise library and the sdp library needs to be loaded as libraries inside your pipeline_config.groovy file.

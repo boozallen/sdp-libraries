@@ -15,7 +15,6 @@ public class EphemeralSpec extends JenkinsPipelineSpecification {
 
   def setup() {
     Ephemeral = loadPipelineScriptForTest("openshift/ephemeral.groovy")
-    explicitlyMockPipelineVariable("pipelineConfig")
     explicitlyMockPipelineVariable("out")
     explicitlyMockPipelineStep("withGit")
     explicitlyMockPipelineStep("inside_sdp_image")

@@ -15,7 +15,6 @@ public class DeployToSpec extends JenkinsPipelineSpecification {
 
   def setup() {
     DeployTo = loadPipelineScriptForTest("openshift/deploy_to.groovy")
-    explicitlyMockPipelineVariable("pipelineConfig")
     explicitlyMockPipelineVariable("out")
     explicitlyMockPipelineVariable("push")
     explicitlyMockPipelineStep("withGit")

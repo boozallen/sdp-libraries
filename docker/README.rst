@@ -49,7 +49,7 @@ External Dependencies
 =====================
 
 - A Docker repository must be setup and configured. Credentials to the repository are also needed. 
-- The Github Enterprise library and the sdp library needs to be loaded as libraries inside your pipeline_config.groovy file.
+- The github_enterprise library and the sdp library needs to be loaded as libraries inside your pipeline_config.groovy file.
 
 Troubleshooting
 ===============
