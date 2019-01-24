@@ -18,13 +18,13 @@ void call(String img, Closure body){
                     { error "SDP Image Registry not defined in Pipeline Config" } ()
   
   def sdp_img_repo = config.images.repository ?:
-                     { echo "SDP Image Repository not defined in Pipeline Config. Defaulting to \"sdp\""; return "sdp" }()
+                     { return "sdp" }()
                      
   def sdp_img_repo_cred = config.images.cred ?:
                           { error "SDP Image Repository Credential not defined in Pipeline Config" }()
   
   def docker_args = config.images.docker_args ?:
-                    { echo "Docker Args not defined in Pipeline Config. Defaulting to none (\"\")"; return ""}()
+                    { return ""}()
   
   docker.withRegistry(sdp_img_reg, sdp_img_repo_cred){
     docker.image("${sdp_img_repo}/${img}").inside("${docker_args}"){
