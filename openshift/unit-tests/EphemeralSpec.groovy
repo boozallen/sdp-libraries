@@ -15,7 +15,6 @@ public class EphemeralSpec extends JenkinsPipelineSpecification {
 
   def setup() {
     Ephemeral = loadPipelineScriptForTest("openshift/ephemeral.groovy")
-    explicitlyMockPipelineVariable("pipeline_config")
     explicitlyMockPipelineVariable("out")
     explicitlyMockPipelineStep("withGit")
     explicitlyMockPipelineStep("inside_sdp_image")
@@ -40,7 +39,7 @@ public class EphemeralSpec extends JenkinsPipelineSpecification {
     setup:
       def app_env = [short_name: 'env', long_name: 'Environment']
       Ephemeral.getBinding().setVariable("config", [:])
-      getPipelineMock("pipeline_config.call")() >> [github_credential: null]
+      Ephemeral.getBinding().setVariable("pipelineConfig", [github_credential: null])
     when:
       Ephemeral(app_env, {})
     then:
@@ -51,7 +50,7 @@ public class EphemeralSpec extends JenkinsPipelineSpecification {
     setup:
       def app_env = [short_name: 'env', long_name: 'Environment', helm_configuration_repository: null]
       Ephemeral.getBinding().setVariable("config", [helm_configuration_repository: "config_hcr"])
-      getPipelineMock("pipeline_config.call")() >> [github_credential: null]
+      Ephemeral.getBinding().setVariable("pipelineConfig", [github_credential: null])
     when:
       Ephemeral(app_env, {})
     then:
@@ -64,7 +63,7 @@ public class EphemeralSpec extends JenkinsPipelineSpecification {
     setup:
       def app_env = [short_name: 'env', long_name: 'Environment', helm_configuration_repository: "app_env_hcr"]
       Ephemeral.getBinding().setVariable("config", [helm_configuration_repository: "config_hcr"])
-      getPipelineMock("pipeline_config.call")() >> [github_credential: null]
+      Ephemeral.getBinding().setVariable("pipelineConfig", [github_credential: null])
     when:
       Ephemeral(app_env, {})
     then:
@@ -77,7 +76,7 @@ public class EphemeralSpec extends JenkinsPipelineSpecification {
     setup:
       def app_env = [short_name: 'env', long_name: 'Environment', helm_configuration_repository_credential: null]
       Ephemeral.getBinding().setVariable("config", [helm_configuration_repository_credential: null])
-      getPipelineMock("pipeline_config.call")() >> [github_credential: null]
+      Ephemeral.getBinding().setVariable("pipelineConfig", [github_credential: null])
     when:
       Ephemeral(app_env, {})
     then:
@@ -88,7 +87,7 @@ public class EphemeralSpec extends JenkinsPipelineSpecification {
     setup:
       def app_env = [short_name: 'env', long_name: 'Environment', helm_configuration_repository_credential: null]
       Ephemeral.getBinding().setVariable("config", [helm_configuration_repository_credential: null])
-      getPipelineMock("pipeline_config.call")() >> [github_credential: "github_credential"]
+      Ephemeral.getBinding().setVariable("pipelineConfig", [github_credential: "github_credential"])
     when:
       Ephemeral(app_env, {})
     then:
@@ -101,7 +100,7 @@ public class EphemeralSpec extends JenkinsPipelineSpecification {
     setup:
       def app_env = [short_name: 'env', long_name: 'Environment', helm_configuration_repository_credential: null]
       Ephemeral.getBinding().setVariable("config", [helm_configuration_repository_credential: "config_hcrc"])
-      getPipelineMock("pipeline_config.call")() >> [github_credential: "github_credential"]
+      Ephemeral.getBinding().setVariable("pipelineConfig", [github_credential: "github_credential"])
     when:
       Ephemeral(app_env, {})
     then:
@@ -114,7 +113,7 @@ public class EphemeralSpec extends JenkinsPipelineSpecification {
     setup:
       def app_env = [short_name: 'env', long_name: 'Environment', helm_configuration_repository_credential: "app_env_hcrc"]
       Ephemeral.getBinding().setVariable("config", [helm_configuration_repository_credential: "config_hcrc"])
-      getPipelineMock("pipeline_config.call")() >> [github_credential: "github_credential"]
+      Ephemeral.getBinding().setVariable("pipelineConfig", [github_credential: "github_credential"])
     when:
       Ephemeral(app_env, {})
     then:
@@ -127,7 +126,7 @@ public class EphemeralSpec extends JenkinsPipelineSpecification {
     setup:
       def app_env = [short_name: 'env', long_name: 'Environment', tiller_namespace: null]
       Ephemeral.getBinding().setVariable("config", [tiller_namespace: null])
-      getPipelineMock("pipeline_config.call")() >> [github_credential: null]
+      Ephemeral.getBinding().setVariable("pipelineConfig", [github_credential: null])
     when:
       Ephemeral(app_env, {})
     then:
@@ -138,7 +137,7 @@ public class EphemeralSpec extends JenkinsPipelineSpecification {
     setup:
       def app_env = [short_name: 'env', long_name: 'Environment', tiller_namespace: null]
       Ephemeral.getBinding().setVariable("config", [tiller_namespace: "config_tiller"])
-      getPipelineMock("pipeline_config.call")() >> [github_credential: null]
+      Ephemeral.getBinding().setVariable("pipelineConfig", [github_credential: null])
     when:
       Ephemeral(app_env, {})
     then:
@@ -149,7 +148,7 @@ public class EphemeralSpec extends JenkinsPipelineSpecification {
     setup:
       def app_env = [short_name: 'env', long_name: 'Environment', tiller_namespace: "app_env_tiller"]
       Ephemeral.getBinding().setVariable("config", [tiller_namespace: "config_tiller"])
-      getPipelineMock("pipeline_config.call")() >> [github_credential: null]
+      Ephemeral.getBinding().setVariable("pipelineConfig", [github_credential: null])
     when:
       Ephemeral(app_env, {})
     then:
@@ -160,7 +159,7 @@ public class EphemeralSpec extends JenkinsPipelineSpecification {
     setup:
       def app_env = [short_name: 'env', long_name: 'Environment', tiller_credential: null]
       Ephemeral.getBinding().setVariable("config", [tiller_credential: null])
-      getPipelineMock("pipeline_config.call")() >> [github_credential: null]
+      Ephemeral.getBinding().setVariable("pipelineConfig", [github_credential: null])
     when:
       Ephemeral(app_env, {})
     then:
@@ -171,7 +170,7 @@ public class EphemeralSpec extends JenkinsPipelineSpecification {
     setup:
       def app_env = [short_name: 'env', long_name: 'Environment', tiller_credential: null]
       Ephemeral.getBinding().setVariable("config", [tiller_credential: "config_tc"])
-      getPipelineMock("pipeline_config.call")() >> [github_credential: null]
+      Ephemeral.getBinding().setVariable("pipelineConfig", [github_credential: null])
     when:
       Ephemeral(app_env, {})
     then:
@@ -184,7 +183,7 @@ public class EphemeralSpec extends JenkinsPipelineSpecification {
     setup:
       def app_env = [short_name: 'env', long_name: 'Environment', tiller_credential: "app_env_tc"]
       Ephemeral.getBinding().setVariable("config", [tiller_credential: "config_tc"])
-      getPipelineMock("pipeline_config.call")() >> [github_credential: null]
+      Ephemeral.getBinding().setVariable("pipelineConfig", [github_credential: null])
     when:
       Ephemeral(app_env, {})
     then:
@@ -197,7 +196,7 @@ public class EphemeralSpec extends JenkinsPipelineSpecification {
     setup:
       def app_env = [short_name: 'env', long_name: 'Environment', openshift_url: null]
       Ephemeral.getBinding().setVariable("config", [url: null])
-      getPipelineMock("pipeline_config.call")() >> [github_credential: null]
+      Ephemeral.getBinding().setVariable("pipelineConfig", [github_credential: null])
     when:
       Ephemeral(app_env, {})
     then:
@@ -208,7 +207,7 @@ public class EphemeralSpec extends JenkinsPipelineSpecification {
     setup:
       def app_env = [short_name: 'env', long_name: 'Environment', openshift_url: null]
       Ephemeral.getBinding().setVariable("config", [url: "config_url"])
-      getPipelineMock("pipeline_config.call")() >> [github_credential: null]
+      Ephemeral.getBinding().setVariable("pipelineConfig", [github_credential: null])
     when:
       Ephemeral(app_env, {})
     then:
@@ -219,7 +218,7 @@ public class EphemeralSpec extends JenkinsPipelineSpecification {
     setup:
       def app_env = [short_name: 'env', long_name: 'Environment', openshift_url: "app_env_url"]
       Ephemeral.getBinding().setVariable("config", [url: "config_url"])
-      getPipelineMock("pipeline_config.call")() >> [github_credential: null]
+      Ephemeral.getBinding().setVariable("pipelineConfig", [github_credential: null])
     when:
       Ephemeral(app_env, {})
     then:
@@ -230,7 +229,7 @@ public class EphemeralSpec extends JenkinsPipelineSpecification {
     setup:
       def app_env = [short_name: null, long_name: 'Environment', chart_values_file: null]
       Ephemeral.getBinding().setVariable("config", [:])
-      getPipelineMock("pipeline_config.call")() >> [github_credential: null]
+      Ephemeral.getBinding().setVariable("pipelineConfig", [github_credential: null])
     when:
       Ephemeral(app_env, {})
     then:
@@ -241,7 +240,7 @@ public class EphemeralSpec extends JenkinsPipelineSpecification {
     setup:
       def app_env = [short_name: 'env', long_name: 'Environment', chart_values_file: null]
       Ephemeral.getBinding().setVariable("config", [:])
-      getPipelineMock("pipeline_config.call")() >> [github_credential: null]
+      Ephemeral.getBinding().setVariable("pipelineConfig", [github_credential: null])
     when:
       Ephemeral(app_env, {})
     then:
@@ -252,7 +251,7 @@ public class EphemeralSpec extends JenkinsPipelineSpecification {
     setup:
       def app_env = [short_name: 'env', long_name: 'Environment', chart_values_file: "special_values_file.yaml"]
       Ephemeral.getBinding().setVariable("config", [:])
-      getPipelineMock("pipeline_config.call")() >> [github_credential: null]
+      Ephemeral.getBinding().setVariable("pipelineConfig", [github_credential: null])
     when:
       Ephemeral(app_env, {})
     then:
@@ -271,7 +270,7 @@ public class EphemeralSpec extends JenkinsPipelineSpecification {
     setup:
       def app_env = [short_name: 'env', long_name: 'Environment']
       Ephemeral.getBinding().setVariable("config", [:])
-      getPipelineMock("pipeline_config.call")() >> [github_credential: null]
+      Ephemeral.getBinding().setVariable("pipelineConfig", [github_credential: null])
     when:
       Ephemeral(app_env, {echo "hello world"})
     then:
@@ -283,7 +282,7 @@ public class EphemeralSpec extends JenkinsPipelineSpecification {
     setup:
       def app_env = [short_name: 'env', long_name: 'Environment']
       Ephemeral.getBinding().setVariable("config", [:])
-      getPipelineMock("pipeline_config.call")() >> [github_credential: null]
+      Ephemeral.getBinding().setVariable("pipelineConfig", [github_credential: null])
       // environment variables set by a stub in setup()
     when:
       Ephemeral(app_env, {})
@@ -299,7 +298,7 @@ public class EphemeralSpec extends JenkinsPipelineSpecification {
     setup:
       def app_env = [short_name: 'env', long_name: 'Environment', chart_values_file: "The limit"]
       Ephemeral.getBinding().setVariable("config", [:])
-      getPipelineMock("pipeline_config.call")() >> [github_credential: null]
+      Ephemeral.getBinding().setVariable("pipelineConfig", [github_credential: null])
     when:
       Ephemeral(app_env, {})
     then:
@@ -312,7 +311,7 @@ public class EphemeralSpec extends JenkinsPipelineSpecification {
       def app_env = [short_name: 'env', long_name: 'Environment']
       Ephemeral.getBinding().setVariable("config", [:])
       // env.REPO_NAME and env.GIT_SHA set above in setup()
-      getPipelineMock("pipeline_config.call")() >> [github_credential: null]
+      Ephemeral.getBinding().setVariable("pipelineConfig", [github_credential: null])
     when:
       Ephemeral(app_env, {})
     then:
@@ -327,7 +326,7 @@ public class EphemeralSpec extends JenkinsPipelineSpecification {
       def app_env = [short_name: 'env', long_name: 'Environment']
       Ephemeral.getBinding().setVariable("config", [:])
       // env.REPO_NAME and env.GIT_SHA set above in setup()
-      getPipelineMock("pipeline_config.call")() >> [github_credential: null]
+      Ephemeral.getBinding().setVariable("pipelineConfig", [github_credential: null])
     when:
       Ephemeral(app_env, {})
     then:
@@ -342,7 +341,7 @@ public class EphemeralSpec extends JenkinsPipelineSpecification {
     setup:
       def app_env = [short_name: 'env', long_name: 'Environment']
       Ephemeral.getBinding().setVariable("config", [:])
-      getPipelineMock("pipeline_config.call")() >> [github_credential: null]
+      Ephemeral.getBinding().setVariable("pipelineConfig", [github_credential: null])
     when:
       Ephemeral(app_env, {})
     then:
@@ -353,7 +352,7 @@ public class EphemeralSpec extends JenkinsPipelineSpecification {
     setup:
       def app_env = [short_name: 'env', long_name: 'Environment']
       Ephemeral.getBinding().setVariable("config", [:])
-      getPipelineMock("pipeline_config.call")() >> [github_credential: null]
+      Ephemeral.getBinding().setVariable("pipelineConfig", [github_credential: null])
       //certain variables set in setup()
     when:
       Ephemeral(app_env, {})
@@ -365,7 +364,7 @@ public class EphemeralSpec extends JenkinsPipelineSpecification {
     setup:
       def app_env = [short_name: 'env', long_name: 'Environment']
       Ephemeral.getBinding().setVariable("config", [:])
-      getPipelineMock("pipeline_config.call")() >> [github_credential: null]
+      Ephemeral.getBinding().setVariable("pipelineConfig", [github_credential: null])
     when:
       Ephemeral(app_env, {})
     then:
@@ -378,7 +377,7 @@ public class EphemeralSpec extends JenkinsPipelineSpecification {
     setup:
       def app_env = [short_name: 'env', long_name: 'Environment', tiller_namespace: "tiller_test"]
       Ephemeral.getBinding().setVariable("config", [:])
-      getPipelineMock("pipeline_config.call")() >> [github_credential: null]
+      Ephemeral.getBinding().setVariable("pipelineConfig", [github_credential: null])
     when:
       Ephemeral(app_env, {})
     then:
@@ -389,7 +388,7 @@ public class EphemeralSpec extends JenkinsPipelineSpecification {
     setup:
       def app_env = [short_name: 'env', long_name: 'Environment', tiller_namespace: "tiller_test"]
       Ephemeral.getBinding().setVariable("config", [image_repository_project: "image-proj"])
-      getPipelineMock("pipeline_config.call")() >> [github_credential: null]
+      Ephemeral.getBinding().setVariable("pipelineConfig", [github_credential: null])
     when:
       Ephemeral(app_env, {})
     then:
@@ -400,7 +399,7 @@ public class EphemeralSpec extends JenkinsPipelineSpecification {
     setup:
       def app_env = [short_name: 'env', long_name: 'Environment']
       Ephemeral.getBinding().setVariable("config", [:])
-      getPipelineMock("pipeline_config.call")() >> [github_credential: null]
+      Ephemeral.getBinding().setVariable("pipelineConfig", [github_credential: null])
     when:
       try{
         Ephemeral(app_env, {})
@@ -414,7 +413,7 @@ public class EphemeralSpec extends JenkinsPipelineSpecification {
     setup:
       def app_env = [short_name: 'env', long_name: 'Environment']
       Ephemeral.getBinding().setVariable("config", [:])
-      getPipelineMock("pipeline_config.call")() >> [github_credential: null]
+      Ephemeral.getBinding().setVariable("pipelineConfig", [github_credential: null])
       def retval
       def random_name
     when:
@@ -435,7 +434,7 @@ public class EphemeralSpec extends JenkinsPipelineSpecification {
     setup:
       def app_env = [short_name: 'env', long_name: 'Environment']
       Ephemeral.getBinding().setVariable("config", [:])
-      getPipelineMock("pipeline_config.call")() >> [github_credential: null]
+      Ephemeral.getBinding().setVariable("pipelineConfig", [github_credential: null])
     when:
       Ephemeral(app_env, {})
     then:
@@ -446,7 +445,7 @@ public class EphemeralSpec extends JenkinsPipelineSpecification {
     setup:
       def app_env = [short_name: 'env', long_name: 'Environment']
       Ephemeral.getBinding().setVariable("config", [:])
-      getPipelineMock("pipeline_config.call")() >> [github_credential: null]
+      Ephemeral.getBinding().setVariable("pipelineConfig", [github_credential: null])
     when:
       def retval = Ephemeral.do_release("abcdefghij", "values.env.yaml")
     then:
@@ -465,7 +464,7 @@ public class EphemeralSpec extends JenkinsPipelineSpecification {
       def app_env = [short_name: 'env', long_name: 'Environment', openshift_url: "specified_url"]
       Ephemeral.getBinding().setVariable("config", [:])
       Ephemeral.getBinding().setVariable("token", "provided_token")
-      getPipelineMock("pipeline_config.call")() >> [github_credential: null]
+      Ephemeral.getBinding().setVariable("pipelineConfig", [github_credential: null])
     when:
       Ephemeral(app_env, {})
     then:
@@ -477,7 +476,7 @@ public class EphemeralSpec extends JenkinsPipelineSpecification {
       def app_env = [short_name: 'env', long_name: 'Environment', openshift_url: "specified_url"]
       Ephemeral.getBinding().setVariable("config", [:])
       Ephemeral.getBinding().setVariable("user", "user")
-      getPipelineMock("pipeline_config.call")() >> [github_credential: null]
+      Ephemeral.getBinding().setVariable("pipelineConfig", [github_credential: null])
     when:
       Ephemeral(app_env, {})
     then:
@@ -493,7 +492,7 @@ public class EphemeralSpec extends JenkinsPipelineSpecification {
     setup:
       def app_env = [short_name: 'env', long_name: 'Environment']
       Ephemeral.getBinding().setVariable("config", [:])
-      getPipelineMock("pipeline_config.call")() >> [github_credential: null]
+      Ephemeral.getBinding().setVariable("pipelineConfig", [github_credential: null])
     when:
       Ephemeral(app_env, {})
     then:
@@ -504,7 +503,7 @@ public class EphemeralSpec extends JenkinsPipelineSpecification {
     setup:
       def app_env = [short_name: 'env', long_name: 'Environment']
       Ephemeral.getBinding().setVariable("config", [:])
-      getPipelineMock("pipeline_config.call")() >> [github_credential: null]
+      Ephemeral.getBinding().setVariable("pipelineConfig", [github_credential: null])
     when:
       Ephemeral(app_env, {})
     then:
