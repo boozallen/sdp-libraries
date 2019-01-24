@@ -1,6 +1,6 @@
 def call() {
     def ret = [:]
-    errors = []
+    def errors = []
     ret.repo = config.registry ?:
             { errors << "Application Docker Image Registry, library.docker.registry, not defined in pipeline config" }()
     ret.cred = config.cred ?:
