@@ -16,8 +16,7 @@
 */
 def call(){
 
-    def cfg = get_repo_info()
-    def image_repo = cfg.repo
+    def (image_repo) = get_repo_info()
 
     def build_strategies = [ "docker-compose", "modules", "dockerfile" ]
     if (config.build_strategy)
