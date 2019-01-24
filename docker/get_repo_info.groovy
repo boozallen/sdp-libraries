@@ -4,5 +4,5 @@ def call() {
     def img_repo_cred = config.cred ?:
             { error "Application Docker Image Repository Credential not defined in pipeline config" }()
 
-    return [img_repo, img_repo_cred]
+    return [repo: img_repo, cred: img_repo_cred]
 }
