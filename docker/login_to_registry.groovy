@@ -4,9 +4,7 @@
 */
 
 void call(){
-  def cfg = get_repo_info()
-  def image_repo = cfg.repo
-  def image_repo_cred = cfg.cred
+  def (image_repo, image_repo_cred) = get_repo_info()
 
   withCredentials([usernamePassword(credentialsId: image_repo_cred, passwordVariable: 'pass', usernameVariable: 'user')]) {
     sh "echo ${pass} | docker login -u ${user} --password-stdin ${image_repo}"
