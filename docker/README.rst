@@ -40,10 +40,10 @@ If you are using a separate set of credentials change the variables listed below
 .. csv-table::  Docker Extra Configuration Options
    :header: "Field", "Description", "Default Value"
 
-   "sdp_image_repository", "The location where the container images required for the different pipeline tools are stored.", "none"
-   "sdp_image_repository_credential", "Credentials used for the repository where pipeline builds are going to be pushed to", "none"
-   "application_image_repository", "Where the container images produced during the pipeline builds are going to be pushed to", "none"
-   "application_image_repository_credential", "Credentials used for the repository where different docker pipeline tools are stored.", "none"
+   "sdp.image.registry", "The location where the container images required for the different pipeline tools are stored.", "none"
+   "sdp.image.cred", "Credentials used for the repository where pipeline builds are going to be pushed to", "none"
+   "docker.registry", "Where the container images produced during the pipeline builds are going to be pushed to", "none"
+   "docker.cred", "Credentials used for the repository where different docker pipeline tools are stored.", "none"
 
 External Dependencies
 =====================
