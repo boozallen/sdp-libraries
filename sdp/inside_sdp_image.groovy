@@ -14,7 +14,7 @@
 */
 void call(String img, Closure body){
   
-  config.image ?: { error "SDP Image Config not defined in Pipeline Config" } ()
+  config.images ?: { error "SDP Image Config not defined in Pipeline Config" } ()
   
   def sdp_img_reg = config.images.registry ?:
                     { error "SDP Image Registry not defined in Pipeline Config" } ()
