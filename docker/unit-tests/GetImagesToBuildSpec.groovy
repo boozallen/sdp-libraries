@@ -15,22 +15,53 @@ public class GetImagesToBuildSpec extends JenkinsPipelineSpecification {
 
   def setup() {
     GetImagesToBuild = loadPipelineScriptForTest("docker/get_images_to_build.groovy")
+    explicitlyMockPipelineStep("get_registry_info")
+
+    getPipelineMock("get_registry_info")() >> ["test_registry", "test_cred"]
   }
 
-  def "Missing application_image_repository Throws Error" () {
+  def "Get_registry_info method is called" () {
     setup:
       GetImagesToBuild.getBinding().setVariable("config", [:])
-      GetImagesToBuild.getBinding().setVariable("pipelineConfig", [application_image_repository: null])
     when:
       GetImagesToBuild()
     then:
-      1 * getPipelineMock("error")("application_image_repository not defined in pipeline config.")
+      1 * getPipelineMock("get_registry_info")() >> ["test_registry", "test_cred"]
+  }
+
+  def "path_prefix Is An Empty String If No repo_path_prefix Is Set In The Config" () {
+    setup:
+      GetImagesToBuild.getBinding().setVariable("config", [repo_path_prefix: null, build_strategy: build_strategy])
+      GetImagesToBuild.getBinding().setVariable("env", [REPO_NAME: "git_repo", GIT_SHA: "8675309"])
+      getPipelineMock("findFiles")([glob: "*/Dockerfile"]) >> [[path: "service/Dockerfile"]]
+    when:
+      def imageList = GetImagesToBuild()
+    then:
+      imageList == [[registry: "test_registry", repo:repo , context: build_context, tag: "8675309"]]
+    where:
+      build_strategy | build_context | repo
+      "dockerfile"   | "."           | "git_repo"
+      "modules"      | "service"     | "git_repo_service"
+  }
+
+  def "path_prefix Is Properly Prepended To Repo Value" () {
+    setup:
+      GetImagesToBuild.getBinding().setVariable("config", [repo_path_prefix: "test_prefix", build_strategy: build_strategy])
+      GetImagesToBuild.getBinding().setVariable("env", [REPO_NAME: "git_repo", GIT_SHA: "8675309"])
+      getPipelineMock("findFiles")([glob: "*/Dockerfile"]) >> [[path: "service/Dockerfile"]]
+    when:
+      def imageList = GetImagesToBuild()
+    then:
+      imageList == [[registry: "test_registry", repo: repo, context: build_context, tag: "8675309"]]
+    where:
+      build_strategy | build_context | repo
+      "dockerfile"   | "."           | "test_prefix/git_repo"
+      "modules"      | "service"     | "test_prefix/git_repo_service"
   }
 
   def "Invalid build_strategy Throws Error" () {
     setup:
       GetImagesToBuild.getBinding().setVariable("config", [build_strategy: x])
-      GetImagesToBuild.getBinding().setVariable("pipelineConfig", [application_image_repository: "Enterprise"])
     when:
       GetImagesToBuild()
     then:
@@ -47,7 +78,6 @@ public class GetImagesToBuildSpec extends JenkinsPipelineSpecification {
   def "docker-compose build_strategy Throws Error" () {
     setup:
       GetImagesToBuild.getBinding().setVariable("config", [build_strategy: "docker-compose"])
-      GetImagesToBuild.getBinding().setVariable("pipelineConfig", [application_image_repository: "Enterprise"])
     when:
       GetImagesToBuild()
     then:
@@ -65,18 +95,17 @@ public class GetImagesToBuildSpec extends JenkinsPipelineSpecification {
     then:
       imageList == [
         [
-          repo: "Enterprise",
-          path: "Vulcan_planet",
+          registry: "test_registry",
+          repo: "Vulcan_planet",
           context: "planet",
           tag: "1234abcd"
         ], [
-          repo: "Enterprise",
-          path: "Vulcan_planet2",
+          registry: "test_registry",
+          repo: "Vulcan_planet2",
           context: "planet2",
           tag: "1234abcd"
         ]
       ]
-
   }
 
   def "dockerfile build_strategy Builds Correct Image List" () {
@@ -88,7 +117,7 @@ public class GetImagesToBuildSpec extends JenkinsPipelineSpecification {
     when:
       def imageList = GetImagesToBuild()
     then:
-      imageList == [[repo: "Enterprise", path: "Vulcan", context: ".", tag: "5678efgh"]]
+      imageList == [[registry: "test_registry", repo: "Vulcan", context: ".", tag: "5678efgh"]]
   }
 
 }

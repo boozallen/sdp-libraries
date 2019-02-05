@@ -12,43 +12,32 @@ public class LoginToRegistrySpec extends JenkinsPipelineSpecification {
   def setup() {
     LoginToRegistry = loadPipelineScriptForTest("docker/login_to_registry.groovy")
 
-    getPipelineMock("usernamePassword.call")(_ as Map) >> { _arguments ->
-      LoginToRegistry.getBinding().setVariable("user", "user")
-      LoginToRegistry.getBinding().setVariable("pass", "pass")
-    }
-
-
+    explicitlyMockPipelineStep("get_registry_info")
   }
 
-  def "Missing application_image_repository Throws Error" () {
-    setup:
-      LoginToRegistry.getBinding().setVariable("pipelineConfig", [application_image_repository: null])
+  def "Get_repo_info method's Values Are Passed to withCredentials" () {
     when:
       LoginToRegistry()
     then:
-      1 * getPipelineMock("error")("application_image_repository not defined in pipeline config")
-  }
-
-  def "Missing application_image_repository_credential Throws Error" () {
-    setup:
-      LoginToRegistry.getBinding().setVariable("pipelineConfig", [application_image_repository: "Sulu", application_image_repository_credential: null])
-    when:
-      LoginToRegistry()
+      1 * getPipelineMock("get_registry_info")() >> ["test_registry", "test_cred_id"]
     then:
-      1 * getPipelineMock("error")("application_image_repository_credential not defined in pipeline config")
+      1 * getPipelineMock("usernamePassword.call")([credentialsId: "test_cred_id", passwordVariable: 'pass', usernameVariable: 'user']) >> {
+        LoginToRegistry.getBinding().setVariable("user", "user")
+        LoginToRegistry.getBinding().setVariable("pass", "pass")
+      }
   }
 
   def "Docker Login Command Is Run" () {
     setup:
-      LoginToRegistry.getBinding().setVariable("pipelineConfig", [application_image_repository: "Sulu", application_image_repository_credential: "Scotty"])
+      getPipelineMock("get_registry_info")() >> ["test_registry", "test_cred_id"]
     when:
       LoginToRegistry()
     then:
-      1 * getPipelineMock("usernamePassword.call")([credentialsId: "Scotty", passwordVariable: 'pass', usernameVariable: 'user']) >> {
+      1 * getPipelineMock("usernamePassword.call")([credentialsId: "test_cred_id", passwordVariable: 'pass', usernameVariable: 'user']) >> {
         LoginToRegistry.getBinding().setVariable("user", "user")
         LoginToRegistry.getBinding().setVariable("pass", "pass")
       }
-      1 * getPipelineMock("sh")("echo pass | docker login -u user --password-stdin Sulu")
+      1 * getPipelineMock("sh")("echo pass | docker login -u user --password-stdin test_registry")
 
   }
 

@@ -11,25 +11,49 @@ public class BuildSpec extends JenkinsPipelineSpecification {
 
   def setup() {
     Build = loadPipelineScriptForTest("./docker/build.groovy")
-    explicitlyMockPipelineVariable("get_images_to_build")
-    explicitlyMockPipelineVariable("login_to_registry")
+    explicitlyMockPipelineStep("get_images_to_build")
+    explicitlyMockPipelineStep("login_to_registry")
 
-    getPipelineMock("get_images_to_build.call")() >> {
+    getPipelineMock("get_images_to_build")() >> {
       def images = []
-      images << [repo: "repo1", path: "path1", context: "context1", tag: "tag1"]
-      images << [repo: "repo2", path: "path2", context: "context2", tag: "tag2"]
+      images << [registry: "reg1", repo: "repo1", context: "context1", tag: "tag1"]
+      images << [registry: "reg2", repo: "repo2", context: "context2", tag: "tag2"]
       return images
     }
   }
 
-  def "Docker Build & Push Called For Each Image" () {
+  def "Unstash workspace Before Building Images" () {
     when:
       Build()
     then:
-      1 * getPipelineMock("sh")("docker build context1 -t repo1/path1:tag1")
-      1 * getPipelineMock("sh")("docker push repo1/path1:tag1")
-      1 * getPipelineMock("sh")("docker build context2 -t repo2/path2:tag2")
-      1 * getPipelineMock("sh")("docker push repo2/path2:tag2")
+      1 * getPipelineMock("unstash")("workspace")
+    then:
+      (1.._) * getPipelineMock("sh")({it =~ /^docker build .*/})
+  }
+
+  def "Log Into Registry Before Pushing Images" () {
+    when:
+      Build()
+    then:
+      1 * getPipelineMock("login_to_registry")()
+    then:
+      (1.._) * getPipelineMock("sh")({it =~ /^docker push .*/})
+  }
+
+  def "Each Image is Properly Built" () {
+    when:
+      Build()
+    then:
+      1 * getPipelineMock("sh")("docker build context1 -t reg1/repo1:tag1")
+      1 * getPipelineMock("sh")("docker build context2 -t reg2/repo2:tag2")
+  }
+
+  def "Each Image is Properly Pushed" () {
+    when:
+      Build()
+    then:
+      1 * getPipelineMock("sh")("docker push reg1/repo1:tag1")
+      1 * getPipelineMock("sh")("docker push reg2/repo2:tag2")
   }
 
 }
