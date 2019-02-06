@@ -9,6 +9,7 @@ SOURCEDIR     = .
 BUILDDIR      = _build
 LIBSREPO      = https://github.com/boozallen/sdp-libraries.git
 JTEREPO       = https://github.com/boozallen/jenkins-templating-engine.git
+DOCKERFILE_EXISTS := $(shell docker images -q sdp-library-testing 2> /dev/null)
 
 .PHONY: help Makefile
 
@@ -17,15 +18,15 @@ help: ## Show target options
 	@fgrep -h "##" $(MAKEFILE_LIST) | fgrep -v fgrep | sed -e 's/\\$$//' | sed -e 's/##//'
 
 
-clean: ## removes compiled documentation 
+clean: ## removes compiled documentation
 	rm -rf $(BUILDDIR)
 
-image: ## builds the container image for documentation 
+image: ## builds the container image for documentation
 	docker build . -t sdp-docs
 
-docs: ## builds documentation in _build/html 
+docs: ## builds documentation in _build/html
       ## run make docs live for hot reloading of edits during development
-	make clean 
+	make clean
 	make image
 	make get-remote-docs
 
@@ -35,12 +36,18 @@ docs: ## builds documentation in _build/html
 		docker run -v $(shell pwd):/app sdp-docs $(SPHINXBUILD) -M html "$(SOURCEDIR)" "$(BUILDDIR)" $(SPHINXOPTS) $(O);\
 	fi
 
-#push: 
-#	make image 
+test: ## Automatically runs unit tests
+	@if [ -z $(DOCKERFILE_EXISTS) ]; then\
+	  docker build -f UnitTestingDockerfile -t sdp-library-testing .;\
+	fi
+	docker run --rm -t -v $(shell pwd):/usr/src/sdp-testing -w /usr/src/sdp-testing sdp-library-testing mvn clean verify
+
+#push:
+#	make image
 #	make get-remote-docs
-	# need to add sphinx-versioning command here when docs are ready to go public
+# need to add sphinx-versioning command here when docs are ready to go public
 
 # Catch-all target: route all unknown targets to Sphinx using the new
 # "make mode" option.  $(O) is meant as a shortcut for $(SPHINXOPTS).
 %: Makefile
-	echo "Make command $@ not found" 
+	echo "Make command $@ not found"
