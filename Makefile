@@ -37,10 +37,14 @@ docs: ## builds documentation in _build/html
 	fi
 
 test: ## Automatically runs unit tests
-	@if [ -z $(DOCKERFILE_EXISTS) ]; then\
+	@if [ -z $(DOCKERFILE_EXISTS) ] && [ "$(filter-out $@,$(MAKECMDGOALS))" = "docker" ]; then\
 	  docker build -f UnitTestingDockerfile -t sdp-library-testing .;\
+		docker run --rm -t -v $(shell pwd):/usr/src/sdp-testing -w /usr/src/sdp-testing sdp-library-testing mvn clean verify;\
+	elif [ ! -z $(DOCKERFILE_EXISTS) ] && [ "$(filter-out $@,$(MAKECMDGOALS))" = "docker" ]; then\
+	  docker run --rm -t -v $(shell pwd):/usr/src/sdp-testing -w /usr/src/sdp-testing sdp-library-testing mvn clean verify;\
+	else\
+	  mvn clean verify;\
 	fi
-	docker run --rm -t -v $(shell pwd):/usr/src/sdp-testing -w /usr/src/sdp-testing sdp-library-testing mvn clean verify
 
 #push:
 #	make image
