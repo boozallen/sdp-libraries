@@ -6,17 +6,18 @@
 /*
   returns an of the images that are built by this pipeline run.
   each image in the array is a hashmap with fields:
-    repo: base repo for image
-    path: path on repo
+    registry: image registry
+    repo: repo name
     tag: image tag
     context: directory context for docker build
 
   a docker build command would then be:
-    docker build img.context -t img.repo/img.path:img.tag
+    docker build img.context -t img.registry/img.repo:img.tag
 */
 def call(){
 
-    def (image_repo) = get_repo_info()
+    def (image_reg) = get_registry_info() // config.registry
+    def path_prefix = config.repo_path_prefix ? config.repo_path_prefix + "/" : ""
 
     def build_strategies = [ "docker-compose", "modules", "dockerfile" ]
     if (config.build_strategy)
@@ -32,20 +33,20 @@ def call(){
       case "modules":
         findFiles(glob: "*/Dockerfile").collect{ it.path.split("/").first() }.each{ service ->
           images.push([
-            repo: image_repo,
-            path: "${env.REPO_NAME}_${service}",
-            context: service,
-            tag: env.GIT_SHA
+            registry: image_reg,
+            repo: "${path_prefix}${env.REPO_NAME}_${service}",
+            tag: env.GIT_SHA,
+            context: service
           ])
         }
         break
-      case "dockerfile":
+      case "dockerfile": //same as null/default case
       case null:
         images.push([
-          repo: image_repo,
-          path: env.REPO_NAME,
-          context: ".",
-          tag: env.GIT_SHA
+          registry: image_reg,
+          repo: "${path_prefix}${env.REPO_NAME}",
+          tag: env.GIT_SHA,
+          context: "."
         ])
         break
     }

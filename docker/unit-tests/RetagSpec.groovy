@@ -12,8 +12,17 @@ public class RetagSpec extends JenkinsPipelineSpecification {
   def setup() {
     Retag = loadPipelineScriptForTest("docker/retag.groovy")
     explicitlyMockPipelineStep("login_to_registry")
-    explicitlyMockPipelineVariable("get_images_to_build")
+    explicitlyMockPipelineStep("get_images_to_build")
+  }
 
+  def "Log Into Registry Before Pushing or Pulling Images" () {
+    when:
+      Retag("tag_viejo", "tag_nuevo")
+    then:
+      1 * getPipelineMock("login_to_registry")()
+    then:
+      1 * getPipelineMock("get_images_to_build")() >> [[registry: "Reg", repo: "Repo"]]
+      (1.._) * getPipelineMock("sh")({it =~ /^docker .*/})
 
   }
 
@@ -22,26 +31,26 @@ public class RetagSpec extends JenkinsPipelineSpecification {
     when:
       Retag("tag_viejo", "tag_nuevo")
     then:
-      1 * getPipelineMock("get_images_to_build.call")() >> [[repo: "Repo", path: "Path"]]
-      1 * getPipelineMock("sh")("docker pull Repo/Path:tag_viejo" )
-      1 * getPipelineMock("sh")("docker tag Repo/Path:tag_viejo Repo/Path:tag_nuevo")
-      1 * getPipelineMock("sh")("docker push Repo/Path:tag_nuevo")
+      1 * getPipelineMock("get_images_to_build")() >> [[registry: "Reg", repo: "Repo"]]
+      1 * getPipelineMock("sh")("docker pull Reg/Repo:tag_viejo" )
+      1 * getPipelineMock("sh")("docker tag Reg/Repo:tag_viejo Reg/Repo:tag_nuevo")
+      1 * getPipelineMock("sh")("docker push Reg/Repo:tag_nuevo")
   }
 
   def "Multiple Images are Properly Read & Retagged" () {
     def images = []
-    images << [repo: "Repo1", path: "Path1"]
-    images << [repo: "Repo2", path: "Path2"]
-    images << [repo: "Repo3", path: "Path3"]
+    images << [registry: "Reg1", repo: "Repo1"]
+    images << [registry: "Reg2", repo: "Repo2"]
+    images << [registry: "Reg3", repo: "Repo3"]
     when:
       Retag("tag_viejo", "tag_nuevo")
     then:
-      1 * getPipelineMock("get_images_to_build.call")() >> images
+      1 * getPipelineMock("get_images_to_build")() >> images
 
       images.each{ img ->
-        1 * getPipelineMock("sh")("docker pull ${img.repo}/${img.path}:tag_viejo" )
-        1 * getPipelineMock("sh")("docker tag ${img.repo}/${img.path}:tag_viejo ${img.repo}/${img.path}:tag_nuevo")
-        1 * getPipelineMock("sh")("docker push ${img.repo}/${img.path}:tag_nuevo")
+        1 * getPipelineMock("sh")("docker pull ${img.registry}/${img.repo}:tag_viejo" )
+        1 * getPipelineMock("sh")("docker tag ${img.registry}/${img.repo}:tag_viejo ${img.registry}/${img.repo}:tag_nuevo")
+        1 * getPipelineMock("sh")("docker push ${img.registry}/${img.repo}:tag_nuevo")
       }
   }
 
