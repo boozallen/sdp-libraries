@@ -27,8 +27,8 @@ public class ScanContainerImageSpec extends JenkinsPipelineSpecification {
 
     getPipelineMock("get_images_to_build.call")() >> {
       def images = []
-      images << [repo: "repo1", path: "path1", context: "context1", tag: "tag1"]
-      images << [repo: "repo2", path: "path2", context: "context2", tag: "tag2"]
+      images << [registry: "reg1", repo: "repo1", context: "context1", tag: "tag1"]
+      images << [registry: "reg2", repo: "repo2", context: "context2", tag: "tag2"]
       return images
     }
 
@@ -124,8 +124,8 @@ public class ScanContainerImageSpec extends JenkinsPipelineSpecification {
     when:
       ScanContainerImage()
     then:
-      1 * getPipelineMock("sh")("docker pull repo1/path1:tag1 ")
-      1 * getPipelineMock("sh")("docker pull repo2/path2:tag2 ")
+      1 * getPipelineMock("sh")("docker pull reg1/repo1:tag1 ")
+      1 * getPipelineMock("sh")("docker pull reg2/repo2:tag2 ")
   }
 
   def "Images From images_to_build Output Are Added To images List and Scanned" () {
@@ -136,7 +136,7 @@ public class ScanContainerImageSpec extends JenkinsPipelineSpecification {
     then:
       2 * getPipelineMock("sh")(_ as Map) >> { _arguments ->
         if (_arguments[0]["script"] =~ /twistcli.+/) {
-          assert _arguments[0]["script"] == "twistcli images scan --details --upload --address foo -u user -p 'pass' repo1/path1:tag1 repo2/path2:tag2 "
+          assert _arguments[0]["script"] == "twistcli images scan --details --upload --address foo -u user -p 'pass' reg1/repo1:tag1 reg2/repo2:tag2 "
           return "Results at: foobarbaz"
         } else return "foobar"
       }
