@@ -12,7 +12,7 @@
 <!--- Include details of your testing environment, and the tests you ran to -->
 <!--- see how your change affects other areas of the code, etc. -->
 
-## Types of changes
+## Types of Changes
 
 <!--- What types of changes does your code introduce? Put an `x` in all the boxes that apply: -->
 
