@@ -1,0 +1,7 @@
+FROM maven:3-jdk-8-slim
+
+COPY ./* /usr/src/sdp-libraries/
+
+WORKDIR /usr/src/sdp-libraries
+
+RUN mvn generate-sources && mvn generate-test-sources

@@ -16,8 +16,7 @@
 */
 def call(){
 
-    def image_repo = pipelineConfig?.application_image_repository ?:
-                    {error "application_image_repository not defined in pipeline config."}()
+    def (image_repo) = get_repo_info()
 
     def build_strategies = [ "docker-compose", "modules", "dockerfile" ]
     if (config.build_strategy)
