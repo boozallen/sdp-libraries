@@ -21,7 +21,7 @@ def call() {
                 // for now .. just docker
                 def images = ""
                 get_images_to_build().each { img ->
-                  image = "${img.repo}/${img.path}:${img.tag} " //The trailing space is intentional
+                  image = "${img.registry}/${img.repo}:${img.tag} " //The trailing space is intentional
                   sh "docker pull ${image}"
                   images += image
                 }
