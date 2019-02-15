@@ -3,7 +3,7 @@
 SDP
 ---
 
-The SDP library provides steps common to multiple libraries in sdp-libraries.
+The SDP library provides steps used by multiple libraries within sdp-libraries.
 
 Steps Provided
 ==============
