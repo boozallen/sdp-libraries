@@ -23,11 +23,10 @@ Library Configuration Options
 
 .. important::
 
-   Unlike the `Docker library`_, the value in "registry" *does* include the
+   Unlike the Docker Library, the value in "registry" *does* include the
    protocol (http/https)
 
 .. _path component: https://forums.docker.com/t/docker-registry-v2-spec-and-repository-naming-rule/5466
-.. _Docker library: /pages/libraries/docker/README.html
 
 Example Configuration Snippet
 =============================
