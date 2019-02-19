@@ -212,6 +212,13 @@
 			<version>1.16</version>
 			<scope>test</scope>
 		</dependency>
+		<dependency>
+			<!-- For docker.* steps -->
+			<groupId>org.jenkins-ci.plugins</groupId>
+			<artifactId>docker-workflow</artifactId>
+			<version>1.17</version>
+			<scope>test</scope>
+		</dependency>
 
 	</dependencies>
 
