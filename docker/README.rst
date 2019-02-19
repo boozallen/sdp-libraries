@@ -1,9 +1,9 @@
-.. _Docker Library: 
+.. _Docker Library:
 ------
 Docker
 ------
 
-The Docker library will build docker images and push them into a docker reposioty.
+The Docker library will build docker images and push them into a docker repository.
 
 Steps Provided
 ==============
@@ -48,7 +48,7 @@ If you are using a separate set of credentials change the variables listed below
 External Dependencies
 =====================
 
-- A Docker repository must be setup and configured. Credentials to the repository are also needed. 
+- A Docker repository must be setup and configured. Credentials to the repository are also needed.
 - The github_enterprise library and the sdp library needs to be loaded as libraries inside your pipeline_config.groovy file.
 
 Troubleshooting
