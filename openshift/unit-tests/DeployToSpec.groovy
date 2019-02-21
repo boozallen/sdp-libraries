@@ -403,7 +403,7 @@ public class DeployToSpec extends JenkinsPipelineSpecification {
     when:
       DeployTo(app_env)
     then:
-      1 * getPipelineMock("sh")( {it =~ /oc login .* specified_url --token=token.*/} ) >> {throw  DummyException("Bad Token")}
+      1 * getPipelineMock("sh")( {it =~ /oc login .* specified_url --token=token.*/} ) >> {throw new DummyException("Bad Token")}
       1 * getPipelineMock("sh")( {it =~ /oc login .* specified_url -u user -p token.*/} )
   }
 
