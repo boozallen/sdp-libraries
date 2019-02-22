@@ -110,7 +110,7 @@ void do_release(release, values_file){
   if (chart_doesnt_exist){
     sh "helm install . -n ${release} -f ${values_file}"
   }else{
-    sh "helm upgrade ${release} . -f ${values_file}"
+    sh "helm upgrade --install ${release} . -f ${values_file}"
   }
 }
 
