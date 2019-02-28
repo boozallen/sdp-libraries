@@ -364,7 +364,7 @@ public class DeployToSpec extends JenkinsPipelineSpecification {
       DeployTo(app_env)
     then:
       1 * getPipelineMock("sh")( { (it instanceof Map) ? it?.script =~ "helm history --max 1 .+" : false} ) >> false
-      1 * getPipelineMock("sh")( { it =~ /helm upgrade env \..*/} )
+      1 * getPipelineMock("sh")( { it =~ /helm upgrade (\-\-install|) env \..*/} )
   }
 
   def "Chart deploys with the defined release and values_file" () {
@@ -375,7 +375,7 @@ public class DeployToSpec extends JenkinsPipelineSpecification {
     when:
       DeployTo(app_env)
     then:
-      1 * getPipelineMock("sh")( { it =~ /helm (upgrade env \.|install \. env) -f values.env.yaml/} )
+      1 * getPipelineMock("sh")( { it =~ /helm (upgrade (\-\-install|) env \.|install \. env) -f values.env.yaml/} )
   }
 
   /*****************
