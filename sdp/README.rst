@@ -20,6 +20,7 @@ Library Configuration Options
    "images.repo", "The first `path component`_. in the repository name, e.g. if your images follow the format my-registry.com/sdp/\*, this would be **sdp**", "sdp"
    "images.cred", "Credentials used for the repository where different docker pipeline tools are stored", "*none*"
    "images.docker_args", "Arguments to use when starting the container. Uses the same flags as ``docker run``", "*empty string*"
+   "agent", "If set, this will set which Jenkins Node that you are running on for all projects", "*none*"
 
 .. important::
 
@@ -35,6 +36,7 @@ Example Configuration Snippet
 
    libraries{
      sdp{
+       agent = "Centos"
        images{
          registry = "https://docker-registry.default.svc:5000"
          repo = "sdp"
