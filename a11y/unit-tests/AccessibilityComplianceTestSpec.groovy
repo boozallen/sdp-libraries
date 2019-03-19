@@ -10,7 +10,7 @@ public class AccessibilityComplianceTestSpec extends JenkinsPipelineSpecificatio
   def AccessibilityComplianceTest = null
 
   def setup() {
-    AccessibilityComplianceTest = loadPipelineScriptForTest("a11y/accessibility_compliance_test.groovy")
+    AccessibilityComplianceTest = loadPipelineScriptForTest("accessibility_compliance_test.groovy")
     explicitlyMockPipelineStep("inside_sdp_image")
   }
 

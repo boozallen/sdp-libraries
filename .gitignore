@@ -1,3 +1,11 @@
 target
 _build
 .idea
+.vscode
+.project
+.gradle 
+.settings
+.classpath
+build 
+bin
+gradle
