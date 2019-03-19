@@ -11,8 +11,11 @@ repositories {
     maven { url "http://repo.maven.apache.org/maven2" }
 }
 
+project.buildDir = "target" 
+
 sourceSets{
     test{
+        output.resourcesDir("target/test-classes")
         groovy{
             srcDirs = [ "a11y/unit-tests" ]
         }
@@ -50,4 +53,8 @@ dependencies {
     jenkinsTest group: 'org.jenkins-ci.plugins', name: 'slack', version:'2.3'
     jenkinsTest group: 'org.jenkins-ci.plugins', name: 'pipeline-stage-step', version:'2.3'
     jenkinsTest group: 'org.jenkins-ci.plugins', name: 'ssh-agent', version:'1.16'
+    jenkinsTest group: "org.jenkins-ci.plugins.workflow", name: "workflow-basic-steps", version: "2.9"
+    jenkinsTest group: "org.jenkins-ci.plugins", name: "pipeline-utility-steps", version: "2.1.0"
+    jenkinsTest group: "org.jenkins-ci.plugins", name: "credentials-binding", version: "1.16"
+    jenkinsTest group: "org.jenkins-ci.plugins", name: "docker-workflow", version: "1.17"
 }
