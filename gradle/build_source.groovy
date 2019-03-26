@@ -3,7 +3,7 @@ def call(){
         node{
             unstash "workspace"
 
-            sh './gradlew clean build'
+            sh './gradle clean build'
 
             stash "workspace"
         }
