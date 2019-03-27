@@ -13,6 +13,13 @@ Steps Contributed
 =================
 * static_code_analysis()
 
+Optional Steps Used
+=================
+* build_source():
+
+If your sonarqube needs to build before your run of sonarqube,
+you should implement a 'step' called 'build_source' to create the build artifacts
+
 
 Library Configuration Options
 =============================
