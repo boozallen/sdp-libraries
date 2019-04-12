@@ -42,6 +42,8 @@ test: ## Automatically runs unit tests
 		docker run --rm -t -v $(shell pwd):/app -w /app sdp-library-testing gradle --no-daemon test;\
 	elif [ ! -z $(DOCKERFILE_EXISTS) ] && [ "$(filter-out $@,$(MAKECMDGOALS))" = "docker" ]; then\
 	  docker run --rm -t -v $(shell pwd):/app -w /app sdp-library-testing gradle --no-daemon test;\
+	elif [ "$(filter-out $@,$(MAKECMDGOALS))" = "wrapper"]; then\
+	  ./gradlew test;\
 	else\
 	  gradle --no-daemon test;\
 	fi
@@ -53,5 +55,16 @@ test: ## Automatically runs unit tests
 
 # Catch-all target: route all unknown targets to Sphinx using the new
 # "make mode" option.  $(O) is meant as a shortcut for $(SPHINXOPTS).
+
+docker:
+	@if [ "$(filterout $@,$(MAKECMDGOALS))" != "test"]; then\
+	  echo "Make command $@ not found";\
+	fi
+
+wrapper:
+	@if [ "$(filterout $@,$(MAKECMDGOALS))" != "test"]; then\
+	  echo "Make command $@ not found";\
+	fi
+	
 %: Makefile
 	echo "Make command $@ not found"
