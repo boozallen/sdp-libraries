@@ -59,7 +59,7 @@ def get_source_branch(){
   def ghUrl = "${env.GIT_URL.split("/")[0..-3].join("/")}/api/v3"
   def repo 
   def org 
-  withCredentials([usernamePassword(credentialsId: 'github', passwordVariable: 'PAT', usernameVariable: 'USER')]) {
+  withCredentials([usernamePassword(credentialsId: env.GIT_CREDENTIAL_ID, passwordVariable: 'PAT', usernameVariable: 'USER')]) {
     org = org.kohsuke.github.GitHub.connectToEnterprise(ghUrl, PAT)
     repo = org.getRepository("${env.ORG_NAME}/${env.REPO_NAME}")
   }
