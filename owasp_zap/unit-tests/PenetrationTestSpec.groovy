@@ -95,7 +95,8 @@ public class PenetrationTestSpec extends JenkinsPipelineSpecification {
         assert tokens.length == 9
       }
       1 * getPipelineMock("sh")({it =~ / zap-cli .+/}) >> { _arguments ->
-        def tokens = _arguments[0].split(/\s\s+/)
+        String cmd = _arguments[0]
+        def tokens = cmd.split(/\s\s+/)
         assert tokens[0] == " zap-cli open-url https://example.com &&"
         assert tokens[1] == "zap-cli spider https://example.com &&"
         assert tokens[2] == "zap-cli active-scan -r https://example.com &&"
