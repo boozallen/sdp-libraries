@@ -26,34 +26,7 @@ void call(Map args = [:], body){
     return
   
   println "running because of a PR from ${source_branch} to ${target_branch}"
-  try{
-    update_pr status: "Jenkins Pull Request",
-              state: "pending"
-    body()
-    update_pr status: "Jenkins Pull Request",
-              state: "success"
-  }catch(any){
-    update_pr status: "Jenkins Pull Request",
-              state: "failure"
-    throw any
-  }
-  
-}
-
-void update_pr(args){
-  /*try{
-    ghe.getRepo().createCommitStatus(
-      env.GIT_SHA, 
-      args.state.toUpperCase() as GHCommitState,
-      env.JOB_URL, 
-      "Jenkins Pull Request Job", 
-      args.status
-    )
-  } catch(ex){
-    println "creating github status failed.." 
-    throw ex
-  }
-  */
+  body()
 }
 
 def get_source_branch(){
