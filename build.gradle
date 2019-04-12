@@ -78,3 +78,8 @@ dependencies {
     jenkinsTest group: "org.jenkins-ci.plugins", name: "docker-workflow", version: "1.17"
 
 }
+
+task downloadDependencies(type: Exec) {
+    configurations.testRuntime.files
+    commandLine 'echo', 'Downloaded all dependencies'
+}
