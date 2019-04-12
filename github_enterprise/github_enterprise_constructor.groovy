@@ -8,9 +8,8 @@ void call(Map context) {
   node{
       unstash "workspace"
 
-      def rc = scm.getUserRemoteConfigs()[0]
-      env.GIT_URL = rc.getUrl()
-      env.GIT_CREDENTIAL_ID = rc.credentialsId
+      env.GIT_URL = scm.getUserRemoteConfigs()[0].getUrl()
+      env.GIT_CREDENTIAL_ID = scm.getUserRemoteConfigs()[0].credentialsId
       def parts = env.GIT_URL.split("/")
       for (part in parts){
           parts = parts.drop(1)
