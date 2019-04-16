@@ -22,7 +22,7 @@ clean: ## removes compiled documentation
 	rm -rf $(BUILDDIR)
 
 image: ## builds the container image for documentation
-	docker build . -t sdp-docs
+	docker build . -f docs.Dockerfile -t sdp-docs
 
 docs: ## builds documentation in _build/html
       ## run make docs live for hot reloading of edits during development
@@ -38,12 +38,14 @@ docs: ## builds documentation in _build/html
 
 test: ## Automatically runs unit tests
 	@if [ -z $(DOCKERFILE_EXISTS) ] && [ "$(filter-out $@,$(MAKECMDGOALS))" = "docker" ]; then\
-	  docker build -f UnitTestingDockerfile -t sdp-library-testing .;\
-		docker run --rm -t -v $(shell pwd):/usr/src/sdp-testing -w /usr/src/sdp-testing sdp-library-testing mvn clean verify;\
+	  docker build -f unit_test.Dockerfile -t sdp-library-testing .;\
+		docker run --rm -t -v $(shell pwd):/app -w /app sdp-library-testing gradle --no-daemon test;\
 	elif [ ! -z $(DOCKERFILE_EXISTS) ] && [ "$(filter-out $@,$(MAKECMDGOALS))" = "docker" ]; then\
-	  docker run --rm -t -v $(shell pwd):/usr/src/sdp-testing -w /usr/src/sdp-testing sdp-library-testing mvn clean verify;\
+	  docker run --rm -t -v $(shell pwd):/app -w /app sdp-library-testing gradle --no-daemon test;\
+	elif [ "$(filter-out $@,$(MAKECMDGOALS))" = "wrapper"]; then\
+	  ./gradlew test;\
 	else\
-	  mvn clean verify;\
+	  gradle --no-daemon test;\
 	fi
 
 #push:
@@ -53,5 +55,16 @@ test: ## Automatically runs unit tests
 
 # Catch-all target: route all unknown targets to Sphinx using the new
 # "make mode" option.  $(O) is meant as a shortcut for $(SPHINXOPTS).
+
+docker:
+	@if [ "$(filterout $@,$(MAKECMDGOALS))" != "test"]; then\
+	  echo "Make command $@ not found";\
+	fi
+
+wrapper:
+	@if [ "$(filterout $@,$(MAKECMDGOALS))" != "test"]; then\
+	  echo "Make command $@ not found";\
+	fi
+	
 %: Makefile
 	echo "Make command $@ not found"

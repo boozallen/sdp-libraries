@@ -26,7 +26,8 @@ void call(Map args = [:], body){
     return
   
   println "running because of a PR from ${source_branch} to ${target_branch}"
-  body()
+  body()  
+
 }
 
 def get_source_branch(){
