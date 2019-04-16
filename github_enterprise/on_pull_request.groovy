@@ -4,6 +4,7 @@
 */
 
 import org.kohsuke.github.GHCommitState
+import org.kohsuke.github.GitHub
 
 void call(Map args = [:], body){
   
@@ -25,18 +26,20 @@ void call(Map args = [:], body){
     return
   
   println "running because of a PR from ${source_branch} to ${target_branch}"
-  body()
-  
+  body()  
+
 }
 
 def get_source_branch(){
   def ghUrl = "${env.GIT_URL.split("/")[0..-3].join("/")}/api/v3"
   def repo 
   def org 
-  withCredentials([usernamePassword(credentialsId: 'github', passwordVariable: 'PAT', usernameVariable: 'USER')]) {
-    org = org.kohsuke.github.GitHub.connectToEnterprise(ghUrl, PAT)
-    repo = org.getRepository("${env.ORG_NAME}/${env.REPO_NAME}")
+  def cred_id = env.GIT_CREDENTIAL_ID
+  withCredentials([usernamePassword(credentialsId: cred_id, passwordVariable: 'PAT', usernameVariable: 'USER')]) {
+    return GitHub.connectToEnterprise(ghUrl, PAT)
+                 .getRepository("${env.ORG_NAME}/${env.REPO_NAME}")
+                 .getPullRequest(env.CHANGE_ID.toInteger())
+                 .getHead()
+                 .getRef() 
   }
-  def pr = repo.getPullRequest(env.CHANGE_ID.toInteger())
-  return pr.getHead().getRef() 
 }
