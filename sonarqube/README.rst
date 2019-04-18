@@ -28,8 +28,8 @@ Library Configuration Options
 .. csv-table::  SonarQube Library Configuration Options
    :header: "Field", "Description", "Default Value"
 
-   "build_step", "the name of the a step to run, *before* sonarqube runs, to create build artifacts", ""
-   "require_build_step", "if this step should fail if a step is not found for the build_step name", "<null>"
+   "build_step", "the name of a step to run *before* 'static_code_analysis' to create build artifacts", ""
+   "require_build_step", "if the build_step should fail if a step is not found", "<null>"
    "credential_id", "A new credential can be used", "sonarqube"
    "enforce_quality_gate", "Determine whether the build will fail if the code does not pass the quality gate", "true"
 
