@@ -17,6 +17,9 @@ def call(){
       withCredentials([usernamePassword(credentialsId: cred_id, passwordVariable: 'token', usernameVariable: 'user')]) {
         withSonarQubeEnv("SonarQube"){
           unstash "workspace"
+          println "checking workspace: "
+          sh "ls" 
+          println "----" 
           try{ unstash "test-results" }catch(ex){}
           sh "mkdir -p empty"
           projectKey = "$env.REPO_NAME:$env.BRANCH_NAME".replaceAll("/", "_")
