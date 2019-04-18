@@ -15,10 +15,10 @@ Steps Contributed
 
 Optional Steps Used
 =================
-* build_source()
+* ${build_step}()
 
 If your sonarqube needs to build before your run of sonarqube,
-you should implement a *step* called `build_source`, in another library or as a Default Step Implementation, to create the build artifacts
+you should implement a *step* named for the `build_step` configuration option, in another library or as a Default Step Implementation, to create the build artifacts
 
 
 Library Configuration Options
