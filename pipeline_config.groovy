@@ -6,6 +6,14 @@ libraries {
     cred = "openshift-docker-registry"
     repo_path_prefix = "keegan-sdp"
   }
+  sdp {
+    images{
+      registry = "https://docker-registry-default.scv:5000"
+      repo = "keegan-sdp"
+      cred = "openshift-docker-registry"
+    }
+  }
+  sonarqube
 }
 
 keywords {
