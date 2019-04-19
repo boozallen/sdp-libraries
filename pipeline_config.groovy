@@ -14,7 +14,7 @@ steps {
   unit_test {
     stage = "Unit Test"
     image = "gradle"
-    command = "make test"
+    command = "gradle test"
     stash{
       name = "workspace"
     }
