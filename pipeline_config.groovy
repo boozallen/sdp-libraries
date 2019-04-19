@@ -1,5 +1,8 @@
 libraries {
-
+  github_enterprise
+  docker {
+    build_strategy = "modules"
+  }
 }
 
 keywords {
