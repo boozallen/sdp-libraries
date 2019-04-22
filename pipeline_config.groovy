@@ -28,8 +28,7 @@ steps {
   unit_test {
     stage = "Unit Test"
     image = "gradle"
-    command = "export JAVA_OPTS='org.gradle.jvmargs=-Xmx3g -XX:MaxPermSize=2048m -XX:+HeapDumpOnOutOfMemoryError -Dfile.encoding=UTF-8
-' && gradle test"
+    command = "export JAVA_OPTS='org.gradle.jvmargs=-Xmx3g -XX:MaxPermSize=2048m -XX:+HeapDumpOnOutOfMemoryError -Dfile.encoding=UTF-8' && gradle test"
     stash{
       name = "workspace"
     }
