@@ -36,7 +36,7 @@ sourceSets{
             moving the compiled test classes so that Jenkins-Spock
             can find them.
         */
-        output.resourcesDir("target/test-classes")
+        output.resourcesDir("${buildDir}/test-classes")
         groovy{
             /*
                 The location of the unit tests are the "unit-tests"
@@ -44,8 +44,12 @@ sourceSets{
             */
             srcDirs = getLibraries().collect{ "${it}/unit-tests" }
         }
+        /*
+            need to be able to access actual steps as test resources
+            but dont want to copy in $buildDir directory. 
+        */
         resources{
-            srcDirs = [ "." ]
+            srcDirs = getLibraries()
         }
     }
 }
