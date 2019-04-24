@@ -1,3 +1,7 @@
+/*
+    org.jenkins-ci.jpi allows plugin dependency resolution 
+    when specifying jenkins plugin dependencies 
+*/
 plugins{
   id 'org.jenkins-ci.jpi' version '0.29.0'
   id 'groovy' 
@@ -10,19 +14,34 @@ repositories {
     maven { url "http://repo.maven.apache.org/maven2" }
 }
 
-// Jenkins Spock hard codes specific resource directories
-// so relocating to align. 
+/*
+    Jenkins-Spock requires that there be a target directory 
+    so it can find compiled test classes so realigning 
+    project build directory. 
+*/
 project.buildDir = "target" 
 sourceSets{
     main{
         groovy{
+            /*
+                source directory for tests is each library directory 
+                besides their unit-tests
+            */
             srcDirs = getLibraries()
             exclude "**/unit-tests"
         }
     }
     test{
-        output.resourcesDir("target/test-classes") // requirement of jenkins spock
+        /*
+            moving the compiled test classes so that Jenkins-Spock
+            can find them.
+        */
+        output.resourcesDir("target/test-classes")
         groovy{
+            /*
+                The location of the unit tests are the "unit-tests"
+                directory within each library directory
+            */
             srcDirs = getLibraries().collect{ "${it}/unit-tests" }
         }
         resources{
@@ -32,7 +51,7 @@ sourceSets{
 }
 
 /*
-    Find all of the library modules that have unit tests to execute. 
+    Find all of the library directories that have unit tests to execute. 
 */
 ArrayList getLibraries(){
     File workspace = new File(".")
@@ -77,9 +96,4 @@ dependencies {
     jenkinsTest group: "org.jenkins-ci.plugins", name: "credentials-binding", version: "1.16"
     jenkinsTest group: "org.jenkins-ci.plugins", name: "docker-workflow", version: "1.17"
 
-}
-
-task downloadDependencies(type: Exec) {
-    configurations.testRuntime.files
-    commandLine 'echo', 'Downloaded all dependencies'
 }
