@@ -27,6 +27,7 @@ sourceSets{
         }
         resources{
             srcDirs = [ "." ]
+            exclude "target"
         }
     }
 }
