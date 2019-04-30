@@ -28,6 +28,7 @@ steps {
   unit_test {
     stage = "Unit Test"
     image = "gradle"
+    docker_args = "--oom-kill-disable -m 3500m"
     command = "./gradlew test"
     stash{
       name = "workspace"
