@@ -8,6 +8,7 @@ libraries {
     }
   }
   sonarqube
+  pipeline_testing
 }
 
 keywords {
