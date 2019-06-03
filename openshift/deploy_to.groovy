@@ -75,7 +75,13 @@ void call(app_env){
         NOTE: this puts a dependency on the docker library (or whatever image building library
         is used.  this library must supply a retag method)
     */
-    if (env.FEATURE_SHA) retag(env.FEATURE_SHA, env.GIT_SHA)
+    def promote_image = app_env.promote_previous_image ?:
+                        config.promote_previous_image ?:
+                        "yes"
+
+    if (promote_image =~ /^[Yy]es/) {if (env.FEATURE_SHA) retag(env.FEATURE_SHA, env.GIT_SHA)}
+    else if (promote_image =~ /^[Nn]o$/) echo "expecting image was already built"
+    else error("Please set promote_previous_image in the Openshift library config to \"yes\" or \"no\"")
 
     withGit url: config_repo, cred: git_cred, {
       inside_sdp_image "openshift_helm", {
