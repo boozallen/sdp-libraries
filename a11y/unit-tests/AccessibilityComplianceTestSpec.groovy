@@ -3,14 +3,18 @@
   This software package is licensed under the Booz Allen Public License. The license can be found in the License file or at http://boozallen.github.io/licenses/bapl
 */
 
+package a11y
+
 import com.homeaway.devtools.jenkins.testing.JenkinsPipelineSpecification
+import org.junit.*
+import spock.lang.*
 
 public class AccessibilityComplianceTestSpec extends JenkinsPipelineSpecification {
 
-  def AccessibilityComplianceTest = null
+  def AccessibilityComplianceTest 
 
   def setup() {
-    AccessibilityComplianceTest = loadPipelineScriptForTest("a11y/accessibility_compliance_test.groovy")
+    AccessibilityComplianceTest = loadPipelineScriptForTest("/a11y/accessibility_compliance_test.groovy")
     explicitlyMockPipelineStep("inside_sdp_image")
   }
 

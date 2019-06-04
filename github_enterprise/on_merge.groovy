@@ -39,11 +39,9 @@ String get_merged_from(){
   node{
     unstash "workspace"
     // update remote for git name-rev to properly work
-    def remote = sh(
-        script: "git remote -v",
-        returnStdout: true
-    ).split()[1]
-    withCredentials([usernamePassword(credentialsId: 'github', passwordVariable: 'PASS', usernameVariable: 'USER')]){
+    def remote = env.GIT_URL
+    def cred_id = env.GIT_CREDENTIAL_ID
+    withCredentials([usernamePassword(credentialsId: cred_id, passwordVariable: 'PASS', usernameVariable: 'USER')]){
         remote = remote.replaceFirst("://", "://${USER}:${PASS}@")
         sh "git remote rm origin"
         sh "git remote add origin ${remote}"
