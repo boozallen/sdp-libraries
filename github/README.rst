@@ -13,6 +13,7 @@ defined within pipeline templates.
     developers to get scm metadata or interact with a remote github repository.
 
 
+=============================
 Library Configuration Options
 =============================
 
