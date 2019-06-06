@@ -16,7 +16,7 @@ void call(Map args = [:], body){
     
   // do nothing in source branch doesn't match
   if (args.from)
-  if (!(source_branch ==~ (~args.from) ))
+  if (!(source_branch ==~ (~args.from) ))// convert string to regex
     return
 
   // do nothing if target branch doesnt match
