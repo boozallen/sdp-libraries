@@ -16,12 +16,12 @@ void call(Map args = [:], body){
     
   // do nothing in source branch doesn't match
   if (args.from)
-  if (!(source_branch ==~ args.from))
+  if (!(source_branch ==~ (~args.from) ))
     return
 
   // do nothing if target branch doesnt match
   if (args.to)
-  if (!(target_branch ==~ args.to))
+  if (!(target_branch ==~ (~args.to) ))// convert string to regex
     return
   
   println "running because of a PR from ${source_branch} to ${target_branch}"
