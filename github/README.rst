@@ -12,6 +12,16 @@ defined within pipeline templates.
     It also provides additional functionality that can be useful for library
     developers to get scm metadata or interact with a remote github repository.
 
+
+Library Configuration Options
+=============================
+
+.. csv-table::  Docker Library Configuration Options
+   :header: "Field", "Description", "Default Value"
+
+   "enterprise", "This boolean defines if github_enterprise is used, `enterprise=true` or regular github, not defined", null
+
+
 =============
 Configuration
 =============
@@ -19,7 +29,7 @@ Configuration
 .. code:: groovy 
 
     libraries{
-      github_enterprise
+      github
     }
 
 
