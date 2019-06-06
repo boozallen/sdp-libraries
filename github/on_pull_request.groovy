@@ -33,7 +33,7 @@ def get_source_branch(){
 
   String ghUrl = config.enterprise ? "${env.GIT_URL.split("/")[0..-3].join("/")}/api/v3" : "https://api.github.com"
   def repo
-  def org =
+  def org
 
   def cred_id = env.GIT_CREDENTIAL_ID
 
