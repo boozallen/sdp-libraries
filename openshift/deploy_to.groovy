@@ -78,10 +78,18 @@ void call(app_env){
     def promote_image = app_env.promote_previous_image ?:
                         config.promote_previous_image ?:
                         true
+    if (!(promote_image instanceof Boolean)){
+      error "OpenShift Library expects 'promote_previous_image' configuration to be true or false."
+    }
 
-    if (promote_image) {if (env.FEATURE_SHA) retag(env.FEATURE_SHA, env.GIT_SHA)}
-    else if (!promote_image) echo "expecting image was already built"
-    else error("Please set promote_previous_image in the Openshift library config to \"yes\" or \"no\"")
+    if (promote_image){
+      if (env.FEATURE_SHA){
+        retag(env.FEATURE_SHA, env.GIT_SHA)
+      }
+    } else{
+      echo "expecting image was already built"
+    }
+
 
     withGit url: config_repo, cred: git_cred, {
       inside_sdp_image "openshift_helm", {
