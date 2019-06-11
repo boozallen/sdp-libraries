@@ -297,6 +297,33 @@ public class DeployToSpec extends JenkinsPipelineSpecification {
       1 * getPipelineMock("sh")( "rm special_values_file.yaml" )
   }
 
+  def "by default, promote the previously built image if one is expected to exist" () {
+    // setup:
+    //   deff app_env = [short_name: 'env', long_name: 'Enviornment']
+  }
+
+  def "Use config.promote_image, if available, to determine whether or not to promote a previous image" () {
+
+  }
+
+  def "Use app_env.promote_image, if available, to determine whether or not to promote a previous image" () {
+
+  }
+
+  def "Retag the previously built image for promotion if we choose to && if one is expected to exist" () {
+
+  }
+
+  def "Don't retag the previous image if we choose not to" () {
+
+  }
+
+  def "Don't retag the previous image if there is no Feature SHA" () {
+    // and we can't expect such a corresponding image to exist
+
+  }
+
+
   /**************************
    update_values_file() tests
   ***************************/
