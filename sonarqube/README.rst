@@ -29,7 +29,8 @@ Library Configuration Options
    :header: "Field", "Description", "Default Value"
 
    "build_step", "the name of a step to run *before* 'static_code_analysis' to create build artifacts", ""
-   "require_build_step", "if the build_step should fail if a step is not found", "<null>"
+   "require_build_step", "if the build_step should fail if a step is not found, by default null implies false", "<null>"
+   "build_step_method", "the name of a method on the $build_step that should be called", "call"
    "credential_id", "A new credential can be used", "sonarqube"
    "enforce_quality_gate", "Determine whether the build will fail if the code does not pass the quality gate", "true"
 
@@ -45,6 +46,7 @@ Example Configuration Snippet
        build_step = "build_source"
        enforce_quality_gate = true
        credential_id = sonarqube
+       build_step_method = "call"
      }
    }
 
@@ -52,7 +54,7 @@ Sonar Scanner Configurations
 ============================
 
 Extra configuration options are available by leveraging SonarQube's sonar-project.properties_ file.
-the sonar-project.properties file should be added to root of the source repositoy.
+the sonar-project.properties file should be added to root of the source repository.
 
 .. _sonar-project.properties: https://docs.sonarqube.org/display/SONAR/Analysis+Parameters
 
