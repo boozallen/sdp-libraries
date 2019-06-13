@@ -1,14 +1,14 @@
-.. _GitHub Enterprise Library: 
------------------
-GitHub Enterprise
------------------
+.. _GitHub Library:
+------
+GitHub
+------
 
-This library is unique in that rather than provide functional step 
+This library is unique in that rather than provide functional step
 implementations, it provides methods that help with the business logic
-defined within pipeline templates. 
+defined within pipeline templates.
 
-.. note:: 
-  
+.. note::
+
     It also provides additional functionality that can be useful for library
     developers to get scm metadata or interact with a remote github repository.
 
@@ -27,7 +27,7 @@ Library Configuration Options
 Configuration
 =============
 
-.. code:: groovy 
+.. code:: groovy
 
     libraries{
       github
@@ -47,21 +47,21 @@ Configuration
 
 
 ================================
-Pipeline Template Business Logic 
+Pipeline Template Business Logic
 ================================
 
-The GitHub Enterprise library contributes some helper methods to help with 
-pipeline template orchestration.  You can achieve fine grained control over 
-what happens when in response to different GitHub events such as commits, 
-pull requests, and merges. 
+The GitHub library contributes some helper methods to help with
+pipeline template orchestration.  You can achieve fine grained control over
+what happens when in response to different GitHub events such as commits,
+pull requests, and merges.
 
-.. csv-table:: GitHub Flow Helper Methods 
-   :header: "Method", "Build Cause" 
+.. csv-table:: GitHub Flow Helper Methods
+   :header: "Method", "Build Cause"
 
-   "on_commit", "A direct commit to a branch" 
+   "on_commit", "A direct commit to a branch"
    "on_pull_request", "A pull request was created or a developer pushed a commit to the source branch"
-   "on_change", "A combination of ``on_commit`` and ``on_pull_request``" 
-   "on_merge", "A pull request was merged into the branch." 
+   "on_change", "A combination of ``on_commit`` and ``on_pull_request``"
+   "on_merge", "A pull request was merged into the branch."
 
 These methods take named parameters ``to`` and ``from`` indicating direction of the github
 whose value is a regular expression to compare the branch names against.
@@ -69,25 +69,25 @@ whose value is a regular expression to compare the branch names against.
 SDP provides some default keywords for branch name regular expressions:
 
 .. csv-table:: Default Branch Regular Expressions
-   :header: "Keyword", "Regular Expression" 
+   :header: "Keyword", "Regular Expression"
 
    "master", "/^[Mm]aster$/"
    "develop", "/^[Dd]evelop(ment|er|)$/"
    "hotfix", "/^[Hh]ot[Ff]ix-/"
    "release", "/^[Rr]elease-(\d+.)*\d$/"
 
-.. note:: 
+.. note::
 
-    These branch name regular expressions are not a part of the GitHub Enterprise
+    These branch name regular expressions are not a part of the GitHub
     library but rather leveraged by defining :ref:`Keywords<Keywords>` in the SDP configuration file
 
 ==========================
 Example Pipeline Templates
 ==========================
 
-**Full example using keywords** 
+**Full example using keywords**
 
-.. code:: groovy 
+.. code:: groovy
 
     on_commit{
       continuous_integration()
@@ -110,7 +110,7 @@ Example Pipeline Templates
 
 **Example using regular expressions directly**
 
-.. code:: groovy 
+.. code:: groovy
 
     on_commit to: /^[Ff]eature-.*/, {
       // will be triggered on feature branches
@@ -121,7 +121,7 @@ Example Pipeline Templates
 
 **Example using on_change**
 
-.. code:: groovy 
+.. code:: groovy
 
     on_change{
       // do CI on every commit or PR
