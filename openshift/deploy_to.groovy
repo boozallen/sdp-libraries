@@ -75,10 +75,10 @@ void call(app_env){
         NOTE: this puts a dependency on the docker library (or whatever image building library
         is used.  this library must supply a retag method)
     */
+    /*
     println "checking if we should promote the image"
-    def promote_image = app_env.promote_previous_image != null ? app_env.promote_previous_image :
-                        config.promote_previous_image != null ? config.promote_previous_image :
-                        true
+    def promote_image = app_env.promote_previous_image ?: config.promote_previous_image ?: false
+    
     if (!(promote_image instanceof Boolean)){
       error "OpenShift Library expects 'promote_previous_image' configuration to be true or false."
     }
@@ -90,6 +90,7 @@ void call(app_env){
     } else{
       echo "expecting image was already built"
     }
+    */
 
 
     withGit url: config_repo, cred: git_cred, {
