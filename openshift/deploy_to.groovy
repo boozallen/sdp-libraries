@@ -91,6 +91,11 @@ void call(app_env){
       echo "expecting image was already built"
     }
     */
+    if (app_env.short_name == "prod"){
+      if (env.FEATURE_SHA){
+        retag(env.FEATURE_SHA, env.GIT_SHA) 
+      }
+    }
 
 
     withGit url: config_repo, cred: git_cred, {
