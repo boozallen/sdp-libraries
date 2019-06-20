@@ -371,7 +371,9 @@ public class DeployToSpec extends JenkinsPipelineSpecification {
         app_env_val | config_val
         true        | true
         true        | false
+        true        | null
         null        | true
+        null        | null
   }
 
   def "Don't retag the previous image if we choose not to, even if there is a feature SHA" () {
@@ -389,6 +391,7 @@ public class DeployToSpec extends JenkinsPipelineSpecification {
         app_env_val | config_val
         false       | false
         false       | true
+        false       | null
         null        | false
   }
 
