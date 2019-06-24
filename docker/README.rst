@@ -13,14 +13,6 @@ Steps Provided
 - login_to_registry()
 - retag()
 
-Library Configuration Options
-=============================
-
-.. csv-table::  Docker Library Configuration Options
-   :header: "Field", "Description", "Default Value"
-
-   "build_strategy", "This defines the type of docker build to be used. There are three options to choose from; docker-compose, modules, and dockerfile", "dockerfile"
-
 Example Configuration Snippet
 =============================
 
@@ -28,28 +20,29 @@ Example Configuration Snippet
 
    libraries{
      docker {
-        build_strategy = docker-compose | modules | dockerfile
+        build_strategy = "dockerfile"
+        registry = "docker-registry.default.svc:5000"
+        cred = "openshift-docker-registry"
+        repo_path_prefix = "proj-images"
      }
    }
 
-Extra Configurations
-====================
+Configurations
+==============
 
-If you are using a separate set of credentials change the variables listed below inside the configuration file.
+.. csv-table::  Docker Configuration Options
+   :header: "Field", "Description", "Default Value", "Required"
 
-.. csv-table::  Docker Extra Configuration Options
-   :header: "Field", "Description", "Default Value"
-
-   "sdp.image.registry", "The location where the container images required for the different pipeline tools are stored.", "none"
-   "sdp.image.cred", "Credentials used for the repository where pipeline builds are going to be pushed to", "none"
-   "docker.registry", "Where the container images produced during the pipeline builds are going to be pushed to", "none"
-   "docker.cred", "Credentials used for the repository where different docker pipeline tools are stored.", "none"
+   "build_strategy", "Sets how the library will build the container image(s); Must be dockerfile, docker-compose, or modules", "dockerfile", "false"
+   "registry", "Where the container images produced during the pipeline builds are going to be pushed to", "none", "true"
+   "cred", "Credentials used for the repository where different docker pipeline tools are stored.", "none", "true"
+   "repo_path_prefix", "the part of the repository name between the registry name and the last forward-slash", "empty string", "false"
 
 External Dependencies
 =====================
 
-- A Docker repository must be setup and configured. Credentials to the repository are also needed.
-- The github_enterprise library and the sdp library needs to be loaded as libraries inside your pipeline_config.groovy file.
+- A Docker registry must be set up and configured. Credentials to the repository are also needed.
+- Either the github or github_enterprise library needs to be loaded as a library inside your pipeline_config.groovy file.
 
 Troubleshooting
 ===============
