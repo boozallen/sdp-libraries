@@ -1,6 +1,10 @@
+/*
+    org.jenkins-ci.jpi allows plugin dependency resolution
+    when specifying jenkins plugin dependencies
+*/
 plugins{
   id 'org.jenkins-ci.jpi' version '0.29.0'
-  id 'groovy' 
+  id 'groovy'
 }
 
 repositories {
@@ -10,30 +14,49 @@ repositories {
     maven { url "http://repo.maven.apache.org/maven2" }
 }
 
-// Jenkins Spock hard codes specific resource directories
-// so relocating to align. 
-project.buildDir = "target" 
+/*
+    Jenkins-Spock requires that there be a target directory
+    so it can find compiled test classes so realigning
+    project build directory.
+*/
+project.buildDir = "target"
 sourceSets{
     main{
         groovy{
+            /*
+                source directory for tests is each library directory
+                besides their unit-tests
+            */
             srcDirs = getLibraries()
             exclude "**/unit-tests"
         }
     }
     test{
-        output.resourcesDir("target/test-classes") // requirement of jenkins spock
+        /*
+            moving the compiled test classes so that Jenkins-Spock
+            can find them.
+        */
+        output.resourcesDir("${buildDir}/test-classes")
         groovy{
+            /*
+                The location of the unit tests are the "unit-tests"
+                directory within each library directory
+            */
             srcDirs = getLibraries().collect{ "${it}/unit-tests" }
         }
+        /*
+            need to be able to access actual steps as test resources
+            but dont want to copy in $buildDir directory.
+        */
         resources{
             srcDirs = [ "." ]
-            exclude "target"
+            filter.setIncludes(getLibraries().collect{ it + "/**"})
         }
     }
 }
 
 /*
-    Find all of the library modules that have unit tests to execute. 
+    Find all of the library directories that have unit tests to execute.
 */
 ArrayList getLibraries(){
     File workspace = new File(".")
@@ -41,7 +64,7 @@ ArrayList getLibraries(){
 
     def libraries = collection.findAll{
         it.listFiles().find{ it.name.equals("unit-tests") }
-    }.collect{ it.getName() } 
+    }.collect{ it.getName() }
 
     return libraries
 }
@@ -64,8 +87,8 @@ dependencies {
     testCompile group: 'org.jenkins-ci', name: 'symbol-annotation', version:'1.10'
     compile group: 'org.codehaus.groovy', name: 'groovy-all', version:'2.4.11'
     testCompile group: 'org.spockframework', name: 'spock-core', version:'1.1-groovy-2.4'
-    
-    // our plugin deps 
+
+    // our plugin deps
     jenkinsTest group: 'org.jenkins-ci.plugins.workflow', name: 'workflow-step-api', version:'2.10'
     jenkinsTest group: 'org.jenkins-ci.plugins.workflow', name: 'workflow-cps', version:'2.36'
     jenkinsTest group: 'org.jenkins-ci.plugins.workflow', name: 'workflow-scm-step', version:'2.7'
@@ -78,9 +101,4 @@ dependencies {
     jenkinsTest group: "org.jenkins-ci.plugins", name: "credentials-binding", version: "1.16"
     jenkinsTest group: "org.jenkins-ci.plugins", name: "docker-workflow", version: "1.17"
 
-}
-
-task downloadDependencies(type: Exec) {
-    configurations.testRuntime.files
-    commandLine 'echo', 'Downloaded all dependencies'
 }
