@@ -20,7 +20,7 @@ Library Configuration Options
 .. csv-table::  Docker Library Configuration Options
    :header: "Field", "Description", "Default Value"
 
-   "source_type", "This String defines the scm source_type: currently `gh_enterprise` for github_enterprise and `gh` for regular github are used", null
+   "source_type", "This String defines the scm source_type: currently `github_enterprise` and `github` are used", null
 
 
 =============
@@ -31,7 +31,7 @@ Configuration
 
     libraries{
       github{
-         source_type = gh
+         source_type = "github"
       }
     }
 
@@ -43,7 +43,7 @@ Configuration
 
     libraries{
       github{
-        source_type = gh_enterprise
+        source_type = "github_enterprise"
       }
     }
 
