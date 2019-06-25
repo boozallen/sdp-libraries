@@ -26,6 +26,7 @@ public class DeployToSpec extends JenkinsPipelineSpecification {
 
     explicitlyMockPipelineStep("withGit")
     explicitlyMockPipelineStep("inside_sdp_image")
+    explicitlyMockPipelineStep("retag")
 
     DeployTo.getBinding().setVariable("env", [REPO_NAME: "unit-test", GIT_SHA: "abcd1234"])
     DeployTo.getBinding().setVariable("token", "token")
@@ -300,6 +301,104 @@ public class DeployToSpec extends JenkinsPipelineSpecification {
     then:
       1 * getPipelineMock("sh")( "rm special_values_file.yaml" )
   }
+
+  def "Don't retag the previous image if there is no Feature SHA" () {
+    // and we can't expect such a corresponding image to exist
+    setup:
+      def app_env = [short_name: 'env', long_name: 'Enviornment', promote_previous_image: app_env_val]
+      DeployTo.getBinding().setVariable("config", [promote_previous_image: config_val])
+      DeployTo.getBinding().setVariable("env", [FEATURE_SHA: null, GIT_SHA: "git_sha", REPO_NAME: "unit-test"])
+      DeployTo.getBinding().setVariable("pipelineConfig", [github_credential: null])
+    when:
+      DeployTo(app_env)
+    then:
+      0 * getPipelineMock("retag")(_, _)
+    where:
+      app_env_val | config_val
+      true        | true
+      false       | true
+      true        | false
+      false       | false
+      null        | true
+      null        | false
+  }
+
+  def "By default, Retag the previously built image for promotion if there is a Feature SHA" () {
+    setup:
+      def app_env = [short_name: 'env', long_name: 'Enviornment']
+      DeployTo.getBinding().setVariable("env", [FEATURE_SHA: "feature_sha", GIT_SHA: "git_sha", REPO_NAME: "unit-test"])
+      DeployTo.getBinding().setVariable("config", [:])
+      DeployTo.getBinding().setVariable("pipelineConfig", [github_credential: null])
+    when:
+      DeployTo(app_env)
+    then:
+      1 * getPipelineMock("retag")("feature_sha", "git_sha")
+  }
+
+  def "Use config.promote_previous_image to determine whether or not to promote a previous image if not set in the app_env" () {
+    setup:
+      def app_env = [short_name: 'env', long_name: 'Enviornment']
+      DeployTo.getBinding().setVariable('env', [FEATURE_SHA: "feature_sha", GIT_SHA: "git_sha", REPO_NAME: "unit-test"])
+      DeployTo.getBinding().setVariable("config", [promote_previous_image: false])
+      DeployTo.getBinding().setVariable("pipelineConfig", [github_credential: null])
+      when:
+        DeployTo(app_env)
+      then:
+        0 * getPipelineMock("retag")(_, _)
+        1 * getPipelineMock("echo")("expecting image was already built")
+  }
+
+  def "Use app_env.promote_previous_image, if available, to determine whether or not to promote a previous image" () {
+    setup:
+      def app_env = [short_name: 'env', long_name: 'Enviornment', promote_previous_image: false]
+      DeployTo.getBinding().setVariable('env', [FEATURE_SHA: "feature_sha", GIT_SHA: "git_sha", REPO_NAME: "unit-test"])
+      DeployTo.getBinding().setVariable("config", [promote_previous_image: true])
+      DeployTo.getBinding().setVariable("pipelineConfig", [github_credential: null])
+      when:
+        DeployTo(app_env)
+      then:
+        0 * getPipelineMock("retag")(_, _)
+        1 * getPipelineMock("echo")("expecting image was already built")
+  }
+
+  def "Promote the previously built image if we choose to and there is a Feature SHA" () {
+    setup:
+      def app_env = [short_name: 'env', long_name: 'Enviornment', FEATURE_SHA: "feature_sha", GIT_SHA: "git_sha", promote_previous_image: app_env_val]
+      DeployTo.getBinding().setVariable("env", [FEATURE_SHA: "feature_sha", GIT_SHA: "git_sha", REPO_NAME: "unit-test"])
+      DeployTo.getBinding().setVariable("config", [promote_previous_image: config_val])
+      DeployTo.getBinding().setVariable("pipelineConfig", [github_credential: null])
+      when:
+        DeployTo(app_env)
+      then:
+        1 * getPipelineMock("retag")("feature_sha", "git_sha")
+      where:
+        app_env_val | config_val
+        true        | true
+        true        | false
+        true        | null
+        null        | true
+        null        | null
+  }
+
+  def "Don't retag the previous image if we choose not to, even if there is a feature SHA" () {
+    setup:
+      def app_env = [short_name: 'env', long_name: 'Enviornment', promote_previous_image: app_env_val]
+      DeployTo.getBinding().setVariable("config", [promote_previous_image: config_val])
+      DeployTo.getBinding().setVariable("env", [FEATURE_SHA: "feature_sha", GIT_SHA: "git_sha", REPO_NAME: "unit-test"])
+      DeployTo.getBinding().setVariable("pipelineConfig", [github_credential: null])
+      when:
+        DeployTo(app_env)
+      then:
+        0 * getPipelineMock("retag")(_, _)
+        1 * getPipelineMock("echo")("expecting image was already built")
+      where:
+        app_env_val | config_val
+        false       | false
+        false       | true
+        false       | null
+        null        | false
+  }
+
 
   /**************************
    update_values_file() tests
