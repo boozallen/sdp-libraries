@@ -5,7 +5,7 @@ node{
     // sh "docker run --rm -t -v \$(pwd):/app -w /app pipeline-unit-testing gradle --no-daemon test"
     // sh "JAVA_HOME=\'/usr/lib/jvm/java-1.8-openjdk/\' && ./gradlew test"
 
-    docker.image("pipeline-unit-testing").inside{
+    docker.image("gradle:4.10.2-jdk8").inside{
       sh "gradle --no-daemon clean test"
     }
     archiveArtifacts artifacts: 'target/reports/tests/test/**'
