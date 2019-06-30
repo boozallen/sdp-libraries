@@ -32,6 +32,7 @@ sourceSets{
         }
     }
     test{
+        maxHeapSize = "512m"
         /*
             moving the compiled test classes so that Jenkins-Spock
             can find them.
