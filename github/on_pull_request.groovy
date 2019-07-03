@@ -30,26 +30,5 @@ void call(Map args = [:], body){
 }
 
 def get_source_branch(){
-
-  String ghUrl = config.enterprise ? "${env.GIT_URL.split("/")[0..-3].join("/")}/api/v3" : "https://api.github.com"
-  def repo
-  def org
-
-  def cred_id = env.GIT_CREDENTIAL_ID
-
-  withCredentials([usernamePassword(credentialsId: cred_id, passwordVariable: 'PAT', usernameVariable: 'USER')]) {
-    if( config.enterprise ){
-      return GitHub.connectToEnterprise(ghUrl, PAT).getRepository("${env.ORG_NAME}/${env.REPO_NAME}")
-              .getPullRequest(env.CHANGE_ID.toInteger())
-              .getHead()
-              .getRef()
-    } else {
-
-      return GitHub.connectUsingOAuth(PAT).
-              getRepository("${env.ORG_NAME}/${env.REPO_NAME}")
-              .getPullRequest(env.CHANGE_ID.toInteger())
-              .getHead()
-              .getRef()
-    }
-  }
+  return impls().get_source_branch()
 }

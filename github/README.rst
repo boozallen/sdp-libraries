@@ -20,7 +20,7 @@ Library Configuration Options
 .. csv-table::  Docker Library Configuration Options
    :header: "Field", "Description", "Default Value"
 
-   "enterprise", "This boolean defines if github_enterprise is used, `enterprise=true` or regular github, not defined", null
+   "source_type", "This String defines the scm source_type: currently `github_enterprise` and `github` are used", null
 
 
 =============
@@ -30,7 +30,9 @@ Configuration
 .. code:: groovy
 
     libraries{
-      github
+      github{
+         source_type = "github"
+      }
     }
 
 
@@ -41,7 +43,7 @@ Configuration
 
     libraries{
       github{
-        enterprise = true
+        source_type = "github_enterprise"
       }
     }
 
