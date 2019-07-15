@@ -1,6 +1,6 @@
 fields{
   required{
-    registry = ~/^(?!http).+$/
+    registry = ~/^(?!http)[a-zA-Z0-9\-_\.]+$/
     cred = ~/^[a-zA-Z0-9\-_\.]+$/
   }
   optional{
