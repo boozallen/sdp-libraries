@@ -1,6 +1,6 @@
 fields{
   required{
-    registry = /(?!http).+/
+    registry = /^(?!http).+$/
     cred = String
   }
   optional{
