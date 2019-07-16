@@ -1,13 +1,13 @@
 fields{
   required{
     images{
-      registry = String
-      cred = String
+      registry = ~/^http[a-zA-Z0-9\-_\.:]+$/
+      cred = ~/^[a-zA-Z0-9\-_\.]+$/
     }
   }
   optional{
     images{
-      repository = String
+      repository = ~/^[a-zA-Z0-9\-_\.\/]+$/
       docker_args = String
     }
   }
