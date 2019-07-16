@@ -6,5 +6,6 @@ fields{
     tiller_credential = ~/^[a-zA-Z0-9\-_\.]+$/
     url = ~/^(?:http(s)?:\/\/)?[\w.-]+(?:\.[\w\.-]+)+[\w\-\._~:\/?#\[\]@!\$&'\(\)\*\+,;=.]+$/
     promote_previous_image = Boolean
+    image_repository_project = ~/^[a-zA-Z0-9\-_\.]+$/
   }
 }
