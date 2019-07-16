@@ -1,10 +1,14 @@
 fields{
   required{
-    images.registry = String
-    images.cred = String
+    images{
+      registry = String
+      cred = String
+    }
   }
   optional{
-    images.repository = String
-    images.docker_args = String
+    images{
+      repository = String
+      docker_args = String
+    }
   }
 }
