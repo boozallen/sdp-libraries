@@ -1,7 +1,4 @@
-fields{
-  required{
-
-  }
+fields
   optional{
     scan_target = String //some filepath
     exclude_dirs = String //comma-separated list
