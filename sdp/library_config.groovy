@@ -1,7 +1,7 @@
 fields{
   required{
     images{
-      registry = ~/^http[a-zA-Z0-9\-_\.:]+(:\d+)?$/
+      registry = ~/^http[a-zA-Z0-9\-_\.]+(:\d+)?$/
       cred = ~/^[a-zA-Z0-9\-_\.]+$/
     }
   }
