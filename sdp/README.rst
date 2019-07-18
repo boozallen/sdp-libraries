@@ -17,7 +17,7 @@ Library Configuration Options
    :header: "Field", "Description", "Default Value"
 
    "images.registry", "This sets the registry the sdp library expects to find its Docker images", "*none*"
-   "images.repo", "The first `path component`_. in the repository name, e.g. if your images follow the format my-registry.com/sdp/\*, this would be **sdp**", "sdp"
+   "images.repository", "The first `path component`_. in the repository name, e.g. if your images follow the format my-registry.com/sdp/\*, this would be **sdp**", "sdp"
    "images.cred", "Credentials used for the repository where different docker pipeline tools are stored", "*none*"
    "images.docker_args", "Arguments to use when starting the container. Uses the same flags as ``docker run``", "*empty string*"
 
@@ -37,7 +37,7 @@ Example Configuration Snippet
      sdp{
        images{
          registry = "https://docker-registry.default.svc:5000"
-         repo = "sdp"
+         repository = "sdp"
          cred = "openshift-docker-registry"
          docker_args = ""
        }
@@ -49,7 +49,7 @@ External Dependencies
 
 - A Docker registry must be setup and configured. Credentials to the registry are also needed.
 - A repository for the image being used by the given library is expected to be in the given registry.
-- The repository name for the pipeline tools' images should be in the format *"${images.registry}/${images.repo}/tool-name"*
+- The repository name for the pipeline tools' images should be in the format *"${images.registry}/${images.repository}/tool-name"*
 
 .. Troubleshooting
 .. ===============
