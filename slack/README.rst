@@ -6,7 +6,8 @@ Slack is a collection of tools and services that helps teams collaborate and wor
 Steps Contributed
 #################
 
-* slack()
+* slack_cleanup(Map context): reports to Slack the final build status at the end of every build
+* slack_report_deployment(): reports to Slack when a deploy_to() step was successful
 
 
 External Dependencies
