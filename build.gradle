@@ -27,7 +27,7 @@ sourceSets{
                 source directory for tests is each library directory
                 besides their unit-tests
             */
-            //srcDirs = getLibraries()
+            srcDirs = getLibraries()
             exclude "**/unit-tests"
         }
     }
