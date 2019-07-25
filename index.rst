@@ -5,7 +5,7 @@ Pipeline Libraries
 .. toctree::
    :maxdepth: 1
    :glob:
-   :caption: Contents:
+   :caption: Libraries
 
    **/README
 
