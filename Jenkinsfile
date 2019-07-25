@@ -1,17 +1,19 @@
-parallel "Unit Test": {
+
+stage("Unit Test"){
   node{
-    stage("Unit Test"){
-      unstash "workspace"
-      sh "make test docker && touch \$(ls target/test-results/test/*.xml)" 
-      archiveArtifacts "target/reports/tests/test/**" 
-      junit "target/test-results/test/*.xml" 
-    }
+    unstash "workspace"
+    sh "make test docker && touch \$(ls target/test-results/test/*.xml)"
+    archiveArtifacts "target/reports/tests/test/**"
+    junit "target/test-results/test/*.xml"
+    stash "workspace"
   }
-}, "Compile Docs": {
-  node{
-    stage("Compile Docs"){
+}
+
+parallel "Compile Docs": {
+  stage("Compile Docs"){
+    node{
       unstash "workspace"
-      sh "make docs" 
+      sh "make docs"
       archiveArtifacts "_build/html/**"
     }
   }
