@@ -1,22 +1,8 @@
 
-stage("Unit Test"){
-  node{
-    unstash "workspace"
-    sh "make test docker && touch \$(ls target/test-results/test/*.xml)"
-    archiveArtifacts "target/reports/tests/test/**"
-    junit "target/test-results/test/*.xml"
-    stash "workspace"
-  }
-}
+unit_test()
 
 parallel "Compile Docs": {
-  stage("Compile Docs"){
-    node{
-      unstash "workspace"
-      sh "make docs"
-      archiveArtifacts "_build/html/**"
-    }
-  }
+  compile_docs()
 }, "Static Code Analysis": {
   static_code_analysis()
 }
