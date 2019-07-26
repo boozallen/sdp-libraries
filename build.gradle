@@ -14,10 +14,6 @@ repositories {
     maven { url "http://repo.maven.apache.org/maven2" }
 }
 
-test{
-  maxHeapSize = "512m"
-}
-
 /*
     Jenkins-Spock requires that there be a target directory
     so it can find compiled test classes so realigning
