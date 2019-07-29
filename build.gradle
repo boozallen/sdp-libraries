@@ -28,7 +28,7 @@ sourceSets{
                 besides their unit-tests
             */
             srcDirs = getLibraries()
-            exclude "**/unit-tests"
+            exclude "**/unit-tests", "**/library_config.groovy"
         }
     }
     test{
