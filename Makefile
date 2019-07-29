@@ -28,10 +28,16 @@ docs: ## builds documentation in _build/html
       ## run make docs live for hot reloading of edits during development
 	make clean
 	make image
-	make get-remote-docs
 
-	@if [ "$(filter-out $@,$(MAKECMDGOALS))" = "live" ]; then\
+	$(eval goal := $(filter-out $@,$(MAKECMDGOALS)))
+	@if [ "$(goal)" = "live" ]; then\
 		docker run -p 8000:8000 -v $(shell pwd):/app sdp-docs sphinx-autobuild -b html $(ALLSPHINXOPTS) . $(BUILDDIR)/html -H 0.0.0.0;\
+	elif [ "$(goal)" = "deploy" ]; then\
+		$(eval old_remote := $(shell git remote get-url origin)) \
+		git remote set-url origin https://$(user):$(token)@github.com/boozallen/sdp-libraries.git ;\
+		docker run -v $(shell pwd):/app sdp-docs sphinx-versioning push --show-banner . gh-pages . ;\
+		echo git remote set-url origin $(old_remote) ;\
+		git remote set-url origin $(old_remote) ;\
 	else\
 		docker run -v $(shell pwd):/app sdp-docs $(SPHINXBUILD) -M html "$(SOURCEDIR)" "$(BUILDDIR)" $(SPHINXOPTS) $(O);\
 	fi
