@@ -19,7 +19,6 @@ public class DeployToSpec extends JenkinsPipelineSpecification {
     DeployTo = loadPipelineScriptForTest("openshift/deploy_to.groovy")
     explicitlyMockPipelineVariable("out")
     explicitlyMockPipelineVariable("push")
-    explicitlyMockPipelineVariable("git")
     explicitlyMockPipelineStep("withGit")
     explicitlyMockPipelineStep("inside_sdp_image")
     explicitlyMockPipelineStep("retag")
@@ -521,8 +520,8 @@ public class DeployToSpec extends JenkinsPipelineSpecification {
       DeployTo(app_env)
     then:
       1 * getPipelineMock("echo")("updating values file -> values.env.yaml")
-      1 * getPipelineMock("git.call")( [add: "values.env.yaml"] )
-      1 * getPipelineMock("git.call")( [commit: "Updating values.env.yaml for unit-test images"])
-      1 * getPipelineMock("git.call")( getPipelineMock("push") )
+      1 * getPipelineMock("git")( [add: "values.env.yaml"] )
+      1 * getPipelineMock("git")( [commit: "Updating values.env.yaml for unit-test images"])
+      1 * getPipelineMock("git")( getPipelineMock("push") )
   }
 }
