@@ -38,7 +38,7 @@ Example Configuration Snippet
 
 Results
 #######
-.. image:: ../../images/owasp_zap/report.png
+.. image:: ../.docs/images/owasp_zap/report.png
    :alt: OWASP ZAP example
 
 .. _OWASP Zed Attack Proxy (ZAP): https://www.owasp.org/index.php/OWASP_Zed_Attack_Proxy_Project
