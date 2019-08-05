@@ -53,9 +53,9 @@ by jenkins.
 Report Index
 ############
 
-.. image:: ../../../docs/images/a11y/index.png
+.. image:: ../.docs/images/a11y/index.png
 
 Report of a specific URL
 ########################
 
-.. image:: ../../../docs/images/a11y/report.png
+.. image:: ../.docs/images/a11y/report.png

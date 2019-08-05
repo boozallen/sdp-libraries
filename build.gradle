@@ -27,8 +27,8 @@ sourceSets{
                 source directory for tests is each library directory
                 besides their unit-tests
             */
-            //srcDirs = getLibraries()
-            exclude "**/unit-tests"
+            srcDirs = getLibraries()
+            exclude "**/unit-tests", "**/library_config.groovy"
         }
     }
     test{
