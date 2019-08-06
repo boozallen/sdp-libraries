@@ -102,5 +102,5 @@ dependencies {
     jenkinsTest group: "org.jenkins-ci.plugins", name: "docker-workflow", version: "1.17"
 
     //our plugin
-    jenkinsTest group: 'org.jenkins-ci.plugins', name: "templating-engine", version: "1.1.1"
+    jenkinsPlugins 'org.jenkins-ci.plugins:templating-engine:1.3'
 }
