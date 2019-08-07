@@ -1,6 +1,6 @@
 # PR Details
 
-<!--- Provide a general summary of your changes in the Title above -->
+<!--- Provide a general summary of your changes -->
 
 ## Description
 
@@ -26,7 +26,7 @@
 <!--- Go over all the following points, and put an `x` in all the boxes that apply. -->
 <!--- If you're unsure about any of these, don't hesitate to ask. We're here to help! -->
 
-- [ ] My change requires a change to the documentation.
+- [ ] I am submitting this pull request to the appropriate branch
+- [ ] I have labeled this pull request appropriately
 - [ ] I have updated the documentation accordingly.
 - [ ] All new and existing tests passed.
-- [ ] I have updated the Change Log appropriately. 
