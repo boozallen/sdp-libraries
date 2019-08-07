@@ -110,7 +110,7 @@ We ask that the documentation include
 How do I test my changes?
 -------------------------
 
-Check out `our awesome documentation`_ on writing unit tests.
+Check out `our documentation on writing unit tests`_.
 
 
 Where can I report a bug?
@@ -155,7 +155,7 @@ through the Gitter and Slack channels mentioned above.
 .. _Top 10 Best Practices for Jenkins Pipeline Plugin: https://www.cloudbees.com/blog/top-10-best-practices-jenkins-pipeline-plugin
 .. _Groovy Style Guide: https://groovy-lang.org/style-guide.html
 .. _resources are available online: http://docutils.sourceforge.net/rst.html#user-documentation
-.. _our awesome documentation: https://boozallen.github.io/sdp-libraries/.docs/pages/unit-testing/index.html
+.. _our documentation on writing unit tests: https://boozallen.github.io/sdp-libraries/.docs/pages/unit-testing/index.html
 .. _GitHub issue: https://help.github.com/en/articles/creating-an-issue
 .. _our Gitter channel: https://gitter.im/jenkinsci/templating-engine-plugin
 .. _our documentation: https://boozallen.github.io/sdp-docs/html/index.html
