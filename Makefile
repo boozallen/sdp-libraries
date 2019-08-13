@@ -35,7 +35,7 @@ docs: ## builds documentation in _build/html
 	elif [ "$(goal)" = "deploy" ]; then\
 		$(eval old_remote := $(shell git remote get-url origin)) \
 		git remote set-url origin https://$(user):$(token)@github.com/boozallen/sdp-libraries.git ;\
-		docker run -v $(shell pwd):/app sdp-docs sphinx-versioning push --show-banner . gh-pages . ;\
+		docker run -v $(shell pwd):/app sdp-docs sphinx-versioning --local-conf ./conf.py push --show-banner . gh-pages . ;\
 		echo git remote set-url origin $(old_remote) ;\
 		git remote set-url origin $(old_remote) ;\
 	else\

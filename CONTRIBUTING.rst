@@ -1,7 +1,8 @@
-.. _`SDP Libraries Contribution Guide`:
+.. _`Contribution Guide`:
 
-SDP Libraries Contribution Guide
-================================
+==================
+Contribution Guide
+==================
 
 Thanks for taking the time to read this! Whether you have an idea for a great
 feature, or have already made some improvements that you want to contribute,
