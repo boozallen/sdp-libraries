@@ -10,11 +10,15 @@ import com.homeaway.devtools.jenkins.testing.JenkinsPipelineSpecification
 public class BuildSpec extends JenkinsPipelineSpecification {
 
   def Build = null
+  def config
 
   def setup() {
     Build = loadPipelineScriptForTest("./docker/build.groovy")
     explicitlyMockPipelineStep("get_images_to_build")
     explicitlyMockPipelineStep("login_to_registry")
+    config = GroovyMock(Map)
+    config.getBuild_strategy() >> {return null}
+    Build.getBinding().setVariable("config", config)
 
     getPipelineMock("get_images_to_build")() >> {
       def images = []
@@ -22,6 +26,8 @@ public class BuildSpec extends JenkinsPipelineSpecification {
       images << [registry: "reg2", repo: "repo2", context: "context2", tag: "tag2"]
       return images
     }
+
+
   }
 
   def "Unstash workspace Before Building Images" () {
@@ -58,4 +64,28 @@ public class BuildSpec extends JenkinsPipelineSpecification {
       1 * getPipelineMock("sh")("docker push reg2/repo2:tag2")
   }
 
+  def "Wrong config.build_strategy Throws Error" () {
+    setup:
+    config = GroovyMock(Map)
+    Build.getBinding().setVariable("config", config)
+    config.getBuild_strategy() >> { return "wrong_build_strategy" }
+
+    when:
+    Build()
+    then:
+    1 * getPipelineMock("error")({it.contains("build strategy: ") && it.contains("wrong_build_strategy") })
+  }
+
+  def "docker-compose config.build_strategy calls docker_compose_build" () {
+    setup:
+    explicitlyMockPipelineStep("docker_compose_build")
+    config = GroovyMock(Map)
+    Build.getBinding().setVariable("config", config)
+    config.getBuild_strategy() >> { return "docker-compose" }
+
+    when:
+    Build()
+    then:
+    1 * getPipelineMock("docker_compose_build")()
+  }
 }
