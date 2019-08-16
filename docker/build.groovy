@@ -10,12 +10,21 @@ def call(){
 
       login_to_registry()
 
-      def images = get_images_to_build()
-      images.each{ img ->
-        sh "docker build ${img.context} -t ${img.registry}/${img.repo}:${img.tag}"
-        sh "docker push ${img.registry}/${img.repo}:${img.tag}"
+      def build_strategies = [ "docker-compose", "modules", "dockerfile"]
+      if (config.build_strategy)
+      if (!(config?.build_strategy in build_strategies)) {
+        error "build strategy: ${config?.build_strategy} not one of ${build_strategies}"
       }
 
+      if (config.build_strategy == "docker-compose") {
+         docker_compose_build()
+      } else {
+        def images = get_images_to_build()
+        images.each{ img ->
+          sh "docker build ${img.context} -t ${img.registry}/${img.repo}:${img.tag}"
+          sh "docker push ${img.registry}/${img.repo}:${img.tag}"
+        }
+      }
     }
   }
 }
