@@ -92,7 +92,6 @@ void call(app_env){
       inside_sdp_image "k8s-helm", {
         withKubeConfig([credentialsId: k8s_credential , contextName: k8s_context]) {
           withEnv(["TILLER_NAMESPACE=${tiller_namespace}"]) {
-            sh 'kubectl get pods'
             this.update_values_file( values_file, config_repo )
             this.do_release release, values_file
           }
