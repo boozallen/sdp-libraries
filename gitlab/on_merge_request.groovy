@@ -33,8 +33,6 @@ void call(Map args = [:], body){
 def get_source_branch(){
   node{
     def ghUrl = "${env.GIT_URL.split("/")[0..-3].join("/")}"
-    def repo 
-    def org 
     def cred_id = env.GIT_CREDENTIAL_ID
     withCredentials([usernamePassword(credentialsId: cred_id, passwordVariable: 'PAT', usernameVariable: 'USER')]) {
       if ((env.ORG_NAME).isEmpty())
@@ -48,7 +46,7 @@ def get_source_branch(){
       GitLabApi gl = new GitLabApi(ghUrl, PAT)
       sourceBranch =  gl.getMergeRequestApi().getMergeRequest(projectName.toString(), env.CHANGE_ID.toInteger()).getSourceBranch() 
       println "RETURNING SOURCE BRANCH NAME: ${sourceBranch}"
-     return sourceBranch
+      return sourceBranch
     }
   }
 }
