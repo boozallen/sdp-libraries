@@ -132,7 +132,7 @@ An example of helm configurations:
       }
     }
     libraries{
-      openshift{
+      kubernetes{
         helm_configuration_repository = "https://github.boozallencsn.com/Red-Hat-Summit/helm-configuration.git"
         helm_configuration_repository_credential = "github"
         tiller_namespace = "rhs-tiller"
@@ -176,7 +176,7 @@ An example of these settings' usage:
       }
     }
     libraries{
-      openshift{
+      kubernetes{
         helm_configuration_repository = "https://github.boozallencsn.com/Red-Hat-Summit/helm-configuration.git"
         helm_configuration_repository_credential = "github"
         tiller_namespace = "rhs-tiller"
@@ -228,7 +228,7 @@ Putting It All Together
       }
     }
     libraries{
-      openshift{
+      kubernetes{
         k8s_credential = "dev-test-clusters"
         helm_configuration_repository = "https://github.boozallencsn.com/Red-Hat-Summit/helm-configuration.git"
         helm_configuration_repository_credential = "github"
