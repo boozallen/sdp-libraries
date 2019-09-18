@@ -34,7 +34,7 @@ def call(){
         findFiles(glob: "*/Dockerfile").collect{ it.path.split("/").first() }.each{ service ->
           images.push([
             registry: image_reg,
-            repo: "${path_prefix}${env.REPO_NAME}_${service}",
+            repo: "${path_prefix}${env.REPO_NAME}_${service}".toLowerCase(),
             tag: env.GIT_SHA,
             context: service
           ])
