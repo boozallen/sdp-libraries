@@ -12,8 +12,8 @@ def call(){
 
       def images = get_images_to_build()
       images.each{ img ->
-        sh "docker build ${img.context} -t ${img.registry}/${img.repo}:${img.tag}"
-        sh "docker push ${img.registry}/${img.repo}:${img.tag}"
+        sh "docker build ${img.context} -t ${img.registry}/${img.repo.toLowerCase()}:${img.tag}"
+        sh "docker push ${img.registry}/${img.repo.toLowerCase()}:${img.tag}"
       }
 
     }
