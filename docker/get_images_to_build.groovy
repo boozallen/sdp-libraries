@@ -44,7 +44,7 @@ def call(){
       case null:
         images.push([
           registry: image_reg,
-          repo: "${path_prefix}${env.REPO_NAME}",
+          repo: "${path_prefix}${env.REPO_NAME}".toLowerCase(),
           tag: env.GIT_SHA,
           context: "."
         ])
