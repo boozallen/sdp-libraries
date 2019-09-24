@@ -98,12 +98,12 @@ public class GetImagesToBuildSpec extends JenkinsPipelineSpecification {
       imageList == [
         [
           registry: "test_registry",
-          repo: "Vulcan_planet",
+          repo: "vulcan_planet",
           context: "planet",
           tag: "1234abcd"
         ], [
           registry: "test_registry",
-          repo: "Vulcan_planet2",
+          repo: "vulcan_planet2",
           context: "planet2",
           tag: "1234abcd"
         ]
@@ -119,7 +119,7 @@ public class GetImagesToBuildSpec extends JenkinsPipelineSpecification {
     when:
       def imageList = GetImagesToBuild()
     then:
-      imageList == [[registry: "test_registry", repo: "Vulcan", context: ".", tag: "5678efgh"]]
+      imageList == [[registry: "test_registry", repo: "vulcan", context: ".", tag: "5678efgh"]]
   }
 
 }
