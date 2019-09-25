@@ -41,6 +41,7 @@ Library Configuration Options
 
 .. csv-table:: NPM Library Configuration Options
    :header: "Field", "Description", "Default Value", "Options"
+   "nodeImage", "the image in which the commands are executed", ""node:10.16.0-stretch-slim"
    "stash.excludes", "files to exclude", "node_modules/**",
    "stash.includes", "files to exclude", "**",
 
