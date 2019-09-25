@@ -42,7 +42,7 @@ Library Configuration Options
 .. csv-table:: NPM Library Configuration Options
    :header: "Field", "Description", "Default Value", "Options"
    "stash.excludes", "files to exclude", "node_modules/**",
-   "stash.includes", "files to exclude", "node_modules/**",
+   "stash.includes", "files to exclude", "**",
 
 
 External Dependencies
