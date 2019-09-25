@@ -2,7 +2,6 @@ void call(){
   node{
     stage('NPM Package Analysis') {
       unstash "workspace"
-      try {
         // npm_base: path from the root of your repository to the NPM project directory
         def npm_base = (config.npm_base instanceof String) ? config.npm_base : ""
 
@@ -32,12 +31,7 @@ void call(){
             }
         }
 
-        archiveArtifacts artifacts: "${audit_results_file}"
-      }catch(any){
-        println "issue with npm audit"
-        unstable("issue with npm audit")
-      }
-
+        archiveArtifacts allowEmptyArchive: true, artifacts: "${audit_results_file}"
     }
   }
 }
