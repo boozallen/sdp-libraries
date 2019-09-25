@@ -21,12 +21,12 @@ Configuration
       npm
     }
 
-================================
-Pipeline Template Business Logic
-================================
 
-The NPM library contributes some helper methods to help with
-pipeline template orchestration.
+Steps Provided
+==============
+- unit_test()
+- npm_audit()
+- build()
 
 .. csv-table:: NPM Helper Methods
    :header: "Method", "Description"
