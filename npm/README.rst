@@ -37,7 +37,7 @@ pipeline template orchestration.
 
 
 Library Configuration Options
-#############################
+=============================
 
 .. csv-table:: NPM Library Configuration Options
    :header: "Field", "Description", "Default Value", "Options"
