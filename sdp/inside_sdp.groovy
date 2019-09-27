@@ -12,7 +12,7 @@
     sh "helm version"
   }
 */
-void call(String img, Map params, Closure body){
+void call(String img, Map params = [:], Closure body){
   
   config.images ?: { error "SDP Image Config not defined in Pipeline Config" } ()
   
@@ -31,7 +31,7 @@ void call(String img, Map params, Closure body){
   def docker_command = params.command ?: { return ""}()
   
   docker.withRegistry(sdp_img_reg, sdp_img_repo_cred){
-    docker.image("${sdp_img_repo}/${img}").inside("${docker_args}", docker_command){
+    docker.image("${sdp_img_repo}/${img}").inside("${docker_args}", "${docker_command}"){
       body()
     }
   }
