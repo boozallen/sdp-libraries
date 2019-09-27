@@ -88,7 +88,19 @@ public class InsideSdpSpec extends JenkinsPipelineSpecification {
     } catch(DummyException e) {}
     then:
     _ * getPipelineMock("docker.image")(_) >> explicitlyMockPipelineVariable("Image")
-    1 * getPipelineMock("Image.inside")("","", _ as Closure)
+    1 * getPipelineMock("Image.inside")("",_, _ as Closure)
+  }
+
+  def "If no value for params.command, default to empty string" () {
+    setup:
+    InsideSdp.getBinding().setVariable("config", [images: [registry: "testregistry", repository: "restrepo", cred: "testcred"]])
+    when:
+    try {
+      InsideSdp("test-image", {echo 'testing 123'})
+    } catch(DummyException e) {}
+    then:
+    _ * getPipelineMock("docker.image")(_) >> explicitlyMockPipelineVariable("Image")
+    1 * getPipelineMock("Image.inside")(_,"", _ as Closure)
   }
 
   def "Login to the Docker registry specified in the pipeline config" () {
@@ -122,6 +134,19 @@ public class InsideSdpSpec extends JenkinsPipelineSpecification {
     body.resolveStrategy == Closure.OWNER_FIRST
   }
 
+  def "Ensure the given command is used in the inside call" () {
+    setup:
+    InsideSdp.getBinding().setVariable("config", [images: [registry: "testregistry", repository: "restrepo", cred: "testcred", docker_args: "testargs"]])
+    getPipelineMock("docker.image")(_) >> explicitlyMockPipelineVariable("Image")
+    def body = {echo 'testing 123'}
+    def command = "docker command"
+    when:
+    InsideSdp("test-image", [command:command], body)
+    then:
+    1 * getPipelineMock("Image.inside")("testargs", command, _ as Closure)
+    1 * getPipelineMock('echo')('testing 123')
+  }
+
   def "Execute the given closure within the given image" () {
     setup:
     InsideSdp.getBinding().setVariable("config", [images: [registry: "testregistry", repository: "restrepo", cred: "testcred", docker_args: "testargs"]])
@@ -130,6 +155,7 @@ public class InsideSdpSpec extends JenkinsPipelineSpecification {
     when:
     InsideSdp("test-image", body)
     then:
+    1 * getPipelineMock("Image.inside")("testargs", "", _ as Closure)
     1 * getPipelineMock('echo')('testing 123')
   }
 
