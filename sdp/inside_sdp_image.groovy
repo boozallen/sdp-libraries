@@ -12,24 +12,30 @@
     sh "helm version"
   }
 */
-void call(String img, Closure body){
-  
+void call(String img, Map params = [:], Closure body){
+
+  def errors = []
+
   config.images ?: { error "SDP Image Config not defined in Pipeline Config" } ()
   
   def sdp_img_reg = config.images.registry ?:
-                    { error "SDP Image Registry not defined in Pipeline Config" } ()
+                    { errors << "SDP Image Registry not defined in Pipeline Config" } ()
   
-  def sdp_img_repo = config.images.repository ?:
-                     { return "sdp" }()
+  def sdp_img_repo = config.images.repository ?: "sdp"
                      
   def sdp_img_repo_cred = config.images.cred ?:
-                          { error "SDP Image Repository Credential not defined in Pipeline Config" }()
+                          { errors << "SDP Image Repository Credential not defined in Pipeline Config" }()
   
-  def docker_args = config.images.docker_args ?:
-                    { return ""}()
+  def docker_args = params.args ?: ( config.images.docker_args ?: "" )
+
+  def docker_command = params.command ?: ""
+
+  if(!errors.empty) {
+    error errors.join("; ")
+  }
   
   docker.withRegistry(sdp_img_reg, sdp_img_repo_cred){
-    docker.image("${sdp_img_repo}/${img}").inside("${docker_args}"){
+    docker.image("${sdp_img_repo}/${img}").inside("${docker_args}", "${docker_command}"){
       body()
     }
   }
