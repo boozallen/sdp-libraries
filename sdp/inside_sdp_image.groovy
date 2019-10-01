@@ -20,13 +20,13 @@ void call(String img, Map params = [:], Closure body){
   // + is generally left-associative : w + x + y + z -> ((w + x) + y) + z
   // groovy Map.plus(rightMap) gives precendence to right's values
 
-  def callConfig = config
+  def callConfig = config.images ?: [:]
 
   if( libraryConfig?.images ){
-    callConfig = callConfig + libraryConfig
+    callConfig = callConfig + libraryConfig.images
   }
 
-  if( imageConfig?.images ){
+  if( imageConfig ){
     callConfig = callConfig + imageConfig
   }
 
@@ -36,15 +36,15 @@ void call(String img, Map params = [:], Closure body){
 
   def errors = []
 
-  def sdp_img_reg = callConfig.images.registry ?:
+  def sdp_img_reg = callConfig.registry ?:
                     { errors << getMissingRegistryMsg() } ()
   
-  def sdp_img_repo = callConfig.images.repository ?: "sdp"
+  def sdp_img_repo = callConfig.repository ?: "sdp"
                      
-  def sdp_img_repo_cred = callConfig.images.cred ?:
+  def sdp_img_repo_cred = callConfig.cred ?:
                           { errors << getMissingCredentialMsg() }()
   
-  def docker_args = params.args ?: ( callConfig.images.docker_args ?: "" )
+  def docker_args = params.args ?: ( callConfig.docker_args ?: "" )
 
   def docker_command = params.command ?: ""
 
