@@ -14,19 +14,37 @@
 */
 void call(String img, Map params = [:], Closure body){
 
+  Map libraryConfig = body.getOwner().getConfig()
+  Map imageConfig = libraryConfig?.images?.getAt(img)
+
+  // + is generally left-associative : w + x + y + z -> ((w + x) + y) + z
+  // groovy Map.plus(rightMap) gives precendence to right's values
+
+  def callConfig = config
+
+  if( libraryConfig?.images ){
+    callConfig = callConfig + libraryConfig
+  }
+
+  if( imageConfig?.images ){
+    callConfig = callConfig + imageConfig
+  }
+
+  if( !callConfig.images ){
+    error getMissingConfigMsg()
+  }
+
   def errors = []
 
-  config.images ?: { error "SDP Image Config not defined in Pipeline Config" } ()
+  def sdp_img_reg = callConfig.images.registry ?:
+                    { errors << getMissingRegistryMsg() } ()
   
-  def sdp_img_reg = config.images.registry ?:
-                    { errors << "SDP Image Registry not defined in Pipeline Config" } ()
-  
-  def sdp_img_repo = config.images.repository ?: "sdp"
+  def sdp_img_repo = callConfig.images.repository ?: "sdp"
                      
-  def sdp_img_repo_cred = config.images.cred ?:
-                          { errors << "SDP Image Repository Credential not defined in Pipeline Config" }()
+  def sdp_img_repo_cred = callConfig.images.cred ?:
+                          { errors << getMissingCredentialMsg() }()
   
-  def docker_args = params.args ?: ( config.images.docker_args ?: "" )
+  def docker_args = params.args ?: ( callConfig.images.docker_args ?: "" )
 
   def docker_command = params.command ?: ""
 
@@ -39,4 +57,16 @@ void call(String img, Map params = [:], Closure body){
       body()
     }
   }
+}
+
+String getMissingConfigMsg(){
+  return "SDP Image Config is empty in Pipeline Config, Caller Library/Image Config"
+}
+
+String getMissingRegistryMsg(){
+  return "SDP Image Registry not defined in Pipeline Config, Caller Library/Image Config"
+}
+
+String getMissingCredentialMsg(){
+  return "SDP Image Repository Credential not defined in Pipeline Config, Caller Library/Image Config"
 }
