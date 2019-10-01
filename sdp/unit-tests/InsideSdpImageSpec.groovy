@@ -210,7 +210,8 @@ public class InsideSdpImageSpec extends JenkinsPipelineSpecification {
     contextConfig == testConfig
     contextConfig != sdpConfig
   }
-  def "Ensure libraryConfig.image is used instead of sdp config or library config" () {
+
+  def "Ensure libraryConfig'specific image is used instead of sdp config or library config" () {
     setup:
     def sdpConfig = [images: [registry: "testregistry", repository: "restrepo", cred: "testcred", docker_args: "testargs"]]
     def libraryConfig = [images: [registry: "libregistry", repository: "librepo", cred: "libcred", docker_args: "libargs", "test-image":[
@@ -219,7 +220,7 @@ public class InsideSdpImageSpec extends JenkinsPipelineSpecification {
     ]]
     testConfig = libraryConfig
     InsideSdpImage.getBinding().setVariable("config", sdpConfig )
-    1 * getPipelineMock("docker.image")("librepo/test-image") >> explicitlyMockPipelineVariable("Image")
+    1 * getPipelineMock("docker.image")("imagerepo/test-image") >> explicitlyMockPipelineVariable("Image")
     def contextConfig = null
     def body = { echo 'testing 123'; contextConfig = config}
     def outer = { InsideSdpImage.call("test-image", body) }
