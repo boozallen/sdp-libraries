@@ -1,7 +1,7 @@
 void call(){
   stage("build"){
     def nodeImage = config.node_image ?: "node:latest"
-    def buildScript = config.build_script ?: "build"
+    def buildScript = config.build_cmd ?: "build"
     def installScript = config.build_install ?: "install"
 
     if(fileExists("package.json")){
@@ -15,7 +15,12 @@ void call(){
 
     docker.image(nodeImage).inside{
       unstash "workspace"
-      sh "${installScript ? 'npm ' + installScript + ' && ' : ''}npm run ${buildScript}"
+      if( installScript ){
+        sh "npm ${installScript}"
+      }
+
+      sh "npm run ${buildScript}"
+
       stash name: "workspace",
         includes: config.stash?.includes ?: "**",
         excludes: config.stash?.excludes ?: "node_modules/**",
