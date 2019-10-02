@@ -3,13 +3,7 @@
 NPM
 -------
 
-This library provides methods that help with the business logic
-defined within pipeline templates. 
-
-.. note:: 
-  
-    It also provides additional functionality that can be useful for library
-    developers to get scm metadata or interact with a remote gitlab repository.
+This library provides a wrapper for NPM functionality. Currently, functionality around build, unit testing
 
 =============
 Configuration
@@ -18,7 +12,11 @@ Configuration
 .. code:: groovy 
 
     libraries{
-      npm
+      npm{
+         build_install = "install"
+         build_cmd = "build"
+         node_image = "node:10.16.0-stretch-slim"
+      }
     }
 
 
@@ -31,8 +29,8 @@ Steps Provided
 .. csv-table:: NPM Helper Methods
    :header: "Method", "Description"
 
-   "unit_test", "run unit test: ``npm run test``"
-   "build", "build the code/project: ``npm run build``"
+   "unit_test", "runs unit test configured via test_cmd and test_install: ``npm run test``"
+   "build", "build the code/project via build_cmd and build_install: ``npm run build``"
    "npm_audit", "run ``npm audit``"
 
 
@@ -41,9 +39,15 @@ Library Configuration Options
 
 .. csv-table:: NPM Library Configuration Options
    :header: "Field", "Description", "Default Value", "Options"
-   "nodeImage", "the image in which the commands are executed", ""node:10.16.0-stretch-slim"
+   "node_image", "the image in which the commands are executed", "node:latest"
    "stash.excludes", "files to exclude", "node_modules/**",
-   "stash.includes", "files to exclude", "**",
+   "stash.includes", "files to include", "**",
+   "test_cmd", "the command in 'npm run $test_cmd' that is executed for testing in the 'unit_test' step", "test"
+   "test_install", "the command in 'npm $test_install' that is executed prior to the test execution", "install"
+   "build_cmd", "the command in 'npm run $build_cmd' that is executed for the 'build' step", "build"
+   "build_install", "the command in 'npm $build_install' that is executed prior to the build execution", "install"
+   "npm_base", "the base directory under workspace used by 'npm audit'", ""
+   "use_npm_default_registry", "whether to use 'https://registry.npmjs.org'", false
 
 
 External Dependencies
