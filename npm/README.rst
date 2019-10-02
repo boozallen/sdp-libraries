@@ -48,6 +48,7 @@ Library Configuration Options
    "build_install", "the command in 'npm $build_install' that is executed prior to the build execution", "install"
    "npm_base", "the base directory under workspace used by 'npm audit'", ""
    "use_npm_default_registry", "whether to use 'https://registry.npmjs.org'", false
+   "test_report_path", "the path for the test report output file", "junit.xml"
 
 
 External Dependencies
