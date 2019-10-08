@@ -5,7 +5,13 @@
 
 def call(){
   stage "Building Docker Image", {
-    def remove_local_image = config.remove_local_image ?: false
+    def remove_local_image = false
+    if (config.remove_local_image){
+        if (!(config.remove_local_image instanceof Boolean)){
+            error "remove_local_image must be a Boolean, received [${config.remove_local_image.getClass()}]"
+        }
+        remove_local_image = config.remove_local_image
+    }
     node{
       unstash "workspace"
 
