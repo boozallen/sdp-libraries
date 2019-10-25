@@ -11,6 +11,8 @@ public class InsideSdpImageSpec extends JenkinsPipelineSpecification {
 
   def InsideSdpImage = null
 
+  def testConfig = [:]
+
   public static class DummyException extends RuntimeException {
 		public DummyException(String _message) { super( _message ); }
 	}
@@ -96,7 +98,7 @@ public class InsideSdpImageSpec extends JenkinsPipelineSpecification {
       1 * getPipelineMock("Image.inside")("testargs", _ as Closure)
   }
 
-  def "Ensure the closure's resolveStrategy is set to DELEGATE_FIRST" () {
+  def "Ensure the closure's resolveStrategy is set to OWNER_FIRST, the default" () {
     setup:
       InsideSdpImage.getBinding().setVariable("config", [images: [registry: "testregistry", repository: "restrepo", cred: "testcred", docker_args: "testargs"]])
       getPipelineMock("docker.image")(_) >> explicitlyMockPipelineVariable("Image")
@@ -104,18 +106,7 @@ public class InsideSdpImageSpec extends JenkinsPipelineSpecification {
     when:
       InsideSdpImage("test-image", body)
     then:
-      body.resolveStrategy == Closure.DELEGATE_FIRST
-  }
-
-  def "Ensure that the closure's delegate is set to the current script" () {
-    setup:
-      InsideSdpImage.getBinding().setVariable("config", [images: [registry: "testregistry", repository: "restrepo", cred: "testcred", docker_args: "testargs"]])
-      getPipelineMock("docker.image")(_) >> explicitlyMockPipelineVariable("Image")
-      def body = {echo 'testing 123'}
-    when:
-      InsideSdpImage("test-image", body)
-    then:
-      body.delegate == InsideSdpImage
+      body.resolveStrategy == Closure.OWNER_FIRST
   }
 
   def "Execute the given closure within the given image" () {
@@ -127,5 +118,27 @@ public class InsideSdpImageSpec extends JenkinsPipelineSpecification {
       InsideSdpImage("test-image", body)
     then:
       1 * getPipelineMock('echo')('testing 123')
+  }
+
+  def "Ensure outer call config is used instead of sdp config" () {
+    setup:
+    def sdpConfig = [images: [registry: "testregistry", repository: "restrepo", cred: "testcred", docker_args: "testargs"]]
+    InsideSdpImage.getBinding().setVariable("config", sdpConfig )
+    getPipelineMock("docker.image")(_) >> explicitlyMockPipelineVariable("Image")
+    def contextConfig = null
+    def body = { echo 'testing 123'; contextConfig = config}
+    def outer = { InsideSdpImage.call("test-image", body) }
+
+
+    when:
+    outer()
+    then:
+    1 * getPipelineMock('echo')('testing 123')
+    contextConfig == testConfig
+    contextConfig != sdpConfig
+  }
+
+  def getConfig(){
+    return testConfig
   }
 }
