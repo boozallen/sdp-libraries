@@ -11,11 +11,11 @@ void call(app_env){
      String bucket = app_env.S3_BUCKET ?: { error "${app_env.short_name} has no S3_BUCKET"}
      String oldBucket
      Boolean firstEnv
-     if(!app_env.previous()){
+     if(!app_env.previous){
        firstEnv = true
-     } else if( app_env.previous().S3_BUCKET ){
+     } else if( app_env.previous.S3_BUCKET ){
        firstEnv = false
-       oldBucket = app_env.previous().S3_BUCKET
+       oldBucket = app_env.previous.S3_BUCKET
      } else {
        error "application environment ${app_env.short_name} is not the first environment and has no S3_BUCKET in the previous app environment."
      }
