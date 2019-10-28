@@ -5,6 +5,13 @@
 
 def call(){
   stage "Building Docker Image", {
+    def remove_local_image = false
+    if (config.remove_local_image){
+        if (!(config.remove_local_image instanceof Boolean)){
+            error "remove_local_image must be a Boolean, received [${config.remove_local_image.getClass()}]"
+        }
+        remove_local_image = config.remove_local_image
+    }
     node{
       unstash "workspace"
 
@@ -14,6 +21,7 @@ def call(){
       images.each{ img ->
         sh "docker build ${img.context} -t ${img.registry}/${img.repo}:${img.tag}"
         sh "docker push ${img.registry}/${img.repo}:${img.tag}"
+        if (remove_local_image) sh "docker rmi -f ${img.registry}/${img.repo}:${img.tag} 2> /dev/null"
       }
 
     }

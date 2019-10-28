@@ -15,6 +15,7 @@ public class BuildSpec extends JenkinsPipelineSpecification {
     Build = loadPipelineScriptForTest("./docker/build.groovy")
     explicitlyMockPipelineStep("get_images_to_build")
     explicitlyMockPipelineStep("login_to_registry")
+    Build.getBinding().setVariable("config", [:])
 
     getPipelineMock("get_images_to_build")() >> {
       def images = []
@@ -56,6 +57,45 @@ public class BuildSpec extends JenkinsPipelineSpecification {
     then:
       1 * getPipelineMock("sh")("docker push reg1/repo1:tag1")
       1 * getPipelineMock("sh")("docker push reg2/repo2:tag2")
+  }
+
+  def "If value is true for config.remove_local_image,remove local image" () {
+    setup:
+      Build.getBinding().setVariable("config", [remove_local_image: true])
+    when:
+      Build()
+    then:
+      1 * getPipelineMock("sh")("docker rmi -f reg1/repo1:tag1 2> /dev/null")
+      1 * getPipelineMock("sh")("docker rmi -f reg2/repo2:tag2 2> /dev/null")
+  }
+
+  def "If value is false for config.remove_local_image,do not remove local image" () {
+    setup:
+      Build.getBinding().setVariable("config", [remove_local_image: false])
+    when:
+      Build()
+    then:
+      0 * getPipelineMock("sh")("docker rmi -f reg1/repo1:tag1 2> /dev/null")
+      0 * getPipelineMock("sh")("docker rmi -f reg2/repo2:tag2 2> /dev/null")
+  }
+
+  def "If value is null for config.remove_local_image,do not remove local image" () {
+    setup:
+      Build.getBinding().setVariable("config", [remove_local_image: null])
+    when:
+      Build()
+    then:
+      0 * getPipelineMock("sh")("docker rmi -f reg1/repo1:tag1 2> /dev/null")
+      0 * getPipelineMock("sh")("docker rmi -f reg2/repo2:tag2 2> /dev/null")
+  }
+
+  def "If value is not a Boolean for config.remove_local_image,throw error" () {
+    setup:
+      Build.getBinding().setVariable("config", [remove_local_image: "true"])
+    when:
+      Build()
+    then:
+      1 * getPipelineMock("error")(_)
   }
 
 }
