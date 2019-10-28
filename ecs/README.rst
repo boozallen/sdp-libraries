@@ -3,8 +3,9 @@
 ECS
 ------
 
-The ecs library will build container images and push them into an AWS ECS repository.
-
+The ECS library will build container images and push them into an AWS ECS repository.
+This library will update an existing task definition to reference a new container image and then redeploy the service managing the task definition.
+This library will only work if the master is hosted in an AWS resource (ECS container, EC2 instance) that has IAM permissions to perform the deployment
 
 Steps Provided
 ==============
