@@ -19,6 +19,7 @@ Library Configuration Options
 .. csv-table::  Docker Library Configuration Options
    :header: "Field", "Description", "Default Value"
 
+   "image", "The image used for execution", "gradle:latest"
    "build.modules", "The sub directories to be used for build", "*none*"
    "build.order", "ordering for directories if necessary", "*none"
    "test.modules", "The sub directories to be used for test", "*none*"
@@ -34,6 +35,8 @@ Example Configuration Snippet
 
    libraries{
      gradle_modules{
+       image = "gradle:latest"
+
        test{
          tasks{
            test

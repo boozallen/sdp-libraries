@@ -1,7 +1,8 @@
 void call(moduleName, String phase, moduleConfig){
   node{
     unstash "workspace"
-    docker.image("gradle-jfx").inside{
+    def image = config.image ?: "gradle:latest"
+    inside_sdp_image(image){
       if(!fileExists(moduleName)){
         error "Module ${moduleName} does not exist." 
       }
