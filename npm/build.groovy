@@ -10,7 +10,7 @@ void call(){
         error "cannot execute 'npm ${buildScript}'.  '${buildScript}' not found in scripts block of package.json file"
       }
     }else{
-      error "no package.json file found"
+      echo "no package.json file found"
     }
 
     docker.image(nodeImage).inside{
