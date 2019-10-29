@@ -6,9 +6,10 @@ void call(){
         def npm_base = config.npm_base ?: ""
 
         // use_npm_default_registry:  if the audit will use the default npm registry (https://registry.npmjs.org) or the project's registry,
-        def use_default_registry = (config.use_npm_default_registry instanceof Boolean) ? config.use_npm_default_registry : false
+        def use_default_registry = config.use_npm_default_registry ?: false
 
         def project_base = "${WORKSPACE}/${npm_base}"
+        def nodeImage = config.node_image ?: "node:latest"
 
         echo "Creating file for output."
         def timestamp = new Date().format("yyyy-MM-dd_HH-mm-ss", TimeZone.getTimeZone('UTC'))
@@ -16,7 +17,7 @@ void call(){
         sh "touch ${audit_results_file}"
 
         echo "Running npm audit"
-        def nodeImage = config.node_image ?: "node:latest"
+
         docker.image(nodeImage).inside{
             //create package-lock if not already present
             if( !(fileExists("${project_base}/package-lock.json"))) {
