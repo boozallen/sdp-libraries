@@ -22,6 +22,7 @@ void call(){
             //create package-lock if not already present
             if( !(fileExists("${project_base}/package-lock.json"))) {
                 sh "npm i --prefix ${project_base} --package-lock-only"
+              echo "creating ${project_base}/package-lock.json"
             }
             //run npm audit, using the set registry
             if(use_default_registry) {
