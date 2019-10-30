@@ -62,7 +62,7 @@ pull requests, and merges.
 
    "on_commit", "A direct commit to a branch"
    "on_pull_request", "A pull request was created or a developer pushed a commit to the source branch"
-   "on_change", "A combination of ``on_commit`` and ``on_pull_request``"
+   "on_change", "A combination of ``on_commit`` and ``on_merge``"
    "on_merge", "A pull request was merged into the branch."
 
 These methods take named parameters ``to`` and ``from`` indicating direction of the github
