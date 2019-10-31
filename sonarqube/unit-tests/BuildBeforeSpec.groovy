@@ -7,7 +7,7 @@ package sonarqube
 
 import com.homeaway.devtools.jenkins.testing.JenkinsPipelineSpecification
 import org.boozallen.plugins.jte.binding.TemplateBinding
-import org.boozallen.plugins.jte.binding.StepWrapper
+import org.boozallen.plugins.jte.binding.injectors.StepWrapper
 
 public class BuildBeforeSpec extends JenkinsPipelineSpecification {
 
@@ -19,19 +19,6 @@ public class BuildBeforeSpec extends JenkinsPipelineSpecification {
 
   def setup() {
     BuildBefore = loadPipelineScriptForTest("sonarqube/build_before.groovy")
-  }
-
-  def "context.step != static_code_analysis; nothing" () {
-    setup:
-    def context = [:]
-    TemplateBinding binding = Mock(TemplateBinding)
-    0 * binding.hasStep(_)
-    0 * binding.getVariable("config")
-
-    when:
-    BuildBefore.call(context)
-    then:
-    notThrown(Exception)
   }
 
   def "!require_build_step && !hasStep; nothing" () {
