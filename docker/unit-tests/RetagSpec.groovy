@@ -15,6 +15,7 @@ public class RetagSpec extends JenkinsPipelineSpecification {
     Retag = loadPipelineScriptForTest("docker/retag.groovy")
     explicitlyMockPipelineStep("login_to_registry")
     explicitlyMockPipelineStep("get_images_to_build")
+    Retag.getBinding().setVariable("config", [:])
   }
 
   def "Log Into Registry Before Pushing or Pulling Images" () {
@@ -54,6 +55,45 @@ public class RetagSpec extends JenkinsPipelineSpecification {
         1 * getPipelineMock("sh")("docker tag ${img.registry}/${img.repo}:tag_viejo ${img.registry}/${img.repo}:tag_nuevo")
         1 * getPipelineMock("sh")("docker push ${img.registry}/${img.repo}:tag_nuevo")
       }
+  }
+
+  def "If value is true for config.remove_local_image,remove local image" () {
+    setup:
+      Retag.getBinding().setVariable("config", [remove_local_image: true])
+    when:
+      Retag("tag_viejo", "tag_nuevo")
+    then:
+      1 * getPipelineMock("get_images_to_build")() >> [[registry: "Reg", repo: "Repo"]]
+      1 * getPipelineMock("sh")("docker rmi -f Reg/Repo:tag_nuevo 2> /dev/null")
+  }
+
+  def "If value is false for config.remove_local_image,do not remove local image" () {
+    setup:
+      Retag.getBinding().setVariable("config", [remove_local_image: false])
+    when:
+      Retag("tag_viejo", "tag_nuevo")
+    then:
+      1 * getPipelineMock("get_images_to_build")() >> [[registry: "Reg", repo: "Repo"]]
+      0 * getPipelineMock("sh")("docker rmi -f Reg/Repo:tag_nuevo 2> /dev/null")
+  }
+
+  def "If value is null for config.remove_local_image,do not remove local image" () {
+    setup:
+      Retag.getBinding().setVariable("config", [remove_local_image: null])
+    when:
+      Retag("tag_viejo", "tag_nuevo")
+    then:
+      1 * getPipelineMock("get_images_to_build")() >> [[registry: "Reg", repo: "Repo"]]
+      0 * getPipelineMock("sh")("docker rmi -f Reg/Repo:tag_nuevo 2> /dev/null")
+  }
+
+  def "If value is not a Boolean for config.remove_local_image,throw error" () {
+    setup:
+      Retag.getBinding().setVariable("config", [remove_local_image: "true"])
+    when:
+      Retag("tag_viejo", "tag_nuevo")
+    then:
+      1 * getPipelineMock("error")(_)
   }
 
 }

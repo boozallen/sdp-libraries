@@ -24,6 +24,7 @@ Example Configuration Snippet
         registry = "docker-registry.default.svc:5000"
         cred = "openshift-docker-registry"
         repo_path_prefix = "proj-images"
+        remove_local_image = true
      }
    }
 
@@ -37,6 +38,7 @@ Configurations
    "registry", "Where the container images produced during the pipeline builds are going to be pushed to", "none", "true"
    "cred", "Credentials used for the repository where different docker pipeline tools are stored.", "none", "true"
    "repo_path_prefix", "the part of the repository name between the registry name and the last forward-slash", "empty string", "false"
+   "remove_local_image", "Determines if the pipeline should remove the local image after building or retagging", "false", "false"
 
 External Dependencies
 =====================
