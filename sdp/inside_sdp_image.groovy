@@ -30,8 +30,6 @@ void call(String img, Closure body){
   
   docker.withRegistry(sdp_img_reg, sdp_img_repo_cred){
     docker.image("${sdp_img_repo}/${img}").inside("${docker_args}"){
-      body.resolveStrategy = Closure.DELEGATE_FIRST
-      body.delegate = this
       body()
     }
   }

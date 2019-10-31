@@ -19,11 +19,6 @@ public class DeployToSpec extends JenkinsPipelineSpecification {
     DeployTo = loadPipelineScriptForTest("openshift/deploy_to.groovy")
     explicitlyMockPipelineVariable("out")
     explicitlyMockPipelineVariable("push")
-
-    //mocks.remove("git") // seems that this git is brought in by jte being a dependency
-    //explicitlyMockPipelineVariable("git")
-
-
     explicitlyMockPipelineStep("withGit")
     explicitlyMockPipelineStep("inside_sdp_image")
     explicitlyMockPipelineStep("retag")
