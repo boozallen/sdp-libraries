@@ -41,6 +41,7 @@ Library Configuration Options
 
 .. csv-table:: NPM Library Configuration Options
    :header: "Field", "Description", "Default Value", "Options"
+
    "node_image", "the image in which the commands are executed", "node:latest"
    "stash.excludes", "files to exclude", "node_modules/**",
    "stash.includes", "files to include", "**",
