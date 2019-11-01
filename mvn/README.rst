@@ -35,7 +35,8 @@ Library Configuration Options
 =============================
 
 .. csv-table:: NPM Library Configuration Options
-   :header: "Field", "Description", "Default Value", "Options"
+   :header: "Field", "Description", "Default Value"
+
    "image", "the image in which the commands are executed", "maven:3.6-jdk-8"
    "stash.excludes", "files to exclude", "**/*Test.java",
    "stash.includes", "files to include", "**",
