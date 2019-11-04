@@ -18,7 +18,7 @@ void call(String img, Map params = [:], Closure body){
   Map imageConfig = libraryConfig?.images?.getAt(img)
 
   // + is generally left-associative : w + x + y + z -> ((w + x) + y) + z
-  // groovy Map.plus(rightMap) gives precendence to right's values
+  // groovy Map.plus(rightMap) gives precedence to right's values
 
   def callConfig = config.images ?: [:]
 
