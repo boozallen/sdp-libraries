@@ -10,7 +10,7 @@ void call(){
     def installScript = config.test_install ?: "install"
     def failOnException = config.test_fail_on_exception ?: true
 
-    docker.image(nodeImage).inside{
+    inside_sdp_image(nodeImage){
       def test_results_file = config.test_report_path ?: "junit.xml"
 
       unstash "workspace"

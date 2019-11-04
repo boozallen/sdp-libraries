@@ -1,7 +1,7 @@
 void call(){
   stage(config.stage_name ?: "Python Unit test"){
     def image = config.docker_image ?: "python:3.7.4"
-    docker.image(image).inside{
+    inside_sdp_image(image){
       def test_results_file = config.test_report_path ?: "junit.xml"
 
       unstash "workspace"

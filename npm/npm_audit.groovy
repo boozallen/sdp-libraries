@@ -18,7 +18,7 @@ void call(){
 
         echo "Running npm audit"
 
-        docker.image(nodeImage).inside{
+        inside_sdp_image(nodeImage){
             //create package-lock if not already present
             if( !(fileExists("${project_base}/package-lock.json"))) {
                 sh "npm i --prefix ${project_base} --package-lock-only"

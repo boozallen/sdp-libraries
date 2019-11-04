@@ -13,7 +13,7 @@ void call(){
       echo "no package.json file found"
     }
 
-    docker.image(nodeImage).inside{
+    inside_sdp_image(nodeImage){
       unstash "workspace"
       if( installScript ){
         sh "npm ${installScript}"

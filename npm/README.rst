@@ -58,4 +58,5 @@ Library Configuration Options
 
 External Dependencies
 =====================
+depends on sdp-libraries/sdp/inside_sdp_image
 
