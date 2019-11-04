@@ -44,6 +44,31 @@ Example Configuration Snippet
      }
    }
 
+.. code:: groovy
+
+   libraries{
+     sdp{
+       images{
+         registry = "https://docker-registry.default.svc:5000"
+         repository = "sdp"
+         cred = "openshift-docker-registry"
+         docker_args = ""
+       }
+     }
+     libA{
+       images{
+         repository = "libA"
+         cred = "libA-docker-registry"
+         docker_args = "--network=host"
+         imageX{
+           registry = "https://docker.pkg.github.com"
+           repository = "imageX"
+           cred = "github-pkg"
+         }
+       }
+     }
+   }
+
 External Dependencies
 =====================
 
