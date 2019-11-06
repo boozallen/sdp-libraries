@@ -7,9 +7,9 @@ package sdp
 
 import com.homeaway.devtools.jenkins.testing.JenkinsPipelineSpecification
 
-public class InsideSdpImageSpec extends JenkinsPipelineSpecification {
+public class WithRunSdpImageSpec extends JenkinsPipelineSpecification {
 
-  def InsideSdpImage = null
+  def WithRunSdpImage = null
 
   def testConfig = [:]
 
@@ -20,14 +20,14 @@ public class InsideSdpImageSpec extends JenkinsPipelineSpecification {
 	}
 
   def setup() {
-    InsideSdpImage = loadPipelineScriptForTest("./sdp/inside_sdp_image.groovy")
+    WithRunSdpImage = loadPipelineScriptForTest("./sdp/with_run_sdp_image.groovy")
   }
 
   def "If no value for config.images, throw error" () {
     setup:
-      InsideSdpImage.getBinding().setVariable("config", [images: null])
+      WithRunSdpImage.getBinding().setVariable("config", [images: null])
     when:
-        InsideSdpImage("test-image", {echo 'testing 123'})
+        WithRunSdpImage("test-image", {echo 'testing 123'})
     then:
       1 * getPipelineMock("error")(emptyConfigMsg) >> {throw new DummyException("images error")}
       thrown(DummyException)
@@ -35,9 +35,9 @@ public class InsideSdpImageSpec extends JenkinsPipelineSpecification {
 
   def "If config.images.empty, throw error" () {
     setup:
-    InsideSdpImage.getBinding().setVariable("config", [images: [:]])
+    WithRunSdpImage.getBinding().setVariable("config", [images: [:]])
     when:
-      InsideSdpImage("test-image", {echo 'testing 123'})
+      WithRunSdpImage("test-image", {echo 'testing 123'})
     then:
       1 * getPipelineMock("error")(emptyConfigMsg) >> {throw new DummyException("images error")}
       thrown(DummyException)
@@ -45,19 +45,19 @@ public class InsideSdpImageSpec extends JenkinsPipelineSpecification {
 
   def "If no value for config.images.registry, throw error" () {
     setup:
-      InsideSdpImage.getBinding().setVariable("config", [images: [repository: "repotest", cred: "testcred", docker_args: "testargs"]])
+      WithRunSdpImage.getBinding().setVariable("config", [images: [repository: "repotest", cred: "testcred", docker_args: "testargs"]])
     when:
-        InsideSdpImage("test-image", {echo 'testing 123'})
+        WithRunSdpImage("test-image", {echo 'testing 123'})
     then:
-      1 * getPipelineMock("error")(InsideSdpImage.getMissingRegistryMsg()) >> {throw new DummyException("images.registry error")}
+      1 * getPipelineMock("error")(WithRunSdpImage.getMissingRegistryMsg()) >> {throw new DummyException("images.registry error")}
       thrown(DummyException)
   }
 
   def "If no value for config.images.repository, default to \"sdp\"" () {
     setup:
-      InsideSdpImage.getBinding().setVariable("config", [images: [registry: "testregistry", cred: "testcred", docker_args: "testargs"]])
+      WithRunSdpImage.getBinding().setVariable("config", [images: [registry: "testregistry", cred: "testcred", docker_args: "testargs"]])
     when:
-        InsideSdpImage("test-image", {echo 'testing 123'})
+        WithRunSdpImage("test-image", {echo 'testing 123'})
     then:
       1 * getPipelineMock("docker.image")("sdp/test-image") >> explicitlyMockPipelineVariable("Image")
 
@@ -65,50 +65,50 @@ public class InsideSdpImageSpec extends JenkinsPipelineSpecification {
 
   def "If no value for config.images.cred, throw error" () {
     setup:
-      InsideSdpImage.getBinding().setVariable("config", [images: [registry: "testregistry", repository: "testrepo", docker_args: "testargs"]])
+      WithRunSdpImage.getBinding().setVariable("config", [images: [registry: "testregistry", repository: "testrepo", docker_args: "testargs"]])
     when:
-        InsideSdpImage("test-image", {echo 'testing 123'})
+        WithRunSdpImage("test-image", {echo 'testing 123'})
     then:
-      1 * getPipelineMock("error")(InsideSdpImage.getMissingCredentialMsg()) >> {throw new DummyException("images.cred error")}
+      1 * getPipelineMock("error")(WithRunSdpImage.getMissingCredentialMsg()) >> {throw new DummyException("images.cred error")}
       thrown(DummyException)
   }
 
 
   def "If no value for config.images.docker_args, default to empty string" () {
     setup:
-    InsideSdpImage.getBinding().setVariable("config", [images: [registry: "testregistry", repository: "restrepo", cred: "testcred"]])
+    WithRunSdpImage.getBinding().setVariable("config", [images: [registry: "testregistry", repository: "restrepo", cred: "testcred"]])
     when:
-      InsideSdpImage("test-image", {echo 'testing 123'})
+      WithRunSdpImage("test-image", {echo 'testing 123'})
     then:
     _ * getPipelineMock("docker.image")(_) >> explicitlyMockPipelineVariable("Image")
-    1 * getPipelineMock("Image.inside")("", _ as Closure)
+    1 * getPipelineMock("Image.withRun")("",_, _ as Closure)
   }
 
   def "If no value for params.command, default to empty string" () {
     setup:
-    InsideSdpImage.getBinding().setVariable("config", [images: [registry: "testregistry", repository: "restrepo", cred: "testcred"]])
+    WithRunSdpImage.getBinding().setVariable("config", [images: [registry: "testregistry", repository: "restrepo", cred: "testcred"]])
     when:
-        InsideSdpImage("test-image", {echo 'testing 123'})
+        WithRunSdpImage("test-image", {echo 'testing 123'})
     then:
     _ * getPipelineMock("docker.image")(_) >> explicitlyMockPipelineVariable("Image")
-    1 * getPipelineMock("Image.inside")(_, _ as Closure)
+    1 * getPipelineMock("Image.withRun")(_,"", _ as Closure)
   }
 
   def "Login to the Docker registry specified in the pipeline config" () {
     setup:
-      InsideSdpImage.getBinding().setVariable("config", [images: [registry: "testregistry", repository: "restrepo", cred: "testcred", docker_args: "testargs"]])
+      WithRunSdpImage.getBinding().setVariable("config", [images: [registry: "testregistry", repository: "restrepo", cred: "testcred", docker_args: "testargs"]])
       getPipelineMock("docker.image")(_) >> explicitlyMockPipelineVariable("Image")
     when:
-      InsideSdpImage("test-image", {echo 'testing 123'})
+      WithRunSdpImage("test-image", {echo 'testing 123'})
     then:
       1 * getPipelineMock("docker.withRegistry")("testregistry", "testcred", _ as Closure)
   }
 
 //  def "Ensure the image in the pipeline config" () {
 //    setup:
-//    InsideSdpImage.getBinding().setVariable("config", [images: [registry: "testregistry", repository: "restrepo", cred: "testcred", docker_args: "testargs"]])
+//    WithRunSdpImage.getBinding().setVariable("config", [images: [registry: "testregistry", repository: "restrepo", cred: "testcred", docker_args: "testargs"]])
 //    when:
-//    InsideSdpImage("test-image", {echo 'testing 123'})
+//    WithRunSdpImage("test-image", {echo 'testing 123'})
 //    then:
 //    1 * getPipelineMock("docker.withRegistry")("testregistry", "testcred", _ as Closure)
 //    1 * getPipelineMock("docker.image")("restrepo/test-image") >> explicitlyMockPipelineVariable("Image")
@@ -116,56 +116,83 @@ public class InsideSdpImageSpec extends JenkinsPipelineSpecification {
 
   def "Ensure the image is run w/ the given configuration docker args" () {
     setup:
-      InsideSdpImage.getBinding().setVariable("config", [images: [registry: "testregistry", repository: "restrepo", cred: "testcred", docker_args: "testargs"]])
+      WithRunSdpImage.getBinding().setVariable("config", [images: [registry: "testregistry", repository: "restrepo", cred: "testcred", docker_args: "testargs"]])
       getPipelineMock("docker.image")(_) >> explicitlyMockPipelineVariable("Image")
     when:
-      InsideSdpImage("test-image", {echo 'testing 123'})
+      WithRunSdpImage("test-image", {echo 'testing 123'})
     then:
-    1 * getPipelineMock("Image.inside")("testargs", _ as Closure)
+    1 * getPipelineMock("Image.withRun")("testargs", "",_ as Closure)
   }
 
-  def "use params.args for inside args" () {
+  def "use params.args for withRun args" () {
     setup:
-    InsideSdpImage.getBinding().setVariable("config", [images: [registry: "testregistry", repository: "restrepo", cred: "testcred", docker_args: "testargs"]])
+    WithRunSdpImage.getBinding().setVariable("config", [images: [registry: "testregistry", repository: "restrepo", cred: "testcred", docker_args: "testargs"]])
     def args = "args string"
     when:
-    InsideSdpImage("test-image", [args: args], {echo 'testing 123'})
+    WithRunSdpImage("test-image", [args: args], {echo 'testing 123'})
     then:
     _ * getPipelineMock("docker.image")(_) >> explicitlyMockPipelineVariable("Image")
-    1 * getPipelineMock("Image.inside")(args, _ as Closure)
+    1 * getPipelineMock("Image.withRun")(args, "", _ as Closure)
   }
 
   def "Ensure the closure's resolveStrategy is set to OWNER_FIRST, the default" () {
     setup:
-      InsideSdpImage.getBinding().setVariable("config", [images: [registry: "testregistry", repository: "restrepo", cred: "testcred", docker_args: "testargs"]])
+      WithRunSdpImage.getBinding().setVariable("config", [images: [registry: "testregistry", repository: "restrepo", cred: "testcred", docker_args: "testargs"]])
       getPipelineMock("docker.image")(_) >> explicitlyMockPipelineVariable("Image")
       def body = {echo 'testing 123'}
     when:
-      InsideSdpImage("test-image", body)
+      WithRunSdpImage("test-image", body)
     then:
       body.resolveStrategy == Closure.OWNER_FIRST
   }
 
+  def "Ensure the input 'command' argument is used in the withRun call" () {
+    setup:
+    WithRunSdpImage.getBinding().setVariable("config", [images: [registry: "testregistry", repository: "restrepo", cred: "testcred", docker_args: "testargs"]])
+    getPipelineMock("docker.image")(_) >> explicitlyMockPipelineVariable("Image")
+    def body = {echo 'testing 123'}
+    def command = "docker command"
+    when:
+    WithRunSdpImage("test-image", [command:command], body)
+    then:
+    1 * getPipelineMock("Image.withRun")("testargs", command, _ as Closure)
+    1 * getPipelineMock('echo')('testing 123')
+  }
+
+  def "Ensure the input 'command' and 'args' arguments are used in the withRun call" () {
+    setup:
+    WithRunSdpImage.getBinding().setVariable("config", [images: [registry: "testregistry", repository: "restrepo", cred: "testcred", docker_args: "testargs"]])
+    getPipelineMock("docker.image")(_) >> explicitlyMockPipelineVariable("Image")
+    def body = {echo 'testing 123'}
+    def command = "docker command"
+    def args = "args string"
+    when:
+    WithRunSdpImage("test-image", [args:args, command:command], body)
+    then:
+    1 * getPipelineMock("Image.withRun")(args, command, _ as Closure)
+    1 * getPipelineMock('echo')('testing 123')
+  }
+
   def "Execute the given closure within the given image" () {
     setup:
-      InsideSdpImage.getBinding().setVariable("config", [images: [registry: "testregistry", repository: "restrepo", cred: "testcred", docker_args: "testargs"]])
+      WithRunSdpImage.getBinding().setVariable("config", [images: [registry: "testregistry", repository: "restrepo", cred: "testcred", docker_args: "testargs"]])
       getPipelineMock("docker.image")(_) >> explicitlyMockPipelineVariable("Image")
       def body = {echo 'testing 123'}
     when:
-      InsideSdpImage("test-image", body)
+      WithRunSdpImage("test-image", body)
     then:
-    1 * getPipelineMock("Image.inside")("testargs", _ as Closure)
+    1 * getPipelineMock("Image.withRun")("testargs", _, _ as Closure)
     1 * getPipelineMock('echo')('testing 123')
   }
 
   def "Ensure outer call config is used instead of sdp config" () {
     setup:
     def sdpConfig = [images: [registry: "testregistry", repository: "restrepo", cred: "testcred", docker_args: "testargs"]]
-    InsideSdpImage.getBinding().setVariable("config", sdpConfig )
+    WithRunSdpImage.getBinding().setVariable("config", sdpConfig )
     getPipelineMock("docker.image")(_) >> explicitlyMockPipelineVariable("Image")
     def contextConfig = null
     def body = { echo 'testing 123'; contextConfig = config}
-    def outer = { InsideSdpImage.call("test-image", body) }
+    def outer = { WithRunSdpImage.call("test-image", body) }
 
 
     when:
@@ -181,18 +208,18 @@ public class InsideSdpImageSpec extends JenkinsPipelineSpecification {
     def sdpConfig = [images: [registry: "testregistry", repository: "restrepo", cred: "testcred", docker_args: "testargs"]]
     def libraryConfig = [images: [registry: "libregistry", repository: "librepo", cred: "libcred", docker_args: "libargs"]]
     testConfig = libraryConfig
-    InsideSdpImage.getBinding().setVariable("config", sdpConfig )
+    WithRunSdpImage.getBinding().setVariable("config", sdpConfig )
     1 * getPipelineMock("docker.image")("librepo/test-image") >> explicitlyMockPipelineVariable("Image")
     def contextConfig = null
     def body = { echo 'testing 123'; contextConfig = config}
-    def outer = { InsideSdpImage.call("test-image", body) }
+    def outer = { WithRunSdpImage.call("test-image", body) }
 
 
     when:
     outer()
     then:
     1 * getPipelineMock("docker.withRegistry")("libregistry", "libcred", _ as Closure)
-    1 * getPipelineMock("Image.inside")("libargs", _ as Closure)
+    1 * getPipelineMock("Image.withRun")("libargs",_, _ as Closure)
     1 * getPipelineMock('echo')('testing 123')
     contextConfig == testConfig
     contextConfig != sdpConfig
@@ -206,18 +233,18 @@ public class InsideSdpImageSpec extends JenkinsPipelineSpecification {
     ]
     ]]
     testConfig = libraryConfig
-    InsideSdpImage.getBinding().setVariable("config", sdpConfig )
+    WithRunSdpImage.getBinding().setVariable("config", sdpConfig )
     1 * getPipelineMock("docker.image")("imagerepo/test-image") >> explicitlyMockPipelineVariable("Image")
     def contextConfig = null
     def body = { echo 'testing 123'; contextConfig = config}
-    def outer = { InsideSdpImage.call("test-image", body) }
+    def outer = { WithRunSdpImage.call("test-image", body) }
 
 
     when:
     outer()
     then:
     1 * getPipelineMock("docker.withRegistry")("imageregistry", "imagecred", _ as Closure)
-    1 * getPipelineMock("Image.inside")("imageargs", _ as Closure)
+    1 * getPipelineMock("Image.withRun")("imageargs", _, _ as Closure)
     1 * getPipelineMock('echo')('testing 123')
     contextConfig == testConfig
     contextConfig != sdpConfig
