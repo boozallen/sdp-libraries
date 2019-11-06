@@ -7,13 +7,31 @@ The SDP library provides steps used by multiple libraries within sdp-libraries.
 
 Steps Provided
 ==============
+The following steps mirror steps from docker-workflow:
 
-- inside_sdp_images
+- inside_sdp_images(String img, Map params = [args:String], Closure body)
+.. csv-table::  inside_sdp_images arguments
+   :header: "Field", "Description", "Required/Optional"
+
+   "img", "the name of the docker image", "required"
+   "params", "a map arguments and options for docker", "optional"
+   "params.args", "the options for docker run", "optional"
+   "body", "the closure to be run in the containers context", "optional"
+
+- with_run_sdp_images(String img, Map params = [args:String, command:String], Closure body)
+.. csv-table::  with_run_sdp_images arguments
+   :header: "Field", "Description", "Required/Optional"
+
+   "img", "the name of the docker image", "required"
+   "params", "a map arguments and options for docker", "optional"
+   "params.args", "the options for docker run", "optional"
+   "params.command", "the arguments passed to the container entrypoint", "optional"
+   "body", "the closure to be run", "optional"
 
 Library Configuration Options
 =============================
 
-.. csv-table::  Docker Library Configuration Options
+.. csv-table::  SDP Library Configuration Options
    :header: "Field", "Description", "Default Value"
 
    "images.registry", "This sets the registry the sdp library expects to find its Docker images", "*none*"
