@@ -9,8 +9,8 @@ def call(){
   cred_id = config.credential_id ?:
             "sonarqube"
 
-  enforce = config.enforce_quality_gate ?:
-            true
+  enforce = config.containsKey("enforce_quality_gate") ? 
+            config.enforce_quality_gate : true
 
   stage("SonarQube Analysis"){
     inside_sdp_image "sonar-scanner", {
