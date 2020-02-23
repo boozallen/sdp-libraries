@@ -1,0 +1,80 @@
+= Docker
+
+The Docker library will build docker images and push them into a docker repository.
+
+== Steps Contributed
+
+.Steps
+|===
+| *Step* | *Description* 
+
+| ``build()``
+| builds a container image, tagging it with the Git SHA, and pushes the image to the defined registry
+
+| ``get_images_to_build()``
+| inspects the source code repository based upon the configured ``build_strategy`` to determine which container images to build
+
+| ``login_to_registry()``
+| logs in to the configured container registry
+
+| ``retag()``
+| retags the container images determined by ``get_images_to_build()`` 
+
+|===
+
+== Example Configuration Snippet
+
+[source,groovy]
+----
+libraries{
+  docker {
+     build_strategy = "dockerfile"
+     registry = "docker-registry.default.svc:5000"
+     cred = "openshift-docker-registry"
+     repo_path_prefix = "proj-images"
+     remove_local_image = true
+  }
+}
+----
+
+== Configurations
+
+.Docker Configuration Options
+|===
+| Field | Description | Default Value | Required
+
+| build_strategy
+| Sets how the library will build the container image(s); Must be dockerfile, docker-compose, or modules
+| dockerfile
+| false
+
+| registry
+| Where the container images produced during the pipeline builds are going to be pushed to
+| 
+| true
+
+| cred
+| Credentials used for the repository where different docker pipeline tools are stored.
+| 
+| true
+
+| repo_path_prefix
+| The part of the repository name between the registry name and the last forward-slash
+| ""
+| false
+
+| remove_local_image
+| Determines if the pipeline should remove the local image after building or retagging
+| false
+| false
+
+|===
+
+== External Dependencies
+
+* A Docker registry must be set up and configured. Credentials to the repository are also needed.
+* Either the github or github_enterprise library needs to be loaded as a library inside your pipeline_config.groovy file.
+
+== Troubleshooting
+
+== FAQ

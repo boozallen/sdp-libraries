@@ -1,0 +1,19 @@
+name: sdp-libraries
+title: SDP Pipeline Libraries
+version: latest
+start_page: ROOT:index.adoc
+nav:
+- modules/ROOT/nav.adoc
+- modules/docker/nav.adoc
+- modules/gitlab/nav.adoc
+- modules/owasp_dep_check/nav.adoc
+- modules/github_enterprise/nav.adoc
+- modules/github/nav.adoc
+- modules/openshift/nav.adoc
+- modules/owasp_zap/nav.adoc
+- modules/sdp/nav.adoc
+- modules/a11y/nav.adoc
+- modules/slack/nav.adoc
+- modules/kubernetes/nav.adoc
+- modules/sonarqube/nav.adoc
+- modules/protractor/nav.adoc

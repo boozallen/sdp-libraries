@@ -1,0 +1,75 @@
+= SDP Pipeline Libraries
+
+The Solution Delivery Platform's open source pipeline libraries plug in to the xref:jte:ROOT:index.adoc[Jenkins Templating Engine] to accelerate the development of a DevSecOps pipeline. 
+
+== Motivation 
+
+The Jenkins pipeline-as-code that is developed to perform various tool integrations is largely undifferentiated.  That is to say, it doesn't really matter what project you're working on - the pipeline code that's written can be reused anywhere if the configuration is appropriately externalized.  
+
+These libraries serve as an open source, reusable portfolio of tool integrations that can help us speak a common language and leverage a common framework when implementing CI/CD pipelines. 
+
+== Approach 
+
+=== Container Images as Pipeline Run Time Environments
+
+Maintaining tool installations on a Jenkins instance can be a configuration management nightmare.  Trying to keep straight 3 different versions of Java, Maven, Ant, Gradle, and so on within your Jenkins instance quickly leads to a bloated and difficult to maintain instance. 
+
+Furthermore, when tools are installed directly on Jenkins build agents it can be difficult to rapidly introduce new features to the pipeline. 
+
+We use container images to decouple the Jenkins infrastructure from the tools that the pipeline needs for building, testing, and deploying applications. 
+
+Each library, rather than direclty invoke a tool, will leverage helpers from the ``sdp`` library to execute portions of the pipeline inside of container images. 
+
+These images can be found in the https://github.com/boozallen/sdp-images[Booz Allen SDP Images GitHub Repository] and are hosted through the GitHub Package Registry. 
+
+=== The ``sdp`` Library
+
+If using the SDP Pipeline Libraries as a xref:jte:library-development:library_sources/library_sources.adoc[Library Source] for your pipeline, then you *must* include the ``sdp`` library.  This library containers helper functions such as ``inside_sdp_image()`` to facilitate the use of the SDP Pipeline Container Images as run time environments. 
+
+== Requirements 
+
+Your Jenkins build agents must have Docker installed due to the above-mentioned use of container images in the SDP Pipeline Libraries. 
+
+== Overview 
+
+.SDP Pipeline Libraries
+|===
+| Library | Description
+
+| a11y
+| Leverages TheA11yMachine to perform accessibility compliance scanning 
+
+| docker
+| Uses docker to build and publish container images, tagging them with the Git SHA
+
+| github
+| Allows you to map a branching strategy to specific pipeline actions when using Public GitHub or GitHub Enterprise
+
+| github_enterprise
+| Allows you to map a branching strategy to specific pipeline actions when using or GitHub Enterprise
+
+| gitlab
+| Allows you to map a branching strategy to specific pipeline actions when using GitLab
+
+| kubernetes
+| Allows you to perform deployments using Helm to a kubernetes cluster (or clusters) 
+
+| openshift
+| Allows you to perform deployments using Helm to a Red Hat OpenShift Container Platform (or platforms) 
+
+| owasp_dep_check
+| Leverages OWASP Dependency Checker for scanning third party application dependencies
+
+| sdp
+| An internal helper library that the others utilize
+
+| slack
+| Facilitates pipeline notifications to the configured Slack channel
+
+| sonarqube
+| Performs static code analysis with SonarQube
+
+| twistlock
+| Performs container image scanning with TwistLock
+
+|===
