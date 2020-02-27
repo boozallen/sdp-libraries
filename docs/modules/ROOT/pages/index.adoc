@@ -36,40 +36,40 @@ Your Jenkins build agents must have Docker installed due to the above-mentioned 
 |===
 | Library | Description
 
-| a11y
+| xref:a11y:index.adoc[TheA11yMachine]
 | Leverages TheA11yMachine to perform accessibility compliance scanning 
 
-| docker
+| xref:docker:index.adoc[Docker]
 | Uses docker to build and publish container images, tagging them with the Git SHA
 
-| github
+| xref:github:index.adoc[GitHub]
 | Allows you to map a branching strategy to specific pipeline actions when using Public GitHub or GitHub Enterprise
 
-| github_enterprise
+| xref:github_enterprise:index.adoc[GitHub Enterprise]
 | Allows you to map a branching strategy to specific pipeline actions when using or GitHub Enterprise
 
-| gitlab
+| xref:gitlab:index.adoc[GitLab]
 | Allows you to map a branching strategy to specific pipeline actions when using GitLab
 
-| kubernetes
+| xref:kubernetes:index.adoc[Kubernetes]
 | Allows you to perform deployments using Helm to a kubernetes cluster (or clusters) 
 
-| openshift
+| xref:openshift:index.adoc[OpenShift]
 | Allows you to perform deployments using Helm to a Red Hat OpenShift Container Platform (or platforms) 
 
-| owasp_dep_check
+| xref:owasp_dep_check:index.adoc[OWASP Dependency Checker]
 | Leverages OWASP Dependency Checker for scanning third party application dependencies
 
-| sdp
+| xref:sdp:index.adoc[SDP]
 | An internal helper library that the others utilize
 
-| slack
+| xref:slack:index.adoc[Slack]
 | Facilitates pipeline notifications to the configured Slack channel
 
-| sonarqube
+| xref:sonarqube:index.adoc[SonarQube]
 | Performs static code analysis with SonarQube
 
-| twistlock
+| xref:twistlock:index.adoc[TwistLock]
 | Performs container image scanning with TwistLock
 
 |===

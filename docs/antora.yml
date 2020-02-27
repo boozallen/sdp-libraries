@@ -17,3 +17,4 @@ nav:
 - modules/kubernetes/nav.adoc
 - modules/sonarqube/nav.adoc
 - modules/protractor/nav.adoc
+- modules/twistlock/nav.adoc
