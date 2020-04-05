@@ -28,7 +28,7 @@ void call(){
                 String message = "error running unit tests." 
                 enforceSuccess ? error(message) : warning(message) 
             }finally{
-                archiveArtifacts allowEmptyArchive: true, artifacts: "${resultsDir}/**/*"
+                archiveArtifacts allowEmptyArchive: true, artifacts: "${resultsDir}/"
                 junit allowEmptyResults: true, healthScaleFactor: 0.0, testResults: "${resultsDir}/junit.xml"
             }
         }
