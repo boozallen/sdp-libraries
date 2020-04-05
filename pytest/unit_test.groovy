@@ -7,17 +7,23 @@
     This step runs python unit tests using the pytest framework and generates a
     html report for archiving and junit xml for Jenkins consumption and display. 
 
-    By default, failiing tests will fail the build.  To override this, set 
-    enforceSuccess to false in the pytest library configuration. 
+    for full configuration options, refer to docs/modules/pytest/pages/index.adoc
+
+    more configuration options are welcome, please submit a pull request
 */
 void call(){
     boolean enforceSuccess = config.containsKey("enforceSuccess") ? config.enforceSuccess : true 
+    String requirementsFile = config.requirementsFile ?: "requirements.txt"
     stage("unit test: pytest"){
         docker.image("python").inside{
             unstash "workspace" 
             String resultsDir = "pytest-results"
             try{
-                sh "pip install pytest pytest-html && pytest --html=${resultsDir}/report.html --junitxml=${resultsDir}/junit.xml"
+                sh "pip install pytest pytest-html" 
+                if(fileExists(requirementsFile)){
+                    sh "pip install -r ${requirementsFile}"
+                }                 
+                sh "pytest --html=${resultsDir}/report.html --junitxml=${resultsDir}/junit.xml"
             }catch(any){
                 String message = "error running unit tests." 
                 enforceSuccess ? error(message) : warning(message) 
