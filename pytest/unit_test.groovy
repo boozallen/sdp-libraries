@@ -15,7 +15,7 @@ void call(){
     stage("unit test: pytest"){
         boolean enforceSuccess = config.containsKey("enforceSuccess") ? config.enforceSuccess : true 
         String requirementsFile = config.requirementsFile ?: "requirements.txt"
-        docker.image("python").inside{
+        docker.image("python:slim").inside{
             unstash "workspace" 
             String resultsDir = "pytest-results"
             try{
@@ -26,7 +26,7 @@ void call(){
                 sh "pytest --html=${resultsDir}/report.html --junitxml=${resultsDir}/junit.xml"
             }catch(any){
                 String message = "error running unit tests." 
-                enforceSuccess ? error(message) : warning(message) 
+                enforceSuccess ? error(message) : warning(message)
             }finally{
                 archiveArtifacts allowEmptyArchive: true, artifacts: "${resultsDir}/"
                 junit allowEmptyResults: true, healthScaleFactor: 0.0, testResults: "${resultsDir}/junit.xml"
