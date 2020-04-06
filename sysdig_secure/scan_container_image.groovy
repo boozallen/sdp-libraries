@@ -7,10 +7,12 @@
 void call(){
   stage("Scanning Container Image: Sysdig Secure"){
     node{
-        String sysdig_secure_url = config.sysdig_secure_url ?: { error "must define url for sysdig secure" }()
-        withCredentials([string(credentialsId: 'sysdig-secure-api', variable: 'TOKEN')]) {
+        String inlineScriptLocation = config.scan_script_url ?: "https://raw.githubusercontent.com/sysdiglabs/secure-inline-scan/master/inline_scan.sh"      
+        String sysdig_secure_url = config.sysdig_secure_url ?: null
+        String sArg = sysdig_secure_url ? "-s ${sysdig_secure_url}" : ""
+        withCredentials([string(credentialsId: config.cred, variable: 'TOKEN')]) {
             catchError(message: 'Failed to fetch inline_scan.sh from GitHub', stageResult: 'FAILURE') {
-              sh 'curl -o inline_scan.sh https://raw.githubusercontent.com/sysdiglabs/secure-inline-scan/master/inline_scan.sh'
+              sh "curl -o inline_scan.sh ${inlineScriptLocation}"
             }
             try{
               String resultsDir = "sysdig-secure"
@@ -20,7 +22,7 @@ void call(){
                 String image = "${img.registry}/${img.repo}:${img.tag}"
                 imageThreads[image] = {
                   sh "docker pull ${image}"
-                  sh "sh inline_scan.sh analyze -R ${resultsDir} -s ${sysdig_secure_url} -k $TOKEN ${image}"
+                  sh "sh inline_scan.sh analyze -R ${resultsDir} ${sArg} -k $TOKEN ${image}"
                 }
               }
               parallel imageThreads          
