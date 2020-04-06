@@ -31,11 +31,11 @@ void call() {
           sh "mkdir -p ${resultsDir} && /usr/share/dependency-check/bin/dependency-check.sh ${args}"
         }catch (ex) {
           error "Error occured when running OWASP Dependency Check: ${ex.getMessage()}"
-        }
-        finally {
+        }finally {
           archiveArtifacts allowEmptyArchive: true, artifacts: "${resultsDir}/"
           junit allowEmptyResults: true, healthScaleFactor: 0.0, testResults: "${resultsDir}/dependency-check-junit.xml"
         }
+      }
     }
   }
 }
