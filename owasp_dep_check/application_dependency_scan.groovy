@@ -28,7 +28,7 @@ void call() {
       String image_version = config.image_version ?: "latest"
       inside_sdp_image "owasp-dep-check:$image_version", {
         try {
-          sh "mkdir -p ${resultsDir} && /usr/share/dependency-check/bin/dependency-check.sh ${args}"
+          sh "mkdir -p ${resultsDir} && mkdir -p owasp-data && /usr/share/dependency-check/bin/dependency-check.sh ${args} -d owasp-data"
         }catch (ex) {
           error "Error occured when running OWASP Dependency Check: ${ex.getMessage()}"
         }finally {
