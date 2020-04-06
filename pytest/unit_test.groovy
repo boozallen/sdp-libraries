@@ -12,9 +12,9 @@
     more configuration options are welcome, please submit a pull request
 */
 void call(){
-    boolean enforceSuccess = config.containsKey("enforceSuccess") ? config.enforceSuccess : true 
-    String requirementsFile = config.requirementsFile ?: "requirements.txt"
     stage("unit test: pytest"){
+        boolean enforceSuccess = config.containsKey("enforceSuccess") ? config.enforceSuccess : true 
+        String requirementsFile = config.requirementsFile ?: "requirements.txt"
         docker.image("python").inside{
             unstash "workspace" 
             String resultsDir = "pytest-results"
