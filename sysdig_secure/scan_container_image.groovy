@@ -14,17 +14,17 @@ void call(){
             catchError(message: 'Failed to fetch inline_scan.sh from GitHub', stageResult: 'FAILURE') {
               sh "curl -o inline_scan.sh ${inlineScriptLocation}"
             }
-            try{
-              String resultsDir = "sysdig-secure"
-              sh "mkdir -p ${resultsDir}"
-              def imageThreads = [:]
-              get_images_to_build().each{ img ->
-                String image = "${img.registry}/${img.repo}:${img.tag}"
-                imageThreads[image] = {
-                  sh "docker pull ${image}"
-                  sh "sh inline_scan.sh analyze -R ${resultsDir} ${sArg} -k $TOKEN ${image}"
-                }
+            String resultsDir = "sysdig-secure"
+            sh "mkdir -p ${resultsDir}"
+            def imageThreads = [:]
+            get_images_to_build().each{ img ->
+              String image = "${img.registry}/${img.repo}:${img.tag}"
+              imageThreads[image] = {
+                sh "docker pull ${image}"
+                sh "sh inline_scan.sh analyze -R ${resultsDir} ${sArg} -k $TOKEN ${image}"
               }
+            }
+            try{
               parallel imageThreads          
             }catch(any){
               error "Sysdig Secure: Failed to scan images" 
