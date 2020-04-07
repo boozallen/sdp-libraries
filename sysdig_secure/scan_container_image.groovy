@@ -9,7 +9,7 @@ void call(){
     node{
         String inlineScriptLocation = config.scan_script_url ?: "https://raw.githubusercontent.com/sysdiglabs/secure-inline-scan/master/inline_scan.sh"      
         String sysdig_secure_url = config.sysdig_secure_url ?: null
-        String sArg = sysdig_secure_url ? "-s ${sysdig_secure_url}" : ""
+        String sArg = sysdig_secure_url ? "-s ${sysdig_secure_url}" : "-s https://secure.sysdig.com"
         withCredentials([string(credentialsId: config.cred, variable: 'TOKEN')]) {
             catchError(message: 'Failed to fetch inline_scan.sh from GitHub', stageResult: 'FAILURE') {
               sh "curl -o inline_scan.sh ${inlineScriptLocation}"
