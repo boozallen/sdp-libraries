@@ -89,12 +89,11 @@ void call(app_env){
 
 
     withGit url: config_repo, cred: git_cred, {
-      inside_sdp_image "k8s-helm", {
+      docker.image("alpine/helm:3.1.2").inside{
+        sh "apk add git" 
         withKubeConfig([credentialsId: k8s_credential , contextName: k8s_context]) {
-          withEnv(["TILLER_NAMESPACE=${tiller_namespace}"]) {
             this.update_values_file( values_file, config_repo )
             this.do_release release, values_file
-          }
         }
       }
     }
@@ -115,11 +114,6 @@ void update_values_file(values_file, config_repo){
 }
 
 void do_release(release, values_file){
-  def chart_doesnt_exist = sh(returnStatus: true, script: "helm history --max 1 ${release}")
-  if (chart_doesnt_exist){
-    sh "helm install . -n ${release} -f ${values_file}"
-  }else{
-    sh "helm upgrade --install ${release} . -f ${values_file}"
-  }
+  sh "helm upgrade --install -f ${values_file} ${release} ."
 }
 
