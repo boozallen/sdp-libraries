@@ -82,7 +82,7 @@ void call(app_env){
 
 
     withGit url: config_repo, cred: git_cred, {
-      docker.image("alpine/helm:3.1.2").inside{
+      docker.image("alpine/helm:3.1.2").inside("--entrypoint=''"){
         sh "apk add git" 
         withKubeConfig([credentialsId: k8s_credential , contextName: k8s_context]) {
             this.update_values_file( values_file, config_repo )
