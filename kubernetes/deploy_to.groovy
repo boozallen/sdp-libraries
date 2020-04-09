@@ -20,13 +20,6 @@ void call(app_env){
                    pipelineConfig.github_credential              ?:
                    {error "GitHub Credential For Configuration Repository Not Defined"}()
 
-    /*
-       tiller namespace for this repository.
-       can be specific in library spec or per application environment as "tiller_namespace"
-    */
-    def tiller_namespace = app_env.tiller_namespace ?:
-                           config.tiller_namespace  ?:
-                           {error "Tiller Namespace Not Defined"}()
 
     /*
        k8s credential with kubeconfig 
