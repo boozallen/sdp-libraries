@@ -91,13 +91,12 @@ void validateResults(String resultsDir){
         if( score <= failThreshold ){
             shouldFail = true 
             output << "${category.title}: ${score} <-- failing"
-        } else( score <= warnThreshold ){
+        } else if ( score <= warnThreshold ){
             shouldWarn = true 
             output << "${category.title}: ${score} <-- warning"
         } else {
             output << "${category.title}: ${score}"
         }
-
     }
 
     println output.join("\n")
