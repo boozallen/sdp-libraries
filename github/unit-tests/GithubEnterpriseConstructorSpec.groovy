@@ -1,6 +1,4 @@
-import com.homeaway.devtools.jenkins.testing.JenkinsPipelineSpecification
-
-public class GithubEnterpriseConstructorSpec extends JenkinsPipelineSpecification {
+public class GithubEnterpriseConstructorSpec extends JTEPipelineSpecification {
 
   def GithubEnterpriseConstructor = null
   def context = [:] // Required for methods w/ the @Init annotation, but not used in the step

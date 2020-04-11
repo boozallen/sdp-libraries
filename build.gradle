@@ -27,7 +27,6 @@ sourceSets{
                 source directory for tests is each library directory
                 besides their unit-tests
             */
-            //srcDirs = getLibraries()
             exclude "**/unit-tests"
         }
     }
@@ -42,7 +41,7 @@ sourceSets{
                 The location of the unit tests are the "unit-tests"
                 directory within each library directory
             */
-            srcDirs = getLibraries().collect{ "${it}/unit-tests" }
+            srcDirs = getLibraries().collect{ "${it}/unit-tests" } << ".test"
         }
         /*
             need to be able to access actual steps as test resources
@@ -54,6 +53,7 @@ sourceSets{
         }
     }
 }
+
 
 /*
     Find all of the library directories that have unit tests to execute.
@@ -75,7 +75,7 @@ dependencies {
     runtime group: 'ch.qos.logback', name: 'logback-classic', version:'1.2.3'
     runtime group: 'org.slf4j', name: 'jcl-over-slf4j', version:'1.7.25'
     runtime group: 'org.slf4j', name: 'log4j-over-slf4j', version:'1.7.25'
-    testCompile group: 'com.homeaway.devtools.jenkins', name: 'jenkins-spock', version:'2.0.0'
+    compile group: 'com.homeaway.devtools.jenkins', name: 'jenkins-spock', version:'2.1.2'
     testCompile group: 'javax.servlet', name: 'javax.servlet-api', version:'3.1.0'
     testCompile group: 'junit', name: 'junit', version:'4.12'
     testCompile group: 'org.jenkins-ci.main', name: 'jenkins-core', version:'2.102', {
@@ -87,7 +87,6 @@ dependencies {
     testCompile group: 'org.jenkins-ci', name: 'symbol-annotation', version:'1.10'
     compile group: 'org.codehaus.groovy', name: 'groovy-all', version:'2.4.11'
     testCompile group: 'org.spockframework', name: 'spock-core', version:'1.1-groovy-2.4'
-
     // our plugin deps
     jenkinsTest group: 'org.jenkins-ci.plugins.workflow', name: 'workflow-step-api', version:'2.10'
     jenkinsTest group: 'org.jenkins-ci.plugins.workflow', name: 'workflow-cps', version:'2.36'
