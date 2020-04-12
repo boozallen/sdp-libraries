@@ -9,3 +9,5 @@ _build
 build 
 bin
 gradle
+docs/html
+node_modules

@@ -1,4 +1,22 @@
 * xref:index.adoc[Overview]
+* xref:create-new-library.adoc[Create a New Library]
+
+.Libraries
+* xref:libraries/a11y.adoc[The A11y Machine] 
+* xref:libraries/docker.adoc[Docker]
+* xref:libraries/github.adoc[GitHub]
+* xref:libraries/github_enterprise.adoc[GitHub Enterprise]
+* xref:libraries/gitlab.adoc[GitLab]
+* xref:libraries/kubernetes.adoc[Kubernetes]
+* xref:libraries/openshift.adoc[OpenShift]
+* xref:libraries/owasp_dep_check.adoc[OWASP Dependency Checker]
+* xref:libraries/owasp_zap.adoc[OWASP ZAP]
+* xref:libraries/protractor.adoc[Protractor]
+* xref:libraries/sdp.adoc[SDP]
+* xref:libraries/slack.adoc[Slack]
+* xref:libraries/sonarqube.adoc[SonarQube]
+* xref:libraries/twistlock.adoc[Twistlock]
+
 
 .Unit Testing
 * xref:unit_testing/index.adoc[Purpose of Unit Testing]
