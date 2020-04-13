@@ -7,7 +7,7 @@
 void call(){
   stage("Scanning Container Image: Sysdig Secure"){
     node{
-        String inlineScriptLocation = config.scan_script_url ?: "https://raw.githubusercontent.com/sysdiglabs/secure-inline-scan/master/inline_scan.sh" // "https://download.sysdig.com/stable/inline_scan.sh"      
+        String inlineScriptLocation = config.scan_script_url ?: "https://download.sysdig.com/stable/inline_scan.sh"      
         String sysdig_secure_url = config.sysdig_secure_url ?: null
         String sArg = sysdig_secure_url ? "-s ${sysdig_secure_url}" : "-s https://secure.sysdig.com"
         withCredentials([string(credentialsId: config.cred, variable: 'TOKEN')]) {

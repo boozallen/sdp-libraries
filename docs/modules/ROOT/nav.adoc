@@ -15,6 +15,7 @@
 * xref:libraries/sdp.adoc[SDP]
 * xref:libraries/slack.adoc[Slack]
 * xref:libraries/sonarqube.adoc[SonarQube]
+* xref:libraries/sysdig_secure.adoc[Sysdig Secure]
 * xref:libraries/twistlock.adoc[Twistlock]
 
 

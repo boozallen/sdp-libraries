@@ -75,6 +75,9 @@ Your Jenkins build agents must have Docker installed due to the above-mentioned 
 | xref:libraries/sonarqube.adoc[SonarQube]
 | Performs static code analysis with SonarQube
 
+| xref:libraries/sysdig_secure.adoc[Sysdig Secure]
+| Performs container image scanning with Sysdig Secure's inline scanner
+
 | xref:libraries/twistlock.adoc[TwistLock]
 | Performs container image scanning with TwistLock
 
