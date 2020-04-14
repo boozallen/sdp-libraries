@@ -87,7 +87,8 @@ void validateResults(String resultsDir){
         def failThreshold = config.thresholds[category.configKey]?.fail ?: 49
         def warnThreshold = config.thresholds[category.configKey]?.warn ?: 89
 
-        println results.categories?."${category.jsonKey}"?.score 
+        println "categories: "
+        println results.categories
 
         def score = results.categories[category.jsonKey]?.score
 
