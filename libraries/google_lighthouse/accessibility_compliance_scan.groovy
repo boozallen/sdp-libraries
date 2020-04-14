@@ -54,8 +54,6 @@ void validateResults(String resultsDir){
 
     def results = readJSON file: "${resultsDir}/lighthouse.report.json"
 
-    println results 
-
     boolean shouldFail = false 
     boolean shouldWarn = false 
     String output = [ """
@@ -88,6 +86,9 @@ void validateResults(String resultsDir){
     ].each{ category -> 
         def failThreshold = config.thresholds[category.configKey]?.fail ?: 49
         def warnThreshold = config.thresholds[category.configKey]?.warn ?: 89
+
+        println results.categories?."${category.jsonKey}"?.score 
+
         def score = results.categories[category.jsonKey]?.score
 
         if( score <= failThreshold ){
