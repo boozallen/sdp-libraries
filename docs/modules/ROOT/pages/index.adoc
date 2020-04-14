@@ -51,6 +51,9 @@ Your Jenkins build agents must have Docker installed due to the above-mentioned 
 | xref:libraries/gitlab.adoc[GitLab]
 | Allows you to map a branching strategy to specific pipeline actions when using GitLab
 
+| xref:libraries/google_lighthouse.adoc[Google Lighthouse]
+| Performs accessibility compliance, performance, search engine optimization, and best practice validations on a frontend application
+
 | xref:libraries/kubernetes.adoc[Kubernetes]
 | Allows you to perform deployments using Helm to a kubernetes cluster (or clusters) 
 

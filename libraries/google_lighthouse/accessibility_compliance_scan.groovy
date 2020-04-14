@@ -16,7 +16,7 @@ void call(){
             --output-path=${resultsDir}/lighthouse
             """ 
             archiveArtifacts allowEmptyArchive: true, artifacts: "${resultsDir}/"
-            this.validateResults()
+            this.validateResults(resultsDir)
         }
     }
 }
@@ -54,14 +54,14 @@ void validateResults(String resultsDir){
 
     def results = readJSON file: "${resultsDir}/lighthouse.report.json"
 
-
     boolean shouldFail = false 
     boolean shouldWarn = false 
-     String output = [ """
+    String output = [ """
     ------------------------
     Google Lighthouse Scores
     ------------------------
     """ ]
+    
     [
         [
             configKey: "performance",
