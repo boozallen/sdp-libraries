@@ -88,7 +88,7 @@ void validateResults(String resultsDir){
     ].each{ category -> 
         def failThreshold = config.thresholds[category.configKey]?.fail ?: 49
         def warnThreshold = config.thresholds[category.configKey]?.warn ?: 89
-        def score = results.categories[config.jsonKey]?.score
+        def score = results.categories[category.jsonKey]?.score
 
         if( score <= failThreshold ){
             shouldFail = true 
