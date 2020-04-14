@@ -26,7 +26,7 @@ void call(){
                 sh "pytest --html=${resultsDir}/report.html --junitxml=${resultsDir}/junit.xml"
             }catch(any){
                 String message = "error running unit tests." 
-                enforceSuccess ? error(message) : warning(message)
+                enforceSuccess ? error(message) : unstable(message)
             }finally{
                 archiveArtifacts allowEmptyArchive: true, artifacts: "${resultsDir}/"
                 junit allowEmptyResults: true, healthScaleFactor: 0.0, testResults: "${resultsDir}/junit.xml"

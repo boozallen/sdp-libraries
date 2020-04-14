@@ -101,6 +101,6 @@ void validateResults(String resultsDir){
     println output.join("\n")
     String oopsMessage = "Google Lighthouse results did not meet thresholds"
     if(shouldFail) error(oopsMessage)
-    if(shouldWarn) warn(oopsMessage)
+    if(shouldWarn) unstable(oopsMessage)
 
 }
