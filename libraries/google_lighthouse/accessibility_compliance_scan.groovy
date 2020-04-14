@@ -54,6 +54,8 @@ void validateResults(String resultsDir){
 
     def results = readJSON file: "${resultsDir}/lighthouse.report.json"
 
+    println results 
+
     boolean shouldFail = false 
     boolean shouldWarn = false 
     String output = [ """
