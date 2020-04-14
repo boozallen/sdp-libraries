@@ -59,8 +59,7 @@ void validateResults(String resultsDir){
     ArrayList output = [ """
     ------------------------
     Google Lighthouse Scores
-    ------------------------
-    """ ]
+    ------------------------""".stripIndent()]
     
     [
         [
@@ -86,7 +85,7 @@ void validateResults(String resultsDir){
     ].each{ category -> 
         def failThreshold = config.thresholds?."${category.configKey}"?.fail ?: 49
         def warnThreshold = config.thresholds?."${category.configKey}"?.warn ?: 89
-        def score = results.categories[category.jsonKey]?.score
+        def score = results.categories[category.jsonKey]?.score * 100 
 
         if( score <= failThreshold ){
             shouldFail = true 
