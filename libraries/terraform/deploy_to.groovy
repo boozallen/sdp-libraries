@@ -5,6 +5,8 @@
 
 void deploy_to(def app_env){
 
+    this.validateParameters(app_env)
+    
     String workingDir = app_env.terraform?.working_directory ?: 
                         config.working_directory ?: "."
 
@@ -31,5 +33,29 @@ void deploy_to(def app_env){
                 sh "terraform apply -auto-approve -input=false"
             }
         }
+    }
+}
+
+void validateParameters(def app_env){
+    ArrayList errors = ["Terraform Library Validation Errors: "]
+    (config.secrets + app_env.terraform?.secrets).each{ key, secret -> 
+        if(!secret.id){
+            errors << "secret '${key}' must define 'id'"
+        }
+        switch(secret.type){
+            case "text": 
+                if(!secret.name) errors << "secret '${key}' must define 'name'" 
+                break
+            case "usernamePassword":
+                if(!secret.usernameVar) errors << "secret '${key}' must define 'usernameVar'"
+                if(!secret.passwordVar) errors << "secret '${key}' must define 'passwordVar'"
+                break
+            default: 
+                errors << "secret '${key}': type '${secret.type}' is not defined"
+        }
+    }
+
+    if(errors){
+        error (["Terraform Library Validation Errors: "] + errors.collect{ "- ${it}"}).join("\n")
     }
 }
