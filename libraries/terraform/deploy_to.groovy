@@ -16,7 +16,7 @@ void call(app_env){
     ArrayList creds = [] 
     secrets.keySet().each{ key -> 
         def secret = secrets[key]
-        switch(secret.value.type){
+        switch(secret.type){
             case "text": 
                 creds << string(credentialsId: secret.id, variable: secret.name)
                 break
