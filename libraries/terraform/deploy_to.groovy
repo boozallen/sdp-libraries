@@ -46,8 +46,10 @@ void call(app_env){
 void validateParameters(def app_env){
     LinkedHashMap libSecrets = config.secrets ?: [:]
     LinkedHashMap envSecrets = app_env.terraform?.secrets ?: [:]
+    LinkedHashMap secrets = libSecrets + envSecrets
+    println secrets
     ArrayList errors = []
-    (libSecrets + envSecrets).each{ key, secret -> 
+    secrets.each{ key, secret -> 
         println "secret -> ${secret}"
         if(!secret.id){
             errors << "secret '${key}' must define 'id'"
