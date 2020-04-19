@@ -48,7 +48,7 @@ void validateParameters(def app_env){
     LinkedHashMap envSecrets = app_env.terraform?.secrets ?: [:]
     ArrayList errors = []
     (libSecrets + envSecrets).each{ key, secret -> 
-        secret = secret.values()
+        println "secret -> ${secret}"
         if(!secret.id){
             errors << "secret '${key}' must define 'id'"
         }
