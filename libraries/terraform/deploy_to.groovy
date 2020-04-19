@@ -5,21 +5,18 @@
 
 void call(app_env){
 
-    this.validateParameters(app_env)
+    LinkedHashMap libSecrets = config.secrets ?: [:]
+    LinkedHashMap envSecrets = app_env.terraform?.secrets ?: [:]
+    LinkedHashMap secrets = libSecrets + envSecrets
+    this.validateParameters(secrets)
 
     String workingDir = app_env.terraform?.working_directory ?: 
                         config.working_directory ?: "."
 
     ArrayList creds = [] 
-
-    LinkedHashMap libSecrets = config.secrets ?: [:]
-    LinkedHashMap envSecrets = app_env.terraform?.secrets ?: [:]
-
-    println libSecrets
-    println envSecrets
-
-    (libSecrets + envSecrets).each{ secret -> 
-        switch(secret.type){
+    secrets.keySet().each{ key -> 
+        def secret = secrets[key]
+        switch(secret.value.type){
             case "text": 
                 creds << string(credentialsId: secret.id, variable: secret.name)
                 break
@@ -43,15 +40,7 @@ void call(app_env){
     }
 }
 
-void validateParameters(def app_env){
-    LinkedHashMap libSecrets = config.secrets ?: [:]
-    LinkedHashMap envSecrets = app_env.terraform?.secrets ?: [:]
-    LinkedHashMap secrets = libSecrets + envSecrets
-    println """
-    libSecrets -> ${libSecrets}
-    envSecrets -> ${envSecrets}
-    secrets -> ${secrets}
-    """
+void validateParameters(secrets){
     ArrayList errors = []
     secrets.keySet().each{ key ->
         def secret = secrets[key]
