@@ -3,7 +3,7 @@
   This software package is licensed under the Booz Allen Public License. The license can be found in the License file or at http://boozallen.github.io/licenses/bapl
 */
 
-void deploy_to(app_env){
+void call(app_env){
 
     this.validateParameters(app_env)
 
