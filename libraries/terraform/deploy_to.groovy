@@ -15,6 +15,9 @@ void call(app_env){
     LinkedHashMap libSecrets = config.secrets ?: [:]
     LinkedHashMap envSecrets = app_env.terraform?.secrets ?: [:]
 
+    println libSecrets
+    println envSecrets
+
     (libSecrets + envSecrets).each{ secret -> 
         switch(secret.type){
             case "text": 
