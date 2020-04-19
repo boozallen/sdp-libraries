@@ -3,10 +3,10 @@
   This software package is licensed under the Booz Allen Public License. The license can be found in the License file or at http://boozallen.github.io/licenses/bapl
 */
 
-void deploy_to(def app_env){
+void deploy_to(ApplicationEnvironment app_env){
 
     this.validateParameters(app_env)
-    
+
     String workingDir = app_env.terraform?.working_directory ?: 
                         config.working_directory ?: "."
 
