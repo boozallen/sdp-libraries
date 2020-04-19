@@ -53,7 +53,8 @@ void validateParameters(def app_env){
     secrets -> ${secrets}
     """
     ArrayList errors = []
-    secrets.each{ key, secret -> 
+    secrets.keySet().each{ key ->
+        def secret = secrets[key]
         println "secret -> ${secret}"
         if(!secret.id){
             errors << "secret '${key}' must define 'id'"
