@@ -47,7 +47,11 @@ void validateParameters(def app_env){
     LinkedHashMap libSecrets = config.secrets ?: [:]
     LinkedHashMap envSecrets = app_env.terraform?.secrets ?: [:]
     LinkedHashMap secrets = libSecrets + envSecrets
-    println secrets
+    println """
+    libSecrets -> ${libSecrets}
+    envSecrets -> ${envSecrets}
+    secrets -> ${secrets}
+    """
     ArrayList errors = []
     secrets.each{ key, secret -> 
         println "secret -> ${secret}"
@@ -71,5 +75,4 @@ void validateParameters(def app_env){
         error (["Terraform Library Validation Errors: "] + errors.collect{ "- ${it}"}).join("\n")
     }
 
-    println "done no errors"
 }
