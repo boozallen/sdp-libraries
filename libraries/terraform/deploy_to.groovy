@@ -70,4 +70,6 @@ void validateParameters(def app_env){
     if(errors){
         error (["Terraform Library Validation Errors: "] + errors.collect{ "- ${it}"}).join("\n")
     }
+
+    println "done no errors"
 }
