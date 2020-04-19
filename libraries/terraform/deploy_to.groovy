@@ -44,8 +44,10 @@ void call(app_env){
 }
 
 void validateParameters(def app_env){
-    ArrayList errors = ["Terraform Library Validation Errors: "]
-    (config.secrets + app_env.terraform?.secrets).each{ key, secret -> 
+    LinkedHashMap libSecrets = config.secrets ?: [:]
+    LinkedHashMap envSecrets = app_env.terraform?.secrets ?: [:]
+    ArrayList errors = []
+    (libSecrets + envSecrets).each{ key, secret -> 
         if(!secret.id){
             errors << "secret '${key}' must define 'id'"
         }
