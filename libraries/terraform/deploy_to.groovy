@@ -11,7 +11,7 @@ void call(app_env){
                         config.working_directory ?: "."
 
     ArrayList creds = [] 
-    (config.secrets + app_env.terraform?.secrets ?: [:]).each{ secret -> 
+    (config.secrets ?: [:] + app_env.terraform?.secrets ?: [:]).each{ secret -> 
         switch(secret.type){
             case "text": 
                 creds << string(credentialsId: secret.id, variable: secret.name)
