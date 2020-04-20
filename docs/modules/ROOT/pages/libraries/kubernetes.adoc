@@ -59,11 +59,7 @@ With this configuration, `dev` context within the  `cluster2-config` would be us
 === Helm Configuration
 
 
-We use link:++https://helm.sh/++[Helm] for a deployment mechanism to Kubernetes.  Helm is a package manager and templating engine for Kubernetes manifests.  Using Helm, the typical YAML manifests used to deploy to Kubernetes distributions can be templatized for reuse.  In our case, a different values file is used for each static application environment.
-
-*Deploy the Tiller Server*
-
-Instead of using Helm as a package manager by bundling the charts and deploying them to a chart repository, we instead use a configuration repository as our Infrastructure as Code mechanism.
+We use https://helm.sh/[Helm] for a deployment mechanism to Kubernetes.  Helm is a package manager and templating engine for Kubernetes manifests.  Using Helm, the typical YAML manifests used to deploy to Kubernetes distributions can be templatized for reuse.  In our case, a different values file is used for each static application environment.
 
 *Create Helm Configuration Repository*
 
@@ -93,11 +89,11 @@ you can add whatever other keys are necessary to appropriately parameterize your
 
 *Helm Configurations for the Library*
 
-The helm configuration repository, github credential, tiller credential namespace  can be configured globally in the library spec and overriden for specific application environments.
+The helm configuration repository and github credential can be configured globally in the library spec and overriden for specific application environments.
 
 The values file to will default to `values.${app_env.short_name}.yaml`, or can be overridden via `app_env.chart_values_file`.
 
-The name of the release will default to `app_env.short_name`, or can be overridden via `app_env.tiller_release_name`
+The name of the release will default to `app_env.short_name`, or can be overridden via `app_env.release_name`
 
 An example of helm configurations:
 
@@ -112,20 +108,18 @@ application_environments{
   test{
     short_name = "test"
     long_name = "Test"
-    tiller_release_name = "banana"
+    release_name = "banana"
 
   }
   prod{
     short_name = "prod"
     long_name = "Production"
-    tiller_namespace = "rhs-tiller-prod"
   }
 }
 libraries{
   kubernetes{
     helm_configuration_repository = "https://github.boozallencsn.com/Red-Hat-Summit/helm-configuration.git"
     helm_configuration_repository_credential = "github"
-    tiller_namespace = "rhs-tiller"
   }
 }
 ----
@@ -157,7 +151,6 @@ libraries{
   kubernetes{
     helm_configuration_repository = "https://github.boozallencsn.com/Red-Hat-Summit/helm-configuration.git"
     helm_configuration_repository_credential = "github"
-    tiller_namespace = "rhs-tiller"
     k8s_credential = "cluster1-config"
     k8s_context = "staging"
     promote_previous_image = true //note: making this setting true is redundant, since true is the default
@@ -187,20 +180,10 @@ libraries{
 | 
 | both
 
-| tiller_namespace
-| The tiller namespace for this application
-| 
-| both
-
 | k8s_context
 | The Jenkins credential ID specifying the context within the k8s_credential kubeconfig that identifies the target environment
 | 
 | both
-
-| tiller_release_name
-| The name of the release to deploy
-| 
-| app env
 
 | chart_values_file
 | The values file to use for the release
@@ -225,14 +208,11 @@ application_environments{
   test{
     short_name = "test"
     long_name = "Test"
-    tiller_release_name = "banana"
     k8s_credential = "test-context"
-
   }
   prod{
     short_name = "prod"
     long_name = "Production"
-    tiller_namespace = "rhs-tiller-prod"
     k8s_credential = "prod-clusters"
     k8s_context = "canary-context"
     promote_previous_image = true
@@ -243,7 +223,6 @@ libraries{
     k8s_credential = "dev-test-clusters"
     helm_configuration_repository = "https://github.boozallencsn.com/Red-Hat-Summit/helm-configuration.git"
     helm_configuration_repository_credential = "github"
-    tiller_namespace = "rhs-tiller"
     k8s_credential = "dev-context"
     promote_previous_image = false
   }

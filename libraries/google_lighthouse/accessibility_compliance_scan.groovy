@@ -4,9 +4,9 @@
 */
 
 void call(){
-    String url = config.url 
     stage("Accessibility Compliance: Google Lighthouse"){
-        docker.image("femtopixel/google-lighthouse").inside{
+        inside_sdp_image "google-lighthouse", {
+            String url = config.url 
             String resultsDir = "google-lighthouse"
             sh """
             mkdir -p ${resultsDir}; 

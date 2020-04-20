@@ -36,13 +36,13 @@ void call(app_env){
 
     /*
        helm release name.
-       will use "tiller_release_name" if present on app env object
+       will use "release_name" if present on app env object
        or will use "short_name" if present on app_env object.
        will fail otherwise.
     */
-    def release = app_env.tiller_release_name ?:
+    def release = app_env.release_name ?:
                   app_env.short_name          ?:
-                  {error "App Env Must Specify tiller_release_name or short_name"}()
+                  {error "App Env Must Specify release_name or short_name"}()
 
 
     /*
@@ -80,10 +80,8 @@ void call(app_env){
       echo "expecting image was already built"
     }
 
-
-    withGit url: config_repo, cred: git_cred, {
-      docker.image("alpine/helm:3.1.2").inside("--entrypoint=''"){
-        sh "apk add git" 
+    inside_sdp_image "helm", {
+      withGit url: config_repo, cred: git_cred, {      
         withKubeConfig([credentialsId: k8s_credential , contextName: k8s_context]) {
             this.update_values_file( values_file, config_repo )
             this.do_release release, values_file

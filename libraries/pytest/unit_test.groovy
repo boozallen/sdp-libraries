@@ -13,16 +13,17 @@
 */
 void call(){
     stage("unit test: pytest"){
-        boolean enforceSuccess = config.containsKey("enforceSuccess") ? config.enforceSuccess : true 
-        String requirementsFile = config.requirementsFile ?: "requirements.txt"
-        docker.image("python:slim").inside{
+        boolean enforceSuccess = config.containsKey("enforce_success") ? config.enforce_success : true 
+        String requirementsFile = config.requirements_file ?: "requirements.txt"
+        inside_sdp_image "pytest", {
             unstash "workspace" 
             String resultsDir = "pytest-results"
             try{
-                sh "pip install pytest pytest-html" 
                 if(fileExists(requirementsFile)){
                     sh "pip install -r ${requirementsFile}"
-                }                 
+                } else if (config.containsKey("requirements_file")){
+                    unstable "PyTest: Configured requirements file '${requirementsFile}' does not exist"
+                }       
                 sh "pytest --html=${resultsDir}/report.html --junitxml=${resultsDir}/junit.xml"
             }catch(any){
                 String message = "error running unit tests." 

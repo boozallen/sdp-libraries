@@ -69,6 +69,9 @@ Your Jenkins build agents must have Docker installed due to the above-mentioned 
 | xref:libraries/protractor.adoc[Protractor]
 | Leverages Protractor, a frontend unit testing utility, to perform unit tests
 
+| xref:libraries/pytest.adoc[PyTest]
+| Leverages PyTest, a Python unit testing library, to perform unit tests
+
 | xref:libraries/sdp.adoc[SDP]
 | An internal helper library that the others utilize
 
@@ -80,6 +83,9 @@ Your Jenkins build agents must have Docker installed due to the above-mentioned 
 
 | xref:libraries/sysdig_secure.adoc[Sysdig Secure]
 | Performs container image scanning with Sysdig Secure's inline scanner
+
+| xref:libraries/terraform.adoc[Terraform]
+| Deploys Infrastructure as Code using Terraform
 
 | xref:libraries/twistlock.adoc[TwistLock]
 | Performs container image scanning with TwistLock
