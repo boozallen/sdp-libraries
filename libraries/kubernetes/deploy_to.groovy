@@ -80,8 +80,8 @@ void call(app_env){
       echo "expecting image was already built"
     }
 
-    inside_sdp_image "helm", {
-      withGit url: config_repo, cred: git_cred, {      
+    withGit url: config_repo, cred: git_cred, {
+      inside_sdp_image "helm", { 
         withKubeConfig([credentialsId: k8s_credential , contextName: k8s_context]) {
             this.update_values_file( values_file, config_repo )
             this.do_release release, values_file
