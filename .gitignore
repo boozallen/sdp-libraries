@@ -10,4 +10,4 @@ build
 bin
 gradle
 docs/html
-node_modules
+docs/node_modules
