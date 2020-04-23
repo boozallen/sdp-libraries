@@ -16,8 +16,10 @@ The SDP Pipeline Libraries leverage https://github.com/ExpediaGroup/jenkins-spoc
 
 Each library that has unit tests has a subdirectory under `test` containing the individual Specification files for the library. 
 
-To execute the unit tests, run `gradle clean test`. 
+To execute the unit tests, run `make test`. 
 
 === Documentation 
 
 https://antora.org[Antora] is used as the documentation framework.  For each library you'll find an AsciiDoc file under `docs/modules/ROOT/pages` that outlines the steps contributed by the library, how to configure the library in your pipeline configuration file, what types of artifacts are generated, and any external dependencies the library may have.  
+
+To build the documentation run `make docs`.  You can then open `docs/html/index.html` to view the generated documentation.
