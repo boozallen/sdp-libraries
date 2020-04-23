@@ -36,40 +36,58 @@ Your Jenkins build agents must have Docker installed due to the above-mentioned 
 |===
 | Library | Description
 
-| xref:a11y:index.adoc[TheA11yMachine]
-| Leverages TheA11yMachine to perform accessibility compliance scanning 
+| xref:libraries/a11y.adoc[The A11y Machine]
+| Leverages The A11y Machine to perform accessibility compliance scanning 
 
-| xref:docker:index.adoc[Docker]
+| xref:libraries/docker.adoc[Docker]
 | Uses docker to build and publish container images, tagging them with the Git SHA
 
-| xref:github:index.adoc[GitHub]
+| xref:libraries/github.adoc[GitHub]
 | Allows you to map a branching strategy to specific pipeline actions when using Public GitHub or GitHub Enterprise
 
-| xref:github_enterprise:index.adoc[GitHub Enterprise]
+| xref:libraries/github_enterprise.adoc[GitHub Enterprise]
 | Allows you to map a branching strategy to specific pipeline actions when using or GitHub Enterprise
 
-| xref:gitlab:index.adoc[GitLab]
+| xref:libraries/gitlab.adoc[GitLab]
 | Allows you to map a branching strategy to specific pipeline actions when using GitLab
 
-| xref:kubernetes:index.adoc[Kubernetes]
+| xref:libraries/google_lighthouse.adoc[Google Lighthouse]
+| Performs accessibility compliance, performance, search engine optimization, and best practice validations on a frontend application
+
+| xref:libraries/kubernetes.adoc[Kubernetes]
 | Allows you to perform deployments using Helm to a kubernetes cluster (or clusters) 
 
-| xref:openshift:index.adoc[OpenShift]
+| xref:libraries/openshift.adoc[OpenShift]
 | Allows you to perform deployments using Helm to a Red Hat OpenShift Container Platform (or platforms) 
 
-| xref:owasp_dep_check:index.adoc[OWASP Dependency Checker]
+| xref:libraries/owasp_dep_check.adoc[OWASP Dependency Checker]
 | Leverages OWASP Dependency Checker for scanning third party application dependencies
 
-| xref:sdp:index.adoc[SDP]
+| xref:libraries/owasp_zap.adoc[OWASP ZAP]
+| Leverages OWASP ZAP to perform penetration testing 
+
+| xref:libraries/protractor.adoc[Protractor]
+| Leverages Protractor, a frontend unit testing utility, to perform unit tests
+
+| xref:libraries/pytest.adoc[PyTest]
+| Leverages PyTest, a Python unit testing library, to perform unit tests
+
+| xref:libraries/sdp.adoc[SDP]
 | An internal helper library that the others utilize
 
-| xref:slack:index.adoc[Slack]
+| xref:libraries/slack.adoc[Slack]
 | Facilitates pipeline notifications to the configured Slack channel
 
-| xref:sonarqube:index.adoc[SonarQube]
+| xref:libraries/sonarqube.adoc[SonarQube]
 | Performs static code analysis with SonarQube
 
-| xref:twistlock:index.adoc[TwistLock]
+| xref:libraries/sysdig_secure.adoc[Sysdig Secure]
+| Performs container image scanning with Sysdig Secure's inline scanner
+
+| xref:libraries/terraform.adoc[Terraform]
+| Deploys Infrastructure as Code using Terraform
+
+| xref:libraries/twistlock.adoc[TwistLock]
 | Performs container image scanning with TwistLock
 
 |===
