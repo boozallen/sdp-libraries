@@ -9,7 +9,7 @@
   
 ***************************************************************************************************/
 void call(String label = null, Closure body){
-
+    println ("inside nodeStep"
     def bodyConfig = [:]
     try{
         bodyConfig = body.config
@@ -66,6 +66,7 @@ handleKubernetesNode() implements the node step when the agentType is kubernetes
 
 void handleKubernetesNode( String label, Closure body, Boolean useDefault)
 {
+    println "Inside handleKubernetesNode"
     if (useDefault && !(config.podSpec && config.podSpec.img)){
       steps.node(){
         body()
@@ -91,7 +92,8 @@ handleDockerNode() implements the node step when the agentType is docker
 void handleDockerNode(String label, Closure body, Boolean useDefault)
 {
 
-   if (useDefault&& !(config.images && config.images.img)){
+   println "Inside handleDockerNode"
+   if (useDefault && !(config.images && config.images.img)){
      steps.node(){
        body()
      }
@@ -149,6 +151,7 @@ handleGenericNode() implements the node step when the agentType is generic
 
 void handleGenericNode(String label, Closure body, Boolean useDefault)
 {
+   println " Inside handleGenericNode"
    def nodeLabel = getNodeLabel(body,useDefault)
    if (nodeLabel != "")
    {
@@ -178,6 +181,8 @@ function is used as a default.
 
 String getImage(String label, Closure body, String agentType, Boolean useDefault)
 {
+
+   println " Inside getImage"
    if (agentType == "docker"){
     if(useDefault)
         bodyConfig = config.images
@@ -221,7 +226,7 @@ either of these locations then an empty string is returned
 
 String getRegistry(Closure body, String agentType, Boolean useDefault)
 {
-
+   println "Inside getRegistry"
    if (agentType == "docker"){
     if(useDefault)
         bodyConfig = config.images
@@ -255,6 +260,8 @@ registry name is specified in either of these locations then an empty string is 
 
 String getRegistryCred(Closure body, String agentType, Boolean useDefault)
 {
+
+   println "Inside getRegistryCred"
 
    if (agentType == "docker"){
     if(useDefault)
@@ -291,6 +298,7 @@ either of these locations then an empty string is returned
 String getDockerArgs(Closure body, Boolean useDefault)
 {
 
+   println "Inside getDockerArgs"
    if (useDefault)
      def docker_args =  config.images ? config.images.docker_args?: { return ""}()
                                       : { return ""}()
@@ -314,6 +322,7 @@ configurations an empty string is returned
 String getNodeLabel(Closure body, Boolean useDefault)
 {
 
+println "Inside getNodeLabel"
 if (useDefault)
   def nodeLabel = config.nodeLabel ?: {return "" }()
 else
@@ -331,6 +340,7 @@ configurations, then an empty string is returned
 
 String getPodTemplate(String label, Closure body, Boolean useDefault) {
 
+println "Inside getPodTemplate"
   def podYaml= """\
 apiVersion: v1
 kind: Pod
@@ -359,6 +369,7 @@ used to deploy the Kubernetes pod
 
 String getPodImage(String label, Closure body, Boolean useDefault){
 
+  println "Inside getPodImage"
   def sdp_img     = getImage(label,body,"kubernetes",useDefault)
 
   def sdp_img_reg = getRegistry(body,"kubernetes",useDefault)
@@ -378,6 +389,7 @@ kubernetes jenkins agent pods
 
 String getPodNamespace(Closure body, Boolean useDefault){
 
+  println "Inside getPodNamespace"
   if(useDefault){
     def namespace = config.podSpec ? config.podSpec.namespace ?: { return "default" }() 
                                    : { return "default" }()
@@ -401,6 +413,7 @@ kubernetes jenkins agent pods
 
 String getPodCloudName(Closure body, Boolean useDefault){
 
+  println "Inside getPodCloudName"
   if(useDefault){
     def cloudName = config.podSpec ? config.podSpec.cloudName ?: { return "kubernetes" }() 
                                    : { return "kubernetes" }()
