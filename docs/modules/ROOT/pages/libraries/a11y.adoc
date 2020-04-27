@@ -22,7 +22,7 @@ It validates pages against the following specifications/laws:
 
 == Library Configuration Options
 
-.Configuration Options
+.A11y specific Configuration Options
 |===
 | *Field* | *Description* | *Default Value*
 
@@ -30,6 +30,13 @@ It validates pages against the following specifications/laws:
 | The url a11y will crawl and scan
 | 
  
+.Common Configuration Options
+|===
+| *Field* | *Description* | *Default Value*
+
+| url
+| The url a11y will crawl and scan
+| 
 |===
 
 A target URL can be given. However `*env.FRONTEND_URL*` supersedes all configurations. If no `*env.FRONTEND_URL*` is found then the provided target URL is used. If no URL is provided an error is thrown.

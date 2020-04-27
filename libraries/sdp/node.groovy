@@ -19,6 +19,16 @@ void call(String label = null, Closure body){
           this probably means the node block called is not called from within a library step 
           - should be processed in the traditional manner
        */
+
+    /* If being called with a specified node label no need to process further */
+    if (label){
+      steps.node(){
+        body()
+      }
+      return
+    }
+
+    /* Otherwise force use the default node when specified */
     /* Assume generic agent if agentType is not known */
     def agentType = config.agentType ?:
                     { return "generic" }()
@@ -65,16 +75,16 @@ handleKubernetesNode() implements the node step when the agentType is kubernetes
 
 ***************************************************************************************************/
 
-void handleKubernetesNode( String label, Closure body, Boolean useDefault)
+void handleKubernetesNode( String label, Closure body, Boolean forceUseDefault)
 {
     println "Inside handleKubernetesNode"
-    if (useDefault && !(config.podSpec ||  config.podSpec.img)){
+    if (forceUseDefault && !(config.podSpec ||  config.podSpec.img)){
       steps.node(){
         body()
       }
     }
     else{
-      podTemplate(yaml: "${getPodTemplate(label,body,useDefault)}",workingDir: "/home/jenkins/agent", cloud: "${getPodCloudName(body,useDefault)}", namespace: "${getPodNamespace(body,useDefault)}"){
+      podTemplate(yaml: "${getPodTemplate(label,body,forceUseDefault)}",workingDir: "/home/jenkins/agent", cloud: "${getPodCloudName(body,forceUseDefault)}", namespace: "${getPodNamespace(body,forceUseDefault)}"){
         steps.node(POD_LABEL){
           container('sdp-container') {
             body()
@@ -90,31 +100,31 @@ handleDockerNode() implements the node step when the agentType is docker
 
 ***************************************************************************************************/
 
-void handleDockerNode(String label, Closure body, Boolean useDefault)
+void handleDockerNode(String label, Closure body, Boolean forceUseDefault)
 {
 
    println "Inside handleDockerNode"
-   if (useDefault && !(config.images || config.images.img)){
+   if (forceUseDefault && !(config.images || config.images.img)){
      steps.node(){
        body()
      }
    }
    else{
-     def nodeLabel = getNodeLabel(body,useDefault)
+     def nodeLabel = getNodeLabel(body,forceUseDefault)
      if (nodeLabel != "")
      {
         steps.node(nodeLabel){
-          def sdp_img_reg = getRegistry(body,"docker",useDefault)
+          def sdp_img_reg = getRegistry(body,"docker",forceUseDefault)
           if (sdp_img_reg != ""){
-            docker.withRegistry(sdp_img_reg, "${getRegistryCred(body,"docker",useDefault)}"){
-              docker.image("${getImage(label,body,"docker",useDefault)}").inside("${getDockerArgs(body,useDefault)}"){
+            docker.withRegistry(sdp_img_reg, "${getRegistryCred(body,"docker",forceUseDefault)}"){
+              docker.image("${getImage(label,body,"docker",forceUseDefault)}").inside("${getDockerArgs(body,forceUseDefault)}"){
                 body()
               } 
             }
           }
           else{
             /* For public docker registry, there is no need to login */
-            docker.image("${getImage(label,body,"docker",useDefault)}").inside("${getDockerArgs(body,useDefault)}"){
+            docker.image("${getImage(label,body,"docker",forceUseDefault)}").inside("${getDockerArgs(body,forceUseDefault)}"){
               body()
             }
           }
@@ -125,17 +135,17 @@ void handleDockerNode(String label, Closure body, Boolean useDefault)
         println "docker agentType launching on any available node"
        /* Execute on any available node */
        steps.node(){
-         def sdp_img_reg = getRegistry(body,"docker",useDefault)
+         def sdp_img_reg = getRegistry(body,"docker",forceUseDefault)
          if (sdp_img_reg != ""){
-            docker.withRegistry(sdp_img_reg, "${getRegistryCred(body,"docker",useDefault)}"){
-              docker.image("${getImage(label,body,"docker",useDefault)}").inside("${getDockerArgs(body,useDefault)}"){
+            docker.withRegistry(sdp_img_reg, "${getRegistryCred(body,"docker",forceUseDefault)}"){
+              docker.image("${getImage(label,body,"docker",forceUseDefault)}").inside("${getDockerArgs(body,forceUseDefault)}"){
                 body()
              }
            }
         }
         else{
           /* For public docker registry, there is no need to login */
-          docker.image("${getImage(label,body,"docker",useDefault)}").inside("${getDockerArgs(body,useDefault)}"){
+          docker.image("${getImage(label,body,"docker",forceUseDefault)}").inside("${getDockerArgs(body,forceUseDefault)}"){
             body()
           }  
         }
@@ -150,10 +160,10 @@ handleGenericNode() implements the node step when the agentType is generic
 
 ***************************************************************************************************/
 
-void handleGenericNode(String label, Closure body, Boolean useDefault)
+void handleGenericNode(String label, Closure body, Boolean forceUseDefault)
 {
    println " Inside handleGenericNode"
-   def nodeLabel = getNodeLabel(body,useDefault)
+   def nodeLabel = getNodeLabel(body,forceUseDefault)
    if (nodeLabel != "")
    {
       /* Execute on a particular node */
@@ -180,19 +190,19 @@ function is used as a default.
 
 ***************************************************************************************************/ 
 
-String getImage(String label, Closure body, String agentType, Boolean useDefault)
+String getImage(String label, Closure body, String agentType, Boolean forceUseDefault)
 {
 
    println " Inside getImage"
    if (agentType == "docker"){
-    if(useDefault)
+    if(forceUseDefault)
         bodyConfig = config.images
     else
    	bodyConfig = body.config.images
       libConfig = config.images
    }
    else{
-    if(useDefault)
+    if(forceUseDefault)
         bodyConfig = config.podSpec
     else
    	bodyConfig = body.config.podSpec
@@ -225,18 +235,18 @@ either of these locations then an empty string is returned
 
 ***************************************************************************************************/ 
 
-String getRegistry(Closure body, String agentType, Boolean useDefault)
+String getRegistry(Closure body, String agentType, Boolean forceUseDefault)
 {
    println "Inside getRegistry"
    if (agentType == "docker"){
-    if(useDefault)
+    if(forceUseDefault)
         bodyConfig = config.images
     else
         bodyConfig = body.config.images
       libConfig = config.images
    }
    else{
-    if(useDefault)
+    if(forceUseDefault)
         bodyConfig = config.podSpec
     else
         bodyConfig = body.config.podSpec
@@ -259,20 +269,20 @@ registry name is specified in either of these locations then an empty string is 
 
 ***************************************************************************************************/ 
 
-String getRegistryCred(Closure body, String agentType, Boolean useDefault)
+String getRegistryCred(Closure body, String agentType, Boolean forceUseDefault)
 {
 
    println "Inside getRegistryCred"
 
    if (agentType == "docker"){
-    if(useDefault)
+    if(forceUseDefault)
         bodyConfig = config.images
     else
         bodyConfig = body.config.images
       libConfig = config.images
    }
    else{
-    if(useDefault)
+    if(forceUseDefault)
         bodyConfig = config.podSpec
     else
         bodyConfig = body.config.podSpec
@@ -296,11 +306,11 @@ either of these locations then an empty string is returned
 
 ***************************************************************************************************/ 
 
-String getDockerArgs(Closure body, Boolean useDefault)
+String getDockerArgs(Closure body, Boolean forceUseDefault)
 {
 
    println "Inside getDockerArgs"
-   if (useDefault)
+   if (forceUseDefault)
       docker_args =  config.images ? config.images.docker_args?: { return ""}()
                                       : { return ""}()
    else
@@ -320,11 +330,11 @@ configurations an empty string is returned
 
 ***************************************************************************************************/
 
-String getNodeLabel(Closure body, Boolean useDefault)
+String getNodeLabel(Closure body, Boolean forceUseDefault)
 {
 
 println "Inside getNodeLabel"
-if (useDefault)
+if (forceUseDefault)
   def nodeLabel = config.nodeLabel ?: {return "" }()
 else
   def nodeLabel = body.config.nodeLabel ?: config.nodeLabel ?: {return "" }()
@@ -339,7 +349,7 @@ configurations, then an empty string is returned
 
 ***************************************************************************************************/
 
-String getPodTemplate(String label, Closure body, Boolean useDefault) {
+String getPodTemplate(String label, Closure body, Boolean forceUseDefault) {
 
 println "Inside getPodTemplate"
   def podYaml= """\
@@ -349,9 +359,9 @@ metadata:
   name: sdp-slave
 spec:
   containers:
-  - image: ${getPodImage(label,body,useDefault)}
+  - image: ${getPodImage(label,body,forceUseDefault)}
     imagePullPolicy: IfNotPresent
-    imagePullSecrets: ${getRegistryCred(body,"kubernetes",useDefault)}
+    imagePullSecrets: ${getRegistryCred(body,"kubernetes",forceUseDefault)}
     name: sdp-container
     tty: true
     workingDir: /home/jenkins/agent
@@ -368,12 +378,12 @@ used to deploy the Kubernetes pod
 
 ***************************************************************************************************/
 
-String getPodImage(String label, Closure body, Boolean useDefault){
+String getPodImage(String label, Closure body, Boolean forceUseDefault){
 
   println "Inside getPodImage"
-  def sdp_img     = getImage(label,body,"kubernetes",useDefault)
+  def sdp_img     = getImage(label,body,"kubernetes",forceUseDefault)
 
-  def sdp_img_reg = getRegistry(body,"kubernetes",useDefault)
+  def sdp_img_reg = getRegistry(body,"kubernetes",forceUseDefault)
 
   if (sdp_img_reg != "") 
    return "${sdp_img_reg}/${sdp_img}"
@@ -388,10 +398,10 @@ kubernetes jenkins agent pods
 
 ***************************************************************************************************/
 
-String getPodNamespace(Closure body, Boolean useDefault){
+String getPodNamespace(Closure body, Boolean forceUseDefault){
 
   println "Inside getPodNamespace"
-  if(useDefault)
+  if(forceUseDefault)
      namespace = config.podSpec ? config.podSpec.namespace ?: { return "default" }() 
                                    : { return "default" }()
   else
@@ -410,10 +420,10 @@ kubernetes jenkins agent pods
 
 ***************************************************************************************************/
 
-String getPodCloudName(Closure body, Boolean useDefault){
+String getPodCloudName(Closure body, Boolean forceUseDefault){
 
   println "Inside getPodCloudName"
-  if(useDefault)
+  if(forceUseDefault)
     cloudName = config.podSpec ? config.podSpec.cloudName ?: { return "kubernetes" }() 
                                    : { return "kubernetes" }()
   
