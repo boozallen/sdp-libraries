@@ -378,16 +378,18 @@ kubernetes jenkins agent pods
 
 String getPodNamespace(Closure body, Boolean useDefault){
 
-  if(useDefault)
+  if(useDefault){
     def namespace = config.podSpec ? config.podSpec.namespace ?: { return "default" }() 
                                    : { return "default" }()
-  else
+    return namespace
+  }
+  else{
     def namespace = body.config.podSpec ? body.config.podSpec.namespace ?: config.podSpec ? config.podSpec.namespace ?: { return "default" }() 
                                                                                         : { return "default" }() 
                                         : config.podSpec ? config.podSpec.namespace ?: { return "default" }()
                                                          : { return "default" }() 
-
-  return namespace
+    return namespace
+  }
 }
 
 /***************************************************************************************************
