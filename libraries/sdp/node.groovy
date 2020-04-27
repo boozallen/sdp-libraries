@@ -35,6 +35,7 @@ void call(String label = null, Closure body){
         break
 
     }
+    return
 }
 
     /* Determine agent Type from library configuration and default configuration 
