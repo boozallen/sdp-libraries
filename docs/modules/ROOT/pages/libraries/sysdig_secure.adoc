@@ -34,6 +34,11 @@ This library leverages Sysdig Secure's https://github.com/sysdiglabs/secure-inli
 | A string matching a credential id of a secret text credential in the Jenkins Credential store holding an API token to authenticate to the Sysdig Secure API
 |
 
+| enforce_success
+| Boolean 
+| Whether or not to fail the build if the scan fails
+| true 
+
 |===
 
 

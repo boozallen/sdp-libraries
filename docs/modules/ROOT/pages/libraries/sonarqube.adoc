@@ -37,7 +37,7 @@ Organizations can define Quality Profiles which are custom rule profiles that pr
 ----
 libraries{
   sonarqube{
-    credential_id = sonarqube
+    credential_id = "sonarqube"
   }
 }
 ----
