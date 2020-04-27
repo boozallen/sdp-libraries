@@ -103,8 +103,8 @@ void handleDockerNode(String label, Closure body, Boolean useDefault)
         steps.node(nodeLabel){
           def sdp_img_reg = getRegistry(body,"docker",useDefault)
           if (sdp_img_reg != ""){
-            docker.withRegistry(sdp_img_reg, "${getRegistryCred(body,"docker",useDefault)}){
-            docker.image("${getImage(label,body,"docker",useDefault)}").inside("${getDockerArgs(body,useDefault)}"){
+            docker.withRegistry(sdp_img_reg, "${getRegistryCred(body,"docker",useDefault)}"){
+              docker.image("${getImage(label,body,"docker",useDefault)}").inside("${getDockerArgs(body,useDefault)}"){
                 body()
               } 
             }
