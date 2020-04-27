@@ -304,7 +304,7 @@ String getDockerArgs(Closure body, Boolean useDefault)
       docker_args =  config.images ? config.images.docker_args?: { return ""}()
                                       : { return ""}()
    else
-     def docker_args =  body.config.images ? body.config.images.docker_args ?: config.images ? config.images.docker_args?: { return ""}()
+      docker_args =  body.config.images ? body.config.images.docker_args ?: config.images ? config.images.docker_args?: { return ""}()
                                                                                            : { return ""}()
                                            : config.images ? config.images.docker_args?: { return ""}()
                                                            : { return ""}()
