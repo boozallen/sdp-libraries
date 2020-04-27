@@ -64,7 +64,7 @@ handleKubernetesNode() implements the node step when the agentType is kubernetes
 
 ***************************************************************************************************/
 
-void handleKubernetesNode(Boolean default, String label, Closure body)
+void handleKubernetesNode( boolean useDefault, String label, Closure body)
 {
     if (default && !(config.podSpec && config.podSpec.img)){
       steps.node(){
