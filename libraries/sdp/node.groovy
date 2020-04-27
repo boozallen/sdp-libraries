@@ -300,15 +300,18 @@ String getDockerArgs(Closure body, Boolean useDefault)
 {
 
    println "Inside getDockerArgs"
-   if (useDefault)
+   if (useDefault){
      def docker_args =  config.images ? config.images.docker_args?: { return ""}()
                                       : { return ""}()
-   else
+     return docker_args
+   }
+   else{
      def docker_args =  body.config.images ? body.config.images.docker_args ?: config.images ? config.images.docker_args?: { return ""}()
                                                                                            : { return ""}()
                                            : config.images ? config.images.docker_args?: { return ""}()
                                                            : { return ""}()
-   return docker_args
+     return docker_args
+   }
 
 }
 
