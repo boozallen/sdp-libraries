@@ -399,14 +399,16 @@ kubernetes jenkins agent pods
 
 String getPodCloudName(Closure body, Boolean useDefault){
 
-  if(useDefault)
+  if(useDefault){
     def cloudName = config.podSpec ? config.podSpec.cloudName ?: { return "kubernetes" }() 
                                    : { return "kubernetes" }()
-  else
+    return cloudName
+  }
+  else{
     def cloudName = body.config.podSpec ? body.config.podSpec.cloudName ?: config.podSpec ? config.podSpec.cloudName ?: { return "kubernetes" }() 
                                                                                           : { return "kubernetes" }() 
                                         : config.podSpec ? config.podSpec.namespace ?: { return "kubernetes" }()
                                                          : { return "kubernetes" }() 
-
-  return cloudName
+     return cloudName
+   }
 }
