@@ -52,7 +52,7 @@ void call(String label = null, Closure body){
       case "generic":
         handleGenericNode(label,body,false)
         break
-      defult:
+      default:
         error "SDP Agent Type not derivable" 
         break
     }
@@ -176,7 +176,7 @@ function is used as a default.
 
 ***************************************************************************************************/ 
 
-String getImage(String label, Closure body, String agentType, Boolean default)
+String getImage(String label, Closure body, String agentType, Boolean useDefault)
 {
    if (agentType == "docker"){
     if(useDefault)
