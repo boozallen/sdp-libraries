@@ -293,6 +293,7 @@ String getDockerArgs(Closure body, Boolean useDefault)
 
    if (useDefault)
      def docker_args =  config.images ? config.images.docker_args?: { return ""}()
+                                      : { return ""}()
    else
      def docker_args =  body.config.images ? body.config.images.docker_args ?: config.images ? config.images.docker_args?: { return ""}()
                                                                                            : { return ""}()
