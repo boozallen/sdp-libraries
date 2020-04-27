@@ -9,7 +9,7 @@
   
 ***************************************************************************************************/
 void call(String label = null, Closure body){
-    println ("inside nodeStep"
+    println "Inside nodeStep"
     def bodyConfig = [:]
     try{
         bodyConfig = body.config
