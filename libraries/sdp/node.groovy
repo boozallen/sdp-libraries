@@ -64,7 +64,7 @@ handleKubernetesNode() implements the node step when the agentType is kubernetes
 
 ***************************************************************************************************/
 
-void handleKubernetesNode(String label, Closure body, Boolean default)
+void handleKubernetesNode(String label, Closure body, boolean default)
 {
     if (default && !(config.podSpec && config.podSpec.img)){
       steps.node(){
@@ -88,7 +88,7 @@ handleDockerNode() implements the node step when the agentType is docker
 
 ***************************************************************************************************/
 
-void handleDockerNode(String label, Closure body, Boolean default)
+void handleDockerNode(String label, Closure body, boolean default)
 {
 
    if (default && !(config.images && config.images.img)){
@@ -147,7 +147,7 @@ handleGenericNode() implements the node step when the agentType is generic
 
 ***************************************************************************************************/
 
-void handleGenericNode(String label, Closure body, Boolean default)
+void handleGenericNode(String label, Closure body, boolean default)
 {
    def nodeLabel = getNodeLabel(body,default)
    if (nodeLabel != "")
@@ -176,7 +176,7 @@ function is used as a default.
 
 ***************************************************************************************************/ 
 
-String getImage(String label, Closure body, String agentType, Boolean default)
+String getImage(String label, Closure body, String agentType, boolean default)
 {
    if (agentType == "docker"){
     if(default)
@@ -219,7 +219,7 @@ either of these locations then an empty string is returned
 
 ***************************************************************************************************/ 
 
-String getRegistry(Closure body, String agentType, Boolean default)
+String getRegistry(Closure body, String agentType, boolean default)
 {
 
    if (agentType == "docker"){
@@ -253,7 +253,7 @@ registry name is specified in either of these locations then an empty string is 
 
 ***************************************************************************************************/ 
 
-String getRegistryCred(Closure body, String agentType, Boolean default)
+String getRegistryCred(Closure body, String agentType, boolean default)
 {
 
    if (agentType == "docker"){
@@ -288,7 +288,7 @@ either of these locations then an empty string is returned
 
 ***************************************************************************************************/ 
 
-String getDockerArgs(Closure body, Boolean default)
+String getDockerArgs(Closure body, boolean default)
 {
 
    if (default)
@@ -310,7 +310,7 @@ configurations an empty string is returned
 
 ***************************************************************************************************/
 
-String getNodeLabel(Closure body, Boolean default)
+String getNodeLabel(Closure body, boolean default)
 {
 
 if (default)
@@ -328,7 +328,7 @@ configurations, then an empty string is returned
 
 ***************************************************************************************************/
 
-String getPodTemplate(String label, Closure body, Boolean default) {
+String getPodTemplate(String label, Closure body, boolean default) {
 
   def podYaml= """\
 apiVersion: v1
@@ -357,7 +357,7 @@ used to deploy the Kubernetes pod
 
 ***************************************************************************************************/
 
-String getPodImage(String label, Closure body, Boolean default){
+String getPodImage(String label, Closure body, boolean default){
 
   def sdp_img     = getImage(label,body,"kubernetes",default)
 
@@ -376,7 +376,7 @@ kubernetes jenkins agent pods
 
 ***************************************************************************************************/
 
-String getPodNamespace(Closure body, Boolean default){
+String getPodNamespace(Closure body, boolean default){
 
   if(default)
     def namespace = config.podSpec ? config.podSpec.namespace ?: { return "default" }() 
@@ -397,7 +397,7 @@ kubernetes jenkins agent pods
 
 ***************************************************************************************************/
 
-String getPodCloudName(Closure body, Boolean default){
+String getPodCloudName(Closure body, boolean default){
 
   if(default)
     def cloudName = config.podSpec ? config.podSpec.cloudName ?: { return "kubernetes" }() 
