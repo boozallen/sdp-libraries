@@ -68,7 +68,7 @@ handleKubernetesNode() implements the node step when the agentType is kubernetes
 void handleKubernetesNode( String label, Closure body, Boolean useDefault)
 {
     println "Inside handleKubernetesNode"
-    if (useDefault && !(config.podSpec && config.podSpec.img)){
+    if (useDefault && !(config.podSpec ||  config.podSpec.img)){
       steps.node(){
         body()
       }
@@ -94,7 +94,7 @@ void handleDockerNode(String label, Closure body, Boolean useDefault)
 {
 
    println "Inside handleDockerNode"
-   if (useDefault && !(config.images && config.images.img)){
+   if (useDefault && !(config.images || config.images.img)){
      steps.node(){
        body()
      }
@@ -300,18 +300,15 @@ String getDockerArgs(Closure body, Boolean useDefault)
 {
 
    println "Inside getDockerArgs"
-   if (useDefault){
-     def docker_args =  config.images ? config.images.docker_args?: { return ""}()
+   if (useDefault)
+      docker_args =  config.images ? config.images.docker_args?: { return ""}()
                                       : { return ""}()
-     return docker_args
-   }
-   else{
+   else
      def docker_args =  body.config.images ? body.config.images.docker_args ?: config.images ? config.images.docker_args?: { return ""}()
                                                                                            : { return ""}()
                                            : config.images ? config.images.docker_args?: { return ""}()
                                                            : { return ""}()
-     return docker_args
-   }
+   return docker_args
 
 }
 
@@ -394,18 +391,16 @@ kubernetes jenkins agent pods
 String getPodNamespace(Closure body, Boolean useDefault){
 
   println "Inside getPodNamespace"
-  if(useDefault){
-    def namespace = config.podSpec ? config.podSpec.namespace ?: { return "default" }() 
+  if(useDefault)
+     namespace = config.podSpec ? config.podSpec.namespace ?: { return "default" }() 
                                    : { return "default" }()
-    return namespace
-  }
-  else{
-    def namespace = body.config.podSpec ? body.config.podSpec.namespace ?: config.podSpec ? config.podSpec.namespace ?: { return "default" }() 
+  else
+     namespace = body.config.podSpec ? body.config.podSpec.namespace ?: config.podSpec ? config.podSpec.namespace ?: { return "default" }() 
                                                                                         : { return "default" }() 
                                         : config.podSpec ? config.podSpec.namespace ?: { return "default" }()
                                                          : { return "default" }() 
-    return namespace
-  }
+  return namespace
+  
 }
 
 /***************************************************************************************************
@@ -418,16 +413,16 @@ kubernetes jenkins agent pods
 String getPodCloudName(Closure body, Boolean useDefault){
 
   println "Inside getPodCloudName"
-  if(useDefault){
-    def cloudName = config.podSpec ? config.podSpec.cloudName ?: { return "kubernetes" }() 
+  if(useDefault)
+    cloudName = config.podSpec ? config.podSpec.cloudName ?: { return "kubernetes" }() 
                                    : { return "kubernetes" }()
-    return cloudName
-  }
-  else{
-    def cloudName = body.config.podSpec ? body.config.podSpec.cloudName ?: config.podSpec ? config.podSpec.cloudName ?: { return "kubernetes" }() 
+  
+  else
+    cloudName = body.config.podSpec ? body.config.podSpec.cloudName ?: config.podSpec ? config.podSpec.cloudName ?: { return "kubernetes" }() 
                                                                                           : { return "kubernetes" }() 
                                         : config.podSpec ? config.podSpec.namespace ?: { return "kubernetes" }()
                                                          : { return "kubernetes" }() 
-     return cloudName
-   }
+
+   return cloudName
+   
 }
