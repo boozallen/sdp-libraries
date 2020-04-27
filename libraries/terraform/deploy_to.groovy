@@ -26,7 +26,7 @@ void call(app_env){
         }
     }
 
-    inside_sdp_image "terraform", {
+    node('terraform'){
         unstash "workspace"
         if(!fileExists(workingDir)){
             error "specified working directory '${workingDir}' does not exist"

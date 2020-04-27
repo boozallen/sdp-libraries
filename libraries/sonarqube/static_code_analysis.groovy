@@ -12,9 +12,9 @@ def call(){
   enforce = config.containsKey("enforce_quality_gate") ? 
             config.enforce_quality_gate : true
 
+node('sonar-scanner'){
   stage("SonarQube Analysis"){
-    inside_sdp_image "sonar-scanner", {
-      withCredentials([usernamePassword(credentialsId: cred_id, passwordVariable: 'token', usernameVariable: 'user')]) {
+        withCredentials([usernamePassword(credentialsId: cred_id, passwordVariable: 'token', usernameVariable: 'user')]) {
         withSonarQubeEnv("SonarQube"){
           unstash "workspace"
           try{ unstash "test-results" }catch(ex){}
