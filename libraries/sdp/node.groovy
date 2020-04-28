@@ -27,6 +27,8 @@ void call(String label = null, Closure body){
       }
       return
     }
+    println "Testing SETTING Configuration"
+    body.config = config
 
     /* Otherwise force use the default node when specified */
     /* Assume generic agent if agentType is not known */
