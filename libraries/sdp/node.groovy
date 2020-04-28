@@ -50,7 +50,7 @@ void processNodeCall(String label, Closure body, Boolean forceUseDefault){
         handleKubernetesNode(label,body,forceUseDefault)
         break
       case "docker":
-        handleDockerNode(label,body,forceuseDefault)
+        handleDockerNode(label,body,forceUseDefault)
         break
       case "generic":
         handleGenericNode(label,body,forceUseDefault)
