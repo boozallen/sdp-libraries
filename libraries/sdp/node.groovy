@@ -21,55 +21,46 @@ void call(String label = null, Closure body){
        */
 
     /* If being called with a specified node label no need to process further */
-    if (label){
-      steps.node(){
+    processNodeCall(label,body,true)
+    return
+}
+    procesNodeCall(label,body,false)
+    return
+}
+
+void processNodeCall(String label, Closure body, Boolean forceUseDefault){
+
+    if (forceUseDefault && label){
+      steps.node(label){
         body()
       }
       return
     }
-    println "Testing SETTING Configuration"
-    body.config = config
-
-    /* Otherwise force use the default node when specified */
-    /* Assume generic agent if agentType is not known */
-    def agentType = config.agentType ?:
-                    { return "generic" }()
-
-    switch(agentType){
-      case "kubernetes":
-        handleKubernetesNode(label,body,true)
-        break;
-      case "generic":
-        handleGenericNode(label,body,true)
-        break
-      default:
-        error "SDP Agent Type not derivable" 
-        break
-
-    }
-    return
-}
 
     /* Determine agent Type from library configuration and default configuration 
        Assume generic if none specified */
-    def agentType = body.config.agentType ?: config.agentType ?: { return "generic" }()
+    if(forceUseDefault)
+       agentType = config.agentType ?: { return "generic" }()
+    else
+       agentType = body.config.agentType ?: config.agentType ?: { return "generic" }()
                                 
 
     switch(agentType){
       case "kubernetes":
-        handleKubernetesNode(label,body,false)
+        handleKubernetesNode(label,body,forceUseDefault)
         break
       case "docker":
-        handleDockerNode(label,body,false)
+        handleDockerNode(label,body,forceuseDefault)
         break
       case "generic":
-        handleGenericNode(label,body,false)
+        handleGenericNode(label,body,forceUseDefault)
         break
       default:
         error "SDP Agent Type not derivable" 
         break
     }
 }
+
 
 /***************************************************************************************************
 
@@ -80,7 +71,7 @@ handleKubernetesNode() implements the node step when the agentType is kubernetes
 void handleKubernetesNode( String label, Closure body, Boolean forceUseDefault)
 {
     println "Inside handleKubernetesNode"
-    if (forceUseDefault && !(config.podSpec ||  config.podSpec.img)){
+    if (forceUseDefault && !(config.podSpec &&  config.podSpec.img)){
       steps.node(){
         body()
       }
@@ -106,11 +97,9 @@ void handleDockerNode(String label, Closure body, Boolean forceUseDefault)
 {
 
    println "Inside handleDockerNode"
-   if (forceUseDefault && !(config.images || config.images.img)){
-     steps.node(){
-       body()
+   if (forceUseDefault && !(config.images &&  config.images.img)){
+     error "Default SDP Image not defined  for agent type "docker"
      }
-   }
    else{
      def nodeLabel = getNodeLabel(body,forceUseDefault)
      if (nodeLabel != "")
