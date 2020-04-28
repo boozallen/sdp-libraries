@@ -8,13 +8,9 @@ import hudson.scm.SCM
 
 @Validate // validate so this runs prior to other @Init steps
 void call(context){
-    println "inside "
-    GlobalVariable scmVar = GlobalVariable.byName("scm", currentBuild.rawBuild)
-    SCM scm = scmVar.getValue(this)
-    println scm
-
     node{
-        if(scm instanceof SCM){
+        def scm = getSCM()
+        if(scm){
             cleanWs()
             checkout scm
         } else {
@@ -22,4 +18,11 @@ void call(context){
         }
         stash name: 'workspace', allowEmpty: true, useDefaultExcludes: false
     }
+}
+
+@NonCPS
+SCM getSCM(){
+    GlobalVariable scmVar = GlobalVariable.byName("scm", currentBuild.rawBuild)
+    SCM scm = scmVar.getValue(this)
+    return scm
 }
