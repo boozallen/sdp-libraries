@@ -4,12 +4,17 @@
 */
 import org.jenkinsci.plugins.workflow.cps.GlobalVariable
 import org.jenkinsci.plugins.workflow.multibranch.SCMVar
+import hudson.scm.SCM
 
 @Validate // validate so this runs prior to other @Init steps
 void call(context){
-    GlobalVariable scm = GlobalVariable.byName("scm", currentBuild.rawBuild)
+    println "inside "
+    GlobalVariable scmVar = GlobalVariable.byName("scm", currentBuild.rawBuild)
+    SCM scm = scmVar.getValue(this)
+    println scm
+
     node{
-        if(scm instanceof SCMVar){
+        if(scm instanceof SCM){
             cleanWs()
             checkout scm
         } else {
