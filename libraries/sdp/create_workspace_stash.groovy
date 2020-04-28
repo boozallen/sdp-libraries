@@ -13,7 +13,7 @@ void call(context){
     println "inside" 
     node{
         println "fetching scm" 
-        println "scm = ${getSCM()}"
+        println "scm = ${scm}"
         if(getSCM()){
             cleanWs()
             checkout getSCM()
