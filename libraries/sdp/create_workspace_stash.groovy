@@ -12,6 +12,7 @@ import org.boozallen.plugins.jte.console.TemplateLogger
 void call(context){
     node{
         def scm = getSCM()
+        println "scm = ${scm}"
         if(scm){
             cleanWs()
             checkout scm
