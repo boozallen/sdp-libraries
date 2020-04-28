@@ -24,5 +24,6 @@ void call(context){
 SCM getSCM(){
     GlobalVariable scmVar = GlobalVariable.byName("scm", currentBuild.rawBuild)
     SCM scm = scmVar.getValue(this)
+    println "scm = ${scm}"
     return scm
 }
