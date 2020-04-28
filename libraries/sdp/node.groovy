@@ -24,7 +24,7 @@ void call(String label = null, Closure body){
     processNodeCall(label,body,true)
     return
 }
-    procesNodeCall(label,body,false)
+    processNodeCall(label,body,false)
     return
 }
 
