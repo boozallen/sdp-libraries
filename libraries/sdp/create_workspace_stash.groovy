@@ -5,6 +5,8 @@
 import org.jenkinsci.plugins.workflow.cps.GlobalVariable
 import org.jenkinsci.plugins.workflow.multibranch.SCMVar
 import hudson.scm.SCM
+import org.boozallen.plugins.jte.console.TemplateLogger
+
 
 @Validate // validate so this runs prior to other @Init steps
 void call(context){
@@ -24,6 +26,6 @@ void call(context){
 SCM getSCM(){
     GlobalVariable scmVar = GlobalVariable.byName("scm", currentBuild.rawBuild)
     SCM scm = scmVar.getValue(this)
-    println "scm = ${scm}"
+    TemplateLogger.printWarning "scm = ${scm}"
     return scm
 }
