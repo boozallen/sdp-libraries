@@ -10,8 +10,9 @@ void call(context){
     node{
         cleanWs()
         try{
-            checkout scm
             throw new Exception("diff exception")
+            checkout scm
+            
         }catch(AbortException ex) {
             println "scm var not present, skipping source code checkout" 
         }
