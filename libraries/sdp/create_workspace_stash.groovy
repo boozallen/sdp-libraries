@@ -10,7 +10,9 @@ import org.boozallen.plugins.jte.console.TemplateLogger
 
 @Validate // validate so this runs prior to other @Init steps
 void call(context){
+    println "inside" 
     node{
+        println "fetching scm" 
         def scm = getSCM()
         println "scm = ${scm}"
         if(scm){
