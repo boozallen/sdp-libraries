@@ -2,6 +2,11 @@
 
 The Solution Delivery Platform's open source pipeline libraries plug in to the xref:jte:ROOT:index.adoc[Jenkins Templating Engine] to accelerate the development of a DevSecOps pipeline. 
 
+[IMPORTANT]
+====
+For any relevant upgrade notes about the SDP Pipeline Libraries, checkout the https://github.com/boozallen/sdp-libraries/releases[GitHub Releases]. 
+====
+
 == Motivation 
 
 The Jenkins pipeline-as-code that is developed to perform various tool integrations is largely undifferentiated.  That is to say, it doesn't really matter what project you're working on - the pipeline code that's written can be reused anywhere if the configuration is appropriately externalized.  
