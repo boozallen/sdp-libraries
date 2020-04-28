@@ -98,7 +98,7 @@ void handleDockerNode(String label, Closure body, Boolean forceUseDefault)
 
    println "Inside handleDockerNode"
    if (forceUseDefault && !(config.images &&  config.images.img)){
-     error "Default SDP Image not defined  for agent type "docker"
+     error "Default SDP Image not defined for agent type docker"
      }
    else{
      def nodeLabel = getNodeLabel(body,forceUseDefault)
