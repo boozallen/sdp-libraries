@@ -4,32 +4,39 @@
 */
 
 /***************************************************************************************************
-  An implementtaion of custom node step to be used by SDP library  steps to run a step on a 
+  An implementtaion of custom node step to be used by SDP library to run a step on a 
   particular node. 
   
 ***************************************************************************************************/
+
 void call(String label = null, Closure body){
-    println "Inside nodeStep"
+
     def bodyConfig = [:]
     try{
         bodyConfig = body.config
     }catch(MissingPropertyException ex){
-       /*
-          config not defined
-          this probably means the node block called is not called from within a library step 
-          - should be processed in the traditional manner
-       */
-
-    /* If being called with a specified node label no need to process further */
-    processNodeCall(label,body,true)
-    return
-}
+    /* This is a call to the "node" step from outside SDP librrary. Use default configuration */
+      processNodeCall(label,body,true)
+      return
+    }
+    /* This is a call to the "node" step from the SDP librrary. The final configuration fields would
+       be based on the combination of default configuration and the configuration overridden by the
+       lbrary step's config */
     processNodeCall(label,body,false)
     return
 }
 
+/***************************************************************************************************
+  processNodeCall() is a helper method to take on incoming calls to "node" step. "forceUseDefault" is 
+  true if this method is called on account of a "node" call from outside the library and false 
+  if called by a library step. 
+  
+***************************************************************************************************/
+
 void processNodeCall(String label, Closure body, Boolean forceUseDefault){
 
+    /* If being called from outside the SDP library and supplied with a specified node label 
+       no need to process further */
     if (forceUseDefault && label){
       steps.node(label){
         body()
@@ -70,7 +77,6 @@ handleKubernetesNode() implements the node step when the agentType is kubernetes
 
 void handleKubernetesNode( String label, Closure body, Boolean forceUseDefault)
 {
-    println "Inside handleKubernetesNode"
     if (forceUseDefault && !(config.podSpec &&  config.podSpec.img)){
       steps.node(){
         body()
@@ -96,7 +102,6 @@ handleDockerNode() implements the node step when the agentType is docker
 void handleDockerNode(String label, Closure body, Boolean forceUseDefault)
 {
 
-   println "Inside handleDockerNode"
    if (forceUseDefault && !(config.images &&  config.images.img)){
      error "Default SDP Image not defined for agent type docker"
      }
@@ -123,7 +128,6 @@ void handleDockerNode(String label, Closure body, Boolean forceUseDefault)
      }
      else
      {
-        println "docker agentType launching on any available node"
        /* Execute on any available node */
        steps.node(){
          def sdp_img_reg = getRegistry(body,"docker",forceUseDefault)
@@ -153,7 +157,6 @@ handleGenericNode() implements the node step when the agentType is generic
 
 void handleGenericNode(String label, Closure body, Boolean forceUseDefault)
 {
-   println " Inside handleGenericNode"
    def nodeLabel = getNodeLabel(body,forceUseDefault)
    if (nodeLabel != "")
    {
@@ -184,7 +187,6 @@ function is used as a default.
 String getImage(String label, Closure body, String agentType, Boolean forceUseDefault)
 {
 
-   println " Inside getImage"
    if (agentType == "docker"){
     if(forceUseDefault)
         bodyConfig = config.images
@@ -228,7 +230,6 @@ either of these locations then an empty string is returned
 
 String getRegistry(Closure body, String agentType, Boolean forceUseDefault)
 {
-   println "Inside getRegistry"
    if (agentType == "docker"){
     if(forceUseDefault)
         bodyConfig = config.images
@@ -263,7 +264,6 @@ registry name is specified in either of these locations then an empty string is 
 String getRegistryCred(Closure body, String agentType, Boolean forceUseDefault)
 {
 
-   println "Inside getRegistryCred"
 
    if (agentType == "docker"){
     if(forceUseDefault)
@@ -300,7 +300,6 @@ either of these locations then an empty string is returned
 String getDockerArgs(Closure body, Boolean forceUseDefault)
 {
 
-   println "Inside getDockerArgs"
    if (forceUseDefault)
       docker_args =  config.images ? config.images.docker_args?: { return ""}()
                                       : { return ""}()
@@ -324,11 +323,10 @@ configurations an empty string is returned
 String getNodeLabel(Closure body, Boolean forceUseDefault)
 {
 
-println "Inside getNodeLabel"
-if (forceUseDefault)
-  def nodeLabel = config.nodeLabel ?: {return "" }()
-else
-  def nodeLabel = body.config.nodeLabel ?: config.nodeLabel ?: {return "" }()
+  if (forceUseDefault)
+    def nodeLabel = config.nodeLabel ?: {return "" }()
+  else
+    def nodeLabel = body.config.nodeLabel ?: config.nodeLabel ?: {return "" }()
 
 }
 
@@ -342,7 +340,6 @@ configurations, then an empty string is returned
 
 String getPodTemplate(String label, Closure body, Boolean forceUseDefault) {
 
-println "Inside getPodTemplate"
   def podYaml= """\
 apiVersion: v1
 kind: Pod
@@ -371,7 +368,6 @@ used to deploy the Kubernetes pod
 
 String getPodImage(String label, Closure body, Boolean forceUseDefault){
 
-  println "Inside getPodImage"
   def sdp_img     = getImage(label,body,"kubernetes",forceUseDefault)
 
   def sdp_img_reg = getRegistry(body,"kubernetes",forceUseDefault)
@@ -391,7 +387,6 @@ kubernetes jenkins agent pods
 
 String getPodNamespace(Closure body, Boolean forceUseDefault){
 
-  println "Inside getPodNamespace"
   if(forceUseDefault)
      namespace = config.podSpec ? config.podSpec.namespace ?: { return "default" }() 
                                    : { return "default" }()
@@ -413,7 +408,6 @@ kubernetes jenkins agent pods
 
 String getPodCloudName(Closure body, Boolean forceUseDefault){
 
-  println "Inside getPodCloudName"
   if(forceUseDefault)
     cloudName = config.podSpec ? config.podSpec.cloudName ?: { return "kubernetes" }() 
                                    : { return "kubernetes" }()
