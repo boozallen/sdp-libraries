@@ -11,6 +11,7 @@ void call(context){
         cleanWs()
         try{
             checkout scm
+            throw new Exception("diff exception")
         }catch(AbortException ex) {
             println "scm var not present, skipping source code checkout" 
         }
