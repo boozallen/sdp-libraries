@@ -13,11 +13,10 @@ void call(context){
     println "inside" 
     node{
         println "fetching scm" 
-        def scm = getSCM()
-        println "scm = ${scm}"
-        if(scm){
+        println "scm = ${getSCM()}"
+        if(getSCM()){
             cleanWs()
-            checkout scm
+            checkout getSCM()
         } else {
             println "scm var not present, skipping source code checkout" 
         }
