@@ -1,5 +1,6 @@
 * xref:index.adoc[Overview]
 * xref:create-new-library.adoc[Create a New Library]
+* xref:Configuring-Agent-Types.adoc[Configuring Agent Types]
 
 .Libraries
 * xref:libraries/a11y.adoc[The A11y Machine] 
