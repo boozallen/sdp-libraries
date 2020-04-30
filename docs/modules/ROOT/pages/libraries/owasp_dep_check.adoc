@@ -82,7 +82,7 @@ libraries{
 
 | images.img
 | Name of the default image to use
-| "owasp-dep-check:${image_tag}"
+| "owasp-dep-check:image_tag" - image_tag as configured for this library
 
 | images.docker_args
 | Arguments to use when starting the container. Uses the same flags as `docker run`
@@ -106,7 +106,7 @@ libraries{
 
 | podSpec.img
 | Name of the image to use
-| "owasp-dep-check:${image_tag}"
+| "owasp-dep-check:image_tag" - image_tag as configured for this library
 
 | podSpec.cloud
 | Name of the kubernetes cluster / cloud as defined in the Jenkins master configuration to launch the pod in

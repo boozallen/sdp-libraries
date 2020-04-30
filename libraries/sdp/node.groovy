@@ -202,10 +202,10 @@ String getImage(String label, Closure body, String agentType, Boolean forceUseDe
       libConfig = config.podSpec
    }
       
-   def sdp_img = bodyConfig ? bodyConfig.img ?: libConfig ? libConfig.img ?: label ?: { error "SDP Image  not defined in Pipeline Config" } ()
-                                                          :  label ?: { error "SDP Image  not defined in Pipeline Config" } ()
-                            :  libConfig ? libConfig.img ?: label ?: { error "SDP Image  not defined in Pipeline Config" } ()
-                                         : label ?: { error "SDP Image  not defined in Pipeline Config" } ()
+   def sdp_img = bodyConfig ? bodyConfig.img ?: label ?: libConfig ? libConfig.img ?: { error "SDP Image  not defined in Pipeline Config" } ()
+                                                                   :  { error "SDP Image  not defined in Pipeline Config" } ()
+                            :  label ?: libConfig ? libConfig.img ?: { error "SDP Image  not defined in Pipeline Config" } ()
+                                                  :  { error "SDP Image  not defined in Pipeline Config" } ()
 
 
    def sdp_img_repo = bodyConfig ? bodyConfig.repository ?: libConfig ? libConfig.repository ?: { return ""}()
