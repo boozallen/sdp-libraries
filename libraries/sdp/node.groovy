@@ -353,8 +353,6 @@ spec:
     name: sdp-container
     tty: true
     workingDir: /home/jenkins/agent
-  serviceAccount: jenkinsagentsa
-  serviceAccountName: jenkinsagentsa
 """
   return podYaml
 }
