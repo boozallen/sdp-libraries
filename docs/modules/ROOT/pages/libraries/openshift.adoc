@@ -167,52 +167,61 @@ libraries{
 
 .OpenShift Library Configuration Options
 |===
-| Field | Description | Default Value | Defined On
+| Field | Description | Default Value | Defined On | Required
 
 | openshift_url
 | The OpenShift Console URL when specified per app env
 | 
 | app_env
+| if **url** is not defined
 
 | url
 | The OpenShift Console URL when specified globally
 | 
 | library spec
+| if **openshift_url** is not defined
 
 | helm_configuration_repository
 | The GitHub Repository containing the helm chart(s) for this application
 | 
 | both
+| true
 
 | helm_configuration_repository_credential
 | The Jenkins credential ID to access the helm configuration GitHub repository
 | 
 | both
+| true
 
 | tiller_namespace
 | The tiller namespace for this application
 | 
 | both
+| true
 
 | tiller_credential
 | The Jenkins credential ID referencing an OpenShift credential
 | 
 | both
+| true
 
 | tiller_release_name
 | The name of the release to deploy
 | 
 | app env
+| if app_env.short_name is not defined
 
 | chart_values_file
 | The values file to use for the release
 | 
 | app_env
+| if app_env.short_name is not defined
 
 | promote_previous_image
 | Whether or not to promote a previously-built image
 | (Boolean) true
 | both
+| false
  
 |===
 
@@ -258,6 +267,7 @@ libraries{
 * Values files contain the `image_shas` key convention
 * A Jenkins credential exists to access helm configuration repository
 * A Jenkins credential exists to login with OpenShift CLI
+* The "pipeline-utility-steps plugin" (supplies the readYAML step)
 
 == Troubleshooting
  
