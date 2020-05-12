@@ -77,11 +77,11 @@ String getPodTemplate(String label, LinkedHashMap bodyConfig) {
     spec:
         containers:
         - image: ${img}
-        imagePullPolicy: IfNotPresent
-        name: sdp-container
-        tty: true
-        workingDir: /home/jenkins/agent
-        ${pullSecret ? "imagePullSecrets: ${pullSecret}" : ""}
+          imagePullPolicy: IfNotPresent
+          name: sdp-container
+          tty: true
+          workingDir: /home/jenkins/agent
+          ${pullSecret ? "imagePullSecrets: ${pullSecret}" : ""}
     """.stripIndent()
 }
 
