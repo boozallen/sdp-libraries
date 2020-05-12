@@ -118,7 +118,7 @@ String getImage(String label, String agentType, LinkedHashMap bodyConfig){
         key = "podSpec"
     }
 
-    String img = bodyConfig[key]?.img ?: config[key]?.img ?: label
+    String img = label ?: bodyConfig[key]?.img ?: config[key]?.img
     if(!img){
         error "You must define the image to use"
     }
