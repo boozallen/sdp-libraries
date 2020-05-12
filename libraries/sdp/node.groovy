@@ -68,7 +68,7 @@ String getPodTemplate(String label, LinkedHashMap bodyConfig) {
         apiVersion: v1
         kind: Pod
         metadata:
-        name: sdp-slave
+        name: sdp-agent
         spec:
         containers:
         - image: ${img}
@@ -87,7 +87,7 @@ void handleDockerNode(String label, Closure body, LinkedHashMap bodyConfig){
     String nodeLabel = bodyConfig.nodeLabel ?: config.nodeLabel ?: ""
     String imgRegistry = getRegistry(body, "docker", bodyConfig)
     String imgRegistryCred = getRegistryCred(body,"docker", bodyConfig)
-    String img = getImage(label,body,"docker", bodyConfig)
+    String img = getImage(label, body, "docker", bodyConfig)
     String args = bodyConfig.images?.docker_args ?: config.images?.docker_args ?: ""
 
     Closure imageInside = { docker.image(img).inside(args, body) }

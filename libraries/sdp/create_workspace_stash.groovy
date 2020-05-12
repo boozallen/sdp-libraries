@@ -5,7 +5,7 @@
 
 import hudson.AbortException
 
-@Validate // validate so this runs prior to other @Init steps
+@Validate({ !(config.hasKey("skip_initial_checkout") && !config.skip_initial_checkout) }) // validate so this runs prior to other @Init steps
 void call(context){
     node{
         cleanWs()
