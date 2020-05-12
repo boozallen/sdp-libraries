@@ -6,7 +6,7 @@
 import org.boozallen.plugins.jte.config.TemplateConfigObject
 import org.boozallen.plugins.jte.config.TemplateConfigDsl
 
-@Init({ !(config.hasKey("skip_archive_config") && !config.skip_archive_config) })
+@Init({ !(config.containsKey("skip_archive_config") && !config.skip_archive_config) })
 void call(context){
     TemplateConfigObject aggregated = new TemplateConfigObject(
         config: pipelineConfig, // variable provided in binding by JTE
