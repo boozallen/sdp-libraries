@@ -64,7 +64,7 @@ String getPodTemplate(String label, LinkedHashMap bodyConfig) {
     String img = getImage(label, "kubernetes", bodyConfig)
     String pullSecret = getRegistryCred("kubernetes", bodyConfig)
 
-    return """\
+    return """
     apiVersion: v1
     kind: Pod
     metadata:
