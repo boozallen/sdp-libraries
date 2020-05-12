@@ -65,6 +65,15 @@ void call(app_env){
                       app_env.short_name ? "values.${app_env.short_name}.yaml" :
                       {error "Values File To Use For This Chart Not Defined"}()
 
+    /*
+      Branch of the helm chart's repository to use
+      can set explicitly on the application environment object "app_env.helm_chart_branch"
+      otherwise use the "long_name" of the application environment object for the branch name
+      if neither exists, default to the "master" branch (which has been the default branch used)
+    */
+    def branch_name = app_env.helm_chart_branch ?:
+                      app_env.long_name ?:
+                      "master"
 
     /*
        if this is a merge commit we need to retag the image so that the sha
@@ -111,7 +120,7 @@ void update_values_file(values_file, config_repo){
     error "Values File ${values_file} does not exist in ${config_repo}"
 
   values = readYaml file: values_file
-  key = env.REPO_NAME.replaceAll("-","_")
+  key = format_repo_name(env.REPO_NAME.)
   echo "writing new Git SHA ${env.GIT_SHA} to image_shas.${key} in ${values_file}"
   values.image_shas[key] = env.GIT_SHA
   sh "rm ${values_file}"
@@ -143,4 +152,38 @@ void push_config_update(values_file){
   git add: values_file
   git commit: "Updating ${values_file} for ${env.REPO_NAME} images"
   git push
+}
+
+String format_repo_name(repo_name){
+  def retval = repo_name
+
+  //replace ordinal numbers
+  retval = retval.replaceAll("1st", "first")
+  retval = retval.replaceAll("2nd", "second")
+  retval = retval.replaceAll("3rd", "third")
+  retval = retval.replaceAll("4th", "fourth")
+  retval = retval.replaceAll("5th", "fifth")
+  retval = retval.replaceAll("6th", "sixth")
+  retval = retval.replaceAll("7th", "seventh")
+  retval = retval.replaceAll("8th", "eighth")
+  retval = retval.replaceAll("9th", "ninth")
+  retval = retval.replaceAll("10th", "tenth")
+
+  //replace remaining numbers
+  retval = retval.replaceAll("0", "zero")
+  retval = retval.replaceAll("1", "one")
+  retval = retval.replaceAll("2", "two")
+  retval = retval.replaceAll("3", "three")
+  retval = retval.replaceAll("4", "four")
+  retval = retval.replaceAll("5", "five")
+  retval = retval.replaceAll("6", "six")
+  retval = retval.replaceAll("7", "seven")
+  retval = retval.replaceAll("8", "eight")
+  retval = retval.replaceAll("9", "nine")
+  retval = retval.replaceAll("10", "ten")
+
+  //replace dashes
+  retval = retval.replaceAll("-","_")
+
+  return retval
 }

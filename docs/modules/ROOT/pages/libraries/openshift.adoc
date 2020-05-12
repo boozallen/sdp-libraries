@@ -217,6 +217,12 @@ libraries{
 | app_env
 | if app_env.short_name is not defined
 
+| branch_name
+| The branch of helm_configuration_repository to use
+| app_env.long_name if defined, else "master"
+| app_env
+| false
+
 | promote_previous_image
 | Whether or not to promote a previously-built image
 | (Boolean) true
