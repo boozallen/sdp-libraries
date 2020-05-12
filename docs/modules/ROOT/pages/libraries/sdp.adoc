@@ -8,8 +8,8 @@ The SDP library provides helper steps used by multiple libraries within sdp-libr
 |===
 | Step | Description
 
-| ``inside_sdp_images(String image, Closure body)``
-| helper function that wraps ``docker.image(<image>).inside{}`` to execute a portion of the pipeline inside the specified container image runtime environment
+| ``node(String label, Closure body)``
+| helper function that provides the ability to execute a portion of the pipeline inside a specified jenkins agent node 
 
 |===
 
@@ -33,26 +33,75 @@ The SDP library provides helper steps used by multiple libraries within sdp-libr
 |===
 | Field | Description | Default Value
 
-| images.registry
-| This sets the registry the sdp library expects to find its Docker images
+| agentType
+| This sets the agentType of the jenkins agent. This value can be overridden by the settings in individual pipeline steps. Possible values are "kubernetes" "docker" and "generic". 
+| "generic"
+
+| nodeLabel
+| This sets the static jenkins agent on which to execute pipeline steps. This value is applicable for agentType "docker" and "generic". For "kubernetes" agent type, the nodes are dynamically launched. 
 | 
+
+| images
+| This block is used when agentType is "docker". It provies information on accessing the Docker images the SDP libray needs to use. The values in this block can be overrridden by the values in the individual pipeline specification. Nonetheless, using the combination of what is declared in the configuration of the pipeline step and the SDP library configuration values, the SDP library step must be able to access and pull the image it needs from the registry
+|
+
+| images.registry
+| This sets the registry where the sdp library expects to find its Docker images
+|
 
 | images.repository
 | The first https://forums.docker.com/t/docker-registry-v2-spec-and-repository-naming-rule/5466[path component] in the repository name, e.g. if your images follow the format ``my-registry.com/sdp/*``, this would be *sdp*
+|
 
-| sdp.images.cred
-| Credentials used for the repository where different docker pipeline tools are stored
-| 
+| images.cred
+| Credentials used to pull images from the specified repository
+|
 
-| sdp.images.docker_args
+| images.img
+| Name of the image to use 
+|
+
+| images.docker_args
 | Arguments to use when starting the container. Uses the same flags as `docker run`
-| 
+|
+
+| podSpec
+| This block is used when agentType is "kubernetes". It provies information on accessing the container images the SDP libray needs to use when a dynamic pod is launched. The values in this block can be overrridden by the values in the individual pipeline specification. Nonetheless, using the combination of what is declared in the configuration of the pipeline step and the SDP library configuration values, the SDP library step must be able to access and pull the image it needs from the registry. In addition to information on the container image, this block also provides the namespace in which to launch the pod and the cloud / cluster into which the pod must be launched
+|
+
+| podSpec.registry
+| This sets the registry the sdp library expects to find the container images
+|
+
+| podSpec.repository
+| The first https://forums.docker.com/t/docker-registry-v2-spec-and-repository-naming-rule/5466[path component] in the repository name, e.g. if your images follow the format ``my-registry.com/sdp/*``, this would be *sdp*
+|
+
+| podSpec.cred
+| Credentials used to pull images from the specified repository
+|
+
+| podSpec.img
+| Name of the image to use  (for example a generic centos image with common utilities installed)
+|
+
+| podSpec.cloud
+| Name of the kubernetes cluster / cloud as defined in the Jenkins master configuration to launch the pod in 
+|
+
+| podSpec.namespace
+| Name of the kubernetes namespace to launch the pod in (this namespace must exist in the cluster)
+|
 
 |===
 
 [IMPORTANT]
 ====
-Unlike the Docker Library, the value in "registry" _does_ include the protocol (http/https)
+The value in "images.registry" _does_ include the protocol (http/https) while the value in "podSpec.registry" _does not_ include the protocol (http/https).
+
+The layout of the configuration allows for the presence of multiple types of agents (kubernetes, docker and VM based agents) concurrently connected to the same master as well agents across multiple clouds / clusters to be connected to the same master
+
+
 ====
 
 == Example Configuration Snippet
@@ -61,11 +110,23 @@ Unlike the Docker Library, the value in "registry" _does_ include the protocol (
 ----
 libraries{
   sdp{
+    agentType = "kubernetes"
+    nodeLabel = "default-agent"
+    podSpec{
+      cloud = "prod-cluster"
+      namespace = "sdp"
+      registry = "docker-registry.default.svc:5000"
+      repository = "sdp"
+      img = "default-centos"
+      cred = "default-secret"
+    }
+   
     images{
       registry = "https://docker-registry.default.svc:5000"
       repository = "sdp"
       cred = "openshift-docker-registry"
       docker_args = ""
+      img = "default-centos"
     }
   }
 }
@@ -73,9 +134,9 @@ libraries{
 
 == External Dependencies
 
-* A Docker registry must be setup and configured. Credentials to the registry are also needed.
-* A repository for the image being used by the given library is expected to be in the given registry.
-* The repository name for the pipeline tools' images should be in the format  _"${images.registry}/${images.repository}/tool-name"_
+* A Docker registry must be setup and configured. If credentials are needed to pull from this registry, they must exist.
+* The repository name for the pipeline tools' images should be in the format  _"${images.registry}/${images.repository}/${images.img}"_
+* If a namespace other than default is specified for the launch of kubernetes pods, then this namespace must alreay exist before the pipeline executes
 
 == Troubleshooting
 

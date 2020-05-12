@@ -17,8 +17,7 @@ void call(){
       }
       """
     } ()
-
-    inside_sdp_image "a11y", {
+    node('a11y'){
       sh "a11ym -o accessibility_compliance ${url}"
       archive "accessibility_compliance/**"
     }

@@ -29,7 +29,7 @@ These images can be found in the https://github.com/boozallen/sdp-images[Booz Al
 
 === The ``sdp`` Library
 
-If using the SDP Pipeline Libraries as a xref:jte:library-development:library_sources/library_sources.adoc[Library Source] for your pipeline, then you *must* include the ``sdp`` library.  This library containers helper functions such as ``inside_sdp_image()`` to facilitate the use of the SDP Pipeline Container Images as run time environments. 
+If using the SDP Pipeline Libraries as a xref:jte:library-development:library_sources/library_sources.adoc[Library Source] for your pipeline, then you *must* include the ``sdp`` library.  This library containers helper functions such as ``node()`` to facilitate the ability to run the SDP pipeline steps on a variety of agents (such as kuberenetes jenkins agents launched on demand, docker(dind) agents or generic agents that could be running in containers or VMs). 
 
 == Requirements 
 

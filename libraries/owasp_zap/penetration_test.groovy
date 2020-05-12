@@ -26,8 +26,7 @@ void call() {
     } else {
        vuln_threshold = "High"
     }
-
-    inside_sdp_image "zap", {
+    node('zap'){
       // start zap daemon
       sh """zap.sh -daemon \
                     -host 127.0.0.1 \

@@ -24,7 +24,7 @@ void call() {
     }
 
     String image_tag = config.image_tag ?: "latest"
-    inside_sdp_image "owasp-dep-check:$image_tag", {
+    node("owasp-dep-check:$image_tag"){
       unstash "workspace"
       try {
         sh "mkdir -p ${resultsDir} && mkdir -p owasp-data && /usr/share/dependency-check/bin/dependency-check.sh ${args} -d owasp-data"

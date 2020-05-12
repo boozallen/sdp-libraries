@@ -92,7 +92,7 @@ void call(app_env){
 
 
     withGit url: config_repo, cred: git_cred, {
-      inside_sdp_image "openshift_helm", {
+      node('openshift_helm'){
         withCredentials([usernamePassword(credentialsId: tiller_credential, passwordVariable: 'token', usernameVariable: 'user')]) {
           withEnv(["TILLER_NAMESPACE=${tiller_namespace}"]) {
             this.update_values_file( values_file, config_repo )

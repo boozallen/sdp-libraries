@@ -81,7 +81,7 @@ void call(app_env){
     }
 
     withGit url: config_repo, cred: git_cred, {
-      inside_sdp_image "helm", { 
+      node('helm'){
         withKubeConfig([credentialsId: k8s_credential , contextName: k8s_context]) {
             this.update_values_file( values_file, config_repo )
             this.do_release release, values_file

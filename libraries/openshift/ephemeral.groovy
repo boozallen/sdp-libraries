@@ -65,7 +65,7 @@ void call(app_env, Closure body){
                     this.update_values_file values_file
                     timeout 60, {
                         try {
-                            inside_sdp_image "openshift_helm", {
+                            node('openshift_helm'){
                                 this.oc_login ocp_url, token
                                 project = this.prep_project image_repo_project
                                 release_env = this.do_release project, values_file
@@ -76,7 +76,7 @@ void call(app_env, Closure body){
                         } catch (any) {
                             throw any
                         } finally{
-                            inside_sdp_image "openshift_helm", {
+                            node('openshift_helm'){
                                 this.oc_login ocp_url, token
                                 this.cleanup project
                             }

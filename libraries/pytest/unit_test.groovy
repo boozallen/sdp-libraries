@@ -15,7 +15,7 @@ void call(){
     stage("unit test: pytest"){
         boolean enforceSuccess = config.containsKey("enforce_success") ? config.enforce_success : true 
         String requirementsFile = config.requirements_file ?: "requirements.txt"
-        inside_sdp_image "pytest", {
+        node('pytest'){
             unstash "workspace" 
             String resultsDir = "pytest-results"
             try{
