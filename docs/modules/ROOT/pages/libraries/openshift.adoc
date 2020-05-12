@@ -269,12 +269,16 @@ libraries{
 == External Dependencies
 
 * Openshift is deployed and accessible from Jenkins
-* Helm configuration repository creates
-* Values files contain the `image_shas` key convention
-* A Jenkins credential exists to access helm configuration repository
-* A Jenkins credential exists to login with OpenShift CLI
-* The "pipeline-utility-steps plugin" (supplies the readYAML step)
+* The Helm configuration repository defines the application as it would be deployed to Openshift
+* Values files contain the `global.image_shas` key convention
+* A Jenkins credential exists to access the Helm configuration repository
+* A Jenkins credential exists to log in with OpenShift CLI
+* The "pipeline-utility-steps plugin" is installed on Jenkins (supplies the readYAML step)
 
 == Troubleshooting
  
 == FAQ
+
+*Q.* Is there a way to securely deploy OpenShift Secrets to my ephemeral environment(s)?
+
+*A.* Any secrets with the label "ephemeral = true" will be exported from the reference environment (e.g. dev) to the new ephemeral environment.

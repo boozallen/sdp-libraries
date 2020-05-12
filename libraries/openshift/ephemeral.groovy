@@ -133,6 +133,15 @@ def prep_project(image_repo_project){
 }
 
 def do_release(project, values_file){
+  
+    try {
+      values = readYaml file: values_file
+      sh "bash -c 'oc apply -f <(oc export secrets -l ephemeral=true -n ${values.global.namespace})'"
+    }
+    catch (any){
+      echo "WARNING: unable to import secrets from ${values.global.namespace}"
+    }
+  
     def helm_output = sh script: "helm install . -n ${project} -f ${values_file} --wait",
                          returnStdout: true
 
