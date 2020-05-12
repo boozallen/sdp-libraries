@@ -45,11 +45,6 @@ void processNodeCall(String label, Closure body, LinkedHashMap bodyConfig){
  * implements the node step when the agentType is kubernetes
  */
 void handleKubernetesNode( String label, Closure body, LinkedHashMap bodyConfig){
-
-    String podYaml = getPodTemplate(label, bodyConfig)
-    println "found pod yaml:"
-    println podYaml
-
     podTemplate(
         yaml: getPodTemplate(label, bodyConfig),
         cloud: bodyConfig.podSpec?.namespace ?: config.podSpec?.namespace ?: "kubernetes", 
@@ -116,13 +111,7 @@ void handleGenericNode(String label, Closure body, LinkedHashMap bodyConfig){
  * determines what image to use for the container-based agentTypes
  */
 String getImage(String label, String agentType, LinkedHashMap bodyConfig){
-    String key
-    if(agentType.equals("docker")){
-        key = "images"
-    } else if (agentType.equals("kubernetes")){
-        key = "podSpec"
-    }
-
+    String key = getKey(agentType)
     String img = label ?: bodyConfig[key]?.img ?: config[key]?.img
     if(!img){
         error "You must define the image to use"
@@ -136,13 +125,7 @@ String getImage(String label, String agentType, LinkedHashMap bodyConfig){
  * determines the image registry from which to pull the image for the container-based agentTypes
  */
 String getRegistry(String agentType, LinkedHashMap bodyConfig){
-    String key
-    if(agentType.equals("docker")){
-        key = "images"
-    } else if (agentType.equals("kubernetes")){
-        key = "podSpec"
-    }
-
+    String key = getKey(agentType)
     return bodyConfig[key]?.registry ?: config[key]?.registry ?: ""
 }
 
@@ -150,12 +133,16 @@ String getRegistry(String agentType, LinkedHashMap bodyConfig){
  * determines the jenkins credential ID to use for the container-based agentTypes
  */
 String getRegistryCred(String agentType, LinkedHashMap bodyConfig){
+    String key = getKey(agentType)
+    return bodyConfig[key]?.cred ?: config[key]?.cred ?: ""
+}
+
+String getKey(String agentType){
     String key
     if(agentType.equals("docker")){
         key = "images"
     } else if (agentType.equals("kubernetes")){
         key = "podSpec"
     }
-    
-    return bodyConfig[key]?.cred ?: config[key]?.cred ?: ""
+    return key
 }
