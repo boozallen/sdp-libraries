@@ -56,6 +56,10 @@ void call(app_env, Closure body){
 
         def image_repo_project = config.image_repository_project ?:
                                  {error "You must define image_repository_project where images are pushed" }()
+                                 
+        def td = config.timeout_duration instanceof Integer ? config.timeout_duration :
+                 (config.timeout_duration instanceof String && config.timeout_duration.isInteger()) ? config.timeout_duration.toInteger() :
+                 60
 
         withGit url: config_repo, cred: git_cred, {
             withCredentials([usernamePassword(credentialsId: tiller_credential, passwordVariable: 'token', usernameVariable: 'user')]) {
@@ -63,7 +67,7 @@ void call(app_env, Closure body){
                     def project
                     def release_env = [:]
                     this.update_values_file values_file
-                    timeout 60, {
+                    timeout td, {
                         try {
                             inside_sdp_image "openshift_helm", {
                                 this.oc_login ocp_url, token
