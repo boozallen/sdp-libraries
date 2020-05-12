@@ -3,419 +3,154 @@
   This software package is licensed under the Booz Allen Public License. The license can be found in the License file or at http://boozallen.github.io/licenses/bapl
 */
 
-/***************************************************************************************************
-  An implementtaion of custom node step to be used by SDP library to run a step on a 
-  particular node. 
-  
-***************************************************************************************************/
-
+/**
+ * An implementtaion of custom node step to be used by SDP library to run a step on a particular node.
+ */
 void call(String label = null, Closure body){
-
-    def bodyConfig = [:]
+    LinkedHashMap bodyConfig = [:]
     try{
         bodyConfig = body.config
     }catch(MissingPropertyException ex){
-    /* This is a call to the "node" step from outside SDP librrary. Use default configuration */
-      processNodeCall(label,body,true)
-      return
+        // node invoked from outside a library step
     }
-    /* This is a call to the "node" step from the SDP librrary. The final configuration fields would
-       be based on the combination of default configuration and the configuration overridden by the
-       lbrary step's config */
-    processNodeCall(label,body,false)
-    return
+
+    processNodeCall(label, body, bodyConfig)
 }
 
-/***************************************************************************************************
-  processNodeCall() is a helper method to take on incoming calls to "node" step. "forceUseDefault" is 
-  true if this method is called on account of a "node" call from outside the library and false 
-  if called by a library step. 
-  
-***************************************************************************************************/
-
-void processNodeCall(String label, Closure body, Boolean forceUseDefault){
-
-    /* If being called from outside the SDP library and supplied with a specified node label 
-       no need to process further */
-    if (forceUseDefault && label){
-      steps.node(label){
-        body()
-      }
-      return
+/**
+ * A helper method to take on incoming calls to "node" step. "forceUseDefault" is
+ * true if this method is called on account of a "node" call from outside the library and false
+ * if called by a library step.
+ */
+void processNodeCall(String label, Closure body, LinkedHashMap bodyConfig){
+    String agentType = bodyConfig.agentType ?: config.agentType ?: "generic"
+    if(!(agentType in ["kubernetes", "docker", "generic"])){
+        error "The specified agentType must be one of ['kubernetes', 'docker', 'generic'].  Found '${agentType}'."
     }
-
-    /* Determine agent Type from library configuration and default configuration 
-       Assume generic if none specified */
-    if(forceUseDefault)
-       agentType = config.agentType ?: { return "generic" }()
-    else
-       agentType = body.config.agentType ?: config.agentType ?: { return "generic" }()
-                                
 
     switch(agentType){
       case "kubernetes":
-        handleKubernetesNode(label,body,forceUseDefault)
+        handleKubernetesNode(label, body, bodyConfig)
         break
       case "docker":
-        handleDockerNode(label,body,forceUseDefault)
+        handleDockerNode(label, body, bodyConfig)
         break
       case "generic":
-        handleGenericNode(label,body,forceUseDefault)
-        break
-      default:
-        error "SDP Agent Type not derivable" 
+        handleGenericNode(label, body, bodyConfig)
         break
     }
 }
 
-
-/***************************************************************************************************
-
-handleKubernetesNode() implements the node step when the agentType is kubernetes
-
-***************************************************************************************************/
-
-void handleKubernetesNode( String label, Closure body, Boolean forceUseDefault)
-{
-    if (forceUseDefault && !(config.podSpec &&  config.podSpec.img)){
-      steps.node(){
-        body()
-      }
-    }
-    else{
-      podTemplate(yaml: "${getPodTemplate(label,body,forceUseDefault)}",workingDir: "/home/jenkins/agent", cloud: "${getPodCloudName(body,forceUseDefault)}", namespace: "${getPodNamespace(body,forceUseDefault)}"){
+/** 
+ * implements the node step when the agentType is kubernetes
+ */
+void handleKubernetesNode( String label, Closure body, LinkedHashMap bodyConfig){
+    podTemplate(
+        yaml: getPodTemplate(label, bodyConfig),
+        cloud: bodyConfig.podSpec?.namespace ?: config.podSpec?.namespace ?: "kubernetes", 
+        namespace: bodyConfig.podSpec?.namespace ?: config.podSpec?.namespace ?: "default",
+        workingDir: "/home/jenkins/agent",
+    ){
         steps.node(POD_LABEL){
-          container('sdp-container') {
-            body()
-          }
+            container('sdp-container', body)
         }
-      }
-   }
-}
-
-/***************************************************************************************************
-
-handleDockerNode() implements the node step when the agentType is docker
-
-***************************************************************************************************/
-
-void handleDockerNode(String label, Closure body, Boolean forceUseDefault)
-{
-
-   if (forceUseDefault && !(config.images &&  config.images.img)){
-     error "Default SDP Image not defined for agent type docker"
-     }
-   else{
-     def nodeLabel = getNodeLabel(body,forceUseDefault)
-     if (nodeLabel != "")
-     {
-        steps.node(nodeLabel){
-          def sdp_img_reg = getRegistry(body,"docker",forceUseDefault)
-          if (sdp_img_reg != ""){
-            docker.withRegistry(sdp_img_reg, "${getRegistryCred(body,"docker",forceUseDefault)}"){
-              docker.image("${getImage(label,body,"docker",forceUseDefault)}").inside("${getDockerArgs(body,forceUseDefault)}"){
-                body()
-              } 
-            }
-          }
-          else{
-            /* For public docker registry, there is no need to login */
-            docker.image("${getImage(label,body,"docker",forceUseDefault)}").inside("${getDockerArgs(body,forceUseDefault)}"){
-              body()
-            }
-          }
-        }
-     }
-     else
-     {
-       /* Execute on any available node */
-       steps.node(){
-         def sdp_img_reg = getRegistry(body,"docker",forceUseDefault)
-         if (sdp_img_reg != ""){
-            docker.withRegistry(sdp_img_reg, "${getRegistryCred(body,"docker",forceUseDefault)}"){
-              docker.image("${getImage(label,body,"docker",forceUseDefault)}").inside("${getDockerArgs(body,forceUseDefault)}"){
-                body()
-             }
-           }
-        }
-        else{
-          /* For public docker registry, there is no need to login */
-          docker.image("${getImage(label,body,"docker",forceUseDefault)}").inside("${getDockerArgs(body,forceUseDefault)}"){
-            body()
-          }  
-        }
-      }
     }
-  }
 }
 
-/***************************************************************************************************
+/**
+ * builds the pod YAML for the kubernetes agentType
+ */
+String getPodTemplate(String label, LinkedHashMap bodyConfig) {
+    String img = getImage(label, "kubernetes", bodyConfig)
+    String pullSecret = getRegistryCred("kubernetes", bodyConfig)
 
-handleGenericNode() implements the node step when the agentType is generic 
+    return """
+        apiVersion: v1
+        kind: Pod
+        metadata:
+        name: sdp-slave
+        spec:
+        containers:
+        - image: ${img}
+        imagePullPolicy: IfNotPresent
+        imagePullSecrets: ${pullSecret}
+        name: sdp-container
+        tty: true
+        workingDir: /home/jenkins/agent
+    """.stripIndent()
+}
 
-***************************************************************************************************/
+/**
+ * implements the node step when the agentType is docker
+ */
+void handleDockerNode(String label, Closure body, LinkedHashMap bodyConfig){
+    String nodeLabel = bodyConfig.nodeLabel ?: config.nodeLabel ?: ""
+    String imgRegistry = getRegistry(body, "docker", bodyConfig)
+    String imgRegistryCred = getRegistryCred(body,"docker", bodyConfig)
+    String img = getImage(label,body,"docker", bodyConfig)
+    String args = bodyConfig.images?.docker_args ?: config.images?.docker_args ?: ""
 
-void handleGenericNode(String label, Closure body, Boolean forceUseDefault)
-{
-   def nodeLabel = getNodeLabel(body,forceUseDefault)
-   if (nodeLabel != "")
-   {
-      /* Execute on a particular node */
-      steps.node(nodeLabel){
-        body()
-      } 
-   }
-   else
-   {
-     /* Execute on any available node */
-     steps.node(){
-       body()
-     }
-   }
+    Closure imageInside = { docker.image(img).inside(args, body) }
+    
+    steps.node(nodeLabel){
+        if(imgRegistry) docker.withRegistry(imgRegistry, imgRegistryCred, imageInside)
+        else imageInside()
+    }
+}
+
+/*
+ * implements the node step when the agentType is generic
+ */
+void handleGenericNode(String label, Closure body, LinkedHashMap bodyConfig){
+   String nodeLabel = bodyConfig.nodeLabel ?: config.nodeLabel ?: ""
+   steps.node(nodeLabel, body)
 }
 
 
-/***************************************************************************************************
+/**
+ * determines what image to use for the container-based agentTypes
+ */
+String getImage(String label, String agentType, LinkedHashMap bodyConfig){
+    String key
+    if(agentType.equals("docker")){
+        key = "images"
+    } else if (agentType.equals("kubernetes")){
+        key = "podSpec"
+    }
 
-getImage()  is a helper method which formulates the complete image defenition by checking the 
-library's configuration and then the default configuration for image name and repo name. If no
-image name is specified in either of these locations then the "label" passed by the calling library 
-function is used as a default. 
-
-***************************************************************************************************/ 
-
-String getImage(String label, Closure body, String agentType, Boolean forceUseDefault)
-{
-
-   if (agentType == "docker"){
-    if(forceUseDefault)
-        bodyConfig = config.images
-    else
-   	bodyConfig = body.config.images
-      libConfig = config.images
-   }
-   else{
-    if(forceUseDefault)
-        bodyConfig = config.podSpec
-    else
-   	bodyConfig = body.config.podSpec
-      libConfig = config.podSpec
-   }
-      
-   def sdp_img = bodyConfig ? bodyConfig.img ?: label ?: libConfig ? libConfig.img ?: { error "SDP Image  not defined in Pipeline Config" } ()
-                                                                   :  { error "SDP Image  not defined in Pipeline Config" } ()
-                            :  label ?: libConfig ? libConfig.img ?: { error "SDP Image  not defined in Pipeline Config" } ()
-                                                  :  { error "SDP Image  not defined in Pipeline Config" } ()
-
-
-   def sdp_img_repo = bodyConfig ? bodyConfig.repository ?: libConfig ? libConfig.repository ?: { return ""}()
-                                                                      : { return ""}()
-                                 : libConfig ? libConfig.repository ?: { return ""}()
-                                             : { return ""}()
-
-   if (sdp_img_repo != "")
-     return "${sdp_img_repo}/${sdp_img}"
-   else
-     return "${sdp_img}"
-
+    String img = bodyConfig[key]?.img ?: config[key]?.img ?: label
+    if(!img){
+        error "You must define the image to use"
+    }
+    
+    String registry = getRegistry(agentType, bodyConfig)
+    return registry ? "${registry}/${img}" : img
 }
 
-/***************************************************************************************************
+/**
+ * determines the image registry from which to pull the image for the container-based agentTypes
+ */
+String getRegistry(String agentType, LinkedHashMap bodyConfig){
+    String key
+    if(agentType.equals("docker")){
+        key = "images"
+    } else if (agentType.equals("kubernetes")){
+        key = "podSpec"
+    }
 
-getRegistry()  is a helper method which formulates the docker registry defenition by checking 
-the library's configuration and then the default configuration. If no registry name is specified in 
-either of these locations then an empty string is returned
-
-***************************************************************************************************/ 
-
-String getRegistry(Closure body, String agentType, Boolean forceUseDefault)
-{
-   if (agentType == "docker"){
-    if(forceUseDefault)
-        bodyConfig = config.images
-    else
-        bodyConfig = body.config.images
-      libConfig = config.images
-   }
-   else{
-    if(forceUseDefault)
-        bodyConfig = config.podSpec
-    else
-        bodyConfig = body.config.podSpec
-      libConfig = config.podSpec
-   }
-
-  def sdp_img_reg =  bodyConfig ? bodyConfig.registry ?: libConfig ? libConfig.registry ?: { return ""}()
-                                                                   : { return ""}()
-                                : libConfig ? libConfig.registry ?: { return ""}()
-                                            : { return ""}()
-
-  return sdp_img_reg
+    return bodyConfig[key]?.registry ?: config[key]?.registry ?: ""
 }
 
-/***************************************************************************************************
-
-getRegistryCred()  is a helper method which formulates the docker registry Credential 
-defenition by checking the library's configuration and then the default configuration. If no 
-registry name is specified in either of these locations then an empty string is returned
-
-***************************************************************************************************/ 
-
-String getRegistryCred(Closure body, String agentType, Boolean forceUseDefault)
-{
-
-
-   if (agentType == "docker"){
-    if(forceUseDefault)
-        bodyConfig = config.images
-    else
-        bodyConfig = body.config.images
-      libConfig = config.images
-   }
-   else{
-    if(forceUseDefault)
-        bodyConfig = config.podSpec
-    else
-        bodyConfig = body.config.podSpec
-      libConfig = config.podSpec
-   }
-
-  def sdp_img_reg_cred =  bodyConfig ? bodyConfig.cred ?:  libConfig ? libConfig.cred ?: { return "sdp"}()
-                                                                     : { return ""}()
-                                     : libConfig ? libConfig.cred ?: { return ""}()
-                                                 : { return ""}()
-
-
-  return sdp_img_reg_cred
-}
-
-/***************************************************************************************************
-
-getDockerArgs()  is a helper method which formulates the docker Arguments  defenition by checking 
-the library's configuration and then the default configuration. If no registry name is specified in 
-either of these locations then an empty string is returned
-
-***************************************************************************************************/ 
-
-String getDockerArgs(Closure body, Boolean forceUseDefault)
-{
-
-   if (forceUseDefault)
-      docker_args =  config.images ? config.images.docker_args?: { return ""}()
-                                      : { return ""}()
-   else
-      docker_args =  body.config.images ? body.config.images.docker_args ?: config.images ? config.images.docker_args?: { return ""}()
-                                                                                           : { return ""}()
-                                           : config.images ? config.images.docker_args?: { return ""}()
-                                                           : { return ""}()
-   return docker_args
-
-}
-
-/***************************************************************************************************
-
-getNodeLabel()  is a helper method which checks the library configuration and then the default 
-configuration to find the dpecified nodeLable. If no nodeLabel is specified ine ither of these 
-configurations an empty string is returned
-
-***************************************************************************************************/
-
-String getNodeLabel(Closure body, Boolean forceUseDefault)
-{
-
-  if (forceUseDefault)
-    def nodeLabel = config.nodeLabel ?: {return "" }()
-  else
-    def nodeLabel = body.config.nodeLabel ?: config.nodeLabel ?: {return "" }()
-
-}
-
-/***************************************************************************************************
-
-getPodTemplate() returns the pod Yaml after filling in the image and imagePullSecret fields from the
-library configuration or default SDP configuration. If no image name is derived from the 
-configurations, then an empty string is returned
-
-***************************************************************************************************/
-
-String getPodTemplate(String label, Closure body, Boolean forceUseDefault) {
-
-  def podYaml= """\
-apiVersion: v1
-kind: Pod
-metadata:
-  name: sdp-slave
-spec:
-  containers:
-  - image: ${getPodImage(label,body,forceUseDefault)}
-    imagePullPolicy: IfNotPresent
-    imagePullSecrets: ${getRegistryCred(body,"kubernetes",forceUseDefault)}
-    name: sdp-container
-    tty: true
-    workingDir: /home/jenkins/agent
-"""
-  return podYaml
-}
-
-/***************************************************************************************************
-
-getPodImage() s a helper method to getPodTemplate() and returns the image  for the container to be 
-used to deploy the Kubernetes pod
-
-***************************************************************************************************/
-
-String getPodImage(String label, Closure body, Boolean forceUseDefault){
-
-  def sdp_img     = getImage(label,body,"kubernetes",forceUseDefault)
-
-  def sdp_img_reg = getRegistry(body,"kubernetes",forceUseDefault)
-
-  if (sdp_img_reg != "") 
-   return "${sdp_img_reg}/${sdp_img}"
-  else
-     return "${sdp_img}"
-}
-
-/***************************************************************************************************
-
-getPodNamespace() is a helper method that returns the namespace to launch the dynamic 
-kubernetes jenkins agent pods
-
-***************************************************************************************************/
-
-String getPodNamespace(Closure body, Boolean forceUseDefault){
-
-  if(forceUseDefault)
-     namespace = config.podSpec ? config.podSpec.namespace ?: { return "default" }() 
-                                   : { return "default" }()
-  else
-     namespace = body.config.podSpec ? body.config.podSpec.namespace ?: config.podSpec ? config.podSpec.namespace ?: { return "default" }() 
-                                                                                        : { return "default" }() 
-                                        : config.podSpec ? config.podSpec.namespace ?: { return "default" }()
-                                                         : { return "default" }() 
-  return namespace
-  
-}
-
-/***************************************************************************************************
-
-getPodCloudName() is a helper method that returns the kubernetes cloud name to launch the dynamic 
-kubernetes jenkins agent pods
-
-***************************************************************************************************/
-
-String getPodCloudName(Closure body, Boolean forceUseDefault){
-
-  if(forceUseDefault)
-    cloudName = config.podSpec ? config.podSpec.cloudName ?: { return "kubernetes" }() 
-                                   : { return "kubernetes" }()
-  
-  else
-    cloudName = body.config.podSpec ? body.config.podSpec.cloudName ?: config.podSpec ? config.podSpec.cloudName ?: { return "kubernetes" }() 
-                                                                                          : { return "kubernetes" }() 
-                                        : config.podSpec ? config.podSpec.namespace ?: { return "kubernetes" }()
-                                                         : { return "kubernetes" }() 
-
-   return cloudName
-   
+/**
+ * determines the jenkins credential ID to use for the container-based agentTypes
+ */
+String getRegistryCred(String agentType, LinkedHashMap bodyConfig){
+    String key
+    if(agentType.equals("docker")){
+        key = "images"
+    } else if (agentType.equals("kubernetes")){
+        key = "podSpec"
+    }
+    
+    return bodyConfig[key]?.cred ?: config[key]?.cred ?: ""
 }
