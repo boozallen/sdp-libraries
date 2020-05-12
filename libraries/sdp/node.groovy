@@ -78,7 +78,7 @@ String getPodTemplate(String label, LinkedHashMap bodyConfig) {
         containers:
         - image: ${img}
         imagePullPolicy: IfNotPresent 
-        ${if(pullSecret){ return "imagePullSecrets: ${pullSecret}" }}
+        ${pullSecret ? "imagePullSecrets: ${pullSecret}" : ""}
         name: sdp-container
         tty: true
         workingDir: /home/jenkins/agent
