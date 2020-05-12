@@ -85,9 +85,9 @@ String getPodTemplate(String label, LinkedHashMap bodyConfig) {
  */
 void handleDockerNode(String label, Closure body, LinkedHashMap bodyConfig){
     String nodeLabel = bodyConfig.nodeLabel ?: config.nodeLabel ?: ""
-    String imgRegistry = getRegistry(body, "docker", bodyConfig)
-    String imgRegistryCred = getRegistryCred(body,"docker", bodyConfig)
-    String img = getImage(label, body, "docker", bodyConfig)
+    String imgRegistry = getRegistry("docker", bodyConfig)
+    String imgRegistryCred = getRegistryCred("docker", bodyConfig)
+    String img = getImage(label, "docker", bodyConfig)
     String args = bodyConfig.images?.docker_args ?: config.images?.docker_args ?: ""
 
     Closure imageInside = { docker.image(img).inside(args, body) }
