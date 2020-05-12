@@ -65,19 +65,19 @@ String getPodTemplate(String label, LinkedHashMap bodyConfig) {
     String pullSecret = getRegistryCred("kubernetes", bodyConfig)
 
     return """\
-apiVersion: v1
-kind: Pod
-metadata:
-name: sdp-agent
-spec:
-containers:
-- image: ${img}
-imagePullPolicy: IfNotPresent
-imagePullSecrets: ${pullSecret}
-name: sdp-container
-tty: true
-workingDir: /home/jenkins/agent
-"""
+    apiVersion: v1
+    kind: Pod
+    metadata:
+        name: sdp-agent
+    spec:
+        containers:
+        - image: ${img}
+        imagePullPolicy: IfNotPresent
+        imagePullSecrets: ${pullSecret}
+        name: sdp-container
+        tty: true
+        workingDir: /home/jenkins/agent
+    """.stripIndent()
 }
 
 /**
