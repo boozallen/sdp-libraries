@@ -45,6 +45,11 @@ void processNodeCall(String label, Closure body, LinkedHashMap bodyConfig){
  * implements the node step when the agentType is kubernetes
  */
 void handleKubernetesNode( String label, Closure body, LinkedHashMap bodyConfig){
+
+    String podYaml = getPodTemplate(label, bodyConfig)
+    println "found pod yaml:"
+    println podYaml
+
     podTemplate(
         yaml: getPodTemplate(label, bodyConfig),
         cloud: bodyConfig.podSpec?.namespace ?: config.podSpec?.namespace ?: "kubernetes", 
