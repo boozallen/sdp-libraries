@@ -184,6 +184,7 @@ void cleanup(project){
 String format_repo_name(repo_name){
   def retval = repo_name
 
+  //only formats numbers up to 9, which should cover most use cases
   //replace ordinal numbers
   retval = retval.replaceAll("1st", "first")
   retval = retval.replaceAll("2nd", "second")
@@ -207,7 +208,6 @@ String format_repo_name(repo_name){
   retval = retval.replaceAll("7", "seven")
   retval = retval.replaceAll("8", "eight")
   retval = retval.replaceAll("9", "nine")
-  retval = retval.replaceAll("10", "ten")
 
   //replace dashes
   retval = retval.replaceAll("-","_")

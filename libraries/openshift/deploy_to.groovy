@@ -157,6 +157,7 @@ void push_config_update(values_file){
 String format_repo_name(repo_name){
   def retval = repo_name
 
+  //only formats numbers up to 10, which should cover most use cases
   //replace ordinal numbers
   retval = retval.replaceAll("1st", "first")
   retval = retval.replaceAll("2nd", "second")
@@ -167,7 +168,6 @@ String format_repo_name(repo_name){
   retval = retval.replaceAll("7th", "seventh")
   retval = retval.replaceAll("8th", "eighth")
   retval = retval.replaceAll("9th", "ninth")
-  retval = retval.replaceAll("10th", "tenth")
 
   //replace remaining numbers
   retval = retval.replaceAll("0", "zero")
@@ -180,7 +180,6 @@ String format_repo_name(repo_name){
   retval = retval.replaceAll("7", "seven")
   retval = retval.replaceAll("8", "eight")
   retval = retval.replaceAll("9", "nine")
-  retval = retval.replaceAll("10", "ten")
 
   //replace dashes
   retval = retval.replaceAll("-","_")
