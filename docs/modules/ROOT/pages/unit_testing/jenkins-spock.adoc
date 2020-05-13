@@ -11,20 +11,17 @@ Below is an outline of a specification file. It shows what you need to include i
 == Sample Specification
 
 . Import the framework
-. Create a class extending `JenkinsPipelineSpecification`
+. Create a class extending `JTEPipelineSpecification`, JTE's version of `JenkinsPipelineSpecification`
 . Create a field to house the loaded step
 . Define a setup method where you will load the step
 . Write a test
 
 [source,groovy]
 ----
-// Start by importing the Jenkins-Spock framework Code
-import com.homeaway.devtools.jenkins.testing.JenkinsPipelineSpecification
-
 // Create a new class for the Spec
 // The naming convention is the pipeline step's name, followed by Spec,
 // all camel-cased starting w/ a capital.
-public class MyPipelineStepSpec extends JenkinsPipelineSpecification {
+public class MyPipelineStepSpec extends JTEPipelineSpecification {
 
   // Define the variable that will store the step's groovy code. This variable
   // follows the same naming variable as the class name, with Spec omitted.

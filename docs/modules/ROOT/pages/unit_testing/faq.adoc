@@ -40,3 +40,9 @@ As an example, in PenetrationTestSpec.groovy, the `target` variable in penetrati
 *A: You need to find a way to stub the method that sets the value for the object that calls foo()*
 
 There should be an example in GetImagesToBuildSpec.groovy (in the docker-unit-tests branch at the time of writing)
+
+*Q: What's the difference between JenkinsPipelineSpecification and JTEPipelineSpecification?*
+
+*A: JTEPipelineSpecification does everything JenkinsPipelineSpecification does, but also makes it possible to test Lifecycle Hooks.*
+
+Before, the Jenkins Spock framework would throw an error when it ran across a class/step with a Lifecycle Hook annotation (e.g. `@BeforeStep`). It's much simpler to use the modified Spec class than try to import the lifecycle hook class(es).

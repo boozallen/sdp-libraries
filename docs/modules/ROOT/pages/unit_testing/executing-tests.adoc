@@ -2,15 +2,13 @@
 
 For our SDP Pipeline Libraries, tests are placed in a directory called `unit-tests` within the library directory.
 
-== Executing tests with Gradle
-
-This repo has been set up to run Jenkins-Spock tests using Gradle.
-
-From the root of the sdp-libraries repository, run `make test`.
-
 == Executing tests with Docker
 
-The unit tests can also be executed via Docker.  From the root of the sdp-libraries repository, run `make test docker`.
+The unit tests can be executed inside of a Docker container.  From the root of the sdp-libraries repository, run `make test docker`.
+
+== Executing tests with Gradle
+
+The unit tests can be executed using your installation of Gradle, assuming it's a compatible version (4.10.2 and 6.3.0 have been tested) and it's been properly configured. To run all of the tests, run `gradle test` from the root of the sdp-libraries repository. To run individual test classes, append the `--tests` flag followed by the class name in quotes, ex. `gradle test --tests "SlackSpec"`. You can add multiple `--tests` flags to run a set of test classes.
 
 == Viewing Test Results
 
