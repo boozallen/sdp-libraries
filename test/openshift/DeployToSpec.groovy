@@ -27,8 +27,10 @@ public class DeployToSpec extends JenkinsPipelineSpecification {
     DeployTo.getBinding().setVariable("token", "token")
 
     getPipelineMock("readYaml")(_ as Map) >> [
-      image_shas: [
-        unit_test: "efgh5678"
+      global: [
+        image_shas: [
+          unit_test: "efgh5678"
+        ]
       ]
     ]
   }
@@ -420,10 +422,10 @@ public class DeployToSpec extends JenkinsPipelineSpecification {
     when:
       DeployTo(app_env)
     then:
-      1 * getPipelineMock("readYaml")([file: "values.env.yaml"]) >>  [image_shas: [unit_test: "efgh5678"]]
+      1 * getPipelineMock("readYaml")([file: "values.env.yaml"]) >>  [global: [image_shas: [unit_test: "efgh5678"]]]
       1 * getPipelineMock("echo")("writing new Git SHA abcd1234 to image_shas.unit_test in values.env.yaml")
       1 * getPipelineMock("sh")("rm values.env.yaml") // remove the old file to write a new one
-      1 * getPipelineMock("writeYaml")([file: "values.env.yaml", data: [image_shas: [unit_test: "abcd1234"]]])
+      1 * getPipelineMock("writeYaml")([file: "values.env.yaml", data: [global: [image_shas: [unit_test: "abcd1234"]]]])
   }
 
   def "Hyphens (-) in git repo name are translated to underscores (_)" () {

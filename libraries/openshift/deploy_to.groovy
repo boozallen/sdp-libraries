@@ -120,7 +120,7 @@ void update_values_file(values_file, config_repo){
     error "Values File ${values_file} does not exist in ${config_repo}"
 
   values = readYaml file: values_file
-  key = format_repo_name(env.REPO_NAME.)
+  key = format_repo_name(env.REPO_NAME)
   echo "writing new Git SHA ${env.GIT_SHA} to image_shas.${key} in ${values_file}"
   values.global.image_shas[key] = env.GIT_SHA
   sh "rm ${values_file}"
