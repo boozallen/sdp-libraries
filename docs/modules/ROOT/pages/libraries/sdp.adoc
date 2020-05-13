@@ -13,6 +13,20 @@ The SDP library provides helper steps used by multiple libraries within sdp-libr
 
 |===
 
+.Lifecycle Hooks
+|===
+| Step | Hook | Purpose 
+
+| archive_pipeline_config()
+| `@Init`
+| Writes the aggregated pipeline configuration to a file and saves it as a build artifact
+
+| create_workspace_stash()
+| `@Validate`
+| If the pipeline job is a Multibranch Project, checkout the source code.  In either case, save a stash called "workspace" for other libraries to consume. 
+
+|===
+
 == Library Configuration Options
 
 .SDP Library Configuration Options
