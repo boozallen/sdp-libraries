@@ -298,6 +298,29 @@ public class DeployToSpec extends JenkinsPipelineSpecification {
     then:
       1 * getPipelineMock("sh")( "rm special_values_file.yaml" )
   }
+  
+  def "Checkout master branch of HCR if no helm_chart_branch from app_env" () {
+    setup:
+      def app_env = [short_name: 'env', long_name: 'Environment', helm_chart_branch: null]
+      DeployTo.getBinding().setVariable("config", [:])
+      DeployTo.getBinding().setVariable("pipelineConfig", [github_credential: null])
+    when:
+      DeployTo(app_env)
+    then:
+      1 * getPipelineMock("withGit")( { (it[0] instanceof Map) ? it[0]?.branch == "master" : false} )
+  }
+  
+  def "Checkout app_env.helm_chart_branch of HCR if defined" () {
+    setup:
+      def app_env = [short_name: 'env', long_name: 'Environment', helm_chart_branch: "Mercator"]
+      DeployTo.getBinding().setVariable("config", [:])
+      DeployTo.getBinding().setVariable("pipelineConfig", [github_credential: null])
+    when:
+      DeployTo(app_env)
+    then:
+      1 * getPipelineMock("withGit")( { (it[0] instanceof Map) ? it[0]?.branch == "Mercator" : false} )
+  }
+  
 
   def "Don't retag the previous image if there is no Feature SHA" () {
     // and we can't expect such a corresponding image to exist

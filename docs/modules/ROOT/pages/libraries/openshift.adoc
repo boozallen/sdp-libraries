@@ -66,35 +66,39 @@ Instead of using Helm as a package manager by bundling the charts and deploying 
 
 You'll need to create a GitHub repository to store the helm chart for your application(s). See the https://docs.helm.sh/helm/#helm-create[helm docs on provisioning a new chart] to get intialize the repository with the skeleton for your chart.
 
-How you choose to build your helm chart is up to you, you can put every api object in the `templates` directory or have subcharts for each individual microservice.  SDP doesn't care, as all it does is clone the github repository and deploy the chart using the specified values file.
+How you choose to build your helm chart is up to you, you can put every api object in the `templates` directory or have subcharts for each individual microservice. It doesn't matter to the library. All it does is clone the github repository and deploy the chart using the specified values file.
+
+For most users, the only branch of the helm config. repo. needed is the "master" branch. However, if you want to use different branches for different app environments, you can add a `helm_chart_branch` setting to your application environments in your pipeline config.
 
 *Values File Conventions*
 
-Given that we tag container images using the git SHA, SDP will clone your helm configuration repository and update a key corresponding to the current version of each  container image for each application environment.
+Given that we tag container images using the git SHA, SDP will clone your helm configuration repository and update a key corresponding to the current version of each container image for each application environment.
 
-As such, a certain syntax is required in your values file.  You must have an `image_shas` key. SDP will automatically add subkeys for each repositories under this `image_shas` with a value that is the git SHA.
+As such, a certain syntax is required in your values file.  You must have an `image_shas` global key. SDP will automatically add subkeys for each repository under `image_shas` and set their value to the appropriate Git SHA .
 
 [NOTE]
 ====
-Given that YAML keys can't have hypens, hyphens in repository names will be replaced with underscores.
+Since YAML keys can't have hyphens or numbers, any hyphens in repository names will be replaced with underscores and numbers will be spelled out.
 ====
 
 [source,yaml]
 ----
-image_shas:
-  my_sample_application: abcdefgh
-  another_repo: abcdef
+global:
+  image_shas:
+    my_sample_application: abcdefgh
+    my_sample_application_two: abcdef
+    third_sample_application: a1b2c3
 ----
 
-you can add whatever other keys are necessary to appropriately parameterize your helm chart.
+You can add whatever other keys are necessary to appropriately parameterize your helm chart.
 
 *Helm Configurations for the Library*
 
-The helm configuration repository, github credential, tiller namespace, and tiller credential can be configured globally in the library spec and overriden for specific application environments.
+The helm configuration repository, github credential, tiller namespace, and tiller credential can be configured globally in the library spec and overridden for specific application environments.
 
-The values file to will default to `values.${app_env.short_name}.yaml`, or can be overridden via `app_env.chart_values_file`.
+The values file used will default to `values.${app_env.short_name}.yaml`, but a different file can be selected through `app_env.chart_values_file`.
 
-The name of the release will default to `app_env.short_name`, or can be overridden via `app_env.tiller_release_name`
+The name of the release will default to `app_env.short_name`, but can be set through `app_env.tiller_release_name`
 
 An example of helm configurations:
 
@@ -269,9 +273,9 @@ libraries{
 == External Dependencies
 
 * Openshift is deployed and accessible from Jenkins
-* The Helm configuration repository defines the application as it would be deployed to Openshift
+* The helm configuration repository defines the application as it would be deployed to Openshift
 * Values files contain the `global.image_shas` key convention
-* A Jenkins credential exists to access the Helm configuration repository
+* A Jenkins credential exists to access the helm configuration repository
 * A Jenkins credential exists to log in with OpenShift CLI
 * The "pipeline-utility-steps plugin" is installed on Jenkins (supplies the readYAML step)
 
@@ -279,6 +283,10 @@ libraries{
  
 == FAQ
 
-*Q.* Is there a way to securely deploy OpenShift Secrets to my ephemeral environment(s)?
+=== Q. Is there a way to securely deploy OpenShift Secrets to my ephemeral environment(s)?
 
 *A.* Any secrets with the label "ephemeral = true" will be exported from the reference environment (e.g. dev) to the new ephemeral environment.
+
+=== Q. For my helm configuration repository, do I need to use GitHub?
+
+*A.* While the library was developed and tested while using GitHub to manage the Helm configuration repostiory, any Git SCM solution should work. 

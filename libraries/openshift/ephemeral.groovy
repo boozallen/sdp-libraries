@@ -57,11 +57,9 @@ void call(app_env, Closure body){
         /*
           Branch of the helm chart's repository to use
           can set explicitly on the application environment object "app_env.helm_chart_branch"
-          otherwise use the "long_name" of the application environment object for the branch name
-          if neither exists, default to the "master" branch (which has been the default branch used)
+          default to the "master" branch 
         */
         def branch_name = app_env.helm_chart_branch ?:
-                          app_env.long_name ?:
                           "master"
 
         def image_repo_project = config.image_repository_project ?:
@@ -71,7 +69,7 @@ void call(app_env, Closure body){
                  (config.timeout_duration instanceof String && config.timeout_duration.isInteger()) ? config.timeout_duration.toInteger() :
                  60
 
-        withGit url: config_repo, cred: git_cred, {
+        withGit url: config_repo, cred: git_cred, branch: branch_name, {
             withCredentials([usernamePassword(credentialsId: tiller_credential, passwordVariable: 'token', usernameVariable: 'user')]) {
                 withEnv(["TILLER_NAMESPACE=${tiller_namespace}"]) {
                     def project

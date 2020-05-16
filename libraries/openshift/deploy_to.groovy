@@ -68,11 +68,9 @@ void call(app_env){
     /*
       Branch of the helm chart's repository to use
       can set explicitly on the application environment object "app_env.helm_chart_branch"
-      otherwise use the "long_name" of the application environment object for the branch name
-      if neither exists, default to the "master" branch (which has been the default branch used)
+      otherwise the "master" branch is used 
     */
     def branch_name = app_env.helm_chart_branch ?:
-                      app_env.long_name ?:
                       "master"
 
     /*
@@ -100,7 +98,7 @@ void call(app_env){
     }
 
 
-    withGit url: config_repo, cred: git_cred, {
+    withGit url: config_repo, cred: git_cred, branch: branch_name, {
       inside_sdp_image "openshift_helm", {
         withCredentials([usernamePassword(credentialsId: tiller_credential, passwordVariable: 'token', usernameVariable: 'user')]) {
           withEnv(["TILLER_NAMESPACE=${tiller_namespace}"]) {
