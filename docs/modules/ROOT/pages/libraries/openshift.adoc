@@ -64,11 +64,11 @@ Instead of using Helm as a package manager by bundling the charts and deploying 
 
 *Create Helm Configuration Repository*
 
-You'll need to create a GitHub repository to store the helm chart for your application(s). See the https://docs.helm.sh/helm/#helm-create[helm docs on provisioning a new chart] to get intialize the repository with the skeleton for your chart.
+You'll need to create a GitHub repository to store the helm chart for your application(s). See the https://docs.helm.sh/helm/#helm-create[helm docs on provisioning a new chart] to get initialize the repository with the skeleton for your chart.
 
-How you choose to build your helm chart is up to you, you can put every api object in the `templates` directory or have subcharts for each individual microservice. It doesn't matter to the library. All it does is clone the github repository and deploy the chart using the specified values file.
+How you choose to build your helm chart is up to you. You can put every api object in the `templates` directory or have subcharts for each individual microservice. All the library does is clone the GitHub repository and deploy the chart using the specified values file.
 
-For most users, the only branch of the helm config. repo. needed is the "master" branch. However, if you want to use different branches for different app environments, you can add a `helm_chart_branch` setting to your application environments in your pipeline config.
+For most users, the only branch of the helm configuration repository needed is the "master" branch. However, if you want to use different branches for different app environments, you can add a `helm_chart_branch` setting to your application environments in your pipeline config.
 
 *Values File Conventions*
 
