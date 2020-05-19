@@ -221,9 +221,9 @@ libraries{
 | app_env
 | if app_env.short_name is not defined
 
-| branch_name
+| helm_chart_branch
 | The branch of helm_configuration_repository to use
-| app_env.long_name if defined, else "master"
+| "master"
 | app_env
 | false
 
