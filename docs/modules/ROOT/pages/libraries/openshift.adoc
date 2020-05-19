@@ -84,10 +84,13 @@ Since YAML keys can't have hyphens or numbers, any hyphens in repository names w
 [source,yaml]
 ----
 global:
-  image_shas:
-    my_sample_application: abcdefgh
-    my_sample_application_two: abcdef
-    third_sample_application: a1b2c3
+  repos: 
+    - name: my_sample_application
+      sha: abcdefgh
+    - name: my_sample_application_two
+      sha: abcdef
+    - name: third_sample_application
+      sha: a1b2c3
 ----
 
 You can add whatever other keys are necessary to appropriately parameterize your helm chart.
@@ -274,19 +277,32 @@ libraries{
 
 * Openshift is deployed and accessible from Jenkins
 * The helm configuration repository defines the application as it would be deployed to Openshift
-* Values files contain the `global.image_shas` key convention
+* Values files follow the convention for repo names & Git SHAs
+  ** The values file has the key `global.repos`
+  ** That key is a list of maps, each with two keys:
+    *** *name*: the name of the source GitHub repository
+    *** *sha*: the Git SHA for the last commit
+  ** These maps are added automatically so long as `global.repos` is a list of maps
 * A Jenkins credential exists to access the helm configuration repository
 * A Jenkins credential exists to log in with OpenShift CLI
 * The "pipeline-utility-steps plugin" is installed on Jenkins (supplies the readYAML step)
 
 == Troubleshooting
  
+=== Updates were rejected...
+
+*Message*: Updates were rejected because the remote contains work that you do not have locally. This is usually caused by another repository pushing to the same ref. You may want to first integrate the remote changes (e.g., 'git pull ...') before pushing again.
+
+*Solution*: Re-run the pipeline while no other pipeline jobs are running that would deploy to Openshift
+
+*Explanation*: After deploying to Helm, the pipeline attempts to update the helm-configuration-repository with the latest Git SHA for the pipeline's source code repo. However, if in the time between checking out the helm chart from Git and pushing updates, another pipeline pushes its own updates, then git will throw an error.
+ 
 == FAQ
 
-=== Q. Is there a way to securely deploy OpenShift Secrets to my ephemeral environment(s)?
+=== Is there a way to securely deploy OpenShift Secrets to my ephemeral environment(s)?
 
-*A.* Any secrets with the label "ephemeral = true" will be exported from the reference environment (e.g. dev) to the new ephemeral environment.
+Any secrets with the label "ephemeral = true" will be exported from the reference environment (e.g. dev) to the new ephemeral environment.
 
-=== Q. For my helm configuration repository, do I need to use GitHub?
+=== For my helm configuration repository, do I need to use GitHub?
 
-*A.* While the library was developed and tested while using GitHub to manage the Helm configuration repostiory, any Git SCM solution should work. 
+This library was developed and tested while using GitHub to manage the Helm configuration repostiory, but any Git SCM solution should work as well. 
