@@ -118,9 +118,11 @@ void update_values_file(values_file, config_repo){
     error "Values File ${values_file} does not exist in ${config_repo}"
 
   values = readYaml file: values_file
-  key = format_repo_name(env.REPO_NAME)
-  echo "writing new Git SHA ${env.GIT_SHA} to image_shas.${key} in ${values_file}"
-  values.global.image_shas[key] = env.GIT_SHA
+  //key = format_repo_name(env.REPO_NAME)
+  def i = values.global.repos.findIndexOf { it.name == env.REPO_NAME }
+  if (i == -1){ i = values.global.repos.size() } 
+  echo "writing new Git SHA ${env.GIT_SHA} for repo ${env.REPO_NAME} in ${values_file}"
+  values.global.repos[i] = [name: env.REPO_NAME, sha: env.GIT_SHA]
   sh "rm ${values_file}"
   writeYaml file: values_file, data: values
 
@@ -152,35 +154,3 @@ void push_config_update(values_file){
   git push
 }
 
-String format_repo_name(repo_name){
-  def retval = repo_name
-
-  //only formats numbers up to 10, which should cover most use cases
-  //replace ordinal numbers
-  retval = retval.replaceAll("1st", "first")
-  retval = retval.replaceAll("2nd", "second")
-  retval = retval.replaceAll("3rd", "third")
-  retval = retval.replaceAll("4th", "fourth")
-  retval = retval.replaceAll("5th", "fifth")
-  retval = retval.replaceAll("6th", "sixth")
-  retval = retval.replaceAll("7th", "seventh")
-  retval = retval.replaceAll("8th", "eighth")
-  retval = retval.replaceAll("9th", "ninth")
-
-  //replace remaining numbers
-  retval = retval.replaceAll("0", "zero")
-  retval = retval.replaceAll("1", "one")
-  retval = retval.replaceAll("2", "two")
-  retval = retval.replaceAll("3", "three")
-  retval = retval.replaceAll("4", "four")
-  retval = retval.replaceAll("5", "five")
-  retval = retval.replaceAll("6", "six")
-  retval = retval.replaceAll("7", "seven")
-  retval = retval.replaceAll("8", "eight")
-  retval = retval.replaceAll("9", "nine")
-
-  //replace dashes
-  retval = retval.replaceAll("-","_")
-
-  return retval
-}
