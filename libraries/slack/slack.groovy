@@ -34,7 +34,7 @@ def slack_report_deployment(context){
   message_type: if this string is in the config's "notify_on" list, send the message
 */
 def conditional_slack_send(String color, String message, String message_type){
-  def notify_on = config.notify_on instanceof List ? config.notify_on : { println "no valid notify_on config option found; using the default"; return ["success", "failure"] }()
+  def notify_on = config.notify_on instanceof List ? config.notify_on : ["success", "failure"]
   notify_on = notify_on.collect{ it instanceof String ? it.toLowerCase() : it }
   
   if ( message_type in notify_on ) {
