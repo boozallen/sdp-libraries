@@ -4,7 +4,7 @@ The configuration options provided for the SDP pipeline steps allow to select on
 
 -  Dynamically launched "kubernetes" agents. Here the pipeline code is executed inside a container that is provisioned inside a  pod that is launched dynamically to execute only the specified code.
 
-- Static "docker" agents that support Docker in Docker functionality. Here the pipeline code is executed inside a docker container that is deployed inside of the agent (docker in docker) which in itself could be a stand alone docker container or a docker container inside of a kubernetes pod. 
+- Static "docker" agents that leverage the build agent's Docker Daemon. Here the pipeline code is executed inside docker containers that are  launched as pipeline runtime environments using the Docker Pipeline Plugin. The agent could be a VM running the Docker Daemon, a kubernetes pod running a DinD container or simply a DinD container agent.
 
 -  Static "generic" agents that can be of any type (Kubernetes pods, Virtual Machines, Docker containers - anything that can act as a Jenkins Agent). Here the code is simply executed in the agent's workspace.
 
@@ -65,13 +65,12 @@ These are dynamically launched ephermal Kubernetes pods that act as Jenkins Agen
 
 |===
 
-== Example  - A simple setup for agent type "kubernetes"
+=== Example  - A simple setup for agent type "kubernetes"
 
 For static code analysis a  dynamic pod is launched in the default namespace with container image docker-registry.default.svc:5000/sdp/sonar-scanner. Gitlab and other pipeline steps are executed on a dynamic pod launched in the default namespace wih container image docker-registry.default.svc:5000/sdp/default-centos.
 
 [source,groovy]
 ----
-
 libraries{
   sdp{
     agentType = “kubernetes”
@@ -79,19 +78,18 @@ libraries{
         registry = “docker-registry.default.svc:5000”
         repository = “sdp”
         img = “default-centos”
-} 
+    } 
+  }
 sonar-scanner {}
 gitlab{}
-
+}
 ----
-
-== Example  - A more complex setup for agent type "kubernetes"
+=== Example  - A more complex setup for agent type "kubernetes"
 
 A dynamic pod is launched in the “test-cluster” in the “test-sdp” namespace with container image test-registry.test-sdp.svc:5000/sdp/sonar-scanner-new-version pulled with credentials “test-registry-cred” to execute static code analysis. The gitlab and other pipeline steps are executed on a dynamic pod launched in the mgmt-cluster in the sdp namespace with container image custom-registry.sdp.svc:5000/sdp/default-centos pulled with credentials “custom-registry-cred”.
 
 [source,groovy]
 ----
-
 libraries{
   sdp{
      agentType = “kubernetes”
@@ -117,12 +115,10 @@ libraries{
   }
   gitlab{}
 }
-
 ----
-
 == Docker Agents
 
-These are so named because they execute pipeline steps inside a specific docker container running inside a Jenkins Agent docker container. These are static docker-in-docker (DinD) Jenkins Agents. Note that these Agents could be staic Kubernetes pods or Docker ontainers. In either case they should be capable of Docker inside Docker functionality. These agents can be assigned “node labels” and pipeline steps and stages could be assigned to run on a node with a particular node label. The configuration of such agents is accomplished by setting the following fields
+These are so named because they execute pipeline steps inside docker containers running inside the Jenkins Agent. These are Jenkins Agents running a Docker Daemon. Note that these Agents could be static VMs, Kubernetes pods or Docker ontainers. In all cases they should be capable of launching Docker containers within them. These agents can be assigned “node labels” and pipeline steps and stages could be assigned to run on a node with a particular node label. The configuration of such agents is accomplished by setting the following fields
 
 
 .Docker Agent Configuration Options
@@ -163,13 +159,12 @@ These are so named because they execute pipeline steps inside a specific docker 
 
 |===
 
-== Example - a simple setup for agent type "docker"
+=== Example - a simple setup for agent type "docker"
 
 Static code analysis is perfomed on any available Jenkins agent inside the container image docker-registry.default.svc:5000/sdp/sonar-scanner. The gitlab and other pipeline steps are executed on any available Jenkins-Agent inside the container image docker-registry.default.svc:5000/sdp/default-centos
 
 [source,groovy]
 ----
-
 libraries{
   sdp{
     agentType = “docker”
@@ -177,13 +172,14 @@ libraries{
         registry = “docker-registry.default.svc:5000”
         repository = “sdp”
         img = “default-centos”
-} 
+    } 
+  }
 sonar-scanner {}
 gitlab{}
-
+}
 ----
 
-== Example - a more complex setup for agent type "docker"
+=== Example - a more complex setup for agent type "docker"
 
 Static code analysis is performed on any available node labelled “sdp-test-agents” inside container image test-registry.sdp.svc:5000/test-sdp/sonar-scanner-new-version pulled with credentials “test-registry-cred”. The gitlab and other pipeline steps are executed on any available agent with label “default-agents” inside container image custom-registry.sdp.svc:5000/sdp/default-centos pulled with credentials “custom-registry-cred”.
 
@@ -211,9 +207,7 @@ libraries{
   }
   gitlab{}
 }
-
 ----
-
 
 == Generic Agents
 These are static Jenkins Agents which could be Kubernetes pods, Virtual Machines, Docker containers or really any type of machine which acts like a Jenkins Agent and on which Jenkins pipelines steps can be executed.  These agents can be assigned “node labels” and pipeline steps and stages could be assigned to run on a node with a particular node label. The configuration of such agents is accomplished by setting the following fields
@@ -230,17 +224,14 @@ These are static Jenkins Agents which could be Kubernetes pods, Virtual Machines
 | nodeLabel
 | This provides the label of the static jenkins agent on which to execute this pipeline step. 
 | value from library step's configuration else value from default SDP library configuration else none
-
-
 |===
 
-== Example - a setup for agent type "generic"
+=== Example - a setup for agent type "generic"
 
 Static code analysis is performed on any available node labeled "sdp-agents". The gitlab and other pipeline steps are executed on any available agent with node label “default-agents”.
 
 [source,groovy]
 ----
-
 libraries{
   sdp{
      agentType = “generic”
@@ -251,17 +242,14 @@ libraries{
   }
   gitlab{}
 }
-
-
 ----
 
-== Example - a more complex multi-cluster multi agent-type setup 
+=== Example - a more complex multi-cluster multi agent-type setup 
 
 Static code analysis will be run on a dynamically launched pod in cluster named “kubernetes” with container image registry-one.default.svc:5000/sdp/sonar-scanner with credentials registry-one-cred. Owasp-zap will run on any available Jenkins node inside container registry-two.default.svc:5000/sdp/zap pulled with credentials registry-two-cred. Owasp-dependency-check will run inside a dynamically launched pod in cluster named “new-cluster” in the default namespace with container image registry-one.default.svc:5000/sdp/zap pulled with credentials registry-one-cred. Gitlab and other generic steps will run on any available Jenkins agent.
 
 [source,groovy]
 ----
-
 libraries{
   sdp{
      podSpec{
@@ -291,13 +279,8 @@ libraries{
    }   
   gitlab{}
 }
-
-
 ----
-
 [IMPORTANT]
 ====
-
 The value in "images.registry" _does_ include the protocol (http/https) while the value in "podSpec.registry" does not include the protocol (http/https).
-
 ====
