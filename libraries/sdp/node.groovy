@@ -112,7 +112,7 @@ void handleGenericNode(String label, Closure body, LinkedHashMap bodyConfig, Map
  */
 String getImage(String label, String agentType, LinkedHashMap bodyConfig,  Map nodeConfig){
     String key = getKey(agentType)
-    String img =  nodeConfig.img ?: bodyConfig[key]?.img ?: config[key]?.img
+    String img =  bodyConfig[key]?.img ?: nodeConfig.img ?: config[key]?.img
 
     if(!img){
         error "You must define the image to use"
