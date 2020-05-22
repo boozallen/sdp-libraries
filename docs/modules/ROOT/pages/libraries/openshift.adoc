@@ -18,6 +18,10 @@ This library allows you to perform deployments to static or ephemeral applicatio
 
 |===
 
+== Overview
+
+image::openshift/Openshift_deploy_to_diagram.png[]
+
 == Library Configurations
 
 The configurations for the OpenShift library can be specified at multiple levels. Given this additional configurability the typical table of configuration options would be less clear than examples, so we'll be breaking it down per configuration portion.
@@ -74,7 +78,7 @@ For most users, the only branch of the helm configuration repository needed is t
 
 Given that we tag container images using the git SHA, SDP will clone your helm configuration repository and update a key corresponding to the current version of each container image for each application environment.
 
-As such, a certain syntax is required in your values file.  You must have an `image_shas` global key. SDP will automatically add subkeys for each repository under `image_shas` and set their value to the appropriate Git SHA .
+As such, a certain syntax is required in your values file.  You must have a `repos` global key. SDP will automatically add elements for each repository to `repos` (assuming `repos` is a List already) and set their value to include the appropriate Git SHA.
 
 [NOTE]
 ====
