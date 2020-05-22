@@ -27,8 +27,8 @@ public class EphemeralSpec extends JenkinsPipelineSpecification {
 
     getPipelineMock("readYaml")(_ as Map) >> [
       global: [
-        image_shas: [
-          unit_test: "efgh5678"
+        repos: [
+          [name: "unit-test", sha: "efgh5678"]
         ]
       ]
     ]
@@ -319,10 +319,10 @@ public class EphemeralSpec extends JenkinsPipelineSpecification {
     when:
       Ephemeral(app_env, {})
     then:
-      (1.._) * getPipelineMock("readYaml")([file: "values.env.yaml"]) >>  [global: [image_shas: [unit_test: "efgh5678"]]] //this is called more than once in separate methods
-      1 * getPipelineMock("echo")("writing new Git SHA abcd1234 to image_shas.unit_test in values.env.yaml")
+      (1.._) * getPipelineMock("readYaml")([file: "values.env.yaml"]) >>  [global: [repos: [[name: "unit-test", sha: "efgh5678"]]]] //this is called more than once in separate methods
+      1 * getPipelineMock("echo")("writing new Git SHA abcd1234 for repo unit-test in values.env.yaml")
       1 * getPipelineMock("sh")("rm values.env.yaml") // remove the old file to write a new one
-      1 * getPipelineMock("writeYaml")([file: "values.env.yaml", data: [global: [image_shas: [unit_test: "abcd1234"], is_ephemeral: true]]])
+      1 * getPipelineMock("writeYaml")([file: "values.env.yaml", data: [global: [repos: [[name: "unit-test", sha: "abcd1234"]], is_ephemeral: true]]])
   }
 
   /*********************
@@ -500,68 +500,6 @@ public class EphemeralSpec extends JenkinsPipelineSpecification {
       Ephemeral(app_env, {})
     then:
       1 * getPipelineMock("sh")({it =~ /oc delete project [a-z]{10}.*/})
-  }
-
-  /**********************
-   format_repo_name tests
-  **********************/
-  def "Hyphens (-) in git repo name are translated to underscores (_)" () {
-    setup:
-      def app_env = [short_name: 'env', long_name: 'Environment']
-      Ephemeral.getBinding().setVariable("config", [:])
-      // env.REPO_NAME and env.GIT_SHA set above in setup()
-      Ephemeral.getBinding().setVariable("pipelineConfig", [github_credential: null])
-    when:
-      Ephemeral(app_env, {})
-    then:
-      1 * getPipelineMock("echo")({ it =~ /(.+)(image_shas.unit_test)(.+)/})
-  }
-  
-  def "Cardinal numbers (1, 2, etc.) in git repo name are spelled out (one, two, etc)" () {
-    setup:
-      def app_env = [short_name: 'env', long_name: 'Environment']
-      Ephemeral.getBinding().setVariable("config", [:])
-      Ephemeral.getBinding().setVariable("env", [REPO_NAME: repo_name, GIT_SHA: "abcd1234", JOB_NAME: "app/test/PR-test", BUILD_NUMBER: '7'])
-      Ephemeral.getBinding().setVariable("pipelineConfig", [github_credential: null])
-    when:
-      Ephemeral(app_env, {})
-    then:
-      1 * getPipelineMock("echo")({ it =~ formatted_repo_match_string})
-    where:
-      repo_name     | formatted_repo_match_string
-      "unit_test_0" | /(.+)(image_shas.unit_test_zero)(.+)/
-      "unit_test_1" | /(.+)(image_shas.unit_test_one)(.+)/
-      "unit_test_2" | /(.+)(image_shas.unit_test_two)(.+)/
-      "unit_test_3" | /(.+)(image_shas.unit_test_three)(.+)/
-      "unit_test_4" | /(.+)(image_shas.unit_test_four)(.+)/
-      "unit_test_5" | /(.+)(image_shas.unit_test_five)(.+)/
-      "unit_test_6" | /(.+)(image_shas.unit_test_six)(.+)/
-      "unit_test_7" | /(.+)(image_shas.unit_test_seven)(.+)/
-      "unit_test_8" | /(.+)(image_shas.unit_test_eight)(.+)/
-      "unit_test_9" | /(.+)(image_shas.unit_test_nine)(.+)/
-  }
-  
-  def "Ordinal numbers (1st, 2nd, etc.) in git repo name are spelled out (first, second, etc.)" () {
-    setup:
-      def app_env = [short_name: 'env', long_name: 'Environment']
-      Ephemeral.getBinding().setVariable("config", [:])
-      Ephemeral.getBinding().setVariable("env", [REPO_NAME: repo_name, GIT_SHA: "abcd1234", JOB_NAME: "app/test/PR-test", BUILD_NUMBER: '7'])
-      Ephemeral.getBinding().setVariable("pipelineConfig", [github_credential: null])
-    when:
-      Ephemeral(app_env, {})
-    then:
-      1 * getPipelineMock("echo")({ it =~ formatted_repo_match_string})
-    where:
-      repo_name       | formatted_repo_match_string
-      "1st_unit_test" | /(.+)(image_shas.first_unit_test)(.+)/
-      "2nd_unit_test" | /(.+)(image_shas.second_unit_test)(.+)/
-      "3rd_unit_test" | /(.+)(image_shas.third_unit_test)(.+)/
-      "4th_unit_test" | /(.+)(image_shas.fourth_unit_test)(.+)/
-      "5th_unit_test" | /(.+)(image_shas.fifth_unit_test)(.+)/
-      "6th_unit_test" | /(.+)(image_shas.sixth_unit_test)(.+)/
-      "7th_unit_test" | /(.+)(image_shas.seventh_unit_test)(.+)/
-      "8th_unit_test" | /(.+)(image_shas.eighth_unit_test)(.+)/
-      "9th_unit_test" | /(.+)(image_shas.ninth_unit_test)(.+)/
   }
 
 }
