@@ -42,7 +42,7 @@ def call(){
     def conf = config.config_file ?: ""
 
     // do tests
-    node('protractor'){
+    node(img: "protractor"){
       unstash "workspace"
       
       if (fileExists("package.json"))

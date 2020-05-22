@@ -5,7 +5,7 @@
 
 void call(){
     stage("Accessibility Compliance: Google Lighthouse"){
-        node('google-lighthouse'){
+        node(img: "google-lighthouse"){
             String url = config.url 
             String resultsDir = "google-lighthouse"
             sh """

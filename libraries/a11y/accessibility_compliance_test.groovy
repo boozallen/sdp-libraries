@@ -17,7 +17,7 @@ void call(){
       }
       """
     } ()
-    node('a11y'){
+    node(img: "a11y"){
       sh "a11ym -o accessibility_compliance ${url}"
       archive "accessibility_compliance/**"
     }

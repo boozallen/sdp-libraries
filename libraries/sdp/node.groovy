@@ -6,7 +6,7 @@
 /**
  * An implementtaion of custom node step to be used by SDP library to run a step on a particular node.
  */
-void call(String label = null, Closure body){
+void call(Map nodeConfig = [:],String label = null, Closure body){
     LinkedHashMap bodyConfig = [:]
     try{
         bodyConfig = body.config
@@ -14,7 +14,7 @@ void call(String label = null, Closure body){
         // node invoked from outside a library step
     }
 
-    processNodeCall(label, body, bodyConfig)
+    processNodeCall(label, body, bodyConfig,nodeConfig)
 }
 
 /**
@@ -22,7 +22,7 @@ void call(String label = null, Closure body){
  * true if this method is called on account of a "node" call from outside the library and false
  * if called by a library step.
  */
-void processNodeCall(String label, Closure body, LinkedHashMap bodyConfig){
+void processNodeCall(String label, Closure body, LinkedHashMap bodyConfig,Map nodeConfig){
     String agentType = bodyConfig.agentType ?: config.agentType ?: "generic"
     if(!(agentType in ["kubernetes", "docker", "generic"])){
         error "The specified agentType must be one of ['kubernetes', 'docker', 'generic'].  Found '${agentType}'."
@@ -30,13 +30,13 @@ void processNodeCall(String label, Closure body, LinkedHashMap bodyConfig){
 
     switch(agentType){
       case "kubernetes":
-        handleKubernetesNode(label, body, bodyConfig)
+        handleKubernetesNode(label, body, bodyConfig,nodeConfig)
         break
       case "docker":
-        handleDockerNode(label, body, bodyConfig)
+        handleDockerNode(label, body, bodyConfig,nodeConfig)
         break
       case "generic":
-        handleGenericNode(label, body, bodyConfig)
+        handleGenericNode(label, body, bodyConfig,nodeConfig)
         break
     }
 }
@@ -44,9 +44,9 @@ void processNodeCall(String label, Closure body, LinkedHashMap bodyConfig){
 /** 
  * implements the node step when the agentType is kubernetes
  */
-void handleKubernetesNode( String label, Closure body, LinkedHashMap bodyConfig){
+void handleKubernetesNode( String label, Closure body, LinkedHashMap bodyConfig, Map nodeConfig){
     podTemplate(
-        yaml: getPodTemplate(label, bodyConfig),
+        yaml: getPodTemplate(label, bodyConfig, nodeConfig),
         cloud: bodyConfig.podSpec?.namespace ?: config.podSpec?.namespace ?: "kubernetes", 
         namespace: bodyConfig.podSpec?.namespace ?: config.podSpec?.namespace ?: "default",
         workingDir: "/home/jenkins/agent",
@@ -60,8 +60,8 @@ void handleKubernetesNode( String label, Closure body, LinkedHashMap bodyConfig)
 /**
  * builds the pod YAML for the kubernetes agentType
  */
-String getPodTemplate(String label, LinkedHashMap bodyConfig) {
-    String img = getImage(label, "kubernetes", bodyConfig)
+String getPodTemplate(String label, LinkedHashMap bodyConfig, Map nodeConfig) {
+    String img = getImage(label, "kubernetes", bodyConfig, nodeConfig)
     String pullSecret = getRegistryCred("kubernetes", bodyConfig)
 
     return """
@@ -83,11 +83,11 @@ String getPodTemplate(String label, LinkedHashMap bodyConfig) {
 /**
  * implements the node step when the agentType is docker
  */
-void handleDockerNode(String label, Closure body, LinkedHashMap bodyConfig){
+void handleDockerNode(String label, Closure body, LinkedHashMap bodyConfig,  Map nodeConfig){
     String nodeLabel = bodyConfig.nodeLabel ?: config.nodeLabel ?: ""
     String imgRegistry = getRegistry("docker", bodyConfig)
     String imgRegistryCred = getRegistryCred("docker", bodyConfig)
-    String img = getImage(label, "docker", bodyConfig)
+    String img =  getImage(label, "docker", bodyConfig, nodeConfig)
     String args = bodyConfig.images?.docker_args ?: config.images?.docker_args ?: ""
 
     Closure imageInside = { docker.image(img).inside(args, body) }
@@ -101,8 +101,8 @@ void handleDockerNode(String label, Closure body, LinkedHashMap bodyConfig){
 /*
  * implements the node step when the agentType is generic
  */
-void handleGenericNode(String label, Closure body, LinkedHashMap bodyConfig){
-   String nodeLabel = bodyConfig.nodeLabel ?: config.nodeLabel ?: ""
+void handleGenericNode(String label, Closure body, LinkedHashMap bodyConfig, Map nodeConfig){
+   String nodeLabel = label ?: bodyConfig.nodeLabel ?: config.nodeLabel ?: ""
    steps.node(nodeLabel, body)
 }
 
@@ -110,15 +110,22 @@ void handleGenericNode(String label, Closure body, LinkedHashMap bodyConfig){
 /**
  * determines what image to use for the container-based agentTypes
  */
-String getImage(String label, String agentType, LinkedHashMap bodyConfig){
+String getImage(String label, String agentType, LinkedHashMap bodyConfig,  Map nodeConfig){
     String key = getKey(agentType)
-    String img = label ?: bodyConfig[key]?.img ?: config[key]?.img
+    String img =  nodeConfig.img ?: bodyConfig[key]?.img ?: config[key]?.img
+
     if(!img){
         error "You must define the image to use"
     }
     
-    String registry = getRegistry(agentType, bodyConfig)
-    return registry ? "${registry}/${img}" : img
+    String repo = getRepo(agentType, bodyConfig)
+    switch (agentType){
+       case "docker":
+          return repo ? "${repo}/${img}" : img
+       case "kubernetes":
+          String registry = getRegistry(agentType, bodyConfig)
+          return registry ? repo ? "${registry}/${repo}/${img}" : "${registry}/${img}" : img
+   }
 }
 
 /**
@@ -127,6 +134,14 @@ String getImage(String label, String agentType, LinkedHashMap bodyConfig){
 String getRegistry(String agentType, LinkedHashMap bodyConfig){
     String key = getKey(agentType)
     return bodyConfig[key]?.registry ?: config[key]?.registry ?: ""
+}
+
+/**
+ * determines the image repository from which to pull the image for the container-based agentTypes
+ */
+String getRepo(String agentType, LinkedHashMap bodyConfig){
+    String key = getKey(agentType)
+    return bodyConfig[key]?.repository ?: config[key]?.repository ?: ""
 }
 
 /**

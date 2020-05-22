@@ -51,7 +51,7 @@ void call(app_env, Closure body){
       this.update_values_file values_file
       timeout 60, {
         try {
-          node('helm'){   
+          node(img: "helm"){   
             withKubeConfig([credentialsId: k8s_credential , contextName: k8s_context]) {
               project = this.prep_project image_repo_project
               release_env = this.do_release project, values_file
@@ -63,7 +63,7 @@ void call(app_env, Closure body){
         } catch (any) {
           throw any
         } finally{
-          node('helm'){   
+          node(img: "helm"){   
             withKubeConfig([credentialsId: k8s_credential , contextName: k8s_context]) {
               this.cleanup project
             }

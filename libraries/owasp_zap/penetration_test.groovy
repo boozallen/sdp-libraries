@@ -26,7 +26,7 @@ void call() {
     } else {
        vuln_threshold = "High"
     }
-    node('zap'){
+    node(img: "zap"){
       // start zap daemon
       sh """zap.sh -daemon \
                     -host 127.0.0.1 \

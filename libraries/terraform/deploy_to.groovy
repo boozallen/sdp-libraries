@@ -26,7 +26,7 @@ void call(app_env){
         }
     }
 
-    node('terraform'){
+    node(img: "terraform"){
         unstash "workspace"
         if(!fileExists(workingDir)){
             error "specified working directory '${workingDir}' does not exist"
