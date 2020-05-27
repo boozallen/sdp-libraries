@@ -3,6 +3,7 @@
 
 .Libraries
 * xref:libraries/a11y.adoc[The A11y Machine] 
+* xref:libraries/anchore.adoc[Anchore]
 * xref:libraries/docker.adoc[Docker]
 * xref:libraries/github.adoc[GitHub]
 * xref:libraries/github_enterprise.adoc[GitHub Enterprise]

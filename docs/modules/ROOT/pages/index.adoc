@@ -42,7 +42,10 @@ Your Jenkins build agents must have Docker installed due to the above-mentioned 
 | Library | Description
 
 | xref:libraries/a11y.adoc[The A11y Machine]
-| Leverages The A11y Machine to perform accessibility compliance scanning 
+| Leverages The A11y Machine to perform accessibility compliance scanning
+
+| xref:libraries/anchore.adoc[Anchore]
+| Performs comprehensive container image vulnerability scan and compliance policy evaluation using your Anchore Enterprise or Anchore Engine installation
 
 | xref:libraries/docker.adoc[Docker]
 | Uses docker to build and publish container images, tagging them with the Git SHA
