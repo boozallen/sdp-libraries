@@ -1,4 +1,5 @@
 = OWASP ZAP
+:img: zap
 
 https://www.owasp.org/index.php/OWASP_Zed_Attack_Proxy_Project[OWASP Zed Attack Proxy (ZAP)] is a tool that can help you automatically find security vulnerabilities in your web applications while you are developing and testing your applications. Its also a great tool for experienced pentesters to use for manual security testing.
 

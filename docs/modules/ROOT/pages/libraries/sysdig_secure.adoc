@@ -1,4 +1,5 @@
 = Sysdig Secure
+:img:
 
 This library leverages Sysdig Secure's https://github.com/sysdiglabs/secure-inline-scan[inline scanning script] to scan container images, report the information to the Sysdig Secure server, and download a PDF report of the findings. 
 

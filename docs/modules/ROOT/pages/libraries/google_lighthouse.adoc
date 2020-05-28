@@ -1,4 +1,5 @@
 = Google Lighthouse 
+:img: google-lighthouse
 
 This library integrates https://developers.google.com/web/tools/lighthouse[Google Lighthouse] to scan a frontend application for performance, accessibility compliance, search engine optimization, and best practice violations. 
 

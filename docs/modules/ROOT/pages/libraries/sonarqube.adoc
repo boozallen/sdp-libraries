@@ -1,4 +1,5 @@
 = SonarQube
+:img: sonar-scanner
 
 SonarQube is a tool used for *static code analysis*. Static code analysis is validating code as-written against industry standard practices.  It will help you find best practice violations and potential security vulnerabilities.
 

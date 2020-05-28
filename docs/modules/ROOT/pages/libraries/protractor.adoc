@@ -1,4 +1,5 @@
 = Protractor
+:img: protractor
 
 Protractor is a test framework built for Angular and AngularJS applications that is used for end-to-end testing. The framework simulates user activity using the web application by running a developer's tests on a real browser. It adds a layer of tests to help ensure that newly added front-end code does not break already existing functionality or the build itself.
 

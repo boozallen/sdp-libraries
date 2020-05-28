@@ -1,4 +1,5 @@
 = PyTest
+:img: pytest
 
 This library will execute Python unit tests leveraging the https://docs.pytest.org/en/latest/[PyTest] framework. 
 

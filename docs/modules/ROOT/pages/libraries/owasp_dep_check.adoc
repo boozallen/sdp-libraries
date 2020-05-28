@@ -1,4 +1,5 @@
 = OWASP Dependency Check
+:img: owasp-dep-check:latest
 
 The OWASP Dependency Check library will use the namesake tool to scan a project's source code to identify components with known vulnerabilities.
 

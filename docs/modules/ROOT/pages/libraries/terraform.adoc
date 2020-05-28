@@ -1,4 +1,5 @@
 = Terraform
+:img: terraform
 
 This library leverages https://www.terraform.io/intro/index.html[Terraform] to manage deployments of Infrastructure as Code to different environments. 
 

@@ -29,7 +29,7 @@
 
 | images.img
 | Name of the default image to use
-| "a11y"
+| {img}
 
 | images.docker_args
 | Arguments to use when starting the container. Uses the same flags as `docker run`
@@ -53,7 +53,7 @@
 
 | podSpec.img
 | Name of the image to use  
-| "a11y"
+| {img}
 
 | podSpec.cloud
 | Name of the kubernetes cluster / cloud as defined in the Jenkins master configuration to launch the pod in

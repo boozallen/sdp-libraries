@@ -1,4 +1,5 @@
 = OpenShift
+:img: openshift_helm
 
 OpenShift is Red Hat's enterprise kubernetes distribution.
 
