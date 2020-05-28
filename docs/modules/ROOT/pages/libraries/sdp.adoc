@@ -39,6 +39,7 @@ The SDP library provides helper steps used by multiple libraries within sdp-libr
 
 | images.repository
 | The first https://forums.docker.com/t/docker-registry-v2-spec-and-repository-naming-rule/5466[path component] in the repository name, e.g. if your images follow the format ``my-registry.com/sdp/*``, this would be *sdp*
+|
 
 | sdp.images.cred
 | Credentials used for the repository where different docker pipeline tools are stored

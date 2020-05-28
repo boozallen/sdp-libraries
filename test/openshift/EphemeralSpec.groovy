@@ -26,8 +26,10 @@ public class EphemeralSpec extends JenkinsPipelineSpecification {
     Ephemeral.getBinding().setVariable("token", "token")
 
     getPipelineMock("readYaml")(_ as Map) >> [
-      image_shas: [
-        unit_test: "efgh5678"
+      global: [
+        repos: [
+          [name: "unit-test", sha: "efgh5678"]
+        ]
       ]
     ]
     getPipelineMock("sh")(_ as Map) >> "ENV:\nA:Alpha\nB:Bravo\nC:Charlie"
@@ -317,22 +319,10 @@ public class EphemeralSpec extends JenkinsPipelineSpecification {
     when:
       Ephemeral(app_env, {})
     then:
-      1 * getPipelineMock("readYaml")([file: "values.env.yaml"]) >>  [image_shas: [unit_test: "efgh5678"]]
-      1 * getPipelineMock("echo")("writing new Git SHA abcd1234 to image_shas.unit_test in values.env.yaml")
+      (1.._) * getPipelineMock("readYaml")([file: "values.env.yaml"]) >>  [global: [repos: [[name: "unit-test", sha: "efgh5678"]]]] //this is called more than once in separate methods
+      1 * getPipelineMock("echo")("writing new Git SHA abcd1234 for repo unit-test in values.env.yaml")
       1 * getPipelineMock("sh")("rm values.env.yaml") // remove the old file to write a new one
-      1 * getPipelineMock("writeYaml")([file: "values.env.yaml", data: [image_shas: [unit_test: "abcd1234"], is_ephemeral: true]])
-  }
-
-  def "Hyphens (-) in git repo name are translated to underscores (_)" () {
-    setup:
-      def app_env = [short_name: 'env', long_name: 'Environment']
-      Ephemeral.getBinding().setVariable("config", [:])
-      // env.REPO_NAME and env.GIT_SHA set above in setup()
-      Ephemeral.getBinding().setVariable("pipelineConfig", [github_credential: null])
-    when:
-      Ephemeral(app_env, {})
-    then:
-      1 * getPipelineMock("echo")({ it =~ /(.+)(image_shas.unit_test)(.+)/})
+      1 * getPipelineMock("writeYaml")([file: "values.env.yaml", data: [global: [repos: [[name: "unit-test", sha: "abcd1234"]], is_ephemeral: true]]])
   }
 
   /*********************
@@ -511,7 +501,5 @@ public class EphemeralSpec extends JenkinsPipelineSpecification {
     then:
       1 * getPipelineMock("sh")({it =~ /oc delete project [a-z]{10}.*/})
   }
-
-
 
 }

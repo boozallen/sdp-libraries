@@ -27,8 +27,10 @@ public class DeployToSpec extends JenkinsPipelineSpecification {
     DeployTo.getBinding().setVariable("token", "token")
 
     getPipelineMock("readYaml")(_ as Map) >> [
-      image_shas: [
-        unit_test: "efgh5678"
+      global: [
+        repos: [
+          [name: "unit-test", sha: "efgh5678"]
+        ]
       ]
     ]
   }
@@ -296,6 +298,29 @@ public class DeployToSpec extends JenkinsPipelineSpecification {
     then:
       1 * getPipelineMock("sh")( "rm special_values_file.yaml" )
   }
+  
+  def "Checkout master branch of HCR if no helm_chart_branch from app_env" () {
+    setup:
+      def app_env = [short_name: 'env', long_name: 'Environment', helm_chart_branch: null]
+      DeployTo.getBinding().setVariable("config", [:])
+      DeployTo.getBinding().setVariable("pipelineConfig", [github_credential: null])
+    when:
+      DeployTo(app_env)
+    then:
+      1 * getPipelineMock("withGit")( { (it[0] instanceof Map) ? it[0]?.branch == "master" : false} )
+  }
+  
+  def "Checkout app_env.helm_chart_branch of HCR if defined" () {
+    setup:
+      def app_env = [short_name: 'env', long_name: 'Environment', helm_chart_branch: "Mercator"]
+      DeployTo.getBinding().setVariable("config", [:])
+      DeployTo.getBinding().setVariable("pipelineConfig", [github_credential: null])
+    when:
+      DeployTo(app_env)
+    then:
+      1 * getPipelineMock("withGit")( { (it[0] instanceof Map) ? it[0]?.branch == "Mercator" : false} )
+  }
+  
 
   def "Don't retag the previous image if there is no Feature SHA" () {
     // and we can't expect such a corresponding image to exist
@@ -420,22 +445,10 @@ public class DeployToSpec extends JenkinsPipelineSpecification {
     when:
       DeployTo(app_env)
     then:
-      1 * getPipelineMock("readYaml")([file: "values.env.yaml"]) >>  [image_shas: [unit_test: "efgh5678"]]
-      1 * getPipelineMock("echo")("writing new Git SHA abcd1234 to image_shas.unit_test in values.env.yaml")
+      1 * getPipelineMock("readYaml")([file: "values.env.yaml"]) >>  [global: [repos: [[name: "unit-test", sha: "efgh5678"]]]]
+      1 * getPipelineMock("echo")("writing new Git SHA abcd1234 for repo unit-test in values.env.yaml")
       1 * getPipelineMock("sh")("rm values.env.yaml") // remove the old file to write a new one
-      1 * getPipelineMock("writeYaml")([file: "values.env.yaml", data: [image_shas: [unit_test: "abcd1234"]]])
-  }
-
-  def "Hyphens (-) in git repo name are translated to underscores (_)" () {
-    setup:
-      def app_env = [short_name: 'env', long_name: 'Environment']
-      DeployTo.getBinding().setVariable("config", [:])
-      // env.REPO_NAME and env.GIT_SHA set above in setup()
-      DeployTo.getBinding().setVariable("pipelineConfig", [github_credential: null])
-    when:
-      DeployTo(app_env)
-    then:
-      1 * getPipelineMock("echo")({ it =~ /(.+)(image_shas.unit_test)(.+)/})
+      1 * getPipelineMock("writeYaml")([file: "values.env.yaml", data: [global: [repos: [[name: "unit-test", sha: "abcd1234"]]]]])
   }
 
   /******************
@@ -524,4 +537,5 @@ public class DeployToSpec extends JenkinsPipelineSpecification {
       1 * getPipelineMock("git")( [commit: "Updating values.env.yaml for unit-test images"])
       1 * getPipelineMock("git")( getPipelineMock("push") )
   }
+  
 }
