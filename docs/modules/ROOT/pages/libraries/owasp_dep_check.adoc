@@ -12,7 +12,7 @@ The OWASP Dependency Check library will use the namesake tool to scan a project'
 | Step | Description
 
 | ``application_dependency_scan()``
-| Uses the OWASP Dependency Checker CLI to perform an application dependency scan 
+| Uses the OWASP Dependency Check CLI to perform an application dependency scan 
 
 |===
 
