@@ -10,7 +10,7 @@
 * xref:libraries/google_lighthouse.adoc[Google Lighthouse]
 * xref:libraries/kubernetes.adoc[Kubernetes]
 * xref:libraries/openshift.adoc[OpenShift]
-* xref:libraries/owasp_dep_check.adoc[OWASP Dependency Checker]
+* xref:libraries/owasp_dep_check.adoc[OWASP Dependency Check]
 * xref:libraries/owasp_zap.adoc[OWASP ZAP]
 * xref:libraries/protractor.adoc[Protractor]
 * xref:libraries/pytest.adoc[PyTest]
