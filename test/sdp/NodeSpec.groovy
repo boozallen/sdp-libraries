@@ -20,4 +20,4 @@ public class NodeSpec extends JenkinsPipelineSpecification {
   def setup() {
     Node = loadPipelineScriptForTest("./sdp/node.groovy")
   }
-
+}

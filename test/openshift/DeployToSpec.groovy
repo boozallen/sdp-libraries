@@ -20,7 +20,7 @@ public class DeployToSpec extends JenkinsPipelineSpecification {
     explicitlyMockPipelineVariable("out")
     explicitlyMockPipelineVariable("push")
     explicitlyMockPipelineStep("withGit")
-    explicitlyMockPipelineStep("inside_sdp_image")
+    explicitlyMockPipelineStep("node")
     explicitlyMockPipelineStep("retag")
 
     DeployTo.getBinding().setVariable("env", [REPO_NAME: "unit-test", GIT_SHA: "abcd1234"])

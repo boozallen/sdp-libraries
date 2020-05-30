@@ -13,7 +13,7 @@ public class PenetrationTestSpec extends JenkinsPipelineSpecification {
 
   def setup() {
     PenetrationTest = loadPipelineScriptForTest("owasp_zap/penetration_test.groovy")
-    explicitlyMockPipelineStep("inside_sdp_image")
+    explicitlyMockPipelineStep("node")
   }
 
   def "Scan Fails Without Target URL" () {
@@ -78,7 +78,7 @@ public class PenetrationTestSpec extends JenkinsPipelineSpecification {
     when:
       PenetrationTest()
     then:
-      1 * getPipelineMock("inside_sdp_image")(_) >> { _arguments ->
+      1 * getPipelineMock("node")(_) >> { _arguments ->
         assert "zap" == _arguments[0][0]
       }
       1 * getPipelineMock("sh")({it =~ /zap.sh .+/}) >> { _arguments ->
