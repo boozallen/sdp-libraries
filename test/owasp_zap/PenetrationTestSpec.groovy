@@ -79,7 +79,7 @@ public class PenetrationTestSpec extends JenkinsPipelineSpecification {
       PenetrationTest()
     then:
       1 * getPipelineMock("node")(_) >> { _arguments ->
-        assert "zap" == _arguments[0][0]
+        assert "zap" == _arguments[0][0].img
       }
       1 * getPipelineMock("sh")({it =~ /zap.sh .+/}) >> { _arguments ->
         def tokens = _arguments[0].split(/\s\s+/) //double space
