@@ -12,6 +12,7 @@ void call(Map nodeConfig = [:],String label = null, Closure body){
         bodyConfig = body.config
     }catch(MissingPropertyException ex){
         // node invoked from outside a library step
+       println (" Call from outside library step ")
         processNodeCall(label, body, bodyConfig,nodeConfig,"generic")
     }
     String agentType = bodyConfig.agentType ?: config.agentType ?: "generic"
