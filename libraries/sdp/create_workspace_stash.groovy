@@ -7,7 +7,7 @@ import hudson.AbortException
 
 @Validate({ !config.skip_initial_checkout }) // validate so this runs prior to other @Init steps
 void call(context){
-    node{
+    node(img: "default-centos"){
         cleanWs()
         try{
             checkout scm
