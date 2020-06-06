@@ -5,7 +5,7 @@
 
 @Init
 void call(context) {
-  node{
+  node(img: "default-centos"){
       unstash "workspace"
 
       env.GIT_URL = scm.getUserRemoteConfigs()[0].getUrl()
