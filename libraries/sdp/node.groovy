@@ -12,9 +12,14 @@ void call(Map nodeConfig = [:],String label = null, Closure body){
         bodyConfig = body.config
     }catch(MissingPropertyException ex){
         // node invoked from outside a library step
+        processNodeCall(label, body, bodyConfig,nodeConfig,"generic")
     }
+    String agentType = bodyConfig.agentType ?: config.agentType ?: "generic"
+    if(!(agentType in ["kubernetes", "docker", "generic"])){
+        error "The specified agentType must be one of ['kubernetes', 'docker', 'generic'].  Found '${agentType}'."
+    }
+    processNodeCall(label, body, bodyConfig,nodeConfig,agentType)
 
-    processNodeCall(label, body, bodyConfig,nodeConfig)
 }
 
 /**
@@ -22,11 +27,7 @@ void call(Map nodeConfig = [:],String label = null, Closure body){
  * true if this method is called on account of a "node" call from outside the library and false
  * if called by a library step.
  */
-void processNodeCall(String label, Closure body, LinkedHashMap bodyConfig,Map nodeConfig){
-    String agentType = bodyConfig.agentType ?: config.agentType ?: "generic"
-    if(!(agentType in ["kubernetes", "docker", "generic"])){
-        error "The specified agentType must be one of ['kubernetes', 'docker', 'generic'].  Found '${agentType}'."
-    }
+void processNodeCall(String label, Closure body, LinkedHashMap bodyConfig, Map nodeConfig, String agentType){
 
     switch(agentType){
       case "kubernetes":
