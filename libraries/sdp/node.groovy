@@ -77,6 +77,8 @@ String getPodTemplate(String label, LinkedHashMap bodyConfig, Map nodeConfig) {
           tty: true
           workingDir: /home/jenkins/agent
           ${pullSecret ? "imagePullSecrets: ${pullSecret}" : ""}
+          ${nodeConfig.command ? "command: ${nodeConfig.command}" : ""}
+          ${nodeConfig.args ? "args: ${nodeConfig.args}" : ""}
     """.stripIndent()
 }
 

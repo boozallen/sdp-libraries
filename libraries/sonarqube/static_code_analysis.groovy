@@ -12,7 +12,7 @@ def call(){
   enforce = config.containsKey("enforce_quality_gate") ? 
             config.enforce_quality_gate : true
 
-node(img: "sonar-scanner"){
+node(img: "sonar-scanner", command: '["cat"]'){
   stage("SonarQube Analysis"){
         withCredentials([usernamePassword(credentialsId: cred_id, passwordVariable: 'token', usernameVariable: 'user')]) {
         withSonarQubeEnv("SonarQube"){
