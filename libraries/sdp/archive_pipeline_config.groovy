@@ -13,7 +13,7 @@ void call(context){
         merge: [],
         override: []
     )
-    node(img: "default-centos){
+    node(img: "default-centos"){
         writeFile text: TemplateConfigDsl.serialize(aggregated), file: "pipeline_config.groovy"
         archiveArtifacts "pipeline_config.groovy"
     }
