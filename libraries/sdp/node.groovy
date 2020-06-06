@@ -7,15 +7,18 @@
  * An implementtaion of custom node step to be used by SDP library to run a step on a particular node.
  */
 void call(Map nodeConfig = [:],String label = null, Closure body){
+    def testConfig = [:]
     try{
-        bodyConfig = body.config
+        testConfig = body.config
     }catch(MissingPropertyException ex){
         // node invoked from outside a library step
        println (" Call from outside library step ")
        LinkedHashMap bodyConfig = [:]
        processNodeCall(label, body, bodyConfig,nodeConfig,"generic")
     }
+    println (" Call from inside library step ")
     LinkedHashMap bodyConfig = [:]
+    bodyConfig = body.config
     String agentType = bodyConfig.agentType ?: config.agentType ?: "generic"
     if(!(agentType in ["kubernetes", "docker", "generic"])){
         error "The specified agentType must be one of ['kubernetes', 'docker', 'generic'].  Found '${agentType}'."
