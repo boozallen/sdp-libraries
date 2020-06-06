@@ -14,7 +14,7 @@ void call(Map nodeConfig = [:],String label = null, Closure body){
         // node invoked from outside a library step
        processNodeCall(label, body, bodyConfig,nodeConfig,"generic")
     }
-    String agentType = bodyConfig.agentType ?: config.agentType ?: "generic"
+    String agentType = nodeConfig.agentType ?: bodyConfig.agentType ?: config.agentType ?: "generic"
     if(!(agentType in ["kubernetes", "docker", "generic"])){
         error "The specified agentType must be one of ['kubernetes', 'docker', 'generic'].  Found '${agentType}'."
     }
