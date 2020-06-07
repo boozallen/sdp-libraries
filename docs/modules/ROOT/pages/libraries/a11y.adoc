@@ -1,4 +1,5 @@
 = The A11y Machine
+:img: a11y
 
 https://github.com/liip/TheA11yMachine[The A11y Machine] (or `*a11ym*` for short, spelled “alym”) is an *automated accessibility testing tool*
 which *crawls* and *tests* pages of any Web application to produce detailed reports. 
@@ -20,9 +21,9 @@ It validates pages against the following specifications/laws:
 
 |===
 
-== Library Configuration Options
+== A11y Library Specific Configuration Options 
 
-.Configuration Options
+.A11y Specific Options
 |===
 | *Field* | *Description* | *Default Value*
 
@@ -32,7 +33,12 @@ It validates pages against the following specifications/laws:
  
 |===
 
+[IMPORTANT]
+====
 A target URL can be given. However `*env.FRONTEND_URL*` supersedes all configurations. If no `*env.FRONTEND_URL*` is found then the provided target URL is used. If no URL is provided an error is thrown.
+====
+
+== Example Configuration Snippet - A11y Specific Configuration
 
 [source,groovy]
 ----
@@ -42,6 +48,8 @@ libraries{
   }
 }
 ----
+
+include::partial$nodeConfig.adoc[img]
 
 == Results
 

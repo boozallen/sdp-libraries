@@ -1,4 +1,5 @@
 = OpenShift
+:img: openshift_helm
 
 OpenShift is Red Hat's enterprise kubernetes distribution.
 
@@ -250,7 +251,7 @@ libraries{
   }
 }
 ----
-
+include::partial$nodeConfig.adoc[]
 == External Dependencies
 
 * Openshift is deployed and accessible from Jenkins

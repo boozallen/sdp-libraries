@@ -1,4 +1,5 @@
 = Docker
+:img:
 
 The Docker library will build docker images and push them into a docker repository.
 

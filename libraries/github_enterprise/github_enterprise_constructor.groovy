@@ -4,8 +4,8 @@
 */
 
 @Init
-void call(Map context) {
-  node{
+void call(context) {
+  node(img: "default-centos"){
       unstash "workspace"
 
       env.GIT_URL = scm.getUserRemoteConfigs()[0].getUrl()

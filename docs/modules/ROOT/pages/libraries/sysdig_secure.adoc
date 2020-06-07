@@ -1,4 +1,5 @@
 = Sysdig Secure
+:img:
 
 This library leverages Sysdig Secure's https://github.com/sysdiglabs/secure-inline-scan[inline scanning script] to scan container images, report the information to the Sysdig Secure server, and download a PDF report of the findings. 
 
@@ -50,7 +51,7 @@ libraries{
   }
 }
 ----
-
+include::partial$nodeConfig.adoc[]
 == Results
 
 The `scan_container_images()` step will generate a PDF report of the scan if the upload to the Sysdig Secure API is successful.  link:{attachmentsdir}/sysdig_secure/sysdig_secure_report.pdf[Here's an example]. 
