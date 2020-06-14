@@ -41,6 +41,7 @@ void call(){
         """.stripIndent(4).trim()
         
         node{
+            sh "mkdir -p anchore_results"
             try {
                 withCredentials([usernamePassword(credentialsId: config.cred, passwordVariable: 'pass', usernameVariable: 'user')]) {      	
                     images.each { img ->
