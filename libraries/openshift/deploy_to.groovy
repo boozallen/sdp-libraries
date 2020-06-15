@@ -65,6 +65,13 @@ void call(app_env){
                       app_env.short_name ? "values.${app_env.short_name}.yaml" :
                       {error "Values File To Use For This Chart Not Defined"}()
 
+    /*
+      Branch of the helm chart's repository to use
+      can set explicitly on the application environment object "app_env.helm_chart_branch"
+      otherwise the "master" branch is used 
+    */
+    def branch_name = app_env.helm_chart_branch ?:
+                      "master"
 
     /*
        if this is a merge commit we need to retag the image so that the sha
@@ -91,7 +98,7 @@ void call(app_env){
     }
 
 
-    withGit url: config_repo, cred: git_cred, {
+    withGit url: config_repo, cred: git_cred, branch: branch_name, {
       inside_sdp_image "openshift_helm", {
         withCredentials([usernamePassword(credentialsId: tiller_credential, passwordVariable: 'token', usernameVariable: 'user')]) {
           withEnv(["TILLER_NAMESPACE=${tiller_namespace}"]) {
@@ -111,9 +118,11 @@ void update_values_file(values_file, config_repo){
     error "Values File ${values_file} does not exist in ${config_repo}"
 
   values = readYaml file: values_file
-  key = env.REPO_NAME.replaceAll("-","_")
-  echo "writing new Git SHA ${env.GIT_SHA} to image_shas.${key} in ${values_file}"
-  values.image_shas[key] = env.GIT_SHA
+  //key = format_repo_name(env.REPO_NAME)
+  def i = values.global.repos.findIndexOf { it.name == env.REPO_NAME }
+  if (i == -1){ i = values.global.repos.size() } 
+  echo "writing new Git SHA ${env.GIT_SHA} for repo ${env.REPO_NAME} in ${values_file}"
+  values.global.repos[i] = [name: env.REPO_NAME, sha: env.GIT_SHA]
   sh "rm ${values_file}"
   writeYaml file: values_file, data: values
 
@@ -144,3 +153,4 @@ void push_config_update(values_file){
   git commit: "Updating ${values_file} for ${env.REPO_NAME} images"
   git push
 }
+

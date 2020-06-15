@@ -28,7 +28,7 @@ The great part about this library is that developers can also use Google Lightho
  
 | thresholds.performance.fail
 | Double
-| Performance scores less than this will fail the build 
+| Performance scores less than or equal to this will fail the build 
 | 49.0
 
 | thresholds.performance.warn
@@ -38,7 +38,7 @@ The great part about this library is that developers can also use Google Lightho
 
 | thresholds.accessibility.fail
 | Double
-| Accessibility scores less than this will fail the build 
+| Accessibility scores less than or equal to this will fail the build 
 | 49.0
 
 | thresholds.accessibility.warn
@@ -48,7 +48,7 @@ The great part about this library is that developers can also use Google Lightho
 
 | thresholds.best_practices.fail
 | Double
-| Best Practice scores less than this will fail the build 
+| Best Practice scores less than or equal to this will fail the build 
 | 49.0
 
 | thresholds.best_practices.warn
@@ -58,7 +58,7 @@ The great part about this library is that developers can also use Google Lightho
 
 | thresholds.search_engine_optimization.fail
 | Double
-| Search Engine Optimization scores less than this will fail the build 
+| Search Engine Optimization scores less than or equal to this will fail the build 
 | 49.0
 
 | thresholds.search_engine_optimization.warn

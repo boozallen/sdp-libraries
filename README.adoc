@@ -2,7 +2,7 @@
 
 This repository contains https://boozallen.com[Booz Allen's] pipeline libraries that integrate with the https://plugins.jenkins.io/templating-engine/[Jenkins Templating Engine].
 
-If you want to learn more, the best place to get started is the https://boozallen.github.io/sdp-docs/sdp-libraries/latest/index.html[documentation]. 
+If you want to learn more, the best place to get started is the https://boozallen.github.io/sdp-docs/sdp-libraries/[documentation]. 
 
 == Repository Structure
 

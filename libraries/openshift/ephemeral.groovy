@@ -53,17 +53,29 @@ void call(app_env, Closure body){
         def values_file = app_env.chart_values_file ?:
                           app_env.short_name ? "values.${app_env.short_name}.yaml" :
                           {error "Values File To Use For This Chart Not Defined"}()
+                          
+        /*
+          Branch of the helm chart's repository to use
+          can set explicitly on the application environment object "app_env.helm_chart_branch"
+          default to the "master" branch 
+        */
+        def branch_name = app_env.helm_chart_branch ?:
+                          "master"
 
         def image_repo_project = config.image_repository_project ?:
                                  {error "You must define image_repository_project where images are pushed" }()
+                                 
+        def td = config.timeout_duration instanceof Integer ? config.timeout_duration :
+                 (config.timeout_duration instanceof String && config.timeout_duration.isInteger()) ? config.timeout_duration.toInteger() :
+                 60
 
-        withGit url: config_repo, cred: git_cred, {
+        withGit url: config_repo, cred: git_cred, branch: branch_name, {
             withCredentials([usernamePassword(credentialsId: tiller_credential, passwordVariable: 'token', usernameVariable: 'user')]) {
                 withEnv(["TILLER_NAMESPACE=${tiller_namespace}"]) {
                     def project
                     def release_env = [:]
                     this.update_values_file values_file
-                    timeout 60, {
+                    timeout td, {
                         try {
                             inside_sdp_image "openshift_helm", {
                                 this.oc_login ocp_url, token
@@ -92,11 +104,12 @@ void update_values_file(values_file){
     if (!fileExists(values_file))
         error "Values File ${values_file} does not exist in the given Helm configuration repo"
 
-    values = readYaml file: values_file
-    repo = env.REPO_NAME.replaceAll("-","_")
-    echo "writing new Git SHA ${env.GIT_SHA} to image_shas.${repo} in ${values_file}"
-    values.image_shas[repo] = env.GIT_SHA
-    values.is_ephemeral = true
+    def values = readYaml file: values_file
+    def i = values.global.repos.findIndexOf { it.name == env.REPO_NAME }
+    if (i == -1){ i = values.global.repos.size() } 
+    echo "writing new Git SHA ${env.GIT_SHA} for repo ${env.REPO_NAME} in ${values_file}"
+    values.global.repos[i] = [name: env.REPO_NAME, sha: env.GIT_SHA]
+    values.global.is_ephemeral = true
     sh "rm ${values_file}"
     writeYaml file: values_file, data: values
 
@@ -119,6 +132,15 @@ def prep_project(image_repo_project){
 }
 
 def do_release(project, values_file){
+  
+    try {
+      values = readYaml file: values_file
+      sh "bash -c 'oc apply -f <(oc export secrets -l ephemeral=true -n ${values.global.namespace})'"
+    }
+    catch (any){
+      echo "WARNING: unable to import secrets from ${values.global.namespace}"
+    }
+  
     def helm_output = sh script: "helm install . -n ${project} -f ${values_file} --wait",
                          returnStdout: true
 
@@ -157,3 +179,4 @@ void cleanup(project){
     sh "helm del --purge ${project}  || true"
     sh "oc delete project ${project} || true"
 }
+
