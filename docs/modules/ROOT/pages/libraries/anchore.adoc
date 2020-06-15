@@ -46,8 +46,8 @@ The Anchore library implements a comprehensive container image vulnerability and
 
 | bail_on_fail
 | Boolean
-| If set to true, cause the library to fail the build if the Anchore Policy Evaluation step results in a 'STOP' final action.  Use this if you would like your build to fail if your Anchore Policy Evaluation is successful, but the image does not conform to your specified policy requirements.
-| false
+| If set to true, cause the library to fail the build if the Anchore Policy Evaluation step results in a 'STOP' final action.  Leave this set to default (true) if you would like your build to fail when your Anchore Policy Evaluation is successful, but the image does not conform to your specified policy requirements.
+| true
 
 | perform_vulnerability_scan
 | Boolean

@@ -12,7 +12,7 @@ void call(){
         def anchore_policy_id = config.policy_id ?: null
         def image_wait_timeout = config.image_wait_timeout ?: 300
         def archive_only = false
-        def bail_on_fail = false
+        def bail_on_fail = true
         def perf_vuln_scan = true
         def perf_policy_eval = true
 
@@ -85,8 +85,7 @@ void call(){
                                 }
                                 if (bail_on_fail) {
                                     // check policy eval final action and exit if STOP
-                                    //if (final_action == "stop" || final_action == 'STOP') {
-                                    if (final_action == "warn" || final_action == 'WARN') {
+                                    if (final_action == "stop" || final_action == 'STOP') {
                                         error "Anchore policy evaluation resulted in STOP action - failing scan."
                                     }
                                 }
