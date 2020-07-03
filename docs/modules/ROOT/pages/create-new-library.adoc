@@ -6,13 +6,13 @@ This page will outline the steps for adding a new SDP library that's ready for o
 
 . Does the library already exist? :) 
 . Could this functionality be added to an existing library? 
-. Is this library going to be usable by anyone else that wants to use this tool? 
+. Is this library going to be usable by anyone else who wants to use this tool? 
 
-If the library doesn't already exist, doesn't make sense as an addition to an existing library, and represents a usecase that will be applicable outside of your current situation then it's likely a good candidate for contribution! 
+If the library doesn't already exist, wouldn't make more sense as an addition to an existing library, and represents a use case that will be applicable outside of your current situation then it's likely a good candidate for contribution! 
 
 == Fork the SDP Libraries repository
 
-This project follows a standard https://gist.github.com/Chaser324/ce0505fbed06b947d962[Fork Contribution Model], so if you havent, go ahead and fork the https://github.com/boozallen/sdp-libraries[SDP Pipeline Libraries Repository]. 
+This project follows a standard https://gist.github.com/Chaser324/ce0505fbed06b947d962[Fork Contribution Model], so if you haven't, go ahead and fork the https://github.com/boozallen/sdp-libraries[SDP Pipeline Libraries Repository]. 
 
 == Determine a name for the library
 
@@ -28,7 +28,7 @@ mkdir libraries/<name_of_new_library>
 
 == Implement the library's steps 
 
-Go on over to JTE's xref:jte:library-development:getting-started.adoc[Library Development] documentation to learn how to create libraries. 
+Go on over to JTE's xref:jte:library-development:getting_started.adoc[Library Development] documentation to learn how to create libraries. 
 
 There are a few conventions the SDP Pipeline Libraries have adopted, outlined below:
 
@@ -38,7 +38,7 @@ The xref:libraries/sdp.adoc[SDP library] exists to implement common functionalit
 
 === Add an SDP Pipeline Image (if necessary)
 
-The SDP Pipeline Libraries try to install as few plugins on the Jenkins instance and as few tools on the underlying infrastructure as possible.  We run portions of the pipeline inside container images, leveraging them as runtime pipeline environments. The existing container images used for this purpose can be found in the https://github.com/boozallen/sdp-libraries[SDP Pipeline Images] repository.  
+The SDP Pipeline Libraries try to install as few plugins on the Jenkins instance and as few tools on the underlying infrastructure as possible.  We run portions of the pipeline inside container images, leveraging them as runtime pipeline environments. The existing container images used for this purpose can be found in the https://github.com/boozallen/sdp-images[SDP Pipeline Images] repository.  
 
 If your library requires runtime dependencies, like a CLI, capture them in a container image and open a PR to the SDP Pipeline Images repository.
 
@@ -53,7 +53,7 @@ If your library requires runtime dependencies, your new library will not be acce
 
 === Create the documentation page
 
-Libraries are required a documentation page to be accepted. 
+Libraries are required to have a documentation page to be accepted. 
 
 To keep the library documentation consistent, copy the templated documentation page as a starting point to fill in: 
 
