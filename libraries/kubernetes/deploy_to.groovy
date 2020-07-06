@@ -69,7 +69,7 @@ void call(app_env){
                         config.promote_previous_image != null ? config.promote_previous_image :
                         true
     if (!(promote_image instanceof Boolean)){
-      error "OpenShift Library expects 'promote_previous_image' configuration to be true or false."
+      error "Kubernetes Library expects 'promote_previous_image' configuration to be true or false."
     }
 
     if (promote_image){
@@ -85,6 +85,7 @@ void call(app_env){
         withKubeConfig([credentialsId: k8s_credential , contextName: k8s_context]) {
             this.update_values_file( values_file, config_repo )
             this.do_release release, values_file
+            this.push_config_update, values_file
         }
       }
     }
@@ -106,5 +107,12 @@ void update_values_file(values_file, config_repo){
 
 void do_release(release, values_file){
   sh "helm upgrade --install -f ${values_file} ${release} ."
+}
+
+void push_config_update(values_file){
+  echo "updating values file -> ${values_file}"
+  git add: values_file
+  git commit: "Updating ${values_file} for ${env.REPO_NAME} images"
+  git push
 }
 
