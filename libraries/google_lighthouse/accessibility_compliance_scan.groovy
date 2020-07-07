@@ -83,8 +83,16 @@ void validateResults(String resultsDir){
             title: "Search Engine Optimization"
         ]
     ].each{ category -> 
-        def failThreshold = config.thresholds?."${category.configKey}"?.fail ?: 49
-        def warnThreshold = config.thresholds?."${category.configKey}"?.warn ?: 89
+        def failThreshold = config.thresholds?."${category.configKey}"?.fail
+        if(!(failThreshold instanceof Number)){
+            failThreshold = 49
+        }
+
+        def warnThreshold = config.thresholds?."${category.configKey}"?.warn
+        if(!(warnThreshold instanceof Number)){
+            warnThreshold = 89
+        }
+        
         def score = results.categories[category.jsonKey]?.score * 100 
 
         if( score <= failThreshold ){
