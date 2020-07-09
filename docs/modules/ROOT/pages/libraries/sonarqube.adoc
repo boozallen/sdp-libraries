@@ -21,26 +21,55 @@ Organizations can define Quality Profiles which are custom rule profiles that pr
 |===
 | Field | Description | Default Value
 
-| credential_id
-| The Jenkins credential ID corresponding to a username/password credential to authenticate to the configured SonarQube server
+| `credential_id`
+| The Jenkins credential ID to use when authenticating to SonarQube.  Can either a valid username/password or an API Token stored in a Secret Text credential type. 
 | "sonarqube"
 
-| enforce_quality_gate
+| `wait_for_quality_gate`
+| Whether or not to wait for SonarQube to send a webhook back to Jenkins notifying with the Quality Gate result
+| true 
+
+| `enforce_quality_gate`
 | Determine whether the build will fail if the code does not pass the quality gate
 | true
 
-|===
+| `installation_name`
+| The name of the SonarQube installation configured in `Manage Jenkins > Configure System`
+| "SonarQube"
 
-== Example Configuration Snippet
+| `stage_display_name`
+| Purely aesthetic.  The name of the stage block during analysis for pipeline visualization in the Jenkins console.
+| "SonarQube Analysis"
 
-[source,groovy]
+| `timeout_duration`
+| The number representing how long to wait for the Quality Gate response before timing out
+| 1
+
+| `timeout_unit`
+| One of [ "NANOSECONDS", "MICROSECONDS", "MILLISECONDS", "SECONDS", "MINUTES", "HOURS", "DAYS" ]
+| "HOURS" 
+
+| `cli_parameters`
+a| a list of additional CLI analysis parameters to pass the `sonar-scanner` cli.
+
+for example: 
+
+[source, groovy]
 ----
 libraries{
-  sonarqube{
-    credential_id = "sonarqube"
-  }
+    sonarqube{
+        cli_parameters = [ "-Dsonar.java.binaries=empty" ]
+    }
 }
 ----
+
+| []
+
+| `unstash`
+| a list of pre-existing stashes to try to unstash. Useful if a previous step creates compiled classes or test results for SonarQube to inspect. 
+| [] 
+
+|===
 
 == Sonar Scanner Configurations
 
