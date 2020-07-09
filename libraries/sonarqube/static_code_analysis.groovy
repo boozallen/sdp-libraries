@@ -139,7 +139,7 @@ def determineCredentialType(String cred_id){
     }
 
     if(cred instanceof UsernamePasswordCredentialsImpl){
-        return [ [usernamePassword(credentialsId: cred_id, passwordVariable: 'sq_token', usernameVariable: 'sq_user')] ]
+        return [ usernamePassword(credentialsId: cred_id, passwordVariable: 'sq_token', usernameVariable: 'sq_user') ]
     }
 
     if(cred instanceof StringCredentialsImpl){
