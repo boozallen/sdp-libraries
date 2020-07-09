@@ -131,7 +131,7 @@ def determineCredentialType(String cred_id){
 
     if(!(cred.getClass() in [UsernamePasswordCredentialsImpl, StringCredentialsImpl])){
         error """
-        SonarQube: Credential with id '${cred_id}'must be either: 
+        SonarQube: Credential with id '${cred_id}' must be either: 
           1. a valid username/password for SonarQube
           2. a secret text credential storing an API Token. 
         Found credential type: ${cred.getClass()}
