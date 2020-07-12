@@ -139,7 +139,7 @@ def determineCredentialType(String cred_id){
 
 void validateInstallationExists(installation_name){
     boolean exists = SonarGlobalConfiguration.get().getInstallations().find{
-        it.getName() == sonarqube_installation
+        it.getName() == installation_name
     } as boolean
     if(!exists){
         error "SonarQube: installation '${installation_name}' does not exist"
