@@ -152,7 +152,7 @@ void validateInstallationExists(installation_name){
 */
 String fetchCredentialFromInstallation(installation_name){
     String id = SonarGlobalConfiguration.get().getInstallations().find{
-        it.getName() == sonarqube_installation
+        it.getName() == installation_name
     }.getCredentialsId()
     return id
 }
