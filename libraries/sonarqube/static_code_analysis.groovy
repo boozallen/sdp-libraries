@@ -77,12 +77,6 @@ def call(){
                     // build out the command to execute
                     ArrayList command = [ "sonar-scanner -X" ]
 
-                    projectKey = "$env.REPO_NAME:$env.BRANCH_NAME".replaceAll("/", "_")
-                    command << "-Dsonar.projectKey='${projectKey}'"
-                    
-                    projectName = "$env.REPO_NAME - $env.BRANCH_NAME"
-                    command << "-Dsonar.projectName='${projectName}'"
-
                     /*
                         if an API token was used, only provide -Dsonar.login 
                         if a username/password was used, provide both -Dsonar.login and -Dsonar.password
@@ -94,11 +88,6 @@ def call(){
                         command << "-Dsonar.login='${env.sq_user}' -Dsonar.password='${env.sq_token}'"
                     } else {
                         command << "-Dsonar.login='${env.sq_token}'"
-                    }
-
-                    command << "-Dsonar.projectBaseDir=."
-                    if (!fileExists("sonar-project.properties")){
-                        command << "-Dsonar.sources='./src'"
                     }
 
                     // join user provided params
