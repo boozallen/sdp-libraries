@@ -21,9 +21,13 @@ Organizations can define Quality Profiles which are custom rule profiles that pr
 |===
 | Field | Description | Default Value
 
+| `installation_name`
+| The name of the SonarQube installation configured in `Manage Jenkins > Configure System`
+| "SonarQube"
+
 | `credential_id`
-| The Jenkins credential ID to use when authenticating to SonarQube.  Can either a valid username/password or an API Token stored in a Secret Text credential type. 
-| "sonarqube"
+| The Jenkins credential ID to use when authenticating to SonarQube.  Can either be a valid username/password or an API Token stored in a Secret Text credential type. 
+| If unset, the library will check if the installation defined via `installation_name` has a server authorization token configured.  If a server authorization token has been provided in the plugin configuration, then that will be the default.  If unset, then a credential id of "sonarqube" will be assumed.
 
 | `wait_for_quality_gate`
 | Whether or not to wait for SonarQube to send a webhook back to Jenkins notifying with the Quality Gate result
@@ -32,10 +36,6 @@ Organizations can define Quality Profiles which are custom rule profiles that pr
 | `enforce_quality_gate`
 | Determine whether the build will fail if the code does not pass the quality gate
 | true
-
-| `installation_name`
-| The name of the SonarQube installation configured in `Manage Jenkins > Configure System`
-| "SonarQube"
 
 | `stage_display_name`
 | Purely aesthetic.  The name of the stage block during analysis for pipeline visualization in the Jenkins console.
@@ -50,36 +50,75 @@ Organizations can define Quality Profiles which are custom rule profiles that pr
 | "HOURS" 
 
 | `cli_parameters`
-a| a list of additional CLI analysis parameters to pass the `sonar-scanner` cli.
+| a list of additional CLI analysis parameters to pass the `sonar-scanner` cli.
+| [ ]
 
-for example: 
+| `unstash`
+| a list of pre-existing stashes to try to unstash. Useful if a previous step creates compiled classes or test results for SonarQube to inspect. 
+| [ ] 
+
+|===
+
+== Analysis Parameters
+
+In SonarQube, https://docs.sonarqube.org/latest/analysis/analysis-parameters/[project analysis settings] can be provied to the SonarScanner cli in multiple ways. 
+
+The SonarScanner will look for the presence of a **sonar-project.properties** file in the current working directory. 
+
+Alternatively, users can use this library's `cli_parameters` configuration to pass an array of cli analysis parameters to SonarScanner.
+
+For example, 
 
 [source, groovy]
 ----
 libraries{
     sonarqube{
-        cli_parameters = [ "-Dsonar.java.binaries=empty" ]
+        cli_parameters = [ 
+            "-Dsonar.projectKey=myCoolProject",
+            "-Dsonar.projectName='My Cool Project'"
+        ]
     }
 }
 ----
 
-| []
+=== Environment Variables
 
-| `unstash`
-| a list of pre-existing stashes to try to unstash. Useful if a previous step creates compiled classes or test results for SonarQube to inspect. 
-| [] 
+It's possible to use pipeline environment variables to populate the analysis parameters.  This is especially useful when used with one of the source code management libraries to reference the branch name. 
 
-|===
+==== Configuration File 
 
-== Sonar Scanner Configurations
+.sonar-project.properties
+[source, txt]
+----
+sonar.projectName=My Cool Project: ${env.BRANCH_NAME}
+----
 
-Extra configuration options are available by leveraging SonarQube's https://docs.sonarqube.org/display/SONAR/Analysis+Parameters[sonar-project.properties] file. the sonar-project.properties file should be added to root of the source repositoy.
+==== CLI Parameters 
+
+.pipeline_config.groovy
+[source,groovy]
+----
+libraries{
+    sonarqube{
+        cli_parameters = [ 
+            "-Dsonar.projectName=\"My Cool Project: \$BRANCH_NAME\""
+        ]
+    }
+}
+----
 
 ==  External Dependencies
 
-* SonarQube must already be deployed. Reference the deployment script for SDP.
-* Jenkins must have a credential to access SonarQube, this is done by default when using the deployment script.
-* The SonarQube URL must be configured in `Manage Jenkins > Configure System`
+* A SonarQube server should be deployed
+* The https://plugins.jenkins.io/sonar/[SonarQube Scanner] plugin should be installed
+* The SonarQube Installation must be configured in `Manage Jenkins > Configure System > SonarQube servers`
+** The "Enable injection of SonarQube server configuration as build environment variables" checkbox should be checked
+
+== Authentication
+
+This library supports both username/password and API Token authentication to SonarQube. 
+
+If anonymous access is disabled for the SonarQube Server (*it probably should be*), then you will need to create an API Token and store it as a Secret Text credential in the Jenkins Credential Store for reference in `Manage Jenkins > Configure System > Sonarqube servers` as the `Server authentication token`.
 
 ==  Troubleshooting
 

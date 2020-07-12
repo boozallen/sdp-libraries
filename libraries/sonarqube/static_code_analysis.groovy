@@ -6,9 +6,9 @@
 import jenkins.model.Jenkins
 import com.cloudbees.plugins.credentials.Credentials
 import com.cloudbees.plugins.credentials.CredentialsProvider
-import org.codehaus.groovy.runtime.NullObject
 import com.cloudbees.plugins.credentials.impl.UsernamePasswordCredentialsImpl
 import org.jenkinsci.plugins.plaincredentials.impl.StringCredentialsImpl
+import hudson.plugins.sonar.SonarGlobalConfiguration
 
 def call(){
 
@@ -25,9 +25,6 @@ def call(){
         cli_parameters: []
     ]
 
-    // credential ID for SonarQube Auth
-    String cred_id = config.credential_id ?: defaults.credential_id
-    
     // whether or not to wait for the quality gate 
     Boolean wait = defaults.wait_for_quality_gate 
     if(config.containsKey("wait_for_quality_gate")){
@@ -41,6 +38,10 @@ def call(){
 
     // name of installation to use, as configured in Manage Jenkins > Configure System > SonarQube Installations
     String installation_name = config.installation_name ?: defaults.installation_name
+    validateInstallationExists(installation_name)
+
+    // credential ID for SonarQube Auth
+    String cred_id = config.credential_id ?: fetchCredentialFromInstallation(installation_name) ?: defaults.credential_id
 
     // purely aesthetic.  the name of the "Stage" for this task. 
     String stage_display_name = config.stage_display_name ?: defaults.stage_display_name
@@ -134,4 +135,24 @@ def determineCredentialType(String cred_id){
     if(cred instanceof StringCredentialsImpl){
         return [ string(credentialsId: cred_id, variable: 'sq_token') ] 
     }
+}
+
+void validateInstallationExists(installation_name){
+    boolean exists = SonarGlobalConfiguration.get().getInstallations().find{
+        it.getName() == sonarqube_installation
+    } as boolean
+    if(!exists){
+        error "SonarQube: installation '${installation_name}' does not exist"
+    }
+}
+
+/*
+    when not set - this returns an empty string, "" 
+    which evaluates to false when used in an elvis operator. 
+*/
+String fetchCredentialFromInstallation(installation_name){
+    String id = SonarGlobalConfiguration.get().getInstallations().find{
+        it.getName() == sonarqube_installation
+    }.getCredentialsId()
+    return id
 }
