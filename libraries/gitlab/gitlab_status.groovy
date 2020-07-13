@@ -22,8 +22,8 @@ def call(String jobStatus){
     call(glConnection, jobName, jobStatus)
 }
 
-def call(String glConnection, String jobStatus){
-    jobName = config.jobName
+def call(String jobName, String jobStatus){
+    glConnection = config.glConnection
     call(glConnection, jobName, jobStatus)
 }
 
