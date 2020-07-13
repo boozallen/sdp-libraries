@@ -12,9 +12,15 @@ It also provides additional functionality that can be useful for library develop
 [source,groovy]
 ----
 libraries{
-  gitlab
+  gitlab{
+    glConnection = "String" (optional)
+    jobName = "String" (optional)
+    jobStatus = "string" (optional)
+  }
 }
 ----
+
+
 
 == Pipeline Template Business Logic
 
@@ -62,8 +68,19 @@ SDP provides some default keywords for branch name regular expressions:
 
 [NOTE]
 ====
-These branch name regular expressions are not a part of the Gitlab library but rather leveraged by defining Keywords in the Pipeline Configuration File
+These branch name regular expressions are not a part of the Gitlab library but rather leveraged by defining Keywords in the Pipeline Configuration File.
 ====
+
+There are miscellaneous functions available for use in the library, which provide additional features and can be called in your Jenkinsfile or in other libraries.
+
+.Additional Functions
+|===
+| Step | Description
+
+| ``gitlab_status``
+| Updates GitLab branches of pipeline job status performed within Jenkins
+
+|===
 
 == Example Pipeline Templates
 
@@ -77,18 +94,24 @@ on_commit{
 }
 
 on_merge_request to: develop, {
+  gitlab_status("continuous_integration", "running")
   continuous_integration()
+  gitlab_status("continuous_integration", "success")
+  gitlab_status("testing", "running")
   deploy_to dev
   parallel "508 Testing": { accessibility_compliance_test() },
           "Functional Testing": { functional_test() },
           "Penetration Testing": { penetration_test() }
   deploy_to staging
   performance_test()
+  gitlab_status("testing", "success")
 }
 
 on_merge to: master, from: develop, {
+  gitlab_status("running")
   deploy_to prod
   smoke_test()
+  gitlab_status("success")
 }
 ----
 
@@ -123,6 +146,7 @@ on_merge to: master, {
 === External Dependencies
 
 * gitlab-branch-source-plugin:1.4.4
+* gitlab-plugin:1.5.13
 
 === Troubleshooting
 
