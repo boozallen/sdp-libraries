@@ -1,8 +1,18 @@
+/*
+  validate library configuration 
+*/
+@Validate
+void call(context){
+    List options = [ "github", "github_enterprise", "gitlab" ]
+    Map distributionConfig = config.subMap(options)
 
-def call(){
-    List options = ['github', 'github_enterprise']
-    String impl = config.source_type
+    // ensure only one distribution is configured
+    List configured_distributions = distributionConfig.keySet()
+    if(configured_distributions.size() > 1){
+        error "You can only specify one distrubtion among ${options}, currently: ${configured_distributions}"
+    }
 
-    return options.contains(impl) ? getBinding().getStep(impl) :
-            { error "github.config.source_type: ${impl} is not a valid option; should be one of: ${options.join(", ")}" } ()
+    String distribution = distributionConfig.keySet().first() 
+    def dist = getBinding().getStep(distribution)
+    dist.validate_configurations()
 }
