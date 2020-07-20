@@ -13,6 +13,11 @@ void call(context){
     }
 
     String distribution = distributionConfig.keySet().first() 
-    def dist = getBinding().getStep(distribution)
+    env.GIT_LIBRARY_DISTRUBITION = distribution
+    def dist = this.fetch()
     dist.validate_configuration()
+}
+
+def fetch(){
+    return getBinding().getStep(env.GIT_LIBRARY_DISTRUBITION)
 }
