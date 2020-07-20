@@ -7,7 +7,7 @@ void call(context){
     Map distributionConfig = config.subMap(options)
 
     // ensure only one distribution is configured
-    List configured_distributions = distributionConfig.keySet()
+    List configured_distributions = distributionConfig.keySet().toList()
     if(configured_distributions.size() > 1){
         error "You can only specify one distrubtion among ${options}, currently: ${configured_distributions}"
     }
