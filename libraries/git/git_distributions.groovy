@@ -14,5 +14,5 @@ void call(context){
 
     String distribution = distributionConfig.keySet().first() 
     def dist = getBinding().getStep(distribution)
-    dist.validate_configurations()
+    dist.validate_configuration()
 }
