@@ -16,10 +16,10 @@ def call(){
       unstash "workspace"
 
       login_to_registry()
-
+      def arg_string = get_build_arg_string()
       def images = get_images_to_build()
       images.each{ img ->
-        sh "docker build ${img.context} -t ${img.registry}/${img.repo}:${img.tag}"
+        sh "docker build ${img.context} -t ${img.registry}/${img.repo}:${img.tag} ${arg_string}"
         sh "docker push ${img.registry}/${img.repo}:${img.tag}"
         if (remove_local_image) sh "docker rmi -f ${img.registry}/${img.repo}:${img.tag} 2> /dev/null"
       }
