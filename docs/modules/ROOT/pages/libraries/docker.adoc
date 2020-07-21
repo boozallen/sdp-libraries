@@ -14,6 +14,9 @@ The Docker library will build docker images and push them into a docker reposito
 | ``get_images_to_build()``
 | inspects the source code repository based upon the configured ``build_strategy`` to determine which container images to build
 
+| ``get_build_arg_string()``
+| returns a string of build arguments that gets appended to the ``docker build`` command in the ``build()`` function.
+
 | ``login_to_registry()``
 | logs in to the configured container registry
 
@@ -33,6 +36,10 @@ libraries{
      cred = "openshift-docker-registry"
      repo_path_prefix = "proj-images"
      remove_local_image = true
+     build_args = [
+      GITHUB_TOKEN : [type: "credential", id:"github_token"],
+      SOME_VALUE : [type: "inline", value:"some-inline-value-here"]
+    ]
   }
 }
 ----
@@ -67,6 +74,13 @@ libraries{
 | Determines if the pipeline should remove the local image after building or retagging
 | false
 | false
+
+| build_args
+| A map of build arguments to supply to the ``docker build`` command
+| []
+| false
+
+
 
 |===
 
