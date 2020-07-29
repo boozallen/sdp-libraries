@@ -20,7 +20,7 @@ void call(){
       inside_sdp_image "webhint:1.0", {
         //sh "echo ${url}"
         sh "ls -al"
-        sh "echo $HINT_TELEMETRY"
+        sh "echo ${HINT_TELEMETRY}"
         sh "hint ${url}"
       }
     }
