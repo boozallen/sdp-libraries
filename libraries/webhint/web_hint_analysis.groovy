@@ -5,7 +5,7 @@
 void call(){
     stage("Webhint: Lint"){
       
-      /*
+      
       def url = env.FRONTEND_URL ?: config.url ?: {
         error """
         Webhint.io Library needs the target url.
@@ -17,15 +17,9 @@ void call(){
         """
       } ()
       
-      //println "web hint analysis from the webhint.io library ${url}"
-      
-      node {
-        sh "echo ${url}"
-      }
-      */
       inside_sdp_image "webhint", {
-      //docker.image("webhint").inside{
-         sh "ls -al; pwd"  
+        sh "echo ${url}"
+        sh "ls -al; pwd"  
       }
     }
 }
