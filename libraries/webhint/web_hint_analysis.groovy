@@ -5,7 +5,7 @@
 void call(){
     stage("Webhint: Lint"){
       
-      
+      def flags = env.CHROMIUM_FLAGS
       def url = env.FRONTEND_URL ?: config.url ?: {
         error """
         Webhint.io Library needs the target url.
@@ -20,7 +20,7 @@ void call(){
       inside_sdp_image "webhint:1.0", {
         //sh "echo ${url}"
         sh "ls -al"
-        sh "echo ${HINT_TELEMETRY}"
+        sh "echo ${flags}"
         sh "hint ${url}"
       }
     }
