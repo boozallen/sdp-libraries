@@ -17,7 +17,7 @@ void call(){
         """
       } ()
       
-      inside_sdp_image "webhint", {
+      inside_sdp_image "webhint:1.0", {
         //sh "echo ${url}"
         sh "ls -al"
         sh "hint -v"
