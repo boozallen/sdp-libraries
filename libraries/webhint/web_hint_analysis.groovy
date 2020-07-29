@@ -19,8 +19,9 @@ void call(){
       
       inside_sdp_image "webhint", {
         //sh "echo ${url}"
-        //sh "ls -al; pwd"
+        sh "ls -al"
         sh "hint -v"
+        sh "hint ${url}"
       }
     }
 }
