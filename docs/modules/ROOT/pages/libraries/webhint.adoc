@@ -1,0 +1,49 @@
+< overview of the library and any links to background context >
+
+== Steps Contributed
+
+.Steps
+|===
+| *Step* | *Description*
+
+| ``web_hint_analysis()``
+| generates website developer hints from the given url
+
+|===
+
+== Library Configuration Options
+
+.Configuration Options
+|===
+| *Field* | *Description* | *Default Value*
+
+| url
+| web address to analize
+| https://example.com
+
+|===
+
+
+[source,groovy]
+----
+libraries{
+  url = "your_url_here"
+}
+----
+
+== Results
+
+// if images are required, create a new directory: docs/modules/ROOT/images/<library_name>
+
+As a json file
+
+=== < hint.json >
+
+// image:<library_name>/<picture>.jpg
+
+== External Dependencies
+* none
+
+== Troubleshooting
+
+* none
