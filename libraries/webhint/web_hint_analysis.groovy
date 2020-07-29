@@ -17,11 +17,9 @@ void call(){
       } ()
       
       inside_sdp_image "webhint:1.0", {
-        //sh "pwd"
-        //sh "/hint/.hintrc .hintrc"
         sh "echo \"{ \"formatters\": [\"json\"]  }\" > .hintrc"
         sh "ls -al"
-        //sh "hint ${url}"
+        sh "hint ${url}"
       }
     }
 }
