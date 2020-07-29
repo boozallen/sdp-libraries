@@ -17,9 +17,9 @@ void call(){
       } ()
       
       inside_sdp_image "webhint", {
-        sh "pwd"
+        //sh "pwd"
+        sh "cp .hintrc ."
         sh "ls -al"
-        sh "cd hint"
         sh "hint ${url}"
       }
     }
