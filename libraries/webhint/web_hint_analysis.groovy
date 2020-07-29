@@ -23,8 +23,8 @@ void call(){
         sh "echo ${url}"
       }
       */
-      //inside_sdp_image "webhint", {
-      docker.image("webhint").inside{
+      inside_sdp_image "webhint", {
+      //docker.image("webhint").inside{
          sh "ls -al; pwd"  
       }
     }
