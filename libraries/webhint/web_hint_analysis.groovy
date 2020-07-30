@@ -28,7 +28,7 @@ void call(){
             cat /.hintrc;
             cp /.hintrc .;
             mkdir -p ${resultsDir};
-            touch /${resultsDir}/${resultsFile}
+            touch ${resultsDir}/${resultsFile}
            """
         // hint ${url} > ${resultsDir}/${resultsFile};
         
