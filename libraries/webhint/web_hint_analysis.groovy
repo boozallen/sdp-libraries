@@ -25,8 +25,9 @@ void call(){
             mkdir -p ${resultsDir};
             cp /.hintrc ${resultsDir};
             cd ${resultsDir};
-            hint ${url} > ${resultsFile};
            """
+
+        sh script: "hint ${url} > ${resultsFile}", returnStatus: true
         
         archiveArtifacts allowEmptyArchive: true, artifacts: "${resultsDir}/"
         //this.validateResults("${resultsDir}/${resultsFile}")
