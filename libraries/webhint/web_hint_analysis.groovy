@@ -16,13 +16,12 @@ void call(){
         """
       } ()
       
-      inside_sdp_image "webhint:1.0", {
+      inside_sdp_image "webhint:latest", {
         //sh "echo \"{\"extends\":[\"accessibility\"]\",\"formatters\":[\"json\"]} > .hintrc"
         sh "cp /hint/.hintrc ."
         sh "ls -al"
-        //sh "ls -al /hint"
         sh "cat .hintrc"
-        sh "hint ${url}"
+        //sh "hint ${url}"
       }
     }
 }
