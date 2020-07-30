@@ -17,11 +17,9 @@ void call(){
       } ()
       // write-json
       inside_sdp_image "webhint:latest", {
-        //sh "echo \"{\"extends\":[\"accessibility\"]\",\"formatters\":[\"json\"]} > .hintrc"
-        //sh "cp /hint/.hintrc ."
-        //sh "ls -al /hint"
         sh "cat /hint/.hintrc"
-        //sh "hint ${url}"
+        sh "cp /hint/.hintrc ."
+        sh "hint ${url}"
       }
     }
 }
