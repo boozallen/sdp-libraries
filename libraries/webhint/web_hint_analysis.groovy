@@ -26,11 +26,12 @@ void call(){
             cd ${resultsDir};
             cat /.hintrc;
             hint ${url} > ${resultsFile};
+            tail -n+3 ${resultsFile} > ${resultsFile} 
            """, returnStatus: true
         
-        sh """
-            tail -n+3 ${resultsDir}/${resultsFile}
-           """
+        //sh """
+        //    tail -n+3 ${resultsDir}/${resultsFile}
+        //   """
         
         archiveArtifacts allowEmptyArchive: true, artifacts: "${resultsDir}/"
         //this.validateResults("${resultsDir}/${resultsFile}")
