@@ -22,10 +22,9 @@ void call(){
         String resultsDir = "hint-report"
         
         sh script: """
-            mkdir -p ${resultsDir};
-            cp /.hintrc ./${resultsDir};
-            cd ${resultsDir};
+            cp /.hintrc .;
             cat /.hintrc;
+            mkdir -p ${resultsDir};
             hint ${url} > ${resultsDir}/${resultsText};
            """, returnStatus: true
         
