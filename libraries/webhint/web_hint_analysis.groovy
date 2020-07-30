@@ -34,7 +34,8 @@ void call(){
         // Those lines were included as part of the redirection
         // This should be a feature request of Webhint.io to create a json file for us like html does
         sh """
-            tail -n+3 ${resultsDir}/${resultsText} > ${resultsDir}/${resultsJson}
+            ls -al ${resultsDir};
+            tail -n+3 ${resultsDir}/${resultsText} > ${resultsDir}/${resultsJson};
            """
         
         archiveArtifacts allowEmptyArchive: true, artifacts: "${resultsDir}/"
