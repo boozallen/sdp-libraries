@@ -19,20 +19,18 @@ void call(){
       
       
       inside_sdp_image "webhint:latest", {
-        sh "cat /hint/.hintrc"
-        sh "cp /hint/.hintrc ."
-        sh "hint ${url}"
+        //sh "cat /hint/.hintrc"
+        //sh "cp /hint/.hintrc ."
+        //sh "hint ${url}"
         
         sh """
-            mkdir -p ${resultsDir}; 
-            lighthouse ${url} \
-            --chrome-flags='--headless --no-sandbox' \
-            --output json --output html \
-            --output-path=${resultsDir}/lighthouse
-            """ 
-            archiveArtifacts allowEmptyArchive: true, artifacts: "${resultsDir}/"
-            this.validateResults(resultsDir)
-        """
+            cat /hint/.hintrc;
+            cp /hint/.hintrc .;
+            hint ${url} > /hint/hint-results.json
+           """
+        
+        // archiveArtifacts allowEmptyArchive: true, artifacts: "${resultsDir}/"
+        // this.validateResults(resultsDir)
       }
     }
 }
