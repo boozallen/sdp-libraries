@@ -24,10 +24,10 @@ void call(){
         sh """
             cat /hint/.hintrc;
             cp /hint/.hintrc .;
-            hint ${url} > /hint/hint-results.json
            """
         
-        archiveArtifacts allowEmptyArchive: true, artifacts: "${resultsDir}/"
+        //hint ${url} > /hint/hint-results.json
+        archiveArtifacts allowEmptyArchive: true, artifacts: "/hint/"
         this.validateResults()
       }
     }
