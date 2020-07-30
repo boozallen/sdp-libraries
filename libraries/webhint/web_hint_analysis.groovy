@@ -16,16 +16,17 @@ void call(){
         """
       } ()
       
-      inside_sdp_image "webhint:1.5", {
-        String resultsFile = "hint-results.json"
-        String resultsDir = "webhint"
+      inside_sdp_image "webhint:1.7", {
+        String resultsFile = "hint.results.json"
+        String resultsDir = "hint-report"
         
         sh script: """
             mkdir -p ${resultsDir};
             cp /.hintrc ./${resultsDir};
             cd ${resultsDir};
             cat /.hintrc;
-            hint ${url};
+            hint ${url} > ${resultsFile};
+            tail -n+3 ${resultsFile}
            """, returnStatus: true
         
         archiveArtifacts allowEmptyArchive: true, artifacts: "${resultsDir}/"
