@@ -17,7 +17,7 @@ void call(){
       } ()
       
       inside_sdp_image "webhint:1.0", {
-        sh "echo \"{ \"formatters\": [\"json\"]  }\" > .hintrc"
+        sh "echo \"{\"extends\":[\"accessibility\"]\",\"formatters\":[\"json\"]} > .hintrc"
         sh "ls -al"
         sh "hint ${url}"
       }
