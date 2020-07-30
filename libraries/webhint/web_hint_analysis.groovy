@@ -26,12 +26,15 @@ void call(){
             cd ${resultsDir};
             cat /.hintrc;
             hint ${url} > ${resultsFile};
-            tail -n+3 ${resultsFile} > ${resultsFile} 
            """, returnStatus: true
         
-        //sh """
-        //    tail -n+3 ${resultsDir}/${resultsFile}
-        //   """
+        // hint ${url} always exits non 0 so run cleanup work with separate sh
+        // Our goal here to to remove the first two lines which are not valid json
+        // Those lines were included as part of the redirection
+        // This should be a feature request of Webhint.io to create a json file for us like html does
+        sh """
+            tail -n+3 ${resultsDir}/${resultsFile} > ${resultsDir}/${resultsFile}
+           """
         
         archiveArtifacts allowEmptyArchive: true, artifacts: "${resultsDir}/"
         //this.validateResults("${resultsDir}/${resultsFile}")
