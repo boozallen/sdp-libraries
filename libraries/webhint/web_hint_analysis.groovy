@@ -16,8 +16,6 @@ void call(){
         """
       } ()
       
-      
-      
       inside_sdp_image "webhint:latest", {
         //sh "cat /hint/.hintrc"
         //sh "cp /hint/.hintrc ."
@@ -29,8 +27,14 @@ void call(){
             hint ${url} > /hint/hint-results.json
            """
         
-        // archiveArtifacts allowEmptyArchive: true, artifacts: "${resultsDir}/"
-        // this.validateResults(resultsDir)
+        archiveArtifacts allowEmptyArchive: true, artifacts: "${resultsDir}/"
+        this.validateResults()
       }
+    }
+}
+
+void validateResults(){
+    if(!fileExists("/hint/hint-results.json")){
+        return
     }
 }
