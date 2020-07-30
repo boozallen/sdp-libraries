@@ -18,10 +18,11 @@ void call(){
       
       inside_sdp_image "webhint", {
         //sh "echo \"{\"extends\":[\"accessibility\"]\",\"formatters\":[\"json\"]} > .hintrc"
-        sh "cp /hint/.hintrc ."
-        sh "ls -al"
-        sh "cat .hintrc"
-        sh "hint ${url}"
+        //sh "cp /hint/.hintrc ."
+        sh "ls -al /"
+        sh "ls -al /hint"
+        //sh "cat .hintrc"
+        //sh "hint ${url}"
       }
     }
 }
