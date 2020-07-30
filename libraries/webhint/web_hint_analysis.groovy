@@ -17,10 +17,6 @@ void call(){
       } ()
       
       inside_sdp_image "webhint", {
-        //sh "cat /hint/.hintrc"
-        //sh "cp /hint/.hintrc ."
-        //sh "hint ${url}"
-        
         String resultsFile = "hint-results.json"
         String resultsDir = "webhint"
         
@@ -30,8 +26,8 @@ void call(){
             cp /.hintrc ${resultsDir};
             cd ${resultsDir}
             touch ${resultsFile}
+            hint ${url} >> ${resultsFile};
            """
-        // hint ${url} > ${resultsDir}/${resultsFile};
         
         archiveArtifacts allowEmptyArchive: true, artifacts: "${resultsDir}/"
         //this.validateResults("${resultsDir}/${resultsFile}")
