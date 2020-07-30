@@ -17,7 +17,6 @@ void call(){
       } ()
       
       inside_sdp_image "webhint:1.8", {
-        String resultsText = "hint.results.txt"
         String resultsJson = "hint.results.json"
         String resultsDir = "hint-report"
         
@@ -25,7 +24,7 @@ void call(){
             cp /.hintrc .;
             cat /.hintrc;
             mkdir -p ${resultsDir};
-            hint ${url} > ${resultsDir}/${resultsText};
+            hint ${url} > ${resultsDir}/${resultsJson};
            """, returnStatus: true
         
         // hint ${url} always exits non 0 so run cleanup work with separate sh
@@ -33,8 +32,7 @@ void call(){
         // Those lines were included as part of the redirection
         // This should be a feature request of Webhint.io to create a json file for us like html does
         sh """
-            ls -al ${resultsDir};
-            tail -n+3 ${resultsDir}/${resultsText} > ${resultsDir}/${resultsJson};
+            tail -n+3 ${resultsDir}/${resultsJson} > ${resultsDir}/${resultsJson};
            """
         
         archiveArtifacts allowEmptyArchive: true, artifacts: "${resultsDir}/"
