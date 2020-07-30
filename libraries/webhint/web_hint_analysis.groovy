@@ -28,11 +28,11 @@ void call(){
             cat /.hintrc;
             cp /.hintrc .;
             mkdir -p ${resultsDir};
-            hint ${url} > ${resultsDir}/${resultsFile};
+            
            """
+        // hint ${url} > ${resultsDir}/${resultsFile};
         
-        //hint ${url} > /hint/hint-results.json
-        //archiveArtifacts allowEmptyArchive: true, artifacts: "${resultsDir}/"
+        archiveArtifacts allowEmptyArchive: true, artifacts: "${resultsDir}/"
         //this.validateResults("${resultsDir}/${resultsFile}")
       }
     }
