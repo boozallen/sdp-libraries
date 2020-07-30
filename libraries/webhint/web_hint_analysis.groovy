@@ -16,7 +16,7 @@ void call(){
         """
       } ()
       
-      inside_sdp_image "webhint", {
+      inside_sdp_image "webhint:1.5", {
         String resultsFile = "hint-results.json"
         String resultsDir = "webhint"
         
@@ -27,6 +27,7 @@ void call(){
             cat /.hintrc;
            """
 
+        sh "pwd"
         sh script: "hint ${url}", returnStatus: true
         
         archiveArtifacts allowEmptyArchive: true, artifacts: "${resultsDir}/"
