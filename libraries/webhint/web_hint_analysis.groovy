@@ -20,15 +20,13 @@ void call(){
         String resultsFile = "hint-results.json"
         String resultsDir = "webhint"
         
-        sh """
+        sh script: """
             mkdir -p ${resultsDir};
             cp /.hintrc ./${resultsDir};
             cd ${resultsDir};
             cat /.hintrc;
-           """
-
-        sh "pwd"
-        sh script: "hint ${url}", returnStatus: true
+            hint ${url};
+           """, returnStatus: true
         
         archiveArtifacts allowEmptyArchive: true, artifacts: "${resultsDir}/"
         //this.validateResults("${resultsDir}/${resultsFile}")
