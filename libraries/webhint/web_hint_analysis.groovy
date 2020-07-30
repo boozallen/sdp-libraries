@@ -27,6 +27,8 @@ void call(){
         sh """
             cat /.hintrc;
             cp /.hintrc .;
+            mkdir -p ${resultsDir};
+            hint ${url} > ${resultsDir}/${resultsFile};
            """
         
         //hint ${url} > /hint/hint-results.json
