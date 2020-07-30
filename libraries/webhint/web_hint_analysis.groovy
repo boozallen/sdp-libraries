@@ -24,9 +24,8 @@ void call(){
             cat /.hintrc;
             mkdir -p ${resultsDir};
             cp /.hintrc ${resultsDir};
-            cd ${resultsDir}
-            touch ${resultsFile}
-            hint ${url} >> ${resultsFile};
+            cd ${resultsDir};
+            hint ${url} > ${resultsFile};
            """
         
         archiveArtifacts allowEmptyArchive: true, artifacts: "${resultsDir}/"
