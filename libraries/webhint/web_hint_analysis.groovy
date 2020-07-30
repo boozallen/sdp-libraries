@@ -21,20 +21,23 @@ void call(){
         //sh "cp /hint/.hintrc ."
         //sh "hint ${url}"
         
+        String resultsFile = "hint-results.json"
+        String resultsDir = "webhint"
+        
         sh """
-            cat /hint/.hintrc;
-            cp /hint/.hintrc .;
+            cat /.hintrc;
+            cp /.hintrc .;
            """
         
         //hint ${url} > /hint/hint-results.json
-        archiveArtifacts allowEmptyArchive: true, artifacts: "/hint/"
-        this.validateResults()
+        archiveArtifacts allowEmptyArchive: true, artifacts: "${resultsDir}/"
+        this.validateResults("${resultsDir}/${resultsFile}")
       }
     }
 }
 
-void validateResults(){
-    if(!fileExists("/hint/hint-results.json")){
+void validateResults(String resultsFile){
+    if(!fileExists(resultsFile)){
         return
     }
 }
