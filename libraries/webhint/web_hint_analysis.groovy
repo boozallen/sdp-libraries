@@ -21,10 +21,10 @@ void call(){
         String resultsDir = "webhint"
         
         sh """
-            cat /.hintrc;
             mkdir -p ${resultsDir};
-            cp /.hintrc ${resultsDir};
+            cp /.hintrc ./${resultsDir};
             cd ${resultsDir};
+            cat /.hintrc;
            """
 
         sh script: "hint ${url}", returnStatus: true
