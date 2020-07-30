@@ -26,7 +26,7 @@ void call(){
             cp /.hintrc ./${resultsDir};
             cd ${resultsDir};
             cat /.hintrc;
-            hint ${url} > ${resultsText};
+            hint ${url} > ${resultsDir}/${resultsText};
            """, returnStatus: true
         
         // hint ${url} always exits non 0 so run cleanup work with separate sh
