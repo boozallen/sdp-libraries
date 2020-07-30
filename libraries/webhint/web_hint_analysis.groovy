@@ -27,7 +27,7 @@ void call(){
             cd ${resultsDir};
            """
 
-        sh script: "hint ${url} > ${resultsFile}", returnStatus: true
+        sh script: "hint ${url}", returnStatus: true
         
         archiveArtifacts allowEmptyArchive: true, artifacts: "${resultsDir}/"
         //this.validateResults("${resultsDir}/${resultsFile}")
