@@ -21,7 +21,7 @@ void call(){
         String resultsJson = "hint.results.json"
         def hintrc = [
           extends: config.extender ?: [ "accessibility" ],
-          formatters: [ "html", "json" ]
+          formatters: [ "html", "summary", "json" ]
         ]
         
         sh "mkdir -p ${resultsDir}"
