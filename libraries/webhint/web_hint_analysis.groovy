@@ -41,7 +41,7 @@ void call(){
         
         
         archiveArtifacts allowEmptyArchive: true, artifacts: "${resultsDir}/"
-        //this.validateResults("${resultsDir}/${resultsFile}")
+        this.validateResults("${resultsDir}/${resultsJson}")
       }
     }
 }
@@ -50,4 +50,12 @@ void validateResults(String resultsFile) {
     if(!fileExists(resultsFile)) {
         return
     }
+  
+    def results = readJSON file: "${resultsFile}"
+
+    boolean shouldFail = results.size() >= config.failThreshold
+    boolean shouldWarn = results.size() < config.failThreshold
+    
+    if(shouldFail) error("Webhint.io suggestions exceeded the fail threshold")
+    if(shouldWarn) unstable("Webhint.io suggested some changes")
 }
