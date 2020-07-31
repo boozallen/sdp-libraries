@@ -16,3 +16,11 @@ def get_source_branch(){
               .getRef()
   }
 }
+
+def get_labels(){
+    withCredentials([usernamePassword(credentialsId: cred_id, passwordVariable: 'PAT', usernameVariable: 'USER')]) {
+      return GitHub.connectUsingOAuth(PAT).
+              getRepository("${env.ORG_NAME}/${env.REPO_NAME}")
+              .getPullRequest(env.CHANGE_ID.toInteger()).getLabels().collect{ it.getName() }
+  }
+}
