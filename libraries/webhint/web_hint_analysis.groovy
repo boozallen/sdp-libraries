@@ -20,7 +20,7 @@ void call(){
         String resultsText = "hint.results.txt"
         String resultsJson = "hint.results.json"
         def hintrc = [
-          extends: config.extends ?: [ "accessibility" ],
+          extends: config.extender ?: [ "accessibility" ],
           formatters: [ "html", "json" ]
         ]
         
