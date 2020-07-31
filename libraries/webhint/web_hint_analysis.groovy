@@ -17,7 +17,7 @@ void call(){
       
       inside_sdp_image "webhint:1.9", {
         String resultsDir = "hint-report"
-        String resultsText = "hint.results.txt"
+        String resultsText = "hint.results.log"
         String resultsJson = "hint.results.json"
         def hintrc = [
           extends: config.extender ?: [ "accessibility" ],
