@@ -35,8 +35,10 @@ void call(){
         // This should be a feature request of Webhint.io to create a json file for us like html does
         sh """
             tail -n+3 ${resultsDir}/${resultsText} > ${resultsDir}/${resultsJson};
-            rm -rf ${resultsDir}/${resultsText};
+            
            """
+        //rm -rf ${resultsDir}/${resultsText};
+        
         
         archiveArtifacts allowEmptyArchive: true, artifacts: "${resultsDir}/"
         //this.validateResults("${resultsDir}/${resultsFile}")
