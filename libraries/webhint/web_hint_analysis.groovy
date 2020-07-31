@@ -35,7 +35,9 @@ void call(){
         // This should be a feature request of Webhint.io to create a json file for us like html does
         sh """
             tail -n+3 ${resultsDir}/${resultsText} > ${resultsDir}/${resultsJson};
-            
+            if [ ! -s ${resultsDir}/${resultsJson} ] ; then
+              rm ${resultsDir}/${resultsJson}
+            fi
            """
         //rm -rf ${resultsDir}/${resultsText};
         
