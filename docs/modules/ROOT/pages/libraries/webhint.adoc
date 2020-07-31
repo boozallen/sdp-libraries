@@ -20,6 +20,9 @@
 | url
 | web address to analize
 | https://example.com
+| extender
+| Optional - Hint types. See https://webhint.io/docs/user-guide/configurations/configuration-development/ for more information
+| accessibility
 
 |===
 
@@ -28,6 +31,7 @@
 ----
 libraries{
   url = "your_url_here"
+  extender = ["progressive-web-apps"]
 }
 ----
 
@@ -35,11 +39,9 @@ libraries{
 
 // if images are required, create a new directory: docs/modules/ROOT/images/<library_name>
 
-As a json file
+An html file
 
-=== < hint.json >
-
-// image:<library_name>/<picture>.jpg
+=== < your_url.html >
 
 == External Dependencies
 * none
