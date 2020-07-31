@@ -21,7 +21,7 @@ void call(){
         String resultsJson = "hint.results.json"
         def hintrc = [
           extends: config.extender ?: [ "accessibility" ],
-          formatters: [ "html", "json" ]
+          formatters: [ "html", "summary" ]
         ]
         
         sh "mkdir -p ${resultsDir}"
@@ -33,17 +33,20 @@ void call(){
         // Our goal here to to remove the first two lines which are not valid json
         // Those lines were included as part of the redirection
         // This should be a feature request of Webhint.io to create a json file for us like html does
+        /*
+        // Webhint JSON formattor doesn't export a file for us. It sends this content to standard out.
+        // This is hugly promblimatic since the json is not intermixed with echos.
+        // Webhint also will output multiple JSON content depending on its findings
+        // For now, just provide a summary and html. Revisit later when I got time to hand parse the redirection content.
         sh """
             tail -n+3 ${resultsDir}/${resultsText} > ${resultsDir}/${resultsJson};
             if [ ! -s ${resultsDir}/${resultsJson} ] ; then
               rm ${resultsDir}/${resultsJson}
             fi
            """
-        //rm -rf ${resultsDir}/${resultsText};
-        
-        
+        */
         archiveArtifacts allowEmptyArchive: true, artifacts: "${resultsDir}/"
-        this.validateResults("${resultsDir}/${resultsJson}")
+        //this.validateResults("${resultsDir}/${resultsJson}")
       }
     }
 }
