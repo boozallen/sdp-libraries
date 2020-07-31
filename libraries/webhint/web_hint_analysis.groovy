@@ -27,7 +27,7 @@ void call(){
         
         sh script: """
             cp ${resultsDir}/.hintrc .;
-            cat /.hintrc;
+            cat .hintrc;
             hint ${url} > ${resultsDir}/${resultsText};
            """, returnStatus: true
         
