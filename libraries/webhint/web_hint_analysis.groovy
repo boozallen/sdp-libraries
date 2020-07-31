@@ -6,7 +6,6 @@ void call(){
     stage("Webhint: Lint") {
       
       String resultsDir = "hint-report"
-      this.makeArchiveStagingDirectory(resultsDir)
       
       def url = env.FRONTEND_URL ?: config.url ?: {
         error """
@@ -22,6 +21,9 @@ void call(){
       this.createHintrcFile()
       
       inside_sdp_image "webhint:1.8", {
+        this.makeArchiveStagingDirectory(resultDir)
+        this.createHintrcFile(resultDir)
+
         String resultsText = "hint.results.txt"
         String resultsJson = "hint.results.json"
         
@@ -47,9 +49,7 @@ void call(){
 }
 
 void makeArchiveStagingDirectory(String path) {
-   node {
-     sh "mkdir -p ${path}"  
-   }
+     sh "mkdir -p ${path}"
 }
 
 void createHintrcFile(String path) {
@@ -58,10 +58,8 @@ void createHintrcFile(String path) {
     formatters: [ "html", "json" ]
   ]
 
-  node {
-    writeJSON file: "${path}/.hintrc", json: hintrc
-    sh "cat ${path}/.hintrc"
-  }
+  writeJSON file: "${path}/.hintrc", json: hintrc
+  sh "cat ${path}/.hintrc"
 }
 
 void validateResults(String resultsFile) {
