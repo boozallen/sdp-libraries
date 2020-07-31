@@ -35,8 +35,8 @@ void call(){
         // This should be a feature request of Webhint.io to create a json file for us like html does
         /*
         // Webhint JSON formattor doesn't export a file for us. It sends this content to standard out.
-        // This is hugly promblimatic since the json is not intermixed with echos.
-        // Webhint also will output multiple JSON content depending on its findings
+        // This is hugely promblimatic since the json is intermixed with echos.
+        // Webhint also will output multiple JSON objects depending on its findings
         // For now, just provide a summary and html. Revisit later when I got time to hand parse the redirection content.
         sh """
             tail -n+3 ${resultsDir}/${resultsText} > ${resultsDir}/${resultsJson};
