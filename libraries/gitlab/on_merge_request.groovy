@@ -24,6 +24,12 @@ void call(Map args = [:], body){
   if (args.to)
   if (!(target_branch ==~ args.to))
     return
+
+  if(args.with_label){
+      if(!(args.with_label in get_labels())){
+        return
+      }
+  }
   
   println "running because of a MR from ${source_branch} to ${target_branch}"
   body()  
@@ -49,4 +55,23 @@ def get_source_branch(){
       return sourceBranch
     }
   }
+}
+
+def get_labels(){
+    def ghUrl = "${env.GIT_URL.split("/")[0..-3].join("/")}"
+    def cred_id = env.GIT_CREDENTIAL_ID
+    withCredentials([usernamePassword(credentialsId: cred_id, passwordVariable: 'PAT', usernameVariable: 'USER')]) {
+      if ((env.ORG_NAME).isEmpty())
+      {
+        projectName = "${env.REPO_NAME}"
+      }
+      else
+      {
+        projectName = "${env.ORG_NAME}/${env.REPO_NAME}"
+      }
+      GitLabApi gl = new GitLabApi(ghUrl, PAT)
+      sourceBranch =  gl.getMergeRequestApi().getMergeRequest(projectName.toString(), env.CHANGE_ID.toInteger()).getLabels() 
+      println "RETURNING SOURCE BRANCH NAME: ${sourceBranch}"
+      return sourceBranch
+    }
 }
