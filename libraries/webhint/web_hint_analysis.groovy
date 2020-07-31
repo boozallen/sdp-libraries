@@ -4,7 +4,6 @@
 */
 void call(){
     stage("Webhint: Lint") {
-      def String resultsDir = "hint-report"
       def url = env.FRONTEND_URL ?: config.url ?: {
         error """
         Webhint.io Library needs the target url.
@@ -17,6 +16,7 @@ void call(){
       } ()
       
       inside_sdp_image "webhint:1.8", {
+        def String resultsDir = "hint-report"
         def String resultsText = "hint.results.txt"
         def String resultsJson = "hint.results.json"
         def hintrc = [
