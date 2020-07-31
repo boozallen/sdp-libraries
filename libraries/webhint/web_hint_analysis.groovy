@@ -3,7 +3,10 @@
   This software package is licensed under the Booz Allen Public License. The license can be found in the License file or at http://boozallen.github.io/licenses/bapl
 */
 void call(){
-    stage("Webhint: Lint"){
+    stage("Webhint: Lint") {
+      
+      String resultsDir = "hint-report"
+      this.makeArchiveStagingDirectory(resultsDir)
       
       def url = env.FRONTEND_URL ?: config.url ?: {
         error """
@@ -16,15 +19,15 @@ void call(){
         """
       } ()
       
+      this.createHintrcFile()
+      
       inside_sdp_image "webhint:1.8", {
         String resultsText = "hint.results.txt"
         String resultsJson = "hint.results.json"
-        String resultsDir = "hint-report"
         
         sh script: """
-            cp /.hintrc .;
+            cp ${resultsDir}/.hintrc .;
             cat /.hintrc;
-            mkdir -p ${resultsDir};
             hint ${url} > ${resultsDir}/${resultsText};
            """, returnStatus: true
         
@@ -43,8 +46,26 @@ void call(){
     }
 }
 
-void validateResults(String resultsFile){
-    if(!fileExists(resultsFile)){
+void makeArchiveStagingDirectory(String path) {
+   node {
+     sh "mkdir -p ${path}"  
+   }
+}
+
+void createHintrcFile(String path) {
+  def hintrc = [
+    extends: [ "accessibility" ],
+    formatters: [ "html", "json" ]
+  ]
+
+  node {
+    writeJSON file: "${path}/.hintrc", json: hintrc
+    sh "cat ${path}/.hintrc"
+  }
+}
+
+void validateResults(String resultsFile) {
+    if(!fileExists(resultsFile)) {
         return
     }
 }
