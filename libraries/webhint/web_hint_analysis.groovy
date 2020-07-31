@@ -4,7 +4,7 @@
 */
 void call(){
     stage("Webhint: Lint") {
-      def url = env.FRONTEND_URL ?: config.url ?: {
+      def url = config.url ?: {
         error """
         Webhint.io Library needs the target url.
         libraries{
@@ -20,7 +20,7 @@ void call(){
         String resultsText = "hint.results.txt"
         String resultsJson = "hint.results.json"
         def hintrc = [
-          extends: [ "accessibility" ],
+          extends: config.extends ?: [ "accessibility" ],
           formatters: [ "html", "json" ]
         ]
         
