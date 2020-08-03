@@ -18,17 +18,18 @@ void call(){
       inside_sdp_image "webhint:1.9", {
         String resultsDir = "hint-report"
         String resultsText = "hint.results.log"
-        String resultsJson = "hint.results.json"
+        //String resultsJson = "hint.results.json"
+        
         def hintrc = [
           extends: config.extender ?: [ "accessibility" ],
-          formatters: [ "json" ]
+          formatters: [ "html", "summary" ]
         ]
         
         sh "mkdir -p ${resultsDir}"
         writeJSON file: "${resultsDir}/.hintrc", json: hintrc
         sh "cp ${resultsDir}/.hintrc .; cat .hintrc;"
         
-        sh script: "hint ${url} -o ${resultsDir}/${resultsJson}", returnStatus: true
+        sh script: "hint ${url} -o ${resultsDir}/${resultsText}", returnStatus: true
         //sh script: "hint ${url} > ${resultsDir}/${resultsText}", returnStatus: true
         //sh script: "hint ${url} -f html json -o ${resultsDir}/${resultsJson}", returnStatus: true
         
