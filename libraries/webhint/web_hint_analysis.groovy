@@ -29,7 +29,7 @@ void call(){
         writeJSON file: "${resultsDir}/.hintrc", json: hintrc
         sh "cp ${resultsDir}/.hintrc .; cat .hintrc;"
         
-        sh script: "hint ${url}, returnStatus: true
+        sh script: "hint ${url}", returnStatus: true
         //sh script: "hint ${url} > ${resultsDir}/${resultsText}", returnStatus: true
         //sh script: "hint ${url} -f html json -o ${resultsDir}/${resultsJson}", returnStatus: true
         
