@@ -51,8 +51,11 @@ void validateResults(String resultsFile) {
     def file = readFile file: "${resultsFile}"
     def lines = file.readLines()
     def lastline=lines.get(lines.size()-1)
-    def s = lastline.split(' ');
-    unstable(s)
+    for (String item : lastline.split(' ')) {
+      echo item;
+    }
+  
+    //unstable(s)
 
     //boolean shouldFail = results.size() >= config.failThreshold
     //boolean shouldWarn = results.size() < config.failThreshold
