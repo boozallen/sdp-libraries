@@ -57,7 +57,7 @@ void validateResults(String resultsFile) {
       if (item.isNumber()) total += item.toInteger()
     }
   
-    unstable(total)
+    unstable(total.toString())
 
     //boolean shouldFail = results.size() >= config.failThreshold
     //boolean shouldWarn = results.size() < config.failThreshold
