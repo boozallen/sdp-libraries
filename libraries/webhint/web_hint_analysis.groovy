@@ -21,14 +21,17 @@ void call(){
         String resultsJson = "hint.results.json"
         def hintrc = [
           extends: config.extender ?: [ "accessibility" ],
-          formatters: [ "html", "json", "summary" ]
+          formatters: [ "json" ],
+          output: "${resultsDir}/${resultsJson}"
         ]
         
         sh "mkdir -p ${resultsDir}"
         writeJSON file: "${resultsDir}/.hintrc", json: hintrc
         sh "cp ${resultsDir}/.hintrc .; cat .hintrc;"
+        
+        sh script: "hint ${url}, returnStatus: true
         //sh script: "hint ${url} > ${resultsDir}/${resultsText}", returnStatus: true
-        sh script: "hint ${url} -f html json -o ${resultsDir}/${resultsJson}", returnStatus: true
+        //sh script: "hint ${url} -f html json -o ${resultsDir}/${resultsJson}", returnStatus: true
         
         // hint ${url} always exits non 0 so run cleanup work with separate sh
         // Our goal here to to remove the first two lines which are not valid json
