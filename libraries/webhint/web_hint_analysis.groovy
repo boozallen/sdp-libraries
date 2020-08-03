@@ -37,8 +37,8 @@ void call(){
         //sh "echo ${lastline}"
         archiveArtifacts allowEmptyArchive: true, artifacts: "${resultsDir}/"
         //this.validateResults("${resultsDir}/${resultsJson}")
-        File file = new File("${resultsDir}/${resultsText}")
-        def lines = file.readLines()
+        //File file = new File("${resultsDir}/${resultsText}")
+        //def lines = file.readLines()
       }
     }
 }
