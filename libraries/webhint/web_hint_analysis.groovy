@@ -36,7 +36,7 @@ void call(){
         //def lines = file.readLines()
         //sh "echo ${lastline}"
         archiveArtifacts allowEmptyArchive: true, artifacts: "${resultsDir}/"
-        //this.validateResults("${resultsDir}/${resultsJson}")
+        this.validateResults("${resultsDir}/${resultsText}")
         //File file = new File("${resultsDir}/${resultsText}")
         //def lines = file.readLines()
       }
@@ -48,11 +48,11 @@ void validateResults(String resultsFile) {
         return
     }
   
-    def results = readJSON file: "${resultsFile}"
+    def file = readFile file: "${resultsFile}"
 
-    boolean shouldFail = results.size() >= config.failThreshold
-    boolean shouldWarn = results.size() < config.failThreshold
+    //boolean shouldFail = results.size() >= config.failThreshold
+    //boolean shouldWarn = results.size() < config.failThreshold
     
-    if(shouldFail) error("Webhint.io suggestions exceeded the fail threshold")
-    if(shouldWarn) unstable("Webhint.io suggested some changes")
+    //if(shouldFail) error("Webhint.io suggestions exceeded the fail threshold")
+    //if(shouldWarn) unstable("Webhint.io suggested some changes")
 }
