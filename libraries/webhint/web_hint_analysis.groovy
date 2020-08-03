@@ -29,9 +29,11 @@ void call(){
         sh "cp ${resultsDir}/.hintrc .; cat .hintrc;"
         sh script: "hint ${url} > ${resultsDir}/${resultsText}", returnStatus: true
         
-        def lines=new File("${resultsDir}/${resultsText}").readLines()
-        def lastline=lines.get(lines.size()-1)
-        sh "echo ${lastline}"
+        //def lines=new File("${resultsDir}/${resultsText}").readLines()
+        //def lines = readFile 'hint-report/hint.report.log'
+        //def lastline=lines.get(lines.size()-1)
+        File file = new File("${resultsDir}/${resultsText}")
+        //sh "echo ${lastline}"
         archiveArtifacts allowEmptyArchive: true, artifacts: "${resultsDir}/"
         //this.validateResults("${resultsDir}/${resultsJson}")
       }
