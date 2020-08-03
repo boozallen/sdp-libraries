@@ -52,7 +52,7 @@ void validateResults(String resultsFile) {
     def lines = file.readLines()
     def lastline=lines.get(lines.size()-1)
     for (String item : lastline.split(' ')) {
-      echo item;
+      if (item.isNumber()) echo item
     }
   
     //unstable(s)
