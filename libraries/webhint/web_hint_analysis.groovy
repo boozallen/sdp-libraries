@@ -49,6 +49,7 @@ void validateResults(String resultsFile) {
     }
   
     def file = readFile file: "${resultsFile}"
+    def lines = file.readLines()
 
     //boolean shouldFail = results.size() >= config.failThreshold
     //boolean shouldWarn = results.size() < config.failThreshold
