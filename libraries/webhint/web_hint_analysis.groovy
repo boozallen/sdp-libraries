@@ -27,7 +27,7 @@ void call(){
         sh "mkdir -p ${resultsDir}"
         writeJSON file: "${resultsDir}/.hintrc", json: hintrc
         sh "cp ${resultsDir}/.hintrc .; cat .hintrc;"
-        sh script: "hint ${url} > ${resultsDir}/${resultsText}", returnStatus: true
+        sh script: "hint ${url} -f json -o ${resultsDir}/${resultsJson} > ${resultsDir}/${resultsText}", returnStatus: true
         
         // hint ${url} always exits non 0 so run cleanup work with separate sh
         // Our goal here to to remove the first two lines which are not valid json
