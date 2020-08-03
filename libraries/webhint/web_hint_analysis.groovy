@@ -33,6 +33,7 @@ void call(){
         //def lines = readFile 'hint-report/hint.report.log'
         //def lastline=lines.get(lines.size()-1)
         File file = new File("${resultsDir}/${resultsText}")
+        def lines = file.readLines()
         //sh "echo ${lastline}"
         archiveArtifacts allowEmptyArchive: true, artifacts: "${resultsDir}/"
         //this.validateResults("${resultsDir}/${resultsJson}")
