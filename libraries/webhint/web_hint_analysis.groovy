@@ -54,7 +54,7 @@ void validateResults(String resultsFile) {
     def total = 0
   
     for (String item : lastline.split(' ')) {
-      if (item.isNumber()) total += item
+      if (item.isNumber()) total += Integer.parseInteger(item)
     }
   
     unstable(total)
