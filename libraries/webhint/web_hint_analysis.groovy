@@ -6,12 +6,12 @@ void call(){
     stage("Webhint: Lint") {
       def url = config.url ?: {
         error """
-        Webhint.io Library needs the target url.
-        libraries{
-          webhint{
-            url = "https://example.com"
+          Webhint.io Library needs the target url.
+          libraries{
+            webhint{
+              url = "https://example.com"
+            }
           }
-        }
         """
       } ()
       
@@ -19,28 +19,27 @@ void call(){
         String resultsDir = "hint-report"
         String resultsText = "hint.results.log"
         
-        def hintrc = [
-          extends: config.extender ?: [ "accessibility" ],
-          formatters: [ "html", "summary" ]
-        ]
-        
-        sh "mkdir -p ${resultsDir}"
-        writeJSON file: "${resultsDir}/.hintrc", json: hintrc
-        sh "cp ${resultsDir}/.hintrc .; cat .hintrc;"
-        sh script: "hint ${url} > ${resultsDir}/${resultsText}", returnStatus: true
-        
-        //def lines=new File("${resultsDir}/${resultsText}").readLines()
-        //def lines = readFile 'hint-report/hint.report.log'
-        //def lastline=lines.get(lines.size()-1)
-        //File file = new File("/${resultsText}")
-        //def lines = file.readLines()
-        //sh "echo ${lastline}"
+        this.createAndAddHintrcFile("${resultsDir}")
         archiveArtifacts allowEmptyArchive: true, artifacts: "${resultsDir}/"
         this.validateResults("${resultsDir}/${resultsText}")
-        //File file = new File("${resultsDir}/${resultsText}")
-        //def lines = file.readLines()
       }
     }
+}
+
+void createAndAddHintrcFile(String path) {
+  def hintrc = [
+    extends: config.extender ?: [ "accessibility" ],
+    formatters: [ "html", "summary" ]
+  ]
+        
+  sh "mkdir -p ${resultsDir}"
+  writeJSON file: "${resultsDir}/.hintrc", json: hintrc
+  sh "cp ${resultsDir}/.hintrc .;"
+}
+
+void processUrl(String url, String resultsDir, String resultsText) {
+  sh "cat ${resultsDir}/.hintrc"
+  sh script: "hint ${url} > ${resultsDir}/${resultsText}", returnStatus: true
 }
 
 void validateResults(String resultsFile) {
@@ -56,12 +55,10 @@ void validateResults(String resultsFile) {
     for (String item : lastline.split(' ')) {
       if (item.isNumber()) total += item.toInteger()
     }
-  
-    unstable(total.toString())
 
-    //boolean shouldFail = results.size() >= config.failThreshold
-    //boolean shouldWarn = results.size() < config.failThreshold
+    boolean shouldFail = results.size() >= config.failThreshold ?: 25
+    boolean shouldWarn = results.size() < config.warnThreshold ?: 10
     
-    //if(shouldFail) error("Webhint.io suggestions exceeded the fail threshold")
-    //if(shouldWarn) unstable("Webhint.io suggested some changes")
+    if(shouldFail) error("Webhint.io suggestions exceeded the fail threshold")
+    else if(shouldWarn) unstable("Webhint.io suggested some changes")
 }
