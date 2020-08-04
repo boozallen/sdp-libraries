@@ -61,7 +61,7 @@ void validateResults(String filePath) {
     int warn = config.warnThreshold ?: 10
 
     boolean shouldFail = total >= fail
-    boolean shouldWarn = total > warn
+    boolean shouldWarn = total >= warn
   
     echo "total: ${total}"
     echo "failT: ${fail}"
