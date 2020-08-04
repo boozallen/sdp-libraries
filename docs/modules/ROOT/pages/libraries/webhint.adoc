@@ -28,7 +28,7 @@
 | 25
 | warnThreshold
 | Optional - Hint limit at which the jenkins build will issue a warning
-| 15
+| 10
 
 |===
 
@@ -38,6 +38,8 @@
 libraries{
   url = "your_url_here"
   extender = ["progressive-web-apps"]
+  failThreshold = 35
+  warnThreshold = 25
 }
 ----
 
@@ -45,9 +47,10 @@ libraries{
 
 // if images are required, create a new directory: docs/modules/ROOT/images/<library_name>
 
-An html file
+An html file and a summary log file
 
 === < your_url.html >
+=== < hint.results.log >
 
 == External Dependencies
 * none
