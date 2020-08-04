@@ -57,8 +57,8 @@ void validateResults(String filePath) {
       if (item.isNumber()) total += item.toInteger()
     }
 
-    boolean shouldFail = results.size() >= config.failThreshold ?: 25
-    boolean shouldWarn = results.size() < config.warnThreshold ?: 10
+    boolean shouldFail = total >= config.failThreshold ?: 25
+    boolean shouldWarn = total < config.warnThreshold ?: 10
     
     if(shouldFail) error("Webhint.io suggestions exceeded the fail threshold")
     else if(shouldWarn) unstable("Webhint.io suggested some changes")
