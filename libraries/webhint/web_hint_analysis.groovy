@@ -63,7 +63,7 @@ void validateResults(String filePath) {
     boolean shouldFail = total >= fail
     boolean shouldWarn = total >= warn
   
-    sh "echo 'total: ${total} warn threshold: ${warn} error threshold: ${fail}' >> ${filePath}" 
+    sh "echo 'total: ${total} warn threshold: ${warn} error threshold: ${fail}' >> ${filePath}.txt" 
     
     if(shouldFail) error("Webhint.io found ${total} suggestion(s) meeting or exceeding the fail threshold of ${fail}")
     else if(shouldWarn) unstable("Webhint.io found ${total} suggestion(s). Consider fixing a few of them.")
