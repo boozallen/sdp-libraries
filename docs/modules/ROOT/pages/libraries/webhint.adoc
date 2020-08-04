@@ -23,6 +23,12 @@
 | extender
 | Optional - Hint types. See https://webhint.io/docs/user-guide/configurations/configuration-development/ for more information
 | accessibility
+| failThreshold
+| Optional - Hint limit at which the jenkins build will fail
+| 25
+| warnThreshold
+| Optional - Hint limit at which the jenkins build will issue a warning
+| 15
 
 |===
 
