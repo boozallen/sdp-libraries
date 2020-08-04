@@ -20,6 +20,7 @@ void call(){
         String resultsText = "hint.results.log"
         
         this.createAndAddHintrcFile("${resultsDir}")
+        this.processUrl(url, resultsDir, resultsText)
         archiveArtifacts allowEmptyArchive: true, artifacts: "${resultsDir}/"
         this.validateResults("${resultsDir}/${resultsText}")
       }
@@ -32,9 +33,9 @@ void createAndAddHintrcFile(String path) {
     formatters: [ "html", "summary" ]
   ]
         
-  sh "mkdir -p ${resultsDir}"
-  writeJSON file: "${resultsDir}/.hintrc", json: hintrc
-  sh "cp ${resultsDir}/.hintrc .;"
+  sh "mkdir -p ${path}"
+  writeJSON file: "${path}/.hintrc", json: hintrc
+  sh "cp ${path}/.hintrc .;"
 }
 
 void processUrl(String url, String resultsDir, String resultsText) {
@@ -42,12 +43,12 @@ void processUrl(String url, String resultsDir, String resultsText) {
   sh script: "hint ${url} > ${resultsDir}/${resultsText}", returnStatus: true
 }
 
-void validateResults(String resultsFile) {
-    if(!fileExists(resultsFile)) {
+void validateResults(String filePath) {
+    if(!fileExists(filePath)) {
         return
     }
   
-    def file = readFile file: "${resultsFile}"
+    def file = readFile file: "${filePath}"
     def lines = file.readLines()
     def lastline=lines.get(lines.size()-1)
     def total = 0
