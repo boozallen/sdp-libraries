@@ -63,8 +63,9 @@ void validateResults(String filePath) {
     boolean shouldFail = total >= fail
     boolean shouldWarn = total >= warn
   
-    sh "echo '[total hints:${total}] [fail threshold:${fail}] [warn threshold:${warn}]'"
+    def message = "[total hints:${total}] [fail threshold:${fail}] [warn threshold:${warn}]"
+    sh "echo ${message}
     
-    if(shouldFail) error("Webhint.io found ${total} suggestion(s) meeting or exceeding the fail threshold of ${fail}")
+    if(shouldFail) error("Webhint.io found ${total} suggestion(s) meeting or exceeding the fail threshold of ${fail}.")
     else if(shouldWarn) unstable("Webhint.io found ${total} suggestion(s). Consider fixing a few of them.")
 }
