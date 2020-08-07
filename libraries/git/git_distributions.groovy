@@ -1,5 +1,5 @@
 /*
-  validate library configuration 
+  validate library configuration
 */
 @Validate
 void call(context){
@@ -9,10 +9,10 @@ void call(context){
     // ensure only one distribution is configured
     List configured_distributions = distributionConfig.keySet().toList()
     if(configured_distributions.size() > 1){
-        error "You can only specify one distrubtion among ${options}, currently: ${configured_distributions}"
+        error "You can only specify one distribution among ${options}, currently: ${configured_distributions}"
     }
 
-    String distribution = distributionConfig.keySet().first() 
+    String distribution = distributionConfig.keySet().first()
     env.GIT_LIBRARY_DISTRUBITION = distribution
     def dist = this.fetch()
     dist.validate_configuration()
