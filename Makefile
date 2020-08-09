@@ -7,18 +7,19 @@ help: ## Show target options
 	@fgrep -h "##" $(MAKEFILE_LIST) | fgrep -v fgrep | sed -e 's/\\$$//' | sed -e 's/##//'
 
 clean: ## removes remote documentation and compiled documentation
-	rm -rf $(BUILDDIR)/** target bin
-
-npm: ## build npm image 
-	docker build scripts/npm -t sdp-libs:npm-$(shell git rev-parse HEAD)
+	rm -rf $(BUILDDIR) target bin
 
 .PHONY: docs test
 .ONESHELL:
-docs: clean npm## builds the antora documentation 
+docs: clean ## builds the antora documentation 
 	docker run \
+	-t --rm \
 	-v ~/.git-credentials:/home/antora/.git-credentials \
-	-v $(shell pwd):/docs \
-	sdp-libs:npm-$(shell git rev-parse HEAD) /node_modules/.bin/antora generate --fetch --to-dir $(BUILDDIR) $(PLAYBOOK)
+	-v $(shell pwd):/app -w /app \
+	docker.pkg.github.com/boozallen/sdp-docs/builder \
+	generate --generator booz-allen-site-generator \
+	--to-dir $(BUILDDIR) \
+	$(PLAYBOOK)
 
 test: ## runs the plugin's test suite 
 	docker run \
