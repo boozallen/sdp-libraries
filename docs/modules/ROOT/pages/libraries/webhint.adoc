@@ -6,7 +6,7 @@ https://webhint.io[Webhint] is a customizable linting tool that helps you improv
 |===
 | *Step* | *Description*
 
-| ``web_hint_analysis()``
+| ``accessibility_compliance_scan()``
 | generates website developer hints from the given url
 
 |===
@@ -18,10 +18,10 @@ https://webhint.io[Webhint] is a customizable linting tool that helps you improv
 | *Field* | *Description* | *Default Value*
 
 | url
-| web address to analize
-| https://example.com
+| web address to analyze
+|
 | extender
-| Optional - Hint types. See https://webhint.io/docs/user-guide/configurations/configuration-development/ for more information
+| Optional - Hint types. See https://webhint.io/docs/user-guide/configurations/configuration-development/[the documentation] for more information
 | accessibility
 | failThreshold
 | Optional - Hint limit at which the jenkins build will fail
@@ -47,10 +47,9 @@ libraries{
 
 // if images are required, create a new directory: docs/modules/ROOT/images/<library_name>
 
-An html file and a summary log file
+An example html report has been saved to PDF.
 
-=== < your_url.html >
-=== < hint.results.log >
+link:{attachmentsdir}/webhint/webhint.pdf[click here to download.]
 
 == External Dependencies
 * none
