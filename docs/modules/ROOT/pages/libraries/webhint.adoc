@@ -49,7 +49,7 @@ libraries{
 
 An example html report has been saved to PDF.
 
-link:{attachmentsdir}/webhint/webhint.pdf[click here to download.]
+link:{attachments}/webhint/webhint_mockaroo.pdf[click here to download.]
 
 == External Dependencies
 * none
