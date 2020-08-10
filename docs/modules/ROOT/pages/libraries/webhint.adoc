@@ -22,7 +22,7 @@ https://webhint.io[Webhint] is a customizable linting tool that helps you improv
 |
 | extender
 | Array - Optional - Hint types. See https://webhint.io/docs/user-guide/configurations/configuration-development/[the documentation] for more information
-| accessibility
+| ["accessibility"]
 | failThreshold
 | Optional - Hint limit at which the jenkins build will fail
 | 25
