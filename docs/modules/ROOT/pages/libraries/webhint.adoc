@@ -21,7 +21,7 @@ https://webhint.io[Webhint] is a customizable linting tool that helps you improv
 | web address to analyze
 |
 | extender
-| Optional - Hint types. See https://webhint.io/docs/user-guide/configurations/configuration-development/[the documentation] for more information
+| Array - Optional - Hint types. See https://webhint.io/docs/user-guide/configurations/configuration-development/[the documentation] for more information
 | accessibility
 | failThreshold
 | Optional - Hint limit at which the jenkins build will fail
