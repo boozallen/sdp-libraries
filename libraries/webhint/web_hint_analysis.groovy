@@ -15,7 +15,7 @@ void call(){
         """
       } ()
       
-      inside_sdp_image "webhint:1.9", {
+      inside_sdp_image "webhint", {
         String resultsDir = "hint-report"
         String resultsText = "hint.results.log"
         
