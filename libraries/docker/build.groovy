@@ -45,7 +45,7 @@ void withBuildArgs(Closure body){
           def allCreds = CredentialsProvider.lookupCredentials(Credentials, Jenkins.get(),null, null)
           def cred = allCreds.find{ it.id.equals(value.id) } 
           if(cred == null){
-              error "docker library: build argument '${argument}' specified credential id '${cred_id}' which does not exist."
+              error "docker library: build argument '${argument}' specified credential id '${value.id}' which does not exist."
           }
           if(!(cred instanceof StringCredentialsImpl)){
             error "docker library: build argument '${argument}' credential must be a Secret Text." 
@@ -91,9 +91,9 @@ void call(context){
       switch(value?.type){
         case "credential": // validate credential exists and is a secrettext cred
           def allCreds = CredentialsProvider.lookupCredentials(Credentials, Jenkins.get(),null, null)
-          def cred = allCreds.find{ it.id.equals(cred_id) } 
+          def cred = allCreds.find{ it.id.equals(value.id) } 
           if(cred == null){
-              error "docker library: build argument '${argument}' specified credential id '${cred_id}' which does not exist."
+              error "docker library: build argument '${argument}' specified credential id '${value.id}' which does not exist."
           }
           if(!(cred instanceof StringCredentialsImpl)){
             error "docker library: build argument '${argument}' credential must be a Secret Text." 
