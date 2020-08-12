@@ -32,9 +32,9 @@ def call(){
   }
 }
 
-String withBuildArgs(Closure body){
+void withBuildArgs(Closure body){
 
-  String buildArgs = []
+  ArrayList buildArgs = []
   def creds = []
   
   config.build_args.each{ argument, value ->
@@ -64,7 +64,7 @@ String withBuildArgs(Closure body){
   }
 
   withCredentials(creds){
-    body(buildArgs)
+    body(buildArgs.join(" "))
   }
 
 }
