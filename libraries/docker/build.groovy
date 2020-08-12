@@ -2,16 +2,19 @@
   Copyright © 2018 Booz Allen Hamilton. All Rights Reserved.
   This software package is licensed under the Booz Allen Public License. The license can be found in the License file or at http://boozallen.github.io/licenses/bapl
 */
+import com.cloudbees.plugins.credentials.CredentialsProvider
+import org.jenkinsci.plugins.plaincredentials.impl.StringCredentialsImpl
 
 def call(){
   stage "Building Docker Image", {
-    def remove_local_image = false
+    boolean remove_local_image = false
     if (config.remove_local_image){
         if (!(config.remove_local_image instanceof Boolean)){
             error "remove_local_image must be a Boolean, received [${config.remove_local_image.getClass()}]"
         }
         remove_local_image = config.remove_local_image
     }
+
     node{
       unstash "workspace"
 
