@@ -59,7 +59,7 @@ void withBuildArgs(Closure body){
           error "docker library: build argument '${argument}' type of '${value.type}' is not recognized"  
       }
     } else {
-      buildArgs << "--build-arg ${argument}=${value}"
+      buildArgs << "--build-arg ${argument}='${value}'"
     }
   }
 
