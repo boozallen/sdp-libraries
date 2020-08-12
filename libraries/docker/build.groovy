@@ -4,6 +4,7 @@
 */
 import com.cloudbees.plugins.credentials.CredentialsProvider
 import org.jenkinsci.plugins.plaincredentials.impl.StringCredentialsImpl
+import com.cloudbees.plugins.credentials.Credentials
 
 def call(){
   stage "Building Docker Image", {
