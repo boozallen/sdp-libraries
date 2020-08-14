@@ -12,7 +12,7 @@ content:
     start_path: docs 
 ui: 
   bundle: 
-    url: https://github.com/boozallen/sdp-docs-skin/releases/download/1.0/ui-bundle.zip
+    url: https://github.com/boozallen/sdp-docs-skin/releases/download/1.1/ui-bundle.zip
     snapshot: true
   supplemental_files:
   - path: .nojekyll
