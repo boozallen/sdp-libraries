@@ -3,15 +3,6 @@
   This software package is licensed under the Booz Allen Public License. The license can be found in the License file or at http://boozallen.github.io/licenses/bapl
 */
 
-if (git_distributions.fetch() == "gitlab"){
-  import org.gitlab4j.api.GitLabApi
-  import org.gitlab4j.api.MergeRequestApi
-  import org.gitlab4j.api.models.MergeRequest
-}
-else{
-  import org.kohsuke.github.GitHub
-}
-
 void call(Map args = [:], body){
 
   // do nothing if not pr
