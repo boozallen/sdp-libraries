@@ -5,9 +5,7 @@
 
 package twistlock
 
-import com.homeaway.devtools.jenkins.testing.JenkinsPipelineSpecification
-
-public class ScanContainerImageSpec extends JenkinsPipelineSpecification {
+public class ScanContainerImageSpec extends JTEPipelineSpecification {
 
   def ScanContainerImage = null
 

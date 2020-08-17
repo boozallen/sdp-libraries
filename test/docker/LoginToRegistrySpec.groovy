@@ -5,9 +5,7 @@
 
 package docker
 
-import com.homeaway.devtools.jenkins.testing.JenkinsPipelineSpecification
-
-public class LoginToRegistrySpec extends JenkinsPipelineSpecification {
+public class LoginToRegistrySpec extends JTEPipelineSpecification {
 
   def LoginToRegistry = null
 

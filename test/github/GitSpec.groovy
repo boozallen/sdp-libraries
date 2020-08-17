@@ -1,6 +1,6 @@
-import com.homeaway.devtools.jenkins.testing.JenkinsPipelineSpecification
+package github
 
-public class GitSpec extends JenkinsPipelineSpecification {
+public class GitSpec extends JTEPipelineSpecification {
 
   def Git = null
 

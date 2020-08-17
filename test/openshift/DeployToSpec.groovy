@@ -5,9 +5,7 @@
 
 package openshift
 
-import com.homeaway.devtools.jenkins.testing.JenkinsPipelineSpecification
-
-public class DeployToSpec extends JenkinsPipelineSpecification {
+public class DeployToSpec extends JTEPipelineSpecification {
 
   def DeployTo = null
 

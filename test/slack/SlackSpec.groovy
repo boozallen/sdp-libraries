@@ -5,9 +5,7 @@
 
 package slack 
 
-import com.homeaway.devtools.jenkins.testing.JenkinsPipelineSpecification
-
-public class SlackSpec extends JenkinsPipelineSpecification {
+public class SlackSpec extends JTEPipelineSpecification {
 
   def SlackTest = null
 

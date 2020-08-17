@@ -5,9 +5,7 @@
 
 package owasp_zap
 
-import com.homeaway.devtools.jenkins.testing.JenkinsPipelineSpecification
-
-public class PenetrationTestSpec extends JenkinsPipelineSpecification {
+public class PenetrationTestSpec extends JTEPipelineSpecification {
 
   def PenetrationTest = null
 

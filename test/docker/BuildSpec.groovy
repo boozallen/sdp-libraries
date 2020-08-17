@@ -5,9 +5,7 @@
 
 package docker
 
-import com.homeaway.devtools.jenkins.testing.JenkinsPipelineSpecification
-
-public class BuildSpec extends JenkinsPipelineSpecification {
+public class BuildSpec extends JTEPipelineSpecification {
 
   def Build = null
 
@@ -47,8 +45,8 @@ public class BuildSpec extends JenkinsPipelineSpecification {
     when:
       Build()
     then:
-      1 * getPipelineMock("sh")("docker build context1 -t reg1/repo1:tag1")
-      1 * getPipelineMock("sh")("docker build context2 -t reg2/repo2:tag2")
+      1 * getPipelineMock("sh")("docker build context1 -t reg1/repo1:tag1 ")
+      1 * getPipelineMock("sh")("docker build context2 -t reg2/repo2:tag2 ")
   }
 
   def "Each Image is Properly Pushed" () {

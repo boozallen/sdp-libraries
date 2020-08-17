@@ -5,11 +5,10 @@
 
 package a11y
 
-import com.homeaway.devtools.jenkins.testing.JenkinsPipelineSpecification
 import org.junit.*
 import spock.lang.*
 
-public class AccessibilityComplianceTestSpec extends JenkinsPipelineSpecification {
+public class AccessibilityComplianceTestSpec extends JTEPipelineSpecification {
 
   def AccessibilityComplianceTest 
 

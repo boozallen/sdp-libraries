@@ -5,9 +5,7 @@
 
 package docker
 
-import com.homeaway.devtools.jenkins.testing.JenkinsPipelineSpecification
-
-public class GetImagesToBuildSpec extends JenkinsPipelineSpecification {
+public class GetImagesToBuildSpec extends JTEPipelineSpecification {
 
   def GetImagesToBuild = null
 

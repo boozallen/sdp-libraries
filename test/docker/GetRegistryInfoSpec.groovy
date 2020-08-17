@@ -5,9 +5,7 @@
 
 package docker
 
-import com.homeaway.devtools.jenkins.testing.JenkinsPipelineSpecification
-
-public class GetRegistryInfoSpec extends JenkinsPipelineSpecification {
+public class GetRegistryInfoSpec extends JTEPipelineSpecification {
 
   def GetRegistryInfo = null
 

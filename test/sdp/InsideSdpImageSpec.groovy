@@ -5,9 +5,7 @@
 
 package sdp
 
-import com.homeaway.devtools.jenkins.testing.JenkinsPipelineSpecification
-
-public class InsideSdpImageSpec extends JenkinsPipelineSpecification {
+public class InsideSdpImageSpec extends JTEPipelineSpecification {
 
   def InsideSdpImage = null
 

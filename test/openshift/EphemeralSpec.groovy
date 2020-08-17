@@ -5,9 +5,7 @@
 
 package openshift 
 
-import com.homeaway.devtools.jenkins.testing.JenkinsPipelineSpecification
-
-public class EphemeralSpec extends JenkinsPipelineSpecification {
+public class EphemeralSpec extends JTEPipelineSpecification {
 
   def Ephemeral = null
 

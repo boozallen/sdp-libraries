@@ -5,9 +5,7 @@
 
 package docker
 
-import com.homeaway.devtools.jenkins.testing.JenkinsPipelineSpecification
-
-public class RetagSpec extends JenkinsPipelineSpecification {
+public class RetagSpec extends JTEPipelineSpecification {
 
   def Retag = null
 

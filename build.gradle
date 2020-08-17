@@ -1,6 +1,7 @@
 plugins{
   id 'org.jenkins-ci.jpi' version '0.38.0'
   id 'groovy'
+  id 'codenarc' 
 }
 
 repositories {
@@ -12,6 +13,11 @@ repositories {
 
 project.buildDir = "target" 
 sourceSets{
+    main{
+        groovy{
+            srcDirs = [ "libraries" ]
+        }
+    }
     test{
         output.resourcesDir("${buildDir}/test-classes")
         groovy{
@@ -22,6 +28,8 @@ sourceSets{
         }
     }
 }
+
+compileGroovy.enabled = false 
 
 dependencies {
     compile group: 'org.slf4j', name: 'slf4j-api', version:'1.7.25'
@@ -55,5 +63,10 @@ dependencies {
     jenkinsTest group: "org.jenkins-ci.plugins", name: "docker-workflow", version: "1.17"
 
     //our plugin
-    jenkinsTest group: 'org.jenkins-ci.plugins', name: "templating-engine", version: "1.1.1"
+    jenkinsTest group: 'org.jenkins-ci.plugins', name: "templating-engine", version: "1.7.1"
+}
+
+codenarc {
+  toolVersion = '1.6.1'
+  configFile = file('./codenarc.groovy')
 }
