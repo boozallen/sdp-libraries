@@ -1,7 +1,6 @@
 plugins{
   id 'org.jenkins-ci.jpi' version '0.38.0'
   id 'groovy'
-  id 'codenarc' 
 }
 
 repositories {
@@ -64,9 +63,4 @@ dependencies {
 
     //our plugin
     jenkinsTest group: 'org.jenkins-ci.plugins', name: "templating-engine", version: "1.7.1"
-}
-
-codenarc {
-  toolVersion = '1.6.1'
-  configFile = file('./codenarc.groovy')
 }
