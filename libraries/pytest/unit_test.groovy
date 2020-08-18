@@ -3,6 +3,8 @@
   This software package is licensed under the Booz Allen Public License. The license can be found in the License file or at http://boozallen.github.io/licenses/bapl
 */
 
+package libraries.pytest
+
 /*
     This step runs python unit tests using the pytest framework and generates a
     html report for archiving and junit xml for Jenkins consumption and display. 

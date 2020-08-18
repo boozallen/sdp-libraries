@@ -3,11 +3,9 @@
   This software package is licensed under the Booz Allen Public License. The license can be found in the License file or at http://boozallen.github.io/licenses/bapl
 */
 
-package owasp_zap
+package libraries.owasp_zap
 
-import com.homeaway.devtools.jenkins.testing.JenkinsPipelineSpecification
-
-public class PenetrationTestSpec extends JenkinsPipelineSpecification {
+public class PenetrationTestSpec extends JTEPipelineSpecification {
 
   def PenetrationTest = null
 
