@@ -1,4 +1,4 @@
-package github
+package libraries.github
 
 public class GithubEnterpriseConstructorSpec extends JTEPipelineSpecification {
 

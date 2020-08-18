@@ -1,6 +1,7 @@
 plugins{
   id 'org.jenkins-ci.jpi' version '0.38.0'
   id 'groovy'
+  id 'jacoco'
 }
 
 repositories {
@@ -63,4 +64,31 @@ dependencies {
 
     //our plugin
     jenkinsTest group: 'org.jenkins-ci.plugins', name: "templating-engine", version: "1.7.1"
+}
+
+test{
+    jacoco{
+        classDumpDir = file("$buildDir/jacoco/classpathdumps")
+    }
+    finalizedBy jacocoTestReport
+}
+
+jacocoTestReport{
+    doFirst{
+        // delete non-library class files 
+        fileTree("$buildDir/jacoco/classpathdumps").exclude("libraries").visit{ FileVisitDetails deets -> 
+            delete deets.file 
+        }
+        // delete Test files 
+        fileTree("$buildDir/jacoco/classpathdumps/libraries").visit{ FileVisitDetails deets ->
+            if(deets.file.name.contains("Spec")){
+                delete deets.file 
+            }
+        }
+    }
+    additionalSourceDirs files(".")
+    additionalClassDirs files("$buildDir/jacoco/classpathdumps")
+    reports{
+        html.enabled = true 
+    }
 }

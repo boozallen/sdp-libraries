@@ -1,3 +1,6 @@
+
+package libraries.github
+
 import org.kohsuke.github.GitHub
 
 void call(){
