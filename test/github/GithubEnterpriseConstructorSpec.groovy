@@ -1,3 +1,5 @@
+package libraries.github
+
 public class GithubEnterpriseConstructorSpec extends JTEPipelineSpecification {
 
   def GithubEnterpriseConstructor = null
