@@ -1,10 +1,10 @@
-= Gitlab
+= Git
 
 This library is unique in that rather than provide functional step implementations, it provides methods that help with the business logic defined within pipeline templates.
 
 [NOTE]
 ====
-It also provides additional functionality that can be useful for library developers to get scm metadata or interact with a remote gitlab repository.
+It also provides additional functionality that can be useful for library developers to get scm metadata or interact with a remote Gitlab or GitHub repository.
 ====
 
 == Configuration
@@ -12,7 +12,12 @@ It also provides additional functionality that can be useful for library develop
 [source,groovy]
 ----
 libraries{
-  gitlab
+  git{
+    distribution (required) = "github" or "github_enterprise" or "gitlab"
+    glConnection (optional) = String
+    jobName (optional) = String
+    jobStatus (optional) =  "pending" or "running" or "canceled" or "failed" or "success".
+  }
 }
 ----
 
@@ -62,33 +67,48 @@ SDP provides some default keywords for branch name regular expressions:
 
 [NOTE]
 ====
-These branch name regular expressions are not a part of the Gitlab library but rather leveraged by defining Keywords in the Pipeline Configuration File
+These branch name regular expressions are not a part of the Git library but rather leveraged by defining Keywords in the Pipeline Configuration File
 ====
 
-== Example Pipeline Templates
+== SCM Specific Methods
 
+.Gitlab Methods
+|===
+|Method | Explanation
+
+| gitlab_status
+| Track Jenkins pipeline jobs in Gitlab
+
+== Example Pipeline Templates
 
 *Full example using keywords*
 
 [source,groovy]
 ----
 on_commit{
+  gitlab_status("connection1", "service-account", "running")
   continuous_integration()
+  gitlab_status("connection1", "service-account", "success")
 }
 
-on_merge_request to: develop, {
+on_pull_request to: develop, {
+  gitlab_status("connection2", "service-account", "pending")
   continuous_integration()
+  gitlab_status("connection2", "service-account", "running")
   deploy_to dev
   parallel "508 Testing": { accessibility_compliance_test() },
           "Functional Testing": { functional_test() },
           "Penetration Testing": { penetration_test() }
   deploy_to staging
   performance_test()
+  gitlab_status("connection2", "service-account", "success")
 }
 
 on_merge to: master, from: develop, {
+  gitlab_status("connection", "service-account2", "running")
   deploy_to prod
   smoke_test()
+  gitlab_status("connection", "service-account2", "success")
 }
 ----
 
@@ -100,7 +120,7 @@ on_commit to: /^[Ff]eature-.*/, {
   // will be triggered on feature branches
 }
 on_merge_request from: /^[Ff]eature-.*/, to: develop, {
-  // will be triggered on MR's from feature to develop
+  // will be triggered on PR's from feature to develop
 }
 ----
 
@@ -109,14 +129,14 @@ on_merge_request from: /^[Ff]eature-.*/, to: develop, {
 [source,groovy]
 ----
 on_change{
-  // do CI on every commit or MR
+  // do CI on every commit or PR
   continuous_integration()
 }
-on_merge_request to: master, {
-  // do some stuff on MR to master
+on_pull_request to: master, {
+  // do some stuff on PR to master
 }
 on_merge to: master, {
-  // MR was merged into master
+  // PR was merged into master
 }
 ----
 
