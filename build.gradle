@@ -43,6 +43,7 @@ dependencies {
     testCompile group: 'org.jenkins-ci.main', name: 'jenkins-core', version:'2.102', {
         exclude group: 'com.ibm.icu', module: 'icu4j'
     }
+    testCompile group: 'org.gitlab4j', name: 'gitlab4j-api', version: '4.15.6'
     testCompile group: 'org.jenkins-ci.plugins.workflow', name: 'workflow-step-api', version:'2.10'
     runtime group: 'org.jenkins-ci.plugins.workflow', name: 'workflow-step-api', version:'2.10'
     testCompile group: 'org.jenkins-ci.plugins.workflow', name: 'workflow-cps', version:'2.36'
@@ -61,6 +62,9 @@ dependencies {
     jenkinsTest group: "org.jenkins-ci.plugins", name: "pipeline-utility-steps", version: "2.1.0"
     jenkinsTest group: "org.jenkins-ci.plugins", name: "credentials-binding", version: "1.16"
     jenkinsTest group: "org.jenkins-ci.plugins", name: "docker-workflow", version: "1.17"
+    jenkinsTest group: "org.jenkins-ci.plugins", name: "sonar", version: "2.11"
+    testCompile group: "org.jenkins-ci.plugins", name: "sonar", version: "2.11"
+
 
     //our plugin
     jenkinsTest group: 'org.jenkins-ci.plugins', name: "templating-engine", version: "1.7.1"
