@@ -1,3 +1,5 @@
+= Webhint 
+
 https://webhint.io[Webhint] is a customizable linting tool that helps you improve your site's accessibility, speed, cross-browser compatibility, and more by checking your code for best practices and common errors.
 
 == Steps Contributed
@@ -49,7 +51,7 @@ libraries{
 
 An example html report has been saved to PDF.
 
-link:{attachments}/webhint/webhint_mockaroo.pdf[click here to download.]
+link:{attachmentsdir}/webhint/webhint_mockaroo.pdf[click here to download.]
 
 == External Dependencies
 * none
