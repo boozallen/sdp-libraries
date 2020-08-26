@@ -3,11 +3,9 @@
   This software package is licensed under the Booz Allen Public License. The license can be found in the License file or at http://boozallen.github.io/licenses/bapl
 */
 
-package openshift 
+package libraries.openshift 
 
-import com.homeaway.devtools.jenkins.testing.JenkinsPipelineSpecification
-
-public class EphemeralSpec extends JenkinsPipelineSpecification {
+public class EphemeralSpec extends JTEPipelineSpecification {
 
   def Ephemeral = null
 
