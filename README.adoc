@@ -9,6 +9,8 @@ In order to use the different libraries in this repository, you can configure th
 
 Also ensure that in addition to whichever library you wish to use you include the "sdp" library. This helps to resolve a number of dependency errors you may otherwise face.
 
+= configuring the sdp library
+
 == Repository Structure
 
 === Libraries
