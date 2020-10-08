@@ -10,7 +10,7 @@ In order to use the different libraries in this repository, you can configure th
 Also ensure that in addition to whichever library you wish to use you include the "sdp" library. This helps to resolve a number of dependency errors you may otherwise face.
 
 === Configuring the sdp library
-As a dependency for every other library it is important that the sdp library not only be included but also configured properly. For instructions on how to configure this library, please reference this guide: https://boozallen.github.io/sdp-docs/sdp-libraries/libraries/sdp.html
+As a dependency for every other library, it is important that the sdp library not only be included but also configured properly. For instructions on how to configure this library, please reference this guide: https://boozallen.github.io/sdp-docs/sdp-libraries/libraries/sdp.html
 
 == Repository Structure
 
@@ -31,3 +31,5 @@ To execute the unit tests, run `make test`.
 https://antora.org[Antora] is used as the documentation framework.  For each library you'll find an AsciiDoc file under `docs/modules/ROOT/pages` that outlines the steps contributed by the library, how to configure the library in your pipeline configuration file, what types of artifacts are generated, and any external dependencies the library may have.  
 
 To build the documentation run `make docs`.  You can then open `docs/html/index.html` to view the generated documentation.
+
+The documentation can be found at: https://boozallen.github.io/sdp-docs/overview/1/index.html
