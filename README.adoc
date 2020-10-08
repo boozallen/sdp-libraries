@@ -4,12 +4,13 @@ This repository contains https://boozallen.com[Booz Allen's] pipeline libraries 
 
 If you want to learn more, the best place to get started is the https://boozallen.github.io/sdp-docs/sdp-libraries/[documentation]. 
 
-=== Usage
+== Usage
 In order to use the different libraries in this repository, you can configure this repository as a library source, for a detailed example of how to do this you may refer to this lab: https://boozallen.github.io/sdp-docs/learning-labs/1/jte-the-basics/3-first-libraries.html#_configure_the_library_source it is recommended that rather than using this repository directly, you fork this repository and use the fork instead. This helps to ensure that you have greater control in version management. 
 
 Also ensure that in addition to whichever library you wish to use you include the "sdp" library. This helps to resolve a number of dependency errors you may otherwise face.
 
-= configuring the sdp library
+=== Configuring the sdp library
+As a dependency for every other library it is important that the sdp library not only be included but also configured properly. For instructions on how to configure this library, please reference this guide: https://boozallen.github.io/sdp-docs/sdp-libraries/libraries/sdp.html
 
 == Repository Structure
 
