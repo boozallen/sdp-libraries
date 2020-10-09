@@ -1,11 +1,11 @@
 = Getting Started
 Please make use of the associated table to quickly get started with any of the libraries and also we recommend checking the full documentation for more information.
 
-== Note
+== Important
 The sdp library is a dependency for all of these plugins so it should always be included.
 
 
-== Libraries
+= Libraries
 |===
 |Name |Description |Step |Parameters |Documentation
 
