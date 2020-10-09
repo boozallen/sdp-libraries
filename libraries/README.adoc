@@ -47,8 +47,8 @@ remove_local_image
 |source_type
 |https://boozallen.github.io/sdp-docs/sdp-libraries/libraries/github.html
 
-|
-|
+|GitHub Enterprise
+|Provides methods that help with business logic inside pipelines. Useful functionality for library developers. Reading the documentation is strongly recommended if you want to use this library.
 |
 |
 |
