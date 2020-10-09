@@ -41,11 +41,11 @@ repo_path_prefix +
 remove_local_image
 |https://boozallen.github.io/sdp-docs/sdp-libraries/libraries/docker.html
 
-|
-|
-|
-|
-|
+|GitHub
+|Provides methods that help with business logic inside pipelines. Useful functionality for library developers. Reading the documentation is strongly recommended if you want to use this library.
+|N/A
+|source_type
+|https://boozallen.github.io/sdp-docs/sdp-libraries/libraries/github.html
 
 |
 |
