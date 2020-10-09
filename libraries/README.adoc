@@ -1,1 +1,9 @@
 = Plugins
+
+=== A11Y
+A11y is a library for automated testing that crawls and tests pages to provide detailed reports.
+
+It is invoked with accessibility_compliance_test() and requires the parameters: url(the url to scan)
+
+More information can be found here: https://boozallen.github.io/sdp-docs/sdp-libraries/libraries/a11y.html
+
