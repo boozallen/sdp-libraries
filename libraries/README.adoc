@@ -18,7 +18,7 @@ The sdp library is a dependency for all of these plugins so it should always be 
 |Anchore
 |Anchore provides container scanning for vulnerability and compliance.
 |scan_container_image()
-|cred  anchor_engine_url  policy_id  image_wait_timeout  archive_only  bail_on_fail  perform_vulnerability_scan  perform_policy_evaultation
+|cred + anchor_engine_url  policy_id  image_wait_timeout  archive_only  bail_on_fail  perform_vulnerability_scan  perform_policy_evaluation
 |
 
 |
