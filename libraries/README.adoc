@@ -15,7 +15,23 @@ The sdp library is a dependency for all of these plugins so it should always be 
 |url
 |https://boozallen.github.io/sdp-docs/sdp-libraries/libraries/a11y.html
 
-|Cell in column 1, row 2
-|Cell in column 2, row 2
-|Cell in column 3, row 2
+|Anchore
+|
+|
+|
+|
+
+|
+|
+|
+|
+|
+
+|
+|
+|
+|
+|
+
+
 |===
