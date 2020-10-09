@@ -1,4 +1,3 @@
-= Getting Started  
 You can find detailed information about all of these libraries here: https://boozallen.github.io/sdp-docs/sdp-libraries/index.html
 
 == Important
