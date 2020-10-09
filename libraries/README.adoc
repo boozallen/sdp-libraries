@@ -12,14 +12,14 @@ The sdp library is a dependency for all of these plugins so it should always be 
 |A11y
 |A11y is a library for automated testing that crawls and tests pages to provide detailed reports.
 |accessibility_compliance_test()
-|url
+|url(required)
 |https://boozallen.github.io/sdp-docs/sdp-libraries/libraries/a11y.html
 
 |Anchore
 |Anchore provides container scanning for vulnerability and compliance.
 |scan_container_image()
-|cred +
-anchor_engine_url +
+|cred(required) +
+anchor_engine_url(required) +
 policy_id +
 image_wait_timeout +
 archive_only +
@@ -27,6 +27,79 @@ bail_on_fail +
 perform_vulnerability_scan +
 perform_policy_evaluation
 |https://boozallen.github.io/sdp-docs/sdp-libraries/libraries/anchore.html
+
+|Docker
+|The docker library allows for building of images and pushing them to docker repositories.
+|build() +
+get_images_to_build() +
+login_to_registry() +
+retag()
+|build_strategy +
+registry(required) +
+cred(required) +
+repo_path_prefix +
+remove_local_image
+|https://boozallen.github.io/sdp-docs/sdp-libraries/libraries/docker.html
+
+|
+|
+|
+|
+|
+
+|
+|
+|
+|
+|
+
+|
+|
+|
+|
+|
+
+|
+|
+|
+|
+|
+
+|
+|
+|
+|
+|
+
+|
+|
+|
+|
+|
+
+|
+|
+|
+|
+|
+
+|
+|
+|
+|
+|
+
+|
+|
+|
+|
+|
+
+|
+|
+|
+|
+|
 
 |
 |
