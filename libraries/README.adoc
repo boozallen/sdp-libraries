@@ -7,3 +7,15 @@ It is invoked with accessibility_compliance_test() and requires the parameters: 
 
 More information can be found here: https://boozallen.github.io/sdp-docs/sdp-libraries/libraries/a11y.html
 
+.Table Plugins
+|===
+|Plugin |Description |Parameters |Documentation
+
+|Cell in column 1, row 1
+|Cell in column 2, row 1
+|Cell in column 3, row 1
+
+|Cell in column 1, row 2
+|Cell in column 2, row 2
+|Cell in column 3, row 2
+|===
