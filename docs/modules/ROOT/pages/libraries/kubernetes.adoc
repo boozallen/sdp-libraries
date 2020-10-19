@@ -228,6 +228,8 @@ libraries{
   }
 }
 ----
+== Lirary Dependencies
+* A library that implements the withGit method such as github.
 
 == External Dependencies
 
