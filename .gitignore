@@ -6,6 +6,7 @@ _build
 .gradle 
 .settings
 .classpath
+*.iml
 build 
 bin
 docs/html
