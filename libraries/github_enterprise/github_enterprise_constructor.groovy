@@ -4,7 +4,9 @@
 */
 package libraries.github_enterprise
 
-@Init
+import org.boozallen.plugins.jte.hooks.Init
+
+@Init({ config.withWorkspace != false })
 void call(context) {
   node{
       unstash "workspace"

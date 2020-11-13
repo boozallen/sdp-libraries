@@ -50,6 +50,9 @@ Your Jenkins build agents must have Docker installed due to the above-mentioned 
 | xref:libraries/docker.adoc[Docker]
 | Uses docker to build and publish container images, tagging them with the Git SHA
 
+| xref:libraries/docker_compose.adoc[Docker Compose]
+| Uses docker compose to deploy and tear down containers
+
 | xref:libraries/github.adoc[GitHub]
 | Allows you to map a branching strategy to specific pipeline actions when using Public GitHub or GitHub Enterprise
 
@@ -63,7 +66,10 @@ Your Jenkins build agents must have Docker installed due to the above-mentioned 
 | Performs accessibility compliance, performance, search engine optimization, and best practice validations on a frontend application
 
 | xref:libraries/kubernetes.adoc[Kubernetes]
-| Allows you to perform deployments using Helm to a kubernetes cluster (or clusters) 
+| Allows you to perform deployments using Helm to a kubernetes cluster (or clusters)
+
+| xref:libraries/maven.adoc[Maven]
+| Allows you to perform maven commands
 
 | xref:libraries/openshift.adoc[OpenShift]
 | Allows you to perform deployments using Helm to a Red Hat OpenShift Container Platform (or platforms) 
