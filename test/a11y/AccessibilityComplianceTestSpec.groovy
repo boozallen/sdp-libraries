@@ -3,13 +3,12 @@
   This software package is licensed under the Booz Allen Public License. The license can be found in the License file or at http://boozallen.github.io/licenses/bapl
 */
 
-package a11y
+package libraries.a11y
 
-import com.homeaway.devtools.jenkins.testing.JenkinsPipelineSpecification
 import org.junit.*
 import spock.lang.*
 
-public class AccessibilityComplianceTestSpec extends JenkinsPipelineSpecification {
+public class AccessibilityComplianceTestSpec extends JTEPipelineSpecification {
 
   def AccessibilityComplianceTest 
 

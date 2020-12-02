@@ -1,0 +1,5 @@
+You can find detailed information about all of these libraries here: https://boozallen.github.io/sdp-docs/sdp-libraries/index.html
+
+== Important
+The sdp library is a dependency for all of these plugins so it should always be included.
+

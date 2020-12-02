@@ -3,11 +3,9 @@
   This software package is licensed under the Booz Allen Public License. The license can be found in the License file or at http://boozallen.github.io/licenses/bapl
 */
 
-package twistlock
+package libraries.twistlock
 
-import com.homeaway.devtools.jenkins.testing.JenkinsPipelineSpecification
-
-public class ScanContainerImageSpec extends JenkinsPipelineSpecification {
+public class ScanContainerImageSpec extends JTEPipelineSpecification {
 
   def ScanContainerImage = null
 

@@ -1,6 +1,7 @@
 plugins{
   id 'org.jenkins-ci.jpi' version '0.38.0'
   id 'groovy'
+  id 'jacoco'
 }
 
 repositories {
@@ -12,6 +13,11 @@ repositories {
 
 project.buildDir = "target" 
 sourceSets{
+    main{
+        groovy{
+            srcDirs = [ "libraries" ]
+        }
+    }
     test{
         output.resourcesDir("${buildDir}/test-classes")
         groovy{
@@ -22,6 +28,8 @@ sourceSets{
         }
     }
 }
+
+compileGroovy.enabled = false 
 
 dependencies {
     compile group: 'org.slf4j', name: 'slf4j-api', version:'1.7.25'
@@ -35,6 +43,7 @@ dependencies {
     testCompile group: 'org.jenkins-ci.main', name: 'jenkins-core', version:'2.102', {
         exclude group: 'com.ibm.icu', module: 'icu4j'
     }
+    testCompile group: 'org.gitlab4j', name: 'gitlab4j-api', version: '4.15.6'
     testCompile group: 'org.jenkins-ci.plugins.workflow', name: 'workflow-step-api', version:'2.10'
     runtime group: 'org.jenkins-ci.plugins.workflow', name: 'workflow-step-api', version:'2.10'
     testCompile group: 'org.jenkins-ci.plugins.workflow', name: 'workflow-cps', version:'2.36'
@@ -53,7 +62,37 @@ dependencies {
     jenkinsTest group: "org.jenkins-ci.plugins", name: "pipeline-utility-steps", version: "2.1.0"
     jenkinsTest group: "org.jenkins-ci.plugins", name: "credentials-binding", version: "1.16"
     jenkinsTest group: "org.jenkins-ci.plugins", name: "docker-workflow", version: "1.17"
+    jenkinsTest group: "org.jenkins-ci.plugins", name: "sonar", version: "2.11"
+    testCompile group: "org.jenkins-ci.plugins", name: "sonar", version: "2.11"
+
 
     //our plugin
-    jenkinsTest group: 'org.jenkins-ci.plugins', name: "templating-engine", version: "1.1.1"
+    jenkinsTest group: 'org.jenkins-ci.plugins', name: "templating-engine", version: "1.7.1"
+}
+
+test{
+    jacoco{
+        classDumpDir = file("$buildDir/jacoco/classpathdumps")
+    }
+    finalizedBy jacocoTestReport
+}
+
+jacocoTestReport{
+    doFirst{
+        // delete non-library class files 
+        fileTree("$buildDir/jacoco/classpathdumps").exclude("libraries").visit{ FileVisitDetails deets -> 
+            delete deets.file 
+        }
+        // delete Test files 
+        fileTree("$buildDir/jacoco/classpathdumps/libraries").visit{ FileVisitDetails deets ->
+            if(deets.file.name.contains("Spec")){
+                delete deets.file 
+            }
+        }
+    }
+    additionalSourceDirs files(".")
+    additionalClassDirs files("$buildDir/jacoco/classpathdumps")
+    reports{
+        html.enabled = true 
+    }
 }
