@@ -23,9 +23,9 @@ libraries{
 
 == Pipeline Template Business Logic
 
-The Gitlab library contributes some helper methods to help with pipeline template orchestration.  You can achieve fine grained control over what happens when in response to different Gitlab events such as commits, merge requests, and merges.
+The Git library contributes some helper methods to help with pipeline template orchestration.  You can achieve fine grained control over what happens when in response to different Git events such as commits, merge requests, and merges.
 
-.Gitlab Flow Helper Methods
+.Git Flow Helper Methods
 |===
 | Method | Build Cause
 
@@ -43,7 +43,7 @@ The Gitlab library contributes some helper methods to help with pipeline templat
 
 |===
 
-These methods take named parameters `to` and `from` indicating direction of the gitlab whose value is a regular expression to compare the branch names against.
+These methods take named parameters `to` and `from` indicating direction of the git whose value is a regular expression to compare the branch names against.
 
 SDP provides some default keywords for branch name regular expressions:
 
@@ -55,7 +55,7 @@ SDP provides some default keywords for branch name regular expressions:
 | /^[Mm]aster$/
 
 | develop
-| /^[Dd]evelop(ment|er|)$/
+| /^[Dd]evelop(ment\|er\|)$/
 
 | hotfix
 | /^[Hh]ot[Ff]ix-/
@@ -78,6 +78,8 @@ These branch name regular expressions are not a part of the Git library but rath
 
 | gitlab_status
 | Track Jenkins pipeline jobs in Gitlab
+
+|===
 
 == Example Pipeline Templates
 

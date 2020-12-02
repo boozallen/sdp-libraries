@@ -50,7 +50,7 @@ SDP provides some default keywords for branch name regular expressions:
 | /^[Mm]aster$/
 
 | develop
-| /^[Dd]evelop(ment|er|)$/
+| /^[Dd]evelop(ment\|er\|)$/
 
 | hotfix
 | /^[Hh]ot[Ff]ix-/
