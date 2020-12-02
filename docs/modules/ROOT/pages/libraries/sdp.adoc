@@ -63,14 +63,16 @@ Unlike the Docker Library, the value in "registry" _does_ include the protocol (
 libraries{
   sdp{
     images{
-      registry = "https://docker-registry.default.svc:5000"
-      repository = "sdp"
-      cred = "openshift-docker-registry"
-      docker_args = ""
+      registry = "https://docker.pkg.github.com" <1>
+      repository = "boozallen/sdp-images" <2>
+      cred = "github" <3>
     }
   }
 }
 ----
+<1> the container registry that holds the SDP container images
+<2> the container image repository that holds the SDP container images
+<3> A jenkins credential ID to authenticate to the container registry
 
 == External Dependencies
 
