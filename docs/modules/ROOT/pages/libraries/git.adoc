@@ -14,7 +14,7 @@ It also provides additional functionality that can be useful for library develop
 libraries{
   git{
     distribution (required) = "github" or "github_enterprise" or "gitlab"
-    glConnection (optional) = String
+    glConnection (optional) = String // for gitlab_status
     jobName (optional) = String
     jobStatus (optional) =  "pending" or "running" or "canceled" or "failed" or "success".
   }
@@ -45,25 +45,17 @@ The Git library contributes some helper methods to help with pipeline template o
 
 These methods take named parameters `to` and `from` indicating direction of the git whose value is a regular expression to compare the branch names against.
 
-SDP provides some default keywords for branch name regular expressions:
+SDP recommends some keywords for branch name regular expressions:
 
-.Default Branch Regular Expressions
-|===
-| Keyword | Regular Expression
-
-| master
-| /^[Mm]aster$/
-
-| develop
-| /^[Dd]evelop(ment\|er\|)$/
-
-| hotfix
-| /^[Hh]ot[Ff]ix-/
-
-| release
-| /^[Rr]elease-(d+.)*d$/
-
-|===
+[source,groovy]
+----
+keywords{
+  master = /^[Mm]aster$/
+  develop = /^[Dd]evelop(ment\|er\|)$/
+  hotfix = /^[Hh]ot[Ff]ix-/
+  release = /^[Rr]elease-(d+.)*d$/
+}
+----
 
 [NOTE]
 ====
@@ -144,7 +136,7 @@ on_merge to: master, {
 
 === External Dependencies
 
-* gitlab-branch-source-plugin:1.4.4
+* gitlab-branch-source-plugin:1.4.4; if using gitlab
 
 === Troubleshooting
 
