@@ -10,7 +10,7 @@ public class RetagSpec extends JTEPipelineSpecification {
   def Retag = null
 
   def setup() {
-    Retag = loadPipelineScriptForTest("docker/retag.groovy")
+    Retag = loadPipelineScriptForStep("docker","retag")
     explicitlyMockPipelineStep("login_to_registry")
     explicitlyMockPipelineStep("get_images_to_build")
     Retag.getBinding().setVariable("config", [:])
