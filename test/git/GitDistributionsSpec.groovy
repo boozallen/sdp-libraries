@@ -14,14 +14,14 @@ public class GitDistributionsSpec extends JTEPipelineSpecification {
   def setup() {
     out = Mock(java.io.PrintStream)
     out.println(_) >> {return 1}
-    GitDistributions = loadPipelineScriptForTest("git/git_distributions.groovy")
+    GitDistributions = loadPipelineScriptForStep("git", "git_distributions")
    
     // should be set for each implementation github, 
     GitDistributions.getBinding().setVariable("env", env)
     GitDistributions.getBinding().setProperty("out", out)
 
     GitDistributions.getBinding().setProperty("config", [distribution:"github"])
-    def GitHub = loadPipelineScriptForTest("git/github.groovy")
+    def GitHub = loadPipelineScriptForTest("git/steps/github.groovy")
     GitDistributions.getBinding().metaClass.getStep = { String s -> 
     if(s == 'github'){ return GitHub}
     else { return null }

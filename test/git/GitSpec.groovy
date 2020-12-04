@@ -9,7 +9,7 @@ public class GitSpec extends JTEPipelineSpecification {
   }
 
   def setup() {
-    Git = loadPipelineScriptForTest("git/git.groovy")
+    Git = loadPipelineScriptForStep("git", "git")
     Git.getBinding().setVariable("env", [git_url_with_creds: "git_url_with_creds"])
   }
 
