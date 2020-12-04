@@ -43,4 +43,8 @@ public class JTEPipelineSpecification extends JenkinsPipelineSpecification {
 			return new InvalidlyNamedScriptWrapper( script )
 		}
 	}
+
+	Script loadPipelineScriptForStep(String lib, String step) {	
+		loadPipelineScriptForTest("${lib}/steps/${step}.groovy")
+	}
 }
