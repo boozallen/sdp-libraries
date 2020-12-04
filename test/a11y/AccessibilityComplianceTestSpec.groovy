@@ -13,7 +13,7 @@ public class AccessibilityComplianceTestSpec extends JTEPipelineSpecification {
   def AccessibilityComplianceTest 
 
   def setup() {
-    AccessibilityComplianceTest = loadPipelineScriptForTest("/a11y/accessibility_compliance_test.groovy")
+    AccessibilityComplianceTest = loadPipelineScriptForStep("a11y","accessibility_compliance_test")
     explicitlyMockPipelineStep("inside_sdp_image")
   }
 
