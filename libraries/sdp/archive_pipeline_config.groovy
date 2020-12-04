@@ -5,18 +5,20 @@
 
 package libraries.sdp
 
-import org.boozallen.plugins.jte.config.TemplateConfigObject
-import org.boozallen.plugins.jte.config.TemplateConfigDsl
+import org.boozallen.plugins.jte.init.governance.config.dsl.PipelineConfigurationObject
+import org.boozallen.plugins.jte.init.governance.config.dsl.PipelineConfigurationDsl
 
 @Init
 void call(context){
-    TemplateConfigObject aggregated = new TemplateConfigObject(
+    
+    PipelineConfigurationObject aggregated = new PipelineConfigurationObject(
+        flowOwner: null,
         config: pipelineConfig, // variable provided in binding by JTE
         merge: [],
         override: []
     )
     node{
-        writeFile text: TemplateConfigDsl.serialize(aggregated), file: "pipeline_config.groovy"
+        writeFile text: (new PipelineConfigurationDsl(null)).serialize(aggregated), file: "pipeline_config.groovy"
         archiveArtifacts "pipeline_config.groovy"
     }
 }
