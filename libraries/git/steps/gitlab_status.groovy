@@ -11,35 +11,16 @@
 
 def call(String glConnection, String jobName, String jobStatus){
 
-  if (glConnection == "" && config.glConnection != ""){
-    glConnection = config.glConnection
-  }
-  else if (glConnection instanceof String){
+  def gitlab = [:] + (config.gitlab)
 
-  }
-  else{
-    error "glConnection must be a string and not empty"
-  }
+  glConnection = glConnection ?: gitlab.connection ?: 
+    { error "gitlab connection must be a valid string" } 
 
-  if (jobName == "" && config.jobName != ""){
-    jobName = config.jobName
-  }
-  else if (jobName instanceof String){
+  jobName = jobName ?: gitlab.job_name ?: 
+    { error "gitlab job name must be a valid string" }
 
-  }
-  else{
-    error "jobName must be a string and not empty"
-  }
-
-  if (jobStatus == "" && config.jobStatus != ""){
-    jobStatus = config.jobStatus
-  }
-  else if (jobStatus instanceof String){
-
-  }
-  else{
-    error "jobStatus must be a string and not empty"
-  }
+  jobStatus = jobStatus ?: gitlab.job_status ?: 
+    { error "gitlab job status must be a valid string" }   
 
   properties([gitLabConnection(glConnection)])
   updateGitlabCommitStatus name: jobName , state: jobStatus
