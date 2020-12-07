@@ -25,7 +25,7 @@ void validate_configuration(){
       env.GIT_SHA = sh(script: "git rev-parse HEAD", returnStdout: true).trim()
 
       if (env.CHANGE_TARGET){
-        env.GIT_BUILD_CAUSE = "mr"
+        env.GIT_BUILD_CAUSE = "pr"
       } else {
         env.GIT_BUILD_CAUSE = sh (
           script: 'git rev-list HEAD --parents -1 | wc -w', // will have 2 shas if commit, 3 or more if merge
@@ -33,10 +33,6 @@ void validate_configuration(){
         ).trim().toInteger() > 2 ? "merge" : "commit"
       }
 
-      println "Org Name: ${env.ORG_NAME}"
-      println "REPO Name: ${env.REPO_NAME}"
-      println "GIT_SHA: ${env.GIT_SHA}"
-      println "CHANGE_TARGET: ${env.CHANGE_TARGET}"
       println "Found Git Build Cause: ${env.GIT_BUILD_CAUSE}"
   }
   return

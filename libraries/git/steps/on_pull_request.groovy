@@ -6,7 +6,7 @@
 void call(Map args = [:], body){
 
   // do nothing if not pr
-  if (!(env.GIT_BUILD_CAUSE in ["mr", "pr"]))
+  if (!(env.GIT_BUILD_CAUSE in ["pr"]))
     return
 
   def source_branch = git_distributions.fetch().get_source_branch()
