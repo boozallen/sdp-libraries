@@ -9,20 +9,22 @@
   jobStatus = Status of job being performed. Accepts the following: "pending", "running", "canceled", "failed", "success"
 */
 
-def call(String glConnection, String jobName, String jobStatus){
 
-  def gitlab = [:] + (config.gitlab)
 
-  glConnection = glConnection ?: gitlab.connection ?: 
-    { error "gitlab connection must be a valid string" } 
+def call(String gl_connection = null, String gl_job_name = null, String gl_job_tatus = null){
 
-  jobName = jobName ?: gitlab.job_name ?: 
-    { error "gitlab job name must be a valid string" }
+  def gitlab = config.gitlab ?: [:]
 
-  jobStatus = jobStatus ?: gitlab.job_status ?: 
-    { error "gitlab job status must be a valid string" }   
+  def job_connection = gl_connection ?: gitlab.connection ?: 
+    { error "gitlab connection must be a valid string" }()
 
-  properties([gitLabConnection(glConnection)])
-  updateGitlabCommitStatus name: jobName , state: jobStatus
+  def job_name = gl_job_name ?: gitlab.job_name ?: 
+    { error "gitlab job name must be a valid string" }()
+
+  def job_status = gl_job_tatus ?: gitlab.job_status ?: 
+    { error "gitlab job status must be a valid string" }()   
+
+  properties([gitLabConnection(job_connection)])
+  updateGitlabCommitStatus name: job_name , state: job_status
 
 }
