@@ -17,11 +17,11 @@ void call(context){
 
     env.GIT_LIBRARY_DISTRUBITION = distributionConfig
     def dist = this.fetch()
-    validate_configuration() : validate_configuration()
+    init_env()
 }
 
-// Validate GitHub configuration is valid
-void validate_configuration(){
+// Initialize Git configuration of env vars
+void init_env(){
     node{
         try{ unstash "workspace" }
         catch(ignored) { return }
