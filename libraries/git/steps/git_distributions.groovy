@@ -16,7 +16,7 @@ void call(context){
     }
 
     env.GIT_LIBRARY_DISTRUBITION = distributionConfig
-    init_env()
+    this.init_env()
 }
 
 // Initialize Git configuration of env vars
