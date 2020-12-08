@@ -24,7 +24,10 @@ void call(context){
 void init_env(){
     node{
         try{ unstash "workspace" }
-        catch(ignored) { return }
+        catch(ignored) { 
+          println " 'workspace' stash not present. Skipping git library environment variable initialization. To change this behavior, ensure the 'sdp' library is loaded"
+          return
+        }
 
         env.GIT_URL = scm.getUserRemoteConfigs()[0].getUrl()
         env.GIT_CREDENTIAL_ID = scm.getUserRemoteConfigs()[0].credentialsId.toString()
