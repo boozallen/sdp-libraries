@@ -16,7 +16,6 @@ void call(context){
     }
 
     env.GIT_LIBRARY_DISTRUBITION = distributionConfig
-    def dist = this.fetch()
     init_env()
 }
 
