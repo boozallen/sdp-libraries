@@ -11,7 +11,7 @@
 
 
 
-def call(String gl_connection = null, String gl_job_name = null, String gl_job_tatus = null){
+def call(String gl_connection = null, String gl_job_name = null, String gl_job_status = null){
 
   def gitlab = config.gitlab ?: [:]
 
@@ -21,7 +21,7 @@ def call(String gl_connection = null, String gl_job_name = null, String gl_job_t
   def job_name = gl_job_name ?: gitlab.job_name ?: 
     { error "gitlab job name must be a valid string" }()
 
-  def job_status = gl_job_tatus ?: gitlab.job_status ?: 
+  def job_status = gl_job_status ?: gitlab.job_status ?: 
     { error "gitlab job status must be a valid string" }()   
 
   properties([gitLabConnection(job_connection)])
