@@ -8,14 +8,27 @@
 */
 @Validate
 void call(context){
-    String distributionConfig = config.distribution
-    List options = [ "github", "github_enterprise", "gitlab" ]
 
-    if (!options.contains(distributionConfig)) {
-        error "Distribution can only be set to one of the following: github, github_enterprise, gitlab. Currently: ${distributionConfig}"
+    /*
+      define a map of distributions and a closure for their own validations
+    */
+    def options = [ 
+        "gitlab": { c -> println "gitlab config is ${c}"}, 
+        "github": { c -> println "github config is ${c}"}, 
+        "github_enterprise": { c -> println "github enterprise config is ${c}"}
+    ]
+
+    def submap = config.subMap(options.keySet())
+    if(submap.size() != 1){
+        error "you must configure one distribution option, currently: ${submap.keySet()}" 
     }
+    
+    // get the distribution
+    String dist = submap.keySet().first()
+    // invoke the distribution closure 
+    options[dist](config[dist])    
 
-    env.GIT_LIBRARY_DISTRUBITION = distributionConfig
+    env.GIT_LIBRARY_DISTRUBITION = dist
     this.init_env()
 }
 

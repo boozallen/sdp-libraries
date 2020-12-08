@@ -11,7 +11,10 @@ public class GitDistributionsSpec extends JTEPipelineSpecification {
 
   def out
   def env = [GIT_URL: "giturl", ORG_NAME: "orgname", REPO_NAME: "reponame", GIT_SHA: "gitsha", CHANGE_TARGET: false, GIT_BUILD_CAUSE: "gitbuildcause"]
+  def config = [github:[:]]
   def setup() {
+    env = [GIT_URL: "giturl", ORG_NAME: "orgname", REPO_NAME: "reponame", GIT_SHA: "gitsha", CHANGE_TARGET: false, GIT_BUILD_CAUSE: "gitbuildcause"]
+
     out = Mock(java.io.PrintStream)
     out.println(_) >> {return 1}
     GitDistributions = loadPipelineScriptForStep("git", "git_distributions")
@@ -19,8 +22,8 @@ public class GitDistributionsSpec extends JTEPipelineSpecification {
     // should be set for each implementation github, 
     GitDistributions.getBinding().setVariable("env", env)
     GitDistributions.getBinding().setProperty("out", out)
+    GitDistributions.getBinding().setProperty("config", config)
 
-    GitDistributions.getBinding().setProperty("config", [distribution:"github"])
     def GitHub = loadPipelineScriptForTest("git/steps/github.groovy")
     GitDistributions.getBinding().metaClass.getStep = { String s -> 
     if(s == 'github'){ return GitHub}
@@ -35,8 +38,33 @@ public class GitDistributionsSpec extends JTEPipelineSpecification {
     getPipelineMock("scm.getUserRemoteConfigs")() >> { [getPipelineMock("ScmUserRemoteConfig")] }
     getPipelineMock("ScmUserRemoteConfig.getUrl")() >> "https://github.com/example-org/example-repo.git"
     getPipelineMock("sh")(_ as Map) >> " 1 "
-    //explicitlyMockPipelineVariable("out")
 
+  }
+  def "print map for config" () {
+    when:
+      GitDistributions(context)
+    then:
+      1 * out.println("github config is ${config.github}".toString())
+  }
+
+  def "empty config generates message" () {
+    setup:
+      GitDistributions.getBinding().setProperty("config", [:])
+    when:
+      GitDistributions(context)
+    then:
+      1 * getPipelineMock("error")("you must configure one distribution option, currently: []") >> { throw new RuntimeException("empty config") }
+      thrown(RuntimeException)
+  }
+
+  def "too many distributions config generates message" () {
+    setup:
+      GitDistributions.getBinding().setProperty("config", [github:[:], gitlab:[:]])
+    when:
+      GitDistributions(context)
+    then:
+      1 * getPipelineMock("error")({ it =~ /you must configure one distribution option, currently: /}) >> { throw new RuntimeException("empty config") }
+      thrown(RuntimeException)
   }
 
   def "unstash workspace before calling git commands" () {
@@ -45,8 +73,18 @@ public class GitDistributionsSpec extends JTEPipelineSpecification {
     then:
       1 * getPipelineMock("unstash")("workspace")
     then:
+      0 * out.println(" 'workspace' stash not present. Skipping git library environment variable initialization. To change this behavior, ensure the 'sdp' library is loaded")
       _ * getPipelineMock("sh")({ try {it.script =~ /git/; } catch(any) {it =~ /git/} }) >> "1"
       //returning the arbitrary string "1" to prevent the script from failing
+  }
+
+  def "unstash workspace with exception prints message" () {
+    when:
+      GitDistributions(context)
+    then:
+      1 * getPipelineMock("unstash")("workspace") >> { throw new RuntimeException("invalid action")}
+    then:
+      1 * out.println(" 'workspace' stash not present. Skipping git library environment variable initialization. To change this behavior, ensure the 'sdp' library is loaded")
   }
 
   def "GIT_URL env var is retrieved from the scm object" () {
@@ -131,11 +169,7 @@ public class GitDistributionsSpec extends JTEPipelineSpecification {
     when:
       GitDistributions(context)
     then:
-      1 * out.println(_) >> { _arguments ->
-        def build_cause = GitDistributions.getBinding().variables.env.GIT_BUILD_CAUSE
-        assert _arguments[0] == "Found Git Build Cause: ${build_cause}"
-      }
-
+      1 * out.println({it =~ /Found Git Build Cause/})
   }
 
 }

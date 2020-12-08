@@ -13,10 +13,13 @@ It also provides additional functionality that can be useful for library develop
 ----
 libraries{
   git{
-    distribution (required) = "github" or "github_enterprise" or "gitlab"
-    glConnection (optional) = String // for gitlab_status
-    jobName (optional) = String
-    jobStatus (optional) =  "pending" or "running" or "canceled" or "failed" or "success".
+    github
+    github_enterprise
+    gitlab{
+      connection (optional) = String // for gitlab_status
+      job_name (optional) = String
+      job_status (optional) =  "pending" or "running" or "canceled" or "failed" or "success".
+    }
   }
 }
 ----
