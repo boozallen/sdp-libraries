@@ -4,9 +4,7 @@
 */
 
 // Import code required for GitLab functions
-import org.gitlab4j.api.GitLabApi
-import org.gitlab4j.api.MergeRequestApi
-import org.gitlab4j.api.models.MergeRequest
+
 
 /*
     returns the name of the source branch in a Merge Request
@@ -28,7 +26,7 @@ def get_source_branch(){
         } else {
             projectName = "${env.ORG_NAME}/${env.REPO_NAME}"
         }
-        GitLabApi gl = new GitLabApi(gitlabUrl, PAT)
+        def gl = { return new org.gitlab4j.api.GitLabApi(gitlabUrl, PAT) }()
         sourceBranch =  gl.getMergeRequestApi().getMergeRequest(projectName.toString(), env.CHANGE_ID.toInteger()).getSourceBranch()
         return sourceBranch
     }
