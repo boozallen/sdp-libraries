@@ -12,10 +12,17 @@ void call(context){
     node{
         cleanWs()
         try{
+            println "start checkout"
             checkout scm
+            println "end checkout"
         }catch(AbortException ex) {
             println "scm var not present, skipping source code checkout" 
+        }catch(err){
+          println "oops ${err}" 
+        } finally {
+          println "print finally"  
         }
+      
         stash name: 'workspace', allowEmpty: true, useDefaultExcludes: false
     }
 }
