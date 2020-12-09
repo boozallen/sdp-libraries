@@ -26,7 +26,7 @@ def get_source_branch(){
         } else {
             projectName = "${env.ORG_NAME}/${env.REPO_NAME}"
         }
-        def gl = return this.class.classLoader.loadClass( 'org.gitlab4j.api.GitLabApi', true, false )?.newInstance(gitlabUrl, PAT)
+        def gl = this.class.classLoader.loadClass( 'org.gitlab4j.api.GitLabApi', true, false )?.newInstance(gitlabUrl, PAT)
         sourceBranch =  gl.getMergeRequestApi().getMergeRequest(projectName.toString(), env.CHANGE_ID.toInteger()).getSourceBranch()
         return sourceBranch
     }
