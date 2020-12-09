@@ -84,7 +84,7 @@ public class GitDistributionsSpec extends JTEPipelineSpecification {
     then:
       1 * getPipelineMock("unstash")("workspace") >> { throw new RuntimeException("invalid action")}
     then:
-      1 * out.println(" 'workspace' stash not present. Skipping git library environment variable initialization. To change this behavior, ensure the 'sdp' library is loaded")
+      1 * out.println("'workspace' stash not present. Skipping git library environment variable initialization. To change this behavior, ensure the 'sdp' library is loaded")
   }
 
   def "GIT_URL env var is retrieved from the scm object" () {

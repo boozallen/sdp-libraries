@@ -37,7 +37,7 @@ void init_env(){
     node{
         try{ unstash "workspace" }
         catch(ignored) { 
-          println " 'workspace' stash not present. Skipping git library environment variable initialization. To change this behavior, ensure the 'sdp' library is loaded"
+          println "'workspace' stash not present. Skipping git library environment variable initialization. To change this behavior, ensure the 'sdp' library is loaded"
           return
         }
 
