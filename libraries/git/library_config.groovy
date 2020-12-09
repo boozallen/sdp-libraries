@@ -5,8 +5,7 @@ fields{
             job_name = String
             job_status = String
         }
-    }
-    required{
-        distribution = [ "github", "github_enterprise", "gitlab" ]
+        github
+        github_enterprise
     }
 }
