@@ -18,6 +18,9 @@ void call(){
         }catch(AbortException ex) {
             println "scm var not present, skipping source code checkout" 
         }catch(err){
+          getBinding().getVariables().each{ k, v ->
+            println "${k}: ${v}"
+          }
           println "oops ${err}" 
         } finally {
           println "print finally"  
