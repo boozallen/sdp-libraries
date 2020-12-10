@@ -8,7 +8,7 @@ package libraries.sdp
 import hudson.AbortException
 
 @Validate // validate so this runs prior to other @Init steps
-void call(context){
+void call(){
     node{
         cleanWs()
         try{
