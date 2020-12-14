@@ -6,7 +6,7 @@
 /*
   Validate library configuration
 */
-@Validate
+@Init
 void call(context){
 
     /*
