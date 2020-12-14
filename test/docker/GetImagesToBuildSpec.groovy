@@ -14,7 +14,7 @@ public class GetImagesToBuildSpec extends JTEPipelineSpecification {
   }
 
   def setup() {
-    GetImagesToBuild = loadPipelineScriptForTest("docker/get_images_to_build.groovy")
+    GetImagesToBuild = loadPipelineScriptForStep("docker", "get_images_to_build")
     explicitlyMockPipelineStep("get_registry_info")
 
     getPipelineMock("get_registry_info")() >> ["test_registry", "test_cred"]

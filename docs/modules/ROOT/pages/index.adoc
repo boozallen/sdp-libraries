@@ -50,14 +50,8 @@ Your Jenkins build agents must have Docker installed due to the above-mentioned 
 | xref:libraries/docker.adoc[Docker]
 | Uses docker to build and publish container images, tagging them with the Git SHA
 
-| xref:libraries/github.adoc[GitHub]
-| Allows you to map a branching strategy to specific pipeline actions when using Public GitHub or GitHub Enterprise
-
-| xref:libraries/github_enterprise.adoc[GitHub Enterprise]
-| Allows you to map a branching strategy to specific pipeline actions when using or GitHub Enterprise
-
-| xref:libraries/gitlab.adoc[GitLab]
-| Allows you to map a branching strategy to specific pipeline actions when using GitLab
+| xref:libraries/git.adoc[Git]
+| Allows you to map a branching strategy to specific pipeline actions when using Public GitHub, GitLab or GitHub Enterprise
 
 | xref:libraries/google_lighthouse.adoc[Google Lighthouse]
 | Performs accessibility compliance, performance, search engine optimization, and best practice validations on a frontend application

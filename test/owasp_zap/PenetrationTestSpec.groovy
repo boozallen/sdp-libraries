@@ -10,7 +10,7 @@ public class PenetrationTestSpec extends JTEPipelineSpecification {
   def PenetrationTest = null
 
   def setup() {
-    PenetrationTest = loadPipelineScriptForTest("owasp_zap/penetration_test.groovy")
+    PenetrationTest = loadPipelineScriptForStep("owasp_zap","penetration_test")
     explicitlyMockPipelineStep("inside_sdp_image")
   }
 

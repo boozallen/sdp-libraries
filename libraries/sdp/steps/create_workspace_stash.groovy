@@ -8,14 +8,24 @@ package libraries.sdp
 import hudson.AbortException
 
 @Validate // validate so this runs prior to other @Init steps
-void call(context){
+void call(){
     node{
         cleanWs()
         try{
+            println "start checkout"
             checkout scm
+            println "end checkout"
         }catch(AbortException ex) {
             println "scm var not present, skipping source code checkout" 
+        }catch(err){
+          getBinding().getVariables().each{ k, v ->
+            println "${k}: ${v}"
+          }
+          println "oops ${err}" 
+        } finally {
+          println "print finally"  
         }
+      
         stash name: 'workspace', allowEmpty: true, useDefaultExcludes: false
     }
 }
