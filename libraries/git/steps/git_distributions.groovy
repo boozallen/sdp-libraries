@@ -8,7 +8,7 @@ package libraries.git
   Validate library configuration
 */
 @Init
-void call(context){
+void call(){
 
     /*
       define a map of distributions and a closure for their own validations
