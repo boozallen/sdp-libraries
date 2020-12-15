@@ -109,7 +109,7 @@ public class PenetrationTestSpec extends JTEPipelineSpecification {
     when:
       PenetrationTest()
     then:
-      1 * getPipelineMock("archive")("zap.html")
+      1 * getPipelineMock("archiveArtifacts.call")(['allowEmptyArchive':true, 'artifacts':'zap.html'])
   }
 
   def "Vulnerabilities Over Threshold Throw Error" () {
