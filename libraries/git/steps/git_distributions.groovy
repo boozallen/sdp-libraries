@@ -1,5 +1,5 @@
 /*
-  Copyright © 2018 Booz Allen Hamilton. All Rights Reserved.
+  Copyright © 2020 Booz Allen Hamilton. All Rights Reserved.
   This software package is licensed under the Booz Allen Public License. The license can be found in the License file or at http://boozallen.github.io/licenses/bapl
 */
 package libraries.git
@@ -8,7 +8,7 @@ package libraries.git
   Validate library configuration
 */
 @Init
-void call(){
+void call(context){
 
     /*
       define a map of distributions and a closure for their own validations
