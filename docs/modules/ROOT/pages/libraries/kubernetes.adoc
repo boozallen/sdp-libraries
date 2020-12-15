@@ -175,6 +175,16 @@ libraries{
 | 
 | both
 
+| helm_configuration_repository_branch
+| The repository branch to fetch the helm chart(s) from
+| "main"
+| both
+
+| helm_configuration_repository_start_path
+| The directory within the repository containing the helm chart
+| ".", which is the root of the repository
+| both 
+
 | helm_configuration_repository_credential
 | The Jenkins credential ID to access the helm configuration GitHub repository
 | 

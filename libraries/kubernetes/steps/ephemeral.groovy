@@ -21,6 +21,14 @@ void call(app_env, Closure body){
                    pipelineConfig.github_credential ?:
                    {error "GitHub Credential For Configuration Repository Not Defined"}()
 
+    def branch = app_env.helm_configuration_repository_branch ?: 
+                 config.helm_configuration_repository_branch ?:
+                 "main"
+
+    def working_directory = app_env.helm_configuration_repository_start_path ?: 
+                            config.helm_configuration_repository_start_path ?:
+                            "."
+
     /*
       k8s credential with kubeconfig
     */
@@ -47,31 +55,33 @@ void call(app_env, Closure body){
     def image_repo_project = config.image_repository_project ?:
                              {error "You must define image_repository_project where images are pushed" }()
 
-    withGit url: config_repo, cred: git_cred, {
-      def project
-      def release_env = [:]
-      this.update_values_file values_file
-      timeout 60, {
-        try {
-          inside_sdp_image "helm", {
-            withKubeConfig([credentialsId: k8s_credential , contextName: k8s_context]) {
-              project = this.prep_project image_repo_project
-              release_env = this.do_release project, values_file
+    withGit url: config_repo, cred: git_cred, branch: branch, {
+        dir(working_directory){
+            def project
+            def release_env = [:]
+            this.update_values_file values_file
+            timeout 60, {
+                try {
+                inside_sdp_image "helm", {
+                    withKubeConfig([credentialsId: k8s_credential , contextName: k8s_context]) {
+                    project = this.prep_project image_repo_project
+                    release_env = this.do_release project, values_file
+                    }
+                }
+                withEnv(release_env.collect{k,v -> "${k}=${v}"}) {
+                    body()
+                }
+                } catch (any) {
+                throw any
+                } finally{
+                inside_sdp_image "helm", {
+                    withKubeConfig([credentialsId: k8s_credential , contextName: k8s_context]) {
+                    this.cleanup project
+                    }
+                }
+                }
             }
-          }
-          withEnv(release_env.collect{k,v -> "${k}=${v}"}) {
-            body()
-          }
-        } catch (any) {
-          throw any
-        } finally{
-          inside_sdp_image "helm", {
-            withKubeConfig([credentialsId: k8s_credential , contextName: k8s_context]) {
-              this.cleanup project
-            }
-          }
         }
-      }
     }
   }
 }
