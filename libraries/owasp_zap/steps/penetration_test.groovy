@@ -49,7 +49,7 @@ void call() {
              zap-cli active-scan -r ${target} && \
              zap-cli report -o zap.html -f html
          """
-      archive "zap.html"
+      archiveArtifacts allowEmptyArchive: true, artifacts: "zap.html"
       // fail if vuln_threshold met
       if(!vuln_threshold.equals("Ignore")){
         def n_vulns = sh script: "zap-cli alerts -l ${vuln_threshold}", returnStatus: true
