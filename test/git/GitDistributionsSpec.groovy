@@ -3,7 +3,6 @@ package libraries.git
 public class GitDistributionsSpec extends JTEPipelineSpecification {
 
   def GitDistributions = null
-  def context = [:] // Required for methods w/ the @Init annotation, but not used in the step
 
   public static class DummyException extends RuntimeException {
     public DummyException(String _message) { super( _message ); }
@@ -42,7 +41,7 @@ public class GitDistributionsSpec extends JTEPipelineSpecification {
   }
   def "print map for config" () {
     when:
-      GitDistributions(context)
+      GitDistributions()
     then:
       1 * out.println("github config is ${config.github}".toString())
   }
@@ -51,7 +50,7 @@ public class GitDistributionsSpec extends JTEPipelineSpecification {
     setup:
       GitDistributions.getBinding().setProperty("config", [:])
     when:
-      GitDistributions(context)
+      GitDistributions()
     then:
       1 * getPipelineMock("error")("you must configure one distribution option, currently: []") >> { throw new RuntimeException("empty config") }
       thrown(RuntimeException)
@@ -61,7 +60,7 @@ public class GitDistributionsSpec extends JTEPipelineSpecification {
     setup:
       GitDistributions.getBinding().setProperty("config", [github:[:], gitlab:[:]])
     when:
-      GitDistributions(context)
+      GitDistributions()
     then:
       1 * getPipelineMock("error")({ it =~ /you must configure one distribution option, currently: /}) >> { throw new RuntimeException("empty config") }
       thrown(RuntimeException)
@@ -69,7 +68,7 @@ public class GitDistributionsSpec extends JTEPipelineSpecification {
 
   def "unstash workspace before calling git commands" () {
     when:
-      GitDistributions(context)
+      GitDistributions()
     then:
       1 * getPipelineMock("unstash")("workspace")
     then:
@@ -80,7 +79,7 @@ public class GitDistributionsSpec extends JTEPipelineSpecification {
 
   def "unstash workspace with exception prints message" () {
     when:
-      GitDistributions(context)
+      GitDistributions()
     then:
       1 * getPipelineMock("unstash")("workspace") >> { throw new RuntimeException("invalid action")}
     then:
@@ -89,7 +88,7 @@ public class GitDistributionsSpec extends JTEPipelineSpecification {
 
   def "GIT_URL env var is retrieved from the scm object" () {
     when:
-      GitDistributions(context)
+      GitDistributions()
     then:
       2 * getPipelineMock("scm.getUserRemoteConfigs")() >> { [getPipelineMock("ScmUserRemoteConfig")] }
       1 * getPipelineMock("ScmUserRemoteConfig.getUrl")() >> "https://github.com/boozallen/jenkins-templating-engine.git"
@@ -98,7 +97,7 @@ public class GitDistributionsSpec extends JTEPipelineSpecification {
 
   def "GIT_CREDENTIAL_ID env var is retreived from the scm object" () {
     when:
-    GitDistributions(context)
+    GitDistributions()
     then:
     2 * getPipelineMock("scm.getUserRemoteConfigs")() >> { [getPipelineMock("ScmUserRemoteConfig")] }
     1 * getPipelineMock("ScmUserRemoteConfig.getProperty").call('credentialsId') >> "credential"
@@ -107,7 +106,7 @@ public class GitDistributionsSpec extends JTEPipelineSpecification {
 
   def "ORG_NAME is set to the GitHub organization in GIT_URL" () {
     when:
-      GitDistributions(context)
+      GitDistributions()
     then:
       getPipelineMock("ScmUserRemoteConfig.getUrl")() >> "https://github.com/library-test/jenkins-templating-engine.git"
       GitDistributions.getBinding().variables.env.ORG_NAME == "library-test"
@@ -115,7 +114,7 @@ public class GitDistributionsSpec extends JTEPipelineSpecification {
 
   def "REPO_NAME is set to the GitHub repository in GIT_URL" () {
     when:
-      GitDistributions(context)
+      GitDistributions()
     then:
       getPipelineMock("ScmUserRemoteConfig.getUrl")() >> "https://github.com/boozallen/library-test2.git"
       GitDistributions.getBinding().variables.env.REPO_NAME == "library-test2"
@@ -123,7 +122,7 @@ public class GitDistributionsSpec extends JTEPipelineSpecification {
 
   def "GIT_SHA is set to HEAD" () {
     when:
-      GitDistributions(context)
+      GitDistributions()
     then:
       1 * getPipelineMock("sh")([script: "git rev-parse HEAD", returnStdout: true]) >> script_output
       GitDistributions.getBinding().variables.env.GIT_SHA == git_sha
@@ -137,7 +136,7 @@ public class GitDistributionsSpec extends JTEPipelineSpecification {
     setup:
       GitDistributions.getBinding().variables.env.put("CHANGE_TARGET", change_target)
     when:
-      GitDistributions(context)
+      GitDistributions()
     then:
       GitDistributions.getBinding().variables.env.GIT_BUILD_CAUSE == build_cause
     where:
@@ -150,7 +149,7 @@ public class GitDistributionsSpec extends JTEPipelineSpecification {
 
   def "If the latest commit has more than 2 parents, set GIT_BUILD_CAUSE to merge, else set to commit" () {
     when:
-      GitDistributions(context)
+      GitDistributions()
     then:
       1 * getPipelineMock("sh")([script: 'git rev-list HEAD --parents -1 | wc -w', returnStdout: true]) >> script_output
       GitDistributions.getBinding().variables.env.GIT_BUILD_CAUSE == build_cause
@@ -167,7 +166,7 @@ public class GitDistributionsSpec extends JTEPipelineSpecification {
 
   def "The Git Build Cause is printed to the log" () {
     when:
-      GitDistributions(context)
+      GitDistributions()
     then:
       1 * out.println({it =~ /Found Git Build Cause/})
   }
