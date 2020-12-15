@@ -22,6 +22,13 @@ void call(app_env){
                    pipelineConfig.github_credential              ?:
                    {error "GitHub Credential For Configuration Repository Not Defined"}()
 
+    def branch = app_env.helm_configuration_repository_branch ?: 
+                 config.helm_configuration_repository_branch ?:
+                 "main"
+
+    def working_directory = app_env.helm_configuration_repository_start_path ?: 
+                            config.helm_configuration_repository_start_path ?:
+                            "."
 
     /*
        k8s credential with kubeconfig 
@@ -82,12 +89,14 @@ void call(app_env){
       echo "expecting image was already built"
     }
 
-    withGit url: config_repo, cred: git_cred, {
+    withGit url: config_repo, cred: git_cred, branch: branch, {
       inside_sdp_image "helm", { 
         withKubeConfig([credentialsId: k8s_credential , contextName: k8s_context]) {
-            this.update_values_file( values_file, config_repo )
-            this.do_release release, values_file
-            this.push_config_update values_file
+            dir(working_directory){
+                this.update_values_file( values_file, config_repo )
+                this.do_release release, values_file
+                this.push_config_update values_file
+            }
         }
       }
     }
