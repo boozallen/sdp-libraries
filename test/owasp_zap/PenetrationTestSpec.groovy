@@ -10,7 +10,7 @@ public class PenetrationTestSpec extends JTEPipelineSpecification {
   def PenetrationTest = null
 
   def setup() {
-    PenetrationTest = loadPipelineScriptForTest("owasp_zap/penetration_test.groovy")
+    PenetrationTest = loadPipelineScriptForStep("owasp_zap","penetration_test")
     explicitlyMockPipelineStep("inside_sdp_image")
   }
 
@@ -109,7 +109,7 @@ public class PenetrationTestSpec extends JTEPipelineSpecification {
     when:
       PenetrationTest()
     then:
-      1 * getPipelineMock("archive")("zap.html")
+      1 * getPipelineMock("archiveArtifacts.call")(['allowEmptyArchive':true, 'artifacts':'zap.html'])
   }
 
   def "Vulnerabilities Over Threshold Throw Error" () {

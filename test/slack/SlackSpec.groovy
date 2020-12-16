@@ -10,7 +10,7 @@ public class SlackSpec extends JTEPipelineSpecification {
   def SlackTest = null
 
   def setup() {
-    SlackTest = loadPipelineScriptForTest("slack/slack.groovy")
+    SlackTest = loadPipelineScriptForStep("slack","slack")
     explicitlyMockPipelineStep("echo")
   }
 

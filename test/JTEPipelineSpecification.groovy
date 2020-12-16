@@ -27,7 +27,7 @@ public class JTEPipelineSpecification extends JenkinsPipelineSpecification {
         CompilerConfiguration cc = script_engine.getConfig() 
         // define auto importing of JTE hook annotations
         ImportCustomizer ic = new ImportCustomizer()
-        ic.addStarImports("org.boozallen.plugins.jte.hooks")
+        ic.addStarImports("org.boozallen.plugins.jte.init.primitives.hooks")
         cc.addCompilationCustomizers(ic) 
         script_engine.setConfig(cc)
 
@@ -42,5 +42,9 @@ public class JTEPipelineSpecification extends JenkinsPipelineSpecification {
 		} else {
 			return new InvalidlyNamedScriptWrapper( script )
 		}
+	}
+
+	Script loadPipelineScriptForStep(String lib, String step) {	
+		loadPipelineScriptForTest("${lib}/steps/${step}.groovy")
 	}
 }

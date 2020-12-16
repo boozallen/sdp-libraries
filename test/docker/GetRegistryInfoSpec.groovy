@@ -10,7 +10,7 @@ public class GetRegistryInfoSpec extends JTEPipelineSpecification {
   def GetRegistryInfo = null
 
   def setup() {
-    GetRegistryInfo = loadPipelineScriptForTest("docker/get_registry_info.groovy")
+    GetRegistryInfo = loadPipelineScriptForStep("docker","get_registry_info")
   }
 
   def "Missing Registry Throws Error" () {

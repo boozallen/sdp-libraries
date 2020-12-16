@@ -16,7 +16,7 @@ public class InsideSdpImageSpec extends JTEPipelineSpecification {
 	}
 
   def setup() {
-    InsideSdpImage = loadPipelineScriptForTest("./sdp/inside_sdp_image.groovy")
+    InsideSdpImage = loadPipelineScriptForStep("sdp", "inside_sdp_image")
   }
 
   def "If no value for config.images, throw error" () {
