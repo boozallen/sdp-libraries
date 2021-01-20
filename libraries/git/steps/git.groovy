@@ -21,6 +21,9 @@ void call(Map args){
     },
     "push": { flags ->
       sh "git push ${flags ?: ""} ${env.git_url_with_creds}"
+    },
+    "checkout": { branch ->
+      sh "git checkout  ${branch}"
     }
   ]
 

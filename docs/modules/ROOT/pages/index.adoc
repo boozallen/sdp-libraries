@@ -57,7 +57,7 @@ Your Jenkins build agents must have Docker installed due to the above-mentioned 
 | Performs accessibility compliance, performance, search engine optimization, and best practice validations on a frontend application
 
 | xref:libraries/kubernetes.adoc[Kubernetes]
-| Allows you to perform deployments using Helm to a kubernetes cluster (or clusters) 
+| Allows you to perform deployments using Helm to a kubernetes cluster (or clusters)
 
 | xref:libraries/openshift.adoc[OpenShift]
 | Allows you to perform deployments using Helm to a Red Hat OpenShift Container Platform (or platforms) 
