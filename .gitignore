@@ -6,7 +6,9 @@ _build
 .gradle 
 .settings
 .classpath
+*.iml
 build 
 bin
 docs/html
 docs/node_modules
+.DS_Store

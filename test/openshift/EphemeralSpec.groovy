@@ -14,7 +14,7 @@ public class EphemeralSpec extends JTEPipelineSpecification {
 	}
 
   def setup() {
-    Ephemeral = loadPipelineScriptForTest("openshift/ephemeral.groovy")
+    Ephemeral = loadPipelineScriptForStep("openshift","ephemeral")
     explicitlyMockPipelineVariable("out")
     explicitlyMockPipelineStep("withGit")
     explicitlyMockPipelineStep("inside_sdp_image")

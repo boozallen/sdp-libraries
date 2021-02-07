@@ -14,7 +14,7 @@ public class ScanContainerImageSpec extends JTEPipelineSpecification {
   }
 
   def setup() {
-    ScanContainerImage = loadPipelineScriptForTest("twistlock/scan_container_image.groovy")
+    ScanContainerImage = loadPipelineScriptForStep("twistlock","scan_container_image")
     explicitlyMockPipelineVariable("out")
     explicitlyMockPipelineVariable("login_to_registry")
     explicitlyMockPipelineVariable("get_images_to_build")

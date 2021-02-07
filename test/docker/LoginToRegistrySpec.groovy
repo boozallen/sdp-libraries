@@ -10,7 +10,7 @@ public class LoginToRegistrySpec extends JTEPipelineSpecification {
   def LoginToRegistry = null
 
   def setup() {
-    LoginToRegistry = loadPipelineScriptForTest("docker/login_to_registry.groovy")
+    LoginToRegistry = loadPipelineScriptForStep("docker", "login_to_registry")
 
     explicitlyMockPipelineStep("get_registry_info")
   }

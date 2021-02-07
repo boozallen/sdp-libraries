@@ -14,7 +14,7 @@ public class DeployToSpec extends JTEPipelineSpecification {
 	}
 
   def setup() {
-    DeployTo = loadPipelineScriptForTest("openshift/deploy_to.groovy")
+    DeployTo = loadPipelineScriptForStep("openshift","deploy_to")
     explicitlyMockPipelineVariable("out")
     explicitlyMockPipelineVariable("push")
     explicitlyMockPipelineStep("withGit")

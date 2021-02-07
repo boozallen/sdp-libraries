@@ -10,7 +10,7 @@ public class BuildSpec extends JTEPipelineSpecification {
   def Build = null
 
   def setup() {
-    Build = loadPipelineScriptForTest("./docker/build.groovy")
+    Build = loadPipelineScriptForStep("docker", "build")
     explicitlyMockPipelineStep("get_images_to_build")
     explicitlyMockPipelineStep("login_to_registry")
     Build.getBinding().setVariable("config", [:])
