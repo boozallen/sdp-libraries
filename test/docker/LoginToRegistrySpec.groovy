@@ -7,38 +7,37 @@ package libraries.docker
 
 public class LoginToRegistrySpec extends JTEPipelineSpecification {
 
-  def LoginToRegistry = null
+  def login_to_registry = null
 
   def setup() {
-    LoginToRegistry = loadPipelineScriptForStep("docker", "login_to_registry")
-
+    login_to_registry = loadPipelineScriptForStep("docker", "login_to_registry")
     explicitlyMockPipelineStep("get_registry_info")
   }
 
-  def "Get_repo_info method's Values Are Passed to withCredentials" () {
-    when:
-      LoginToRegistry()
+  def "login to registry passes values from get_registry_info to docker.withRegistry"(){
+    when: 
+    1 * getPipelineMock("get_registry_info")() >> { return ["test_registry", "test_cred_id"] }
+    login_to_registry{
+      echo "hi"
+    }
     then:
-      1 * getPipelineMock("get_registry_info")() >> ["test_registry", "test_cred_id"]
-    then:
-      1 * getPipelineMock("usernamePassword.call")([credentialsId: "test_cred_id", passwordVariable: 'pass', usernameVariable: 'user']) >> {
-        LoginToRegistry.getBinding().setVariable("user", "user")
-        LoginToRegistry.getBinding().setVariable("pass", "pass")
-      }
+    // validate we called docker.withRegistry()
+    1 * getPipelineMock("docker.withRegistry")("test_registry", "test_cred_id", _)
+    // validate the closure got executed
+    1 * getPipelineMock("echo")("hi")
   }
 
-  def "Docker Login Command Is Run" () {
-    setup:
-      getPipelineMock("get_registry_info")() >> ["test_registry", "test_cred_id"]
-    when:
-      LoginToRegistry()
+  def "login to registry passes method parameters to docker.withRegistry if provided"(){
+    when: 
+    1 * getPipelineMock("get_registry_info")() >> { return ["test_registry", "test_cred_id"] }
+    login_to_registry("parameter_registry_url", "parameter_credential_id"){
+      echo "hi"
+    }
     then:
-      1 * getPipelineMock("usernamePassword.call")([credentialsId: "test_cred_id", passwordVariable: 'pass', usernameVariable: 'user']) >> {
-        LoginToRegistry.getBinding().setVariable("user", "user")
-        LoginToRegistry.getBinding().setVariable("pass", "pass")
-      }
-      1 * getPipelineMock("sh")("echo pass | docker login -u user --password-stdin test_registry")
-
+    // validate we called docker.withRegistry()
+    1 * getPipelineMock("docker.withRegistry")("parameter_registry_url", "parameter_credential_id", _)
+    // validate the closure got executed
+    1 * getPipelineMock("echo")("hi")
   }
 
 }

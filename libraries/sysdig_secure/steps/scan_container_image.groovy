@@ -22,9 +22,10 @@ void call(){
             get_images_to_build().each{ img ->
               String image = "${img.registry}/${img.repo}:${img.tag}"
               imageThreads[image] = {
-                login_to_registry()
-                sh "docker pull ${image}"
-                sh "sh inline_scan.sh analyze -R ${resultsDir} ${sArg} -k $TOKEN ${image}"
+                login_to_registry{
+                  sh "docker pull ${image}"
+                  sh "sh inline_scan.sh analyze -R ${resultsDir} ${sArg} -k $TOKEN ${image}"
+                }
               }
             }
             try{

@@ -36,7 +36,7 @@ public class BuildSpec extends JTEPipelineSpecification {
     when:
       Build()
     then:
-      1 * getPipelineMock("login_to_registry")()
+      1 * getPipelineMock("login_to_registry")(_)
     then:
       (1.._) * getPipelineMock("sh")({it =~ /^docker push .*/})
   }

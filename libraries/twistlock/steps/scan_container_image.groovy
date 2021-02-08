@@ -16,34 +16,36 @@ def call() {
     stage "Scanning Container Images", {
         node {
             withCredentials([usernamePassword(credentialsId: config.credential, passwordVariable: 'pass', usernameVariable: 'user')]) {
-                unstash "workspace"
-                this.get_twistcli()
-                login_to_registry() // from container image building library
+                // from container image building library
                 // comes from whatever library builds container images
                 // for now .. just docker
-                def images = ""
-                get_images_to_build().each { img ->
-                  image = "${img.registry}/${img.repo}:${img.tag} " //The trailing space is intentional
-                  sh "docker pull ${image}"
-                  images += image
-                }
-                def scan_url = this.do_scan(images)
-                def results = this.parse_results(scan_url)
-                results.images.each {
-                  echo """
-                      Twistlock Scan Results: ${it.info.tags.registry}/${it.info.tags.repo}/${it.info.tags.tag}
-                      -----------------------------------------
-                      CVE Results:
-                      Low:      ${it.info.cveVulnerabilityDistribution.low}
-                      Medium:   ${it.info.cveVulnerabilityDistribution.medium}
-                      High:     ${it.info.cveVulnerabilityDistribution.high}
-                      Critical: ${it.info.cveVulnerabilityDistribution.critical}
-                      Compliance Results:
-                      Low:      ${it.info.complianceDistribution.low}
-                      Medium:   ${it.info.complianceDistribution.medium}
-                      High:     ${it.info.complianceDistribution.high}
-                      Critical: ${it.info.complianceDistribution.critical}
-                  """.stripIndent()
+                login_to_registry{
+                    unstash "workspace"
+                    this.get_twistcli()
+                    def images = ""
+                    get_images_to_build().each { img ->
+                    image = "${img.registry}/${img.repo}:${img.tag} " //The trailing space is intentional
+                    sh "docker pull ${image}"
+                    images += image
+                    }
+                    def scan_url = this.do_scan(images)
+                    def results = this.parse_results(scan_url)
+                    results.images.each {
+                    echo """
+                        Twistlock Scan Results: ${it.info.tags.registry}/${it.info.tags.repo}/${it.info.tags.tag}
+                        -----------------------------------------
+                        CVE Results:
+                        Low:      ${it.info.cveVulnerabilityDistribution.low}
+                        Medium:   ${it.info.cveVulnerabilityDistribution.medium}
+                        High:     ${it.info.cveVulnerabilityDistribution.high}
+                        Critical: ${it.info.cveVulnerabilityDistribution.critical}
+                        Compliance Results:
+                        Low:      ${it.info.complianceDistribution.low}
+                        Medium:   ${it.info.complianceDistribution.medium}
+                        High:     ${it.info.complianceDistribution.high}
+                        Critical: ${it.info.complianceDistribution.critical}
+                    """.stripIndent()
+                    }
                 }
             }
         }
