@@ -81,7 +81,8 @@ void withBuildArgs(Closure body){
  * 2. if there are build args from credentials, make sure those credentials exist 
 */
 @Validate
-void call(context){
+void validate_docker_build(){
+
   if(!config.containsKey("build_args")){
     return 
   }
