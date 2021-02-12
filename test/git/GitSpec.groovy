@@ -59,16 +59,16 @@ public class GitSpec extends JTEPipelineSpecification {
   }
 
   // call(String action)
-  def "The call(Map args) method is called with args=[action: null]" () {
+  def "The call method with a Map args parameter is called with args action: null" () {
 
   }
 
   // "add" action
-  def "If add's argument is a String, use git add to add the file(s)" () {
+  def "If adds argument is a String, use git add to add the file" () {
 
   }
 
-  def "If add's argument is a GStringImpl, use git add to add the file(s)" () {
+  def "If add's argument is a GStringImpl, use git add to add the files" () {
 
   }
 
@@ -102,7 +102,7 @@ public class GitSpec extends JTEPipelineSpecification {
 
   }
 
-  def "The git push command uses the URL supplied by withGit()" () {
+  def "The git push command uses the URL supplied by withGit" () {
 
   }
 

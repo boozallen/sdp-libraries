@@ -5,10 +5,14 @@
 
 package libraries.docker
 
-void call(){
-  def (image_repo, image_repo_cred) = get_registry_info()
+void call(String _url = null, String _credentialId = null, def body){
 
-  withCredentials([usernamePassword(credentialsId: image_repo_cred, passwordVariable: 'pass', usernameVariable: 'user')]) {
-    sh "echo ${pass} | docker login -u ${user} --password-stdin ${image_repo}"
-  }
+  def (repository, cred) = get_registry_info()
+
+  String protocol = config.registry_protocol ?: "https://"
+  String url = _url ?: "${protocol}${repository}"
+  String credentialId = _credentialId ?: cred
+
+  docker.withRegistry(url, credentialId, body)
+
 }

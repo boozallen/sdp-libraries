@@ -20,7 +20,7 @@ public class RetagSpec extends JTEPipelineSpecification {
     when:
       Retag("tag_viejo", "tag_nuevo")
     then:
-      1 * getPipelineMock("login_to_registry")()
+      1 * getPipelineMock("login_to_registry")(_)
     then:
       1 * getPipelineMock("get_images_to_build")() >> [[registry: "Reg", repo: "Repo"]]
       (1.._) * getPipelineMock("sh")({it =~ /^docker .*/})
