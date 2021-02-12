@@ -17,5 +17,6 @@ void call(){
     node{
         writeFile text: (new PipelineConfigurationDsl(null)).serialize(aggregated), file: "pipeline_config.groovy"
         archiveArtifacts "pipeline_config.groovy"
+        cleanWs()
     }
 }

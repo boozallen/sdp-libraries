@@ -7,38 +7,56 @@ package libraries.docker
 
 public class LoginToRegistrySpec extends JTEPipelineSpecification {
 
-  def LoginToRegistry = null
+  def login_to_registry = null
 
   def setup() {
-    LoginToRegistry = loadPipelineScriptForStep("docker", "login_to_registry")
-
+    login_to_registry = loadPipelineScriptForStep("docker", "login_to_registry")
+    login_to_registry.getBinding().setVariable("config", [:])
     explicitlyMockPipelineStep("get_registry_info")
   }
 
-  def "Get_repo_info method's Values Are Passed to withCredentials" () {
-    when:
-      LoginToRegistry()
+  def "login to registry executes closure"(){
+    when: 
+    1 * getPipelineMock("get_registry_info")() >> { return ["test_registry", "test_cred_id"] }
+    login_to_registry{
+      echo "hi"
+    }
     then:
-      1 * getPipelineMock("get_registry_info")() >> ["test_registry", "test_cred_id"]
-    then:
-      1 * getPipelineMock("usernamePassword.call")([credentialsId: "test_cred_id", passwordVariable: 'pass', usernameVariable: 'user']) >> {
-        LoginToRegistry.getBinding().setVariable("user", "user")
-        LoginToRegistry.getBinding().setVariable("pass", "pass")
-      }
+    1 * getPipelineMock("echo")("hi")
   }
 
-  def "Docker Login Command Is Run" () {
-    setup:
-      getPipelineMock("get_registry_info")() >> ["test_registry", "test_cred_id"]
-    when:
-      LoginToRegistry()
-    then:
-      1 * getPipelineMock("usernamePassword.call")([credentialsId: "test_cred_id", passwordVariable: 'pass', usernameVariable: 'user']) >> {
-        LoginToRegistry.getBinding().setVariable("user", "user")
-        LoginToRegistry.getBinding().setVariable("pass", "pass")
-      }
-      1 * getPipelineMock("sh")("echo pass | docker login -u user --password-stdin test_registry")
 
+  def "login to registry passes method parameters to docker.withRegistry if provided"(){
+    when: 
+    1 * getPipelineMock("get_registry_info")() >> { return ["test_registry", "test_cred_id"] }
+    login_to_registry("parameter_registry_url", "parameter_credential_id"){
+      echo "hi"
+    }
+    then:
+    1 * getPipelineMock("docker.withRegistry")("parameter_registry_url", "parameter_credential_id", _)
   }
+
+  def "default protocol for user-provided registry is https://"(){
+    when: 
+    1 * getPipelineMock("get_registry_info")() >> { return ["test_registry", "test_cred_id"] }
+    login_to_registry{
+      echo "hi"
+    }
+    then:
+    1 * getPipelineMock("docker.withRegistry")("https://test_registry", _, _)
+  }
+
+  def "setting the config.registry_protocol changes the protocol"(){
+    when:
+    1 * getPipelineMock("get_registry_info")() >> { return ["test_registry", "test_cred_id"] }
+    login_to_registry.getBinding().setVariable("config", [ registry_protocol: "http://" ])
+    login_to_registry{
+      echo "hi"
+    }
+    then: 
+    1 * getPipelineMock("docker.withRegistry")("http://test_registry", _, _)
+  }
+
+
 
 }
