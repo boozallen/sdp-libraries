@@ -9,9 +9,9 @@ void call(String _url = null, String _credentialId = null, def body){
 
   def (repository, cred) = get_registry_info()
 
-  def protocol = config.registry_protocol ?: "https://"
-  def url = "${protocol}${_url ?: repository}"
-  def credentialId = _credentialId ?: cred
+  String protocol = config.registry_protocol ?: "https://"
+  String url = _url ?: "${protocol}${repository}"
+  String credentialId = _credentialId ?: cred
 
   docker.withRegistry(url, credentialId, body)
 
