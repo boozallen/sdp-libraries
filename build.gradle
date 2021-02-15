@@ -67,7 +67,7 @@ dependencies {
 
 
     //our plugin
-    jenkinsTest group: 'org.jenkins-ci.plugins', name: "templating-engine", version: "2.0-alpha2"
+    jenkinsTest group: 'org.jenkins-ci.plugins', name: "templating-engine", version: "2.0.3"
  }
 
 test{

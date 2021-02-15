@@ -59,6 +59,11 @@ libraries{
 | 
 | true
 
+| registry_protocol
+| the protocol to prepend to the `registry` when authenticating to the container registry
+| "https://"
+| false
+
 | cred
 | Credentials used for the repository where different docker pipeline tools are stored.
 | 
