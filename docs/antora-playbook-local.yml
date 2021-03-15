@@ -8,7 +8,7 @@ content:
     branches: HEAD
     start_path: docs
   - url: https://github.com/jenkinsci/templating-engine-plugin
-    branches: master 
+    branches: main 
     start_path: docs 
 ui: 
   bundle: 
