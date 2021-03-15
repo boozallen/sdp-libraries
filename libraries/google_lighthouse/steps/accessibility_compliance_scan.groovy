@@ -3,7 +3,7 @@
   This software package is licensed under the Booz Allen Public License. The license can be found in the License file or at http://boozallen.github.io/licenses/bapl
 */
 
-package libraries.google_lighthouse
+package libraries.google_lighthouse.steps
 
 void call(){
     stage("Accessibility Compliance: Google Lighthouse"){
