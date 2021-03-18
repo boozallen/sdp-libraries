@@ -1,4 +1,5 @@
 * xref:index.adoc[Overview]
+* xref:CONTRIBUTING.adoc[Contributing]
 * xref:create-new-library.adoc[Create a New Library]
 
 .Libraries

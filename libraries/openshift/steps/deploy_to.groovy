@@ -3,7 +3,7 @@
   This software package is licensed under the Booz Allen Public License. The license can be found in the License file or at http://boozallen.github.io/licenses/bapl
 */
 
-package libraries.openshift
+package libraries.openshift.steps
 
 void call(app_env){
   stage "Deploy to ${app_env.long_name}", {

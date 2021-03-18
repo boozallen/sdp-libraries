@@ -1,0 +1,108 @@
+:toc:
+
+# Contributors Guide
+
+## Local Environment
+
+.Tools
+|===
+| Tool | Purpose
+
+| https://gradle.org[Gradle]
+| Used to run unit tests
+
+| https://github.com/casey/just[Just]
+| A task runner. Used here to automate common commands used during development.
+
+| https://www.docker.com/get-started[Docker]
+| Used to build the documentation for local preview
+
+|===
+
+## Running Tests
+
+To run all the tests, run: 
+
+[source,bash]
+----
+just test
+----
+
+The gradle test report is published to `target/reports/tests/test/index.html`
+
+### Execute tests for a specific library
+
+To run tests for a specific library, `docker` for example, run:
+
+[source,bash]
+----
+just test '*docker*'
+----
+
+### Execute tests for a specific Specification file
+
+To run tests for a specific Specification file, `test/docker/BuildSpec.groovy` for example, run:
+
+[source, bash]
+----
+just test "*.BuildSpec"
+----
+
+### Code Coverage
+
+By default, JaCoCo code coverage is enabled when running test.
+
+Once executed, the JaCoCo coverage report can be found at: `target/reports/jacoco/test/html/index.html`
+
+To disable this, run:
+
+[source, bash]
+----
+just --set coverage false test
+----
+
+## Building the Documentation
+
+This project uses https://antora.org/[Antora] to build the documentation.
+
+To build the documentation, run: 
+
+[source, bash]
+----
+just docs
+----
+
+Once built, the documentation can be viewed at `docs/html/index.html`
+
+### Customizing the documentation output directory
+
+The `docsDir` justfile variable configures the output directory. 
+
+To modify the output directory, run:
+
+[source, bash]
+----
+just --set docsDir some/other/directory docs
+----
+
+## Releasing the SDP Libraries
+
+**If you have the permission**, you can cut a new release of the SDP libraries by running `just release <versionNumber>`. 
+
+For example: 
+
+[source, bash]
+----
+just release 3.0
+----
+
+This will:
+
+1. create a `release/3.0` branch
+2. update the version in the `docs/antora.yml`
+3. create a `3.0` tag
+
+[NOTE]
+====
+Don't forget to go to the https://github.com/boozallen/sdp-libraries/releases[Releases Page] to officially release the SDP Libraries with the current change log based off the most recent tag.
+====
