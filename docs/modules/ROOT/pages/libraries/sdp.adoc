@@ -11,11 +11,14 @@ The SDP library provides helper steps used by multiple libraries within sdp-libr
 | ``inside_sdp_images(String image, Closure body)``
 | helper function that wraps ``docker.image(<image>).inside{}`` to execute a portion of the pipeline inside the specified container image runtime environment
 
+| ``with_secrets(ArrayList secrets, Closure body)``
+| helper function that allows for universal credential binding for other libraries to consolidate their secrets
+
 |===
 
 .Lifecycle Hooks
 |===
-| Step | Hook | Purpose 
+| Step | Hook | Purpose
 
 | archive_pipeline_config()
 | `@Init`
@@ -23,7 +26,7 @@ The SDP library provides helper steps used by multiple libraries within sdp-libr
 
 | create_workspace_stash()
 | `@Validate`
-| If the pipeline job is a Multibranch Project, checkout the source code.  In either case, save a stash called "workspace" for other libraries to consume. 
+| If the pipeline job is a Multibranch Project, checkout the source code.  In either case, save a stash called "workspace" for other libraries to consume.
 
 |===
 
@@ -35,7 +38,7 @@ The SDP library provides helper steps used by multiple libraries within sdp-libr
 
 | images.registry
 | This sets the registry the sdp library expects to find its Docker images
-| 
+|
 
 | images.repository
 | The first https://forums.docker.com/t/docker-registry-v2-spec-and-repository-naming-rule/5466[path component] in the repository name, e.g. if your images follow the format ``my-registry.com/sdp/*``, this would be *sdp*
@@ -43,11 +46,24 @@ The SDP library provides helper steps used by multiple libraries within sdp-libr
 
 | sdp.images.cred
 | Credentials used for the repository where different docker pipeline tools are stored
-| 
+|
 
 | sdp.images.docker_args
 | Arguments to use when starting the container. Uses the same flags as `docker run`
-| 
+|
+
+| secrets.<key>
+| A jenkins secret that will be bound with as a credential in libraries that use `with_secrets` when the secret is passed to the configuration
+|
+
+| secrets.<key>.credentialsId
+| Jenkins credential ID that the secret refers to
+|
+
+| secrets.<key>.<some_other_field>
+| Each secret implicitly figures out the sort of binding it will require when used `withCredentials`, the additional fields are required for this field. Visit https://www.jenkins.io/doc/pipeline/steps/credentials-binding/
+| Note: All common credentials are supported now, if a plugin provides a new credential, it may not be supported yet. Make a pull request to support it!
+|
 
 |===
 
@@ -63,16 +79,35 @@ Unlike the Docker Library, the value in "registry" _does_ include the protocol (
 libraries{
   sdp{
     images{
-      registry = "https://docker.pkg.github.com" <1>
+      registry   = "https://docker.pkg.github.com" <1>
       repository = "boozallen/sdp-images" <2>
-      cred = "github" <3>
+      cred       = "github" <3>
     }
+  }
+}
+
+secrets{ <4>
+  someSecretText{ <5>
+    credentialsId = "someCredential"
+    variable     = "SOME_BINDING"
+  }
+  someUserPasswordCred{ <6>
+    credentialsId     = "someUserCred"
+    usernameVariable = "USERNAME_BINDING"
+    passwordVariable = "PASSWORD_BINDING"
+  }
+  someUserPasswordAsString{
+    credentialId = "someUserCred"
+    variable     = "SOME_COLON_SEPERATED_BINDING"
   }
 }
 ----
 <1> the container registry that holds the SDP container images
 <2> the container image repository that holds the SDP container images
 <3> A jenkins credential ID to authenticate to the container registry
+<4> For libraries implementing `with_secrets` as a means of handling credential bindings
+<5> A secret text credential binding example
+<6> A usernamePassword credential binding example
 
 == External Dependencies
 
