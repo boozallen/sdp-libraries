@@ -201,7 +201,7 @@ Map resolveSecrets(Map secrets, Map resolvers) {
             .tokenize('.')
             .pop()
 
-        def resolver = resolvers.get(clazz, 'Unknown')
+        def resolver = resolvers.get(clazz, resolvers['Unknown'])
 
         [key, resolver(secret)]
     }
