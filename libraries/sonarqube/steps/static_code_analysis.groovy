@@ -75,7 +75,7 @@ def call(){
                         sonar.java.binaries needs to be provided when the binaries
                         are not present during sonarqube analysis
                     */
-                    sh "ls -a && pwd && mkdir -p empty"
+                    sh "mkdir -p empty"
                     
                     // build out the command to execute
                     ArrayList command = [ "sonar-scanner -X" ]
