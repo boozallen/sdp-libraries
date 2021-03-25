@@ -4,6 +4,8 @@
 */
 package libraries.git.steps
 
+import org.boozallen.plugins.jte.util.TemplateLogger
+  
 /*
   Validate library configuration
 */
