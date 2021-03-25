@@ -1,4 +1,9 @@
 void call(String stashName){
-  cleanWs()
+  try{
+    if( new File(".git").exists() ){
+      sh "rm -rf .git"
+    }
+  }catch(any){}
+  
   steps.unstash(stashName)
 }
