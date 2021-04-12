@@ -52,6 +52,6 @@ release version branch=`git branch --show-current`:
   git push origin refs/tags/{{version}}
 
 # Run npm-groovy-lint
-lint: 
+lint library="": 
   [ ! -d "node_modules" ] && npm i || true
-  $(npm bin)/npm-groovy-lint -p libraries
+  $(npm bin)/npm-groovy-lint -p libraries/{{library}}
