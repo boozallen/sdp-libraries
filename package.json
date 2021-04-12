@@ -1,0 +1,16 @@
+{
+  "name": "sdp-libraries",
+  "version": "1.0.0",
+  "description": "Placeholder package.json ",
+  "author": "Steven Terrana",
+  "license": "Booz Allen Public License (BAPL)",
+  "scripts": {
+    "preinstall": "npx npm-force-resolutions"
+  },
+  "devDependencies": {
+    "npm-groovy-lint": "^8.1.0"
+  },
+  "resolutions": {
+    "axios": "^0.21.1"
+  }
+}
