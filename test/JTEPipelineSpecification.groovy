@@ -28,6 +28,7 @@ public class JTEPipelineSpecification extends JenkinsPipelineSpecification {
         // define auto importing of JTE hook annotations
         ImportCustomizer ic = new ImportCustomizer()
         ic.addStarImports("org.boozallen.plugins.jte.init.primitives.hooks")
+        ic.addImports("com.cloudbees.groovy.cps.NonCPS")
         cc.addCompilationCustomizers(ic) 
         script_engine.setConfig(cc)
 
