@@ -11,6 +11,9 @@ The SDP library provides helper steps used by multiple libraries within sdp-libr
 | ``inside_sdp_images(String image, Closure body)``
 | helper function that wraps ``docker.image(<image>).inside{}`` to execute a portion of the pipeline inside the specified container image runtime environment
 
+| ``jteVersion``
+| a multi-method step that provides utilities for determining the current JTE version. more docs below. 
+
 |===
 
 .Lifecycle Hooks
@@ -74,11 +77,51 @@ libraries{
 <2> the container image repository that holds the SDP container images
 <3> A jenkins credential ID to authenticate to the container registry
 
+== `jteVersion`
+
+`jteVersion` is a multi-method step that provides utilities for determining the current JTE version. This is particularly useful when making changes to support backwards compatibility. 
+
+.Methods
+|===
+| Method | Description
+
+| `jteVersion.get()`
+| returns the current JTE version
+
+| `jteVersion.lessThan(String version)`
+| returns true if the current JTE version is less than the parameter
+
+| `jteVersion.lessThanOrEqualTo(String version)`
+| returns true if the current JTE version is less than or equal to the parameter
+
+| `jteVersion.greatherThan(String version)`
+| returns true if the current JTE version is greater than the parameter
+
+| `jteVersion.greaterThanOrEqualTo(String version)`
+| returns true if the current JTE version is greater than or equal to the parameter
+
+| `jteVersion.equalTo(String version)`
+| returns true if the current JTE version is equal to the parameter
+
+|===
+
+For example, 
+
+[source, groovy]
+----
+if (jteVersion.lessThan("2.1")){
+  // code to run if current installed version is < 2.1
+} else { 
+  // code to run if current installed version is >= 2.1
+}
+----
+
 == External Dependencies
 
 * A Docker registry must be setup and configured. Credentials to the registry are also needed.
 * A repository for the image being used by the given library is expected to be in the given registry.
 * The repository name for the pipeline tools' images should be in the format  _"${images.registry}/${images.repository}/tool-name"_
+* The Pipeline Utility Steps plugin is required 
 
 == Troubleshooting
 
