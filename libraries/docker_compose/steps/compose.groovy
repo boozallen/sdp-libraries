@@ -1,11 +1,7 @@
-package libraries.docker_compose
-
-void call(){
-
-}
+package docker_compose.steps
 
 void up() {
-    stage("Deploy") {
+    stage("Deploy: Docker Compose") {
         String command = "docker-compose "
         command = addFiles(command)
         command = addEnvFile(command)
@@ -20,7 +16,7 @@ void up() {
 }
 
 void down() {
-    stage("Teardown") {
+    stage("Teardown: Docker Compose") {
         String command = "docker-compose "
         command = addFiles(command)
         command = addEnvFile(command)
