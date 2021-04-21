@@ -7,7 +7,7 @@ class DockerComposeSpec extends JTEPipelineSpecification {
     def DOCKER_COMPOSE_COMMAND = "docker-compose "
 
     def setup() {
-        dockerCompose = loadPipelineScriptForTest("docker_compose/compose.groovy")
+        dockerCompose = loadPipelineScriptForTest("docker_compose/steps/compose.groovy")
         explicitlyMockPipelineStep("sh")
         explicitlyMockPipelineStep("sleep")
         dockerCompose.getBinding().setVariable("config", [:])
