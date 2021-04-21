@@ -17,7 +17,7 @@ class DockerComposeSpec extends JTEPipelineSpecification {
         when:
             dockerCompose.up()
         then:
-            1 * getPipelineMock("stage")("Deploy", _)
+            1 * getPipelineMock("stage")("Deploy: Docker Compose", _)
         then:
             1 * getPipelineMock("sh")(DOCKER_COMPOSE_COMMAND + "up -d")
     }
@@ -26,7 +26,7 @@ class DockerComposeSpec extends JTEPipelineSpecification {
         when:
             dockerCompose.down()
         then:
-            1 * getPipelineMock("stage")("Teardown", _)
+            1 * getPipelineMock("stage")("Teardown: Docker Compose", _)
         then:
             1 * getPipelineMock("sh")(DOCKER_COMPOSE_COMMAND + "down")
     }
@@ -38,7 +38,7 @@ class DockerComposeSpec extends JTEPipelineSpecification {
         when:
             dockerCompose.up()
         then:
-            1 * getPipelineMock("stage")("Deploy", _)
+            1 * getPipelineMock("stage")("Deploy: Docker Compose", _)
         then:
             1 * getPipelineMock("sh")(DOCKER_COMPOSE_COMMAND + "-f docker-compose.it.yml -f docker-compose.ci.yml " +
                     "--env-file .env.ci up -d")
@@ -53,7 +53,7 @@ class DockerComposeSpec extends JTEPipelineSpecification {
         when:
             dockerCompose.down()
         then:
-            1 * getPipelineMock("stage")("Teardown", _)
+            1 * getPipelineMock("stage")("Teardown: Docker Compose", _)
         then:
             1 * getPipelineMock("sh")(DOCKER_COMPOSE_COMMAND + "-f docker-compose.it.yml -f docker-compose.ci.yml " +
                 "--env-file .env.ci down")
