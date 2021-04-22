@@ -1,4 +1,4 @@
-package docker_compose.steps
+package libraries.docker_compose.steps
 
 void up() {
     stage("Deploy: Docker Compose") {
