@@ -6,6 +6,7 @@
 * xref:libraries/a11y.adoc[The A11y Machine] 
 * xref:libraries/anchore.adoc[Anchore]
 * xref:libraries/docker.adoc[Docker]
+* xref:libraries/docker_compose.adoc[Docker Compose]
 * xref:libraries/git.adoc[Git]
 * xref:libraries/google_lighthouse.adoc[Google Lighthouse]
 * xref:libraries/kubernetes.adoc[Kubernetes]
