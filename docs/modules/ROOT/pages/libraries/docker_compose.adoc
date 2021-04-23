@@ -59,4 +59,4 @@ libraries{
 ----
 
 == Library Dependencies
-* Docker installed on Jenkins.
+* Docker and docker-compose installed on Jenkins.
