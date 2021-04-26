@@ -1,0 +1,6 @@
+A11y Library needs the target url.
+libraries{
+  a11y{
+    url = "https://example.com"
+  }
+}

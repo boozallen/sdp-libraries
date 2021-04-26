@@ -1,0 +1,14 @@
+{
+    "extends": "recommended-jenkinsfile",
+    "rules": {
+        "LineLength": "off",
+        "SpaceBeforeOpeningBrace": "off",
+        "UnnecessaryGString": "off",
+        "BuilderMethodWithSideEffects": "off",
+        "FactoryMethodName": "off",
+        "formatting.Indentation": {
+            "spacesPerIndentLevel": 2,
+            "severity": "info"
+        }
+    }
+}
