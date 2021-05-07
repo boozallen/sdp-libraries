@@ -124,6 +124,6 @@ void push_config_update(values_file){
   echo "updating values file -> ${values_file}"
   git add: values_file
   git commit: "Updating ${values_file} for ${env.REPO_NAME} images"
-  git push
+  git "push"
 }
 
