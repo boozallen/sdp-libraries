@@ -1,0 +1,173 @@
+= Npm
+
+Run npm `test` and `build` commands in an nvm container with a specified node version.
+
+== Steps Contributed
+
+.Steps
+|===
+| *Step* | *Description*
+
+| ``unit_test()``
+| Calls npm_invoke to run `npm run test` command
+
+| ``npm_build()``
+| Calls npm_invoke to run `npm run build` command
+
+| ``npm_invoke(String stepName)``
+| Runs npm command in nvm container
+
+|===
+
+== Library Configuration Options
+
+=== unit_test and build
+
+Each available method has config options that can be specified in the application environment pass or within the library configuration. 
+
+.Pipeline Configuration 
+[source, groovy]
+----
+application_environments{
+  dev
+  prod{
+    npm{
+      unit_test{
+        script = "full-test-suite"
+        npm_install = "ci"
+      }
+      npm_build{
+        script = "build"
+        npm_install = ""
+      }
+    }
+  }
+}
+
+libraries{
+  npm{
+    unit_test{
+      script = "test"
+      npm_install = "ci"
+    }
+    npm_build{
+      script = "build"
+      npm_install = ""
+    }
+  }
+}
+----
+
+.Pipeline Template
+[source, groovy]
+----
+/*
+  because dev.npm.unit_test.script is not set
+  the library will fallback to the library's configuration
+  and execute `npm run test`
+*/
+unit_test dev 
+/*
+  because prod.npm.unit_test.script is set to "full-test-suite"
+  the `npm run full-test-suite` will be executed
+*/
+unit_test prod 
+----
+
+[NOTE]
+====
+If `script` or `npm_install` are not defined for a method in either the library configuration or the application environment, then the they will default to "".
+====
+
+=== Environment Variables and Secrets
+
+This library allows you to configure key/value pairs and secrets as environment variables.  This can be done in both the library configuration or application environments.  
+
+There are two types of secrets currently supported:  secret text and username/password credentials. These credentials must be stored are in the Jenkins credential store. 
+
+.Library Environment Variables Syntax
+[source, groovy]
+----
+libraries{
+  unit_test{
+    env{
+      secrets{
+        someKey = "someValue for tests"
+        someTextCredential{
+          type = "text"
+          name = "VARIABLE_NAME"
+          id = "some-credential-id"
+        }
+        someUsernamePasswordCredential{
+          type = "usernamePassword"
+          usernameVar = "USER"
+          passwordVar = "PASS"
+          id = "some-credential-id"
+        }
+      }
+    }
+  }
+  npm_build{
+    env{
+      secrets{
+        someKey = "someValue for builds"
+        someTextCredential{
+          type = "text"
+          name = "VARIABLE_NAME"
+          id = "some-credential-id"
+        }
+        someUsernamePasswordCredential{
+          type = "usernamePassword"
+          usernameVar = "USER"
+          passwordVar = "PASS"
+          id = "some-credential-id"
+        }
+      }
+    }
+  }
+}
+----
+
+The name of each credential block is not important, and only used when describing configuration errors found by the step. 
+
+To pass environment variables on a per application environment basis, define a `app_env.npm.env` block: 
+
+.Application Environments Secrets Syntax
+[source, groovy]
+----
+application_environments{
+  prod{
+    npm{
+      unit_test{
+        env{
+          someKey = "someValue for prod tests"
+          secrets{
+            someTextCredential{
+              type = "text"
+              name = "VARIABLE_NAME"
+              id = "some-credential-id"
+            }
+            someUsernamePasswordCredential{
+              type = "usernamePassword"
+              usernameVar = "USER"
+              passwordVar = "PASS"
+              id = "some-credential-id"
+            }
+          }
+        }
+      }
+    }
+  }
+}
+----
+
+[IMPORTANT]
+====
+If the same environment variable is defined on both the application environment and the library configuration, the application environment variable definition will be used.
+====
+
+== External Dependencies
+
+* The SDP library must be loaded inside the `pipeline_config.groovy` file.
+
+== Troubleshooting
