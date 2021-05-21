@@ -24,7 +24,7 @@ void call(String stepName, app_env = []) {
     
                 // verify package.json script block has command to run
                 def packageJson = readJSON(file: "package.json")
-                if(!packageJson?.scripts?.[env.scriptCommand]) error("stepName $scriptCommand not found in package.json scripts")
+                if(!packageJson?.scripts?[env.scriptCommand]) error("stepName $scriptCommand not found in package.json scripts")
 
                 sh '''
                     set +x
