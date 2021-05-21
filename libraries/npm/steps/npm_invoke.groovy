@@ -24,7 +24,7 @@ void call(String stepName, app_env = []) {
     
                 // verify package.json script block has command to run
                 def packageJson = readJSON(file: "package.json")
-                if(!packageJson?.scripts?.containsKey(env.scriptCommand)) error("stepName $scriptCommand not found in package.json scripts")
+                if(!packageJson?.scripts?.containsKey(env.scriptCommand)) error("stepName $env.scriptCommand not found in package.json scripts")
 
                 sh '''
                     set +x
@@ -118,13 +118,13 @@ void setEnvVars(libConfig, appConfig){
         env[it.key] = it.value
     }
 
-    env.scriptCommand = libConfig?.script         ?:
-                                appConfig?.script ?: 
-                                ""
+    env.scriptCommand = libConfig?.script      ?:
+                            appConfig?.script  ?: 
+                            ""
                                 
-    env.npm_install = libConfig?.npm_install           ?:
-                                appConfig?.npm_install ?: 
-                                ""
+    env.npm_install = libConfig?.npm_install       ?:
+                            appConfig?.npm_install ?: 
+                            ""
                                 
     if(!["install", "i", "ci", ""].contains(env.npm_install)) error("npm_install must be one of \"install\", \"i\", \"ci\" or \"\"; got \"$npm_install\"")
 }
