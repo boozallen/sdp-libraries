@@ -32,6 +32,7 @@ application_environments{
   dev
   prod{
     npm{
+      node_version = "14.16.1"
       unit_test{
         script = "full-test-suite"
         npm_install = "ci"
@@ -46,6 +47,7 @@ application_environments{
 
 libraries{
   npm{
+    node_version = "lts/*"
     unit_test{
       script = "test"
       npm_install = "ci"

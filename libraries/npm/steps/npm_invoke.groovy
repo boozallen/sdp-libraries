@@ -9,13 +9,13 @@ void call(String stepName, app_env = []) {
     stage("Npm Invoke"){
 
         // Get config for stepName, fail if stepName is not supported
-        (libConfig, appConfig) = this.getConfigs(stepName, config, app_env)
+        (libConfig, appConfig) = this.getStepConfigs(stepName, config, app_env)
 
         // Gather, validate and format secrets to pull from credential store
         ArrayList creds = this.formatSecrets(libConfig, appConfig)
 
         // Gather and set non-secret environment variables
-        this.setEnvVars(libConfig, appConfig)
+        this.setEnvVars(libConfig, appConfig, config, app_env)
 
         // run npm command in nvm container
         withCredentials(creds){
@@ -24,23 +24,34 @@ void call(String stepName, app_env = []) {
     
                 // verify package.json script block has command to run
                 def packageJson = readJSON(file: "package.json")
-                if(!packageJson?.scripts?.containsKey(env.scriptCommand)) error("stepName $env.scriptCommand not found in package.json scripts")
+                if(!packageJson?.scripts?.containsKey(env.scriptCommand)) error("stepName '$env.scriptCommand' not found in package.json scripts")
 
-                sh '''
-                    set +x
-                    source ~/.bashrc
-                    nvm install $npm_version
-                    nvm version
-                    
-                    [[ ! -z "$npm_install" ]] && npm $npm_install  # only run npm install step if npm_install is specified
-                    npm run $scriptCommand
-                '''
+                if(env.npm_install) {
+                    sh '''
+                        set +x
+                        source ~/.bashrc
+                        nvm install $node_version
+                        nvm version
+                        
+                        npm $npm_install
+                        npm run $scriptCommand
+                    '''
+                } else {
+                    sh '''
+                        set +x
+                        source ~/.bashrc
+                        nvm install $node_version
+                        nvm version
+
+                        npm run $scriptCommand
+                    '''
+                }
             }
         }
     }
 }
 
-ArrayList getConfigs(stepName, config, app_env) {
+ArrayList getStepConfigs(stepName, config, app_env) {
     LinkedHashMap libConfig = [:]
     LinkedHashMap appConfig = [:]
 
@@ -108,23 +119,26 @@ ArrayList formatSecrets(libConfig, appConfig) {
     return creds
 }
 
-void setEnvVars(libConfig, appConfig){
+void setEnvVars(libConfig, appConfig, config, app_env){
     LinkedHashMap libEnv = libConfig?.env?.findAll { it.key != 'secrets' } ?: [:]
     LinkedHashMap appEnv = appConfig?.env?.findAll { it.key != 'secrets' } ?: [:]
     LinkedHashMap envVars = libEnv + appEnv
 
-    env.npm_version = config.npm_version ?: 'lts/*'
     envVars.each {
         env[it.key] = it.value
     }
 
+    env.node_version = config.node_version       ?:
+                            app_env.node_version ?: 
+                            'lts/*'
+
+    env.npm_install = libConfig.npm_install       ?:
+                            appConfig.npm_install ?: 
+                            ""
+
     env.scriptCommand = libConfig?.script      ?:
                             appConfig?.script  ?: 
                             ""
-                                
-    env.npm_install = libConfig?.npm_install       ?:
-                            appConfig?.npm_install ?: 
-                            ""
-                                
+                                                          
     if(!["install", "i", "ci", ""].contains(env.npm_install)) error("npm_install must be one of \"install\", \"i\", \"ci\" or \"\"; got \"$npm_install\"")
 }
