@@ -13,47 +13,24 @@ public class UnitTestSpec extends JTEPipelineSpecification {
     UnitTest = loadPipelineScriptForStep("npm","unit_test")
   }
 
-  def "Missing Registry Throws Error" () {
+  def "npm_invoke called" () {
     setup:
       explicitlyMockPipelineStep("npm_invoke")
-      UnitTest.getBinding().setVariable("config", [registry: null, cred: "credential"])
-      def response = "some error"
+      UnitTest.getBinding().setVariable("config", [unit_test: [script: "test", npm_install: "ci"]])
     when:
       UnitTest()
     then:
-      1 * getPipelineMock("error")(response)
+      1 * getPipelineMock("npm_invoke").call(['unit_test', []])
   }
 
-//   def "Missing Credential Throws Error" () {
-//     setup:
-//       GetRegistryInfo.getBinding().setVariable("config", [registry: "registry", cred: null])
-//       def missing_cred_message = "Application Docker Image Registry Credential, libraries.docker.cred, not defined in pipeline config"
-//     when:
-//       GetRegistryInfo()
-//     then:
-//       1 * getPipelineMock("error")(missing_cred_message)
-//   }
-
-//   def "Missing Registry and Credential Outputs Combined Error Message" () {
-//     setup:
-//       GetRegistryInfo.getBinding().setVariable("config", [:])
-//       def missing_reg_message = "Application Docker Image Registry, libraries.docker.registry, not defined in pipeline config"
-//       def missing_cred_message = "Application Docker Image Registry Credential, libraries.docker.cred, not defined in pipeline config"
-//     when:
-//       GetRegistryInfo()
-//     then:
-//       1 * getPipelineMock("error")("${missing_reg_message}; ${missing_cred_message}")
-//   }
-
-//   def "Return Value is a Two-Element Array of [Registry, Credential]" () {
-//     setup:
-//       GetRegistryInfo.getBinding().setVariable("config", [registry: "reg", cred: "cred"])
-//     when:
-//       def regInfo = GetRegistryInfo()
-//     then:
-//       0 * getPipelineMock("error")(_)
-//       regInfo == ["reg", "cred"]
-//   }
-
-
+  def "npm_invoke called with app_env when present" () {
+    setup:
+      def app_env = [short_name: 'env', long_name: 'Environment', unit_test: [:]]
+      explicitlyMockPipelineStep("npm_invoke")
+      UnitTest.getBinding().setVariable("config", [unit_test: [script: "test", npm_install: "ci"]])
+    when:
+      UnitTest(app_env)
+    then:
+      1 * getPipelineMock("npm_invoke").call(['unit_test', app_env])
+  }
 }
