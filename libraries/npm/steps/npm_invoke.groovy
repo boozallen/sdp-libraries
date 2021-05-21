@@ -9,13 +9,13 @@ void call(String stepName, app_env = []) {
     stage("Npm Invoke"){
 
         // Get config for stepName, fail if stepName is not supported
-        (libConfig, appConfig) = this.getStepConfigs(stepName, config, app_env)
+        (libStepConfig, appStepConfig) = this.getStepConfigs(stepName, config, app_env)
 
         // Gather, validate and format secrets to pull from credential store
-        ArrayList creds = this.formatSecrets(libConfig, appConfig)
+        ArrayList creds = this.formatSecrets(libStepConfig, appStepConfig)
 
         // Gather and set non-secret environment variables
-        this.setEnvVars(libConfig, appConfig, config, app_env)
+        this.setEnvVars(libStepConfig, appStepConfig, config, app_env)
 
         // run npm command in nvm container
         withCredentials(creds){
@@ -52,23 +52,23 @@ void call(String stepName, app_env = []) {
 }
 
 ArrayList getStepConfigs(stepName, config, app_env) {
-    LinkedHashMap libConfig = [:]
-    LinkedHashMap appConfig = [:]
+    LinkedHashMap libStepConfig = [:]
+    LinkedHashMap appStepConfig = [:]
 
     switch(stepName){
         case "build": 
-            libConfig = config?.build ?: [:]
-            appConfig = app_env?.npm?.build ?: [:]
+            libStepConfig = config?.build ?: [:]
+            appStepConfig = app_env?.npm?.build ?: [:]
             break
         case "unit_test":
-            libConfig = config?.unit_test ?: [:]
-            appConfig = app_env?.npm?.unit_test ?: [:]
+            libStepConfig = config?.unit_test ?: [:]
+            appStepConfig = app_env?.npm?.unit_test ?: [:]
             break
         default: 
             error("stepName must be \"build\" or \"unit_test\", got \"$stepName\"")
     }
 
-    return [libConfig, appConfig]
+    return [libStepConfig, appStepConfig]
 }
 
 void validateParameters(secrets){
@@ -97,9 +97,9 @@ void validateParameters(secrets){
     }
 }
 
-ArrayList formatSecrets(libConfig, appConfig) {
-    LinkedHashMap libSecrets = libConfig?.env?.secrets ?: [:]
-    LinkedHashMap envSecrets = appConfig?.env?.secrets ?: [:]
+ArrayList formatSecrets(libStepConfig, appStepConfig) {
+    LinkedHashMap libSecrets = libStepConfig?.env?.secrets ?: [:]
+    LinkedHashMap envSecrets = appStepConfig?.env?.secrets ?: [:]
     LinkedHashMap secrets = libSecrets + envSecrets
 
     this.validateParameters(secrets)
@@ -119,26 +119,26 @@ ArrayList formatSecrets(libConfig, appConfig) {
     return creds
 }
 
-void setEnvVars(libConfig, appConfig, config, app_env){
-    LinkedHashMap libEnv = libConfig?.env?.findAll { it.key != 'secrets' } ?: [:]
-    LinkedHashMap appEnv = appConfig?.env?.findAll { it.key != 'secrets' } ?: [:]
+void setEnvVars(libStepConfig, appStepConfig, config, app_env){
+    LinkedHashMap libEnv = libStepConfig?.env?.findAll { it.key != 'secrets' } ?: [:]
+    LinkedHashMap appEnv = appStepConfig?.env?.findAll { it.key != 'secrets' } ?: [:]
     LinkedHashMap envVars = libEnv + appEnv
 
     envVars.each {
         env[it.key] = it.value
     }
 
-    env.node_version = config.node_version       ?:
-                            app_env.node_version ?: 
+    env.node_version = app_env?.npm?.node_version ?: 
+                            config?.node_version  ?:
                             'lts/*'
 
-    env.npm_install = libConfig.npm_install       ?:
-                            appConfig.npm_install ?: 
+    env.npm_install = appStepConfig?.npm_install       ?:
+                            libStepConfig?.npm_install ?: 
                             ""
 
-    env.scriptCommand = libConfig?.script      ?:
-                            appConfig?.script  ?: 
+    env.scriptCommand = appStepConfig?.script     ?:
+                            libStepConfig?.script ?: 
                             ""
                                                           
-    if(!["install", "i", "ci", ""].contains(env.npm_install)) error("npm_install must be one of \"install\", \"i\", \"ci\" or \"\"; got \"$npm_install\"")
+    if(!["install", "i", "ci", ""].contains(env.npm_install)) error("npm_install must be one of \"install\", \"i\", \"ci\" or \"\"; got \"$env.npm_install\"")
 }
