@@ -15,7 +15,7 @@ void call(String stepName, app_env = []) {
         ArrayList creds = this.formatSecrets(libStepConfig, appStepConfig)
 
         // Gather and set non-secret environment variables
-        this.setEnvVars(libStepConfig, appStepConfig, config, app_env)
+        this.setEnvVars(libStepConfig, appStepConfig, config, app_env, stepName)
 
         // run npm command in nvm container
         withCredentials(creds){
@@ -26,7 +26,7 @@ void call(String stepName, app_env = []) {
                 def packageJson = readJSON(file: "package.json")
                 if(!packageJson?.scripts?.containsKey(env.scriptCommand)) error("stepName '$env.scriptCommand' not found in package.json scripts")
 
-                if(env.npm_install) {
+                if(env.npm_install != "skip") {
                     sh '''
                         set +x
                         source ~/.bashrc
@@ -119,7 +119,7 @@ ArrayList formatSecrets(libStepConfig, appStepConfig) {
     return creds
 }
 
-void setEnvVars(libStepConfig, appStepConfig, config, app_env){
+void setEnvVars(libStepConfig, appStepConfig, config, app_env, stepName){
     LinkedHashMap libEnv = libStepConfig?.env?.findAll { it.key != 'secrets' } ?: [:]
     LinkedHashMap appEnv = appStepConfig?.env?.findAll { it.key != 'secrets' } ?: [:]
     LinkedHashMap envVars = libEnv + appEnv
@@ -134,11 +134,12 @@ void setEnvVars(libStepConfig, appStepConfig, config, app_env){
 
     env.npm_install = appStepConfig?.npm_install       ?:
                             libStepConfig?.npm_install ?: 
-                            ""
+                            "ci"
 
-    env.scriptCommand = appStepConfig?.script     ?:
-                            libStepConfig?.script ?: 
-                            ""
+    env.scriptCommand = appStepConfig?.script             ?:
+                            libStepConfig?.script         ?:
+                            stepName == "build" ? "build" : 
+                            "test"
                                                           
-    if(!["install", "i", "ci", ""].contains(env.npm_install)) error("npm_install must be one of \"install\", \"i\", \"ci\" or \"\"; got \"$env.npm_install\"")
+    if(!["install", "i", "ci", "skip"].contains(env.npm_install)) error("npm_install must be one of \"install\", \"i\", \"ci\" or \"skip\"; got \"$env.npm_install\"")
 }

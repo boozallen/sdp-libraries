@@ -49,13 +49,22 @@ public class NpmInvokeSpec extends JTEPipelineSpecification {
       0 * getPipelineMock("error")("stepName 'test' not found in package.json scripts")
   }
 
-  def "Defaults node_version, npm_install and scriptCommand correctly if they are not otherwise specified" () {
+  def "unit_test defaults node_version, npm_install and scriptCommand correctly if they are not otherwise specified" () {
     when:
       NpmInvoke("unit_test")
     then:
       NpmInvoke.getBinding().variables.env.node_version == 'lts/*'
-      NpmInvoke.getBinding().variables.env.npm_install == ""
-      NpmInvoke.getBinding().variables.env.scriptCommand == ""
+      NpmInvoke.getBinding().variables.env.npm_install == "ci"
+      NpmInvoke.getBinding().variables.env.scriptCommand == "test"
+  }
+
+  def "build defaults node_version, npm_install and scriptCommand correctly if they are not otherwise specified" () {
+    when:
+      NpmInvoke("build")
+    then:
+      NpmInvoke.getBinding().variables.env.node_version == 'lts/*'
+      NpmInvoke.getBinding().variables.env.npm_install == "ci"
+      NpmInvoke.getBinding().variables.env.scriptCommand == "build"
   }
 
   def "Library sets config for node_version, npm_install, scriptCommand and environment variables when specified and App Env does not" () {
@@ -111,27 +120,19 @@ public class NpmInvokeSpec extends JTEPipelineSpecification {
       NpmInvoke.getBinding().variables.env.someKey == "some_appEnv_value"
   }
 
-  def "Runs npm install step when npm_install is set to an allowable option" () {
-    setup:
-      NpmInvoke.getBinding().setVariable("config", [unit_test: [script: "test", npm_install: "install"]])
-    when:
-      NpmInvoke("unit_test")
-    then:
-      1 * getPipelineMock("sh")(shellCommandWithNpmInstall)
-  }
-
-  def "Skips npm install step when npm_install is not set" () {
+  def "Defaults npm install to 'ci' when npm_install is not set; runs npm install step" () {
     setup:
       NpmInvoke.getBinding().setVariable("config", [unit_test: [script: "test"]])
     when:
       NpmInvoke("unit_test")
     then:
-      1 * getPipelineMock("sh")(shellCommandWithOutNpmInstall)
+      NpmInvoke.getBinding().variables.env.npm_install == "ci"
+      1 * getPipelineMock("sh")(shellCommandWithNpmInstall)
   }
 
-  def "Skips npm install step when npm_install is set to \"\"" () {
+  def "Skips npm install step when npm_install is set to \"skip\"" () {
     setup:
-      NpmInvoke.getBinding().setVariable("config", [unit_test: [script: "test", npm_install: ""]])
+      NpmInvoke.getBinding().setVariable("config", [unit_test: [script: "test", npm_install: "skip"]])
     when:
       NpmInvoke("unit_test")
     then:
