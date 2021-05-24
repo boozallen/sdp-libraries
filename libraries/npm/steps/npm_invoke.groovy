@@ -93,7 +93,7 @@ void validateParameters(secrets){
     }
 
     if(errors){
-        error (["Npm Library Validation Errors: "] + errors.collect{ "- ${it}"}).join("\n")
+        error (["Npm Library Validation Errors: "] + errors.collect{ "- ${it}"})?.join("\n")
     }
 }
 

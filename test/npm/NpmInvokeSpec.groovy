@@ -19,6 +19,7 @@ public class NpmInvokeSpec extends JTEPipelineSpecification {
     NpmInvoke = loadPipelineScriptForStep("npm","npm_invoke")
     NpmInvoke.getBinding().setVariable("env", env)
     explicitlyMockPipelineStep("inside_sdp_image")("npx:1.0.0")
+    explicitlyMockPipelineVariable("out")
     NpmInvoke.getBinding().setVariable("config", [:])
     getPipelineMock("readJSON")(['file':'package.json']) >> { return [scripts: [test: "jest"]] }
   }
@@ -137,7 +138,172 @@ public class NpmInvokeSpec extends JTEPipelineSpecification {
       1 * getPipelineMock("sh")(shellCommandWithOutNpmInstall)
   }
 
-  // need to test secrets validation and formatting
+  def "Secrets set by library config when specified in library config and not specified in App Env" () {
+    setup:
+      NpmInvoke.getBinding().setVariable("config", [
+        node_version: "config_node_version",
+        unit_test: [
+          env: [
+            secrets: [
+              someTextSecret: [
+                type: "text",
+                name: "TEXT_TOKEN",
+                id: "credId"
+              ]
+            ]
+          ]
+        ]
+      ])
+    when:
+      NpmInvoke("unit_test")
+    then:
+      1 * getPipelineMock("string.call")([
+        'credentialsId':'credId',
+        'variable':'TEXT_TOKEN'
+      ]) >> "string('credentialsId':'credId', 'variable':'TEXT_TOKEN')"
+      1 * getPipelineMock("withCredentials")(_) >> {_arguments -> 
+            assert _arguments[0][0] == ["string('credentialsId':'credId', 'variable':'TEXT_TOKEN')"]
+      }
+  }
 
+  def "Secrets set by App Env override same secrets set by library config when specified in both" () {
+    setup:
+      NpmInvoke.getBinding().setVariable("config", [
+        node_version: "config_node_version",
+        unit_test: [
+          env: [
+            secrets: [
+              someTextSecret: [
+                type: "text",
+                name: "config_TEXT_TOKEN",
+                id: "config_credId"
+              ]
+            ]
+          ]
+        ]
+      ])
+    when:
+      NpmInvoke("unit_test", [
+        npm: [
+          unit_test: [
+            env: [
+            secrets: [
+              someTextSecret: [
+                type: "text",
+                name: "appEnv_TEXT_TOKEN",
+                id: "appEnv_credId"
+              ]
+            ]
+            ]
+          ]
+        ]
+      ])
+    then:
+      1 * getPipelineMock("string.call")([
+        'credentialsId':'appEnv_credId',
+        'variable':'appEnv_TEXT_TOKEN'
+      ]) >> "string('credentialsId':'appEnv_credId', 'variable':'appEnv_TEXT_TOKEN')"
+      1 * getPipelineMock("withCredentials")(_) >> {_arguments -> 
+            assert _arguments[0][0] == ["string('credentialsId':'appEnv_credId', 'variable':'appEnv_TEXT_TOKEN')"]
+      }
+  }
 
+  def "Secrets without an id cause an error" () {
+    setup:
+      NpmInvoke.getBinding().setVariable("config", [
+        node_version: "config_node_version",
+        unit_test: [
+          env: [
+            secrets: [
+              someTextSecret: [
+                type: "text",
+                name: "TEXT_TOKEN"
+              ]
+            ]
+          ]
+        ]
+      ])
+    when:
+      NpmInvoke("unit_test")
+    then:
+      1* getPipelineMock("error")([
+        "Npm Library Validation Errors: ",
+        "- secret 'someTextSecret' must define 'id'"
+      ])
+  }
+
+  def "Secrets of invalid type cause an error" () {
+    setup:
+      NpmInvoke.getBinding().setVariable("config", [
+        node_version: "config_node_version",
+        unit_test: [
+          env: [
+            secrets: [
+              someSecret: [
+                type: "not_a_type",
+                name: "TEXT_TOKEN",
+                id: "credId"
+              ]
+            ]
+          ]
+        ]
+      ])
+    when:
+      NpmInvoke("unit_test")
+    then:
+      1* getPipelineMock("error")([
+        "Npm Library Validation Errors: ",
+        "- secret 'someSecret': type 'not_a_type' is not defined"
+      ])
+  }
+
+  def "Text type secrets of invalid format cause an error" () {
+    setup:
+      NpmInvoke.getBinding().setVariable("config", [
+        node_version: "config_node_version",
+        unit_test: [
+          env: [
+            secrets: [
+              someTextSecret: [
+                type: "text",
+                id: "credId"
+              ]
+            ]
+          ]
+        ]
+      ])
+    when:
+      NpmInvoke("unit_test")
+    then:
+      1* getPipelineMock("error")([
+        "Npm Library Validation Errors: ",
+        "- secret 'someTextSecret' must define 'name'"
+      ])
+  }
+
+  def "usernamePassword type secrets of invalid format cause an error" () {
+    setup:
+      NpmInvoke.getBinding().setVariable("config", [
+        node_version: "config_node_version",
+        unit_test: [
+          env: [
+            secrets: [
+              someUsernamePasswordSecret: [
+                type: "usernamePassword",
+                id: "credId"
+              ]
+            ]
+          ]
+        ]
+      ])
+    when:
+      NpmInvoke("unit_test")
+    then:
+      1* getPipelineMock("error")([
+        "Npm Library Validation Errors: ",
+        "- secret 'someUsernamePasswordSecret' must define 'usernameVar'",
+        "- secret 'someUsernamePasswordSecret' must define 'passwordVar'"
+      ])
+  }
+  
 }
