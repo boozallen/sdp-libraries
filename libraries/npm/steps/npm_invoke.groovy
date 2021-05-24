@@ -19,7 +19,7 @@ void call(String stepName, app_env = []) {
 
         // run npm command in nvm container
         withCredentials(creds){
-            inside_sdp_image "npx:1.0.0", {
+            inside_sdp_image "nvm:1.0.0", {
                 unstash "workspace"
     
                 // verify package.json script block has command to run
