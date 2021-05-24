@@ -71,7 +71,7 @@ ArrayList getStepConfigs(stepName, config, app_env) {
     return [libStepConfig, appStepConfig]
 }
 
-void validateParameters(secrets){
+void validateSecrets(secrets){
     ArrayList errors = []
     secrets.keySet().each{ key ->
         def secret = secrets[key]
@@ -102,7 +102,7 @@ ArrayList formatSecrets(libStepConfig, appStepConfig) {
     LinkedHashMap envSecrets = appStepConfig?.env?.secrets ?: [:]
     LinkedHashMap secrets = libSecrets + envSecrets
 
-    this.validateParameters(secrets)
+    this.validateSecrets(secrets)
 
     ArrayList creds = [] 
     secrets.keySet().each{ key -> 
