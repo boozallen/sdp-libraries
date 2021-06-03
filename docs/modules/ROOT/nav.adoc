@@ -10,6 +10,7 @@
 * xref:libraries/git.adoc[Git]
 * xref:libraries/google_lighthouse.adoc[Google Lighthouse]
 * xref:libraries/kubernetes.adoc[Kubernetes]
+* xref:libraries/maven.adoc[Maven]
 * xref:libraries/npm.adoc[Npm]
 * xref:libraries/openshift.adoc[OpenShift]
 * xref:libraries/owasp_dep_check.adoc[OWASP Dependency Check]
