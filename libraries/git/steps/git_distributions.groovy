@@ -68,5 +68,5 @@ void init_env(){
 }
 
 def fetch(){
-    return getBinding().getStep(env.GIT_LIBRARY_DISTRUBITION)
+    return getStep(env.GIT_LIBRARY_DISTRUBITION)
 }
