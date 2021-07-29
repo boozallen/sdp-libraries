@@ -16,7 +16,7 @@ package libraries.docker.steps
   a docker build command would then be:
     docker build img.context -t img.registry/img.repo:img.tag
 
-  in the case of buildx each image in the arra is a hashmap with fields:
+  in the case of buildx each image in the array is a hashmap with fields:
     registry: image registry
     repo: repo name
     tag: image tag
