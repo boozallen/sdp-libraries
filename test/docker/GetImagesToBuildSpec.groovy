@@ -65,7 +65,7 @@ public class GetImagesToBuildSpec extends JTEPipelineSpecification {
     when:
       GetImagesToBuild()
     then:
-      y * getPipelineMock("error")("build strategy: ${x} not one of [docker-compose, modules, dockerfile]")
+      y * getPipelineMock("error")("build strategy: ${x} not one of [docker-compose, modules, dockerfile, buildx]")
     where:
       x                | y
       "docker-compose" | 0
@@ -73,6 +73,7 @@ public class GetImagesToBuildSpec extends JTEPipelineSpecification {
       "modules"        | 0
       "dockerfile"     | 0
       "Starfleet"      | 1
+      "buildx"         | 0
   }
 
   def "docker-compose build_strategy Throws Error" () {
@@ -107,7 +108,6 @@ public class GetImagesToBuildSpec extends JTEPipelineSpecification {
         ]
       ]
   }
-
   def "dockerfile build_strategy Builds Correct Image List" () {
     setup:
       GetImagesToBuild.getBinding().setVariable("config", [build_strategy: "dockerfile"])
@@ -120,4 +120,85 @@ public class GetImagesToBuildSpec extends JTEPipelineSpecification {
       imageList == [[registry: "test_registry", repo: "vulcan", context: ".", tag: "5678efgh"]]
   }
 
+  def "buildx build_strategy Builds Correct Image for single multiarch image" () {
+    setup:
+      GetImagesToBuild.getBinding().setVariable("config", [build_strategy: "buildx", 
+        repo_path_prefix: "image", 
+        buildx: [image1: [platforms: ["linux/amd64", "linux/arm64", "linux/arm/v7"], build_args: [BASE_IMAGE: "image"], useLatestTag: true]]])
+      GetImagesToBuild.getBinding().setVariable("env", [REPO_NAME: "Vulcan", GIT_SHA: "5678efgh"])
+    when:
+      def imageList = GetImagesToBuild()
+    then:
+      imageList == [
+        [
+          registry: "test_registry",
+          repo: "image/vulcan",
+          tag: "5678efgh",
+          context: ".",
+          build_args: [BASE_IMAGE: "image"],
+          platforms: ["linux/amd64", "linux/arm64", "linux/arm/v7"],
+          useLatestTag: true
+        ]]
+  }
+    def "buildx build_strategy Builds Correct Image for single multiarch image with multiple tags" () {
+    setup:
+      GetImagesToBuild.getBinding().setVariable("config", [build_strategy: "buildx", 
+        repo_path_prefix: "image", same_repo_different_tags: true,
+        buildx: [image1: [platforms: ["linux/arm/v7"], tag: "tag", useLatestTag: true],
+                 image2: [platforms: ["linux/amd64"], tag: "tag", useLatestTag: false]]])
+      GetImagesToBuild.getBinding().setVariable("env", [REPO_NAME: "Vulcan", GIT_SHA: "5678efgh"])
+    when:
+      def imageList = GetImagesToBuild()
+    then:
+      imageList == [
+        [
+          registry: "test_registry",
+          repo: "image/vulcan",
+          tag: "tag-image1",
+          context: ".",
+          build_args: null,
+          platforms: ["linux/arm/v7"],
+          useLatestTag: true
+        ],
+        [
+          registry: "test_registry",
+          repo: "image/vulcan",
+          tag: "tag-image2",
+          context: ".",
+          build_args: null,
+          platforms: ["linux/amd64"],
+          useLatestTag: false
+        ]]
+  }
+    def "buildx build_strategy Builds Correct Image for multiple multiarch images" () {
+    setup:
+      GetImagesToBuild.getBinding().setVariable("config", [build_strategy: "buildx", 
+        repo_path_prefix: "image", 
+        buildx: [image1: [platforms: ["linux/amd64", "linux/arm64", "linux/arm/v7"], context: "context1", useLatestTag: true],
+                 image2: [platforms: ["linux/amd64", "linux/arm64", "linux/arm/v7"], context: "context2", useLatestTag: true]]])
+      GetImagesToBuild.getBinding().setVariable("env", [REPO_NAME: "Vulcan", GIT_SHA: "5678efgh"])
+    when:
+      def imageList = GetImagesToBuild()
+    then:
+      imageList == [
+        [
+          registry: "test_registry",
+          repo: "image/vulcan_image1",
+          tag: "5678efgh",
+          context: "context1",
+          build_args: null,
+          platforms: ["linux/amd64", "linux/arm64", "linux/arm/v7"],
+          useLatestTag: true
+        ],
+        [
+          registry: "test_registry",
+          repo: "image/vulcan_image2",
+          tag: "5678efgh",
+          context: "context2",
+          build_args: null,
+          platforms: ["linux/amd64", "linux/arm64", "linux/arm/v7"],
+          useLatestTag: true
+        ]]
+  }
 }
+
