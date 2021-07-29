@@ -53,7 +53,7 @@ libraries{
 | Field | Description | Default Value | Required
 
 | build_strategy
-| Sets how the library will build the container image(s); Must be dockerfile, docker-compose, build, or modules
+| Sets how the library will build the container image(s); Must be dockerfile, docker-compose, buildx, or modules
 | dockerfile
 | false
 
