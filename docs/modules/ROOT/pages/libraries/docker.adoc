@@ -93,7 +93,7 @@ libraries{
 | false
 
 | same_repo_different_tags
-| When building multiple images dont change the repo name but append the image name to the tag
+| When building multiple images dont change the repo name but append the key name to the tag
 | false
 | false
 
