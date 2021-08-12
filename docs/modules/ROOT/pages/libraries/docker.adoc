@@ -298,6 +298,8 @@ docker buildx build ./jre -t docker-registry.default.svc:5000/java/example-jre:1
 
 * A Docker registry must be set up and configured. Credentials to the repository are also needed.
 * Either the github or github_enterprise library needs to be loaded as a library inside your pipeline_config.groovy file.
+* Pipelines that use the buildx step need to be built on a node that has the correct docker version that supports buildx and also the emulator set up. see https://docs.docker.com/buildx/working-with-buildx/ on how to set up a node with the right configurations.
+* Buildx enabled Node needs to be set up with buildkit builders that support the architectures required for the step to work. 
 
 == Troubleshooting
 
