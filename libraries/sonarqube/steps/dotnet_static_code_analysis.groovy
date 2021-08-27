@@ -17,7 +17,9 @@ def call(){
         timeout_unit: "HOURS",
         stage_display_name: "SonarQube Analysis",
         unstash: [ "TestResults" ],
-        cli_parameters: []
+        cli_parameters: [],
+        test_output_dir: "TestResults",
+        coverage_settings_file: "coverlet.runsettings"
     ]
 
     sonarqube.execute(defaults, "dotnet-sonar-scanner", {
@@ -32,8 +34,11 @@ def call(){
             }
         }
 
+        String testOutputDir = config.test_output_dir ?: defaults.test_output_dir
+        String coverageSettingsFile = config.coverage_settings_file ?: defaults.coverage_settings_file
+
         // build out the command to execute
-        ArrayList beginCommand = [ "dotnet sonarscanner begin /k:${projectKey} /n:${env.REPO_NAME} /d:sonar.verbose=true /d:sonar.cs.opencover.reportsPaths='TestResults/**/coverage.opencover.xml' /d:sonar.cs.vstest.reportsPaths='TestResults/*.trx'" ]
+        ArrayList beginCommand = [ "dotnet sonarscanner begin /k:${projectKey} /n:${env.REPO_NAME} /d:sonar.verbose=true /d:sonar.cs.opencover.reportsPaths='${testOutputDir}/**/coverage.opencover.xml' /d:sonar.cs.vstest.reportsPaths='${testOutputDir}/*.trx'" ]
         ArrayList endCommand = [ "dotnet sonarscanner end" ]
 
         /*
@@ -56,8 +61,8 @@ def call(){
 
         sh beginCommand.flatten().join(" ")
         sh "dotnet build"
-        sh "rm -drf ${env.WORKSPACE}/TestResults"
-        sh "dotnet test --settings coverlet.runsettings --results-directory ${env.WORKSPACE}/TestResults --logger trx"
+        sh "rm -drf ${env.WORKSPACE}/${testOutputDir}"
+        sh "dotnet test --settings ${coverageSettingsFile} --results-directory ${env.WORKSPACE}/${testOutputDir} --logger trx"
         sh endCommand.flatten().join(" ")
     })
 }
