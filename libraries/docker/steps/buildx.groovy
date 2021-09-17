@@ -4,6 +4,7 @@ import com.cloudbees.plugins.credentials.CredentialsProvider
 import org.jenkinsci.plugins.plaincredentials.impl.StringCredentialsImpl
 import com.cloudbees.plugins.credentials.Credentials
 
+
 void call(){
   stage "Building Multiarch Docker Image", {
 
@@ -25,11 +26,8 @@ void call(){
 
         String experimentalFlag = ""
         if (setExperimentalFlag) {
-          experimentalFlag = "DOCKER_CLI_EXPERIMENTAL=enabled "
+          experimentalFlag = "DOCKER_CLI_EXPERIMENTAL=enabled"
         }
-
-        // create the builder and tell it to spin it up in a container
-        sh "${experimentalFlag}docker buildx create --name smartbuilder --driver docker-container --use"
 
         images.each{ img -> 
             echo "building image"
@@ -43,22 +41,19 @@ void call(){
             String latestTag = ""
             // if the latestTag is used then add the additional tag flag
             if(img.useLatestTag ){
-              latestTag = " -t ${img.registry}/${img.repo}:latest"
+              latestTag = "-t ${img.registry}/${img.repo}:latest"
             }
 
             try {
               withCredentials(creds) {
                   //this experimental=enabled variable allows for buildx to be used on the current docker ce version. later versions do not need this flag
                   //when the docker version gets updates in the jenkins agent then this can be changed. 
-                  sh "${experimentalFlag}docker buildx build ${img.context} -t ${img.registry}/${img.repo}:${img.tag}${latestTag} ${args} ${platforms} --push"
+                  sh "${experimentalFlag} docker buildx build  ${img.context}${img.dockerfilePath} -t ${img.registry}/${img.repo}:${img.tag} ${latestTag} ${args} ${platforms} --push"
               }
             } catch (any) {
                   error "error building and pushing multiarchitecture image"
-                  sh "${experimentalFlag}docker buildx rm smartbuilder"
             }             
         }
-        //remove the builder so that it is not left hanging on the node
-        sh "${experimentalFlag}docker buildx rm smartbuilder"
       }
     }
   }

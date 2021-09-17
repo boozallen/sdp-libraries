@@ -21,10 +21,13 @@ package libraries.docker.steps
     repo: repo name
     tag: image tag
     context: context for dockerfile
+    dockerfilePath: name and path of dockerfile
     build_args: build args for the specific image
     platforms: platforms to be built for
     useLatestTag: if pipeline will use the previously defined tag + the latest tag
+    
 */
+
 def call(){
 
     def (image_reg) = get_registry_info() // config.registry
@@ -32,8 +35,9 @@ def call(){
 
     def build_strategies = [ "docker-compose", "modules", "dockerfile", "buildx" ]
     if (config.build_strategy)
-    if (!(config.build_strategy in build_strategies))
-      error "build strategy: ${config.build_strategy} not one of ${build_strategies}"
+    if (!(config.build_strategy in build_strategies)) {
+        error "build strategy: ${config.build_strategy} not one of ${build_strategies}"
+    }
 
     def images = []
 
@@ -64,7 +68,6 @@ def call(){
         ])
         break
     }
-
     return images
 }
 
@@ -80,6 +83,7 @@ ArrayList buildx(image_reg, path_prefix) {
     String repo = ""
     String context = ""
     String tag = ""
+    String dockerfilePath = ""
     boolean useLatestTag = false
     boolean latestTagUsed = false
 
@@ -88,6 +92,11 @@ ArrayList buildx(image_reg, path_prefix) {
       context = "."
     } else {
       context = img.context
+    }
+
+    //if the pipeline config does not contain a dockerfilepath then do not include
+    if (img.containsKey("dockerfile_path")) {
+      dockerfilePath = " -f ${img.dockerfile_path}"
     }
     // if a custom tag is to be used then it can be specified. otherwise it will use the git sha
     if (!img.containsKey("tag")) {
@@ -114,27 +123,27 @@ ArrayList buildx(image_reg, path_prefix) {
         }
     }
 
-    //if sameNameDifferentTags flag is set then it will keep the repo name the same and appends the element name to the tag
+    //if same_repo_different_tags flag is set then it will keep the repo name the same and appends the element name to the tag
     if (same_repo_different_tags) {
       tag += "-" + name
       repo = "${path_prefix}${env.REPO_NAME}".toLowerCase()
     }
     else {
       // if there is only one element in buildx array than it does not need the name variable from the pipeline config to make the repo unique so it will skip this step
-      // othwise if it is building more than one image, than each image should have a unique name so it appends the element name to the repo
+      // otherwise if it is building more than one image, than each image should have a unique name so it appends the element name to the repo
       if (!(buildx.size() == 1)) {
           repo = "${path_prefix}${env.REPO_NAME}_${name}".toLowerCase()
         }else {
           repo = "${path_prefix}${env.REPO_NAME}".toLowerCase()
         }      
     }
-
     //push the image into the array for the buildx method to use
     images.push([
       registry: image_reg,
       repo: repo,
       tag: tag,
       context: context,
+      dockerfilePath: dockerfilePath,
       build_args: img.build_args,
       platforms: img.platforms,
       useLatestTag: useLatestTag
