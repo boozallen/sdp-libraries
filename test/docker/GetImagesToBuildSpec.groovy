@@ -135,6 +135,7 @@ public class GetImagesToBuildSpec extends JTEPipelineSpecification {
           repo: "image/vulcan",
           tag: "5678efgh",
           context: ".",
+          dockerfilePath: "",
           build_args: [BASE_IMAGE: "image"],
           platforms: ["linux/amd64", "linux/arm64", "linux/arm/v7"],
           useLatestTag: true
@@ -156,6 +157,7 @@ public class GetImagesToBuildSpec extends JTEPipelineSpecification {
           repo: "image/vulcan",
           tag: "tag-image1",
           context: ".",
+          dockerfilePath: "",
           build_args: null,
           platforms: ["linux/arm/v7"],
           useLatestTag: true
@@ -165,6 +167,7 @@ public class GetImagesToBuildSpec extends JTEPipelineSpecification {
           repo: "image/vulcan",
           tag: "tag-image2",
           context: ".",
+          dockerfilePath: "",
           build_args: null,
           platforms: ["linux/amd64"],
           useLatestTag: false
@@ -174,7 +177,7 @@ public class GetImagesToBuildSpec extends JTEPipelineSpecification {
     setup:
       GetImagesToBuild.getBinding().setVariable("config", [build_strategy: "buildx", 
         repo_path_prefix: "image", 
-        buildx: [image1: [platforms: ["linux/amd64", "linux/arm64", "linux/arm/v7"], context: "context1", useLatestTag: true],
+        buildx: [image1: [platforms: ["linux/amd64", "linux/arm64", "linux/arm/v7"], context: "context1", dockerfile_path: "Dockerfile.test", useLatestTag: true],
                  image2: [platforms: ["linux/amd64", "linux/arm64", "linux/arm/v7"], context: "context2", useLatestTag: true]]])
       GetImagesToBuild.getBinding().setVariable("env", [REPO_NAME: "Vulcan", GIT_SHA: "5678efgh"])
     when:
@@ -186,6 +189,7 @@ public class GetImagesToBuildSpec extends JTEPipelineSpecification {
           repo: "image/vulcan_image1",
           tag: "5678efgh",
           context: "context1",
+          dockerfilePath: " -f Dockerfile.test",
           build_args: null,
           platforms: ["linux/amd64", "linux/arm64", "linux/arm/v7"],
           useLatestTag: true
@@ -195,6 +199,7 @@ public class GetImagesToBuildSpec extends JTEPipelineSpecification {
           repo: "image/vulcan_image2",
           tag: "5678efgh",
           context: "context2",
+          dockerfilePath: "",
           build_args: null,
           platforms: ["linux/amd64", "linux/arm64", "linux/arm/v7"],
           useLatestTag: true

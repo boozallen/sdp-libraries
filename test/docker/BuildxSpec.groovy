@@ -17,8 +17,8 @@ public class BuildxSpec extends JTEPipelineSpecification {
 
     getPipelineMock("get_images_to_build")() >> {
       def images = []
-      images << [registry: "reg1", repo: "repo1", context: "context1", tag: "tag1", build_args: null, platforms: ["arm", "amd64"], useLatestTag: true]
-      images << [registry: "reg2", repo: "repo2", context: "context2", tag: "tag2", build_args: [BASE_IMAGE:"image"], platforms: ["arm", "amd64"], useLatestTag: false]
+      images << [registry: "reg1", repo: "repo1", context: "context1", dockerfilePath: "", tag: "tag1", build_args: null, platforms: ["arm", "amd64"], useLatestTag: true]
+      images << [registry: "reg2", repo: "repo2", context: "context2", dockerfilePath: "", tag: "tag2", build_args: [BASE_IMAGE:"image"], platforms: ["arm", "amd64"], useLatestTag: false]
       return images
     }
   }
@@ -55,7 +55,6 @@ public class BuildxSpec extends JTEPipelineSpecification {
     when:
       Buildx()
     then:
-      1 * getPipelineMock("sh")("DOCKER_CLI_EXPERIMENTAL=enabled docker buildx create --name smartbuilder --driver docker-container --use")
       1 * getPipelineMock("sh")("DOCKER_CLI_EXPERIMENTAL=enabled docker buildx build context1 -t reg1/repo1:tag1 -t reg1/repo1:latest  --platform arm,amd64 --push")
       1 * getPipelineMock("sh")("DOCKER_CLI_EXPERIMENTAL=enabled docker buildx build context2 -t reg2/repo2:tag2 --build-arg BASE_IMAGE='image' --platform arm,amd64 --push")
   }
@@ -65,7 +64,6 @@ public class BuildxSpec extends JTEPipelineSpecification {
     when:
       Buildx()
     then:
-      0 * getPipelineMock("sh")("DOCKER_CLI_EXPERIMENTAL=enabled docker buildx create --name smartbuilder --driver docker-container --use")
       0 * getPipelineMock("sh")("DOCKER_CLI_EXPERIMENTAL=enabled docker buildx build context1 -t reg1/repo1:tag1 -t reg1/repo1:latest  --platform arm,amd64 --push")
       0 * getPipelineMock("sh")("DOCKER_CLI_EXPERIMENTAL=enabled docker buildx build context2 -t reg2/repo2:tag2 --build-arg BASE_IMAGE='image' --platform arm,amd64 --push")
   }
