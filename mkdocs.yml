@@ -1,0 +1,36 @@
+site_name: Solutions Delivery Platform
+
+theme:
+  name: material
+  palette:
+    primary: navy
+  features: 
+    - navigation.instant
+    - navigation.tabs
+  logo: assets/images/jte.svg
+  favicon: assets/images/jte.svg
+
+repo_url: https://github.com/steven-terrana/jte-library-scaffold
+
+plugins:
+  - search:
+  - gen-files:
+      scripts:
+        - /docs/resources/copy_docs.py
+  - awesome-pages
+
+extra:
+  version:
+    provider: mike
+    default: latest
+
+markdown_extensions:
+  - admonition
+  - pymdownx.tabbed
+  - pymdownx.highlight
+  - pymdownx.superfences
+  - pymdownx.inlinehilite
+
+# nav:
+#   - Home: 'index.md'
+#   - Libraries: 'libraries'

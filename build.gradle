@@ -1,98 +1,71 @@
 plugins{
-  id 'org.jenkins-ci.jpi' version '0.38.0'
+  id 'org.jenkins-ci.jpi' version '0.43.0'
   id 'groovy'
-  id 'jacoco'
 }
 
 repositories {
     mavenCentral()
     maven { url "https://repo.jenkins-ci.org/public/" }
     maven { url "https://repo.jenkins-ci.org/releases" }
-    maven { url "http://repo.maven.apache.org/maven2" }
+    maven { url "https://repo.maven.apache.org/maven2" }
 }
 
+// an artifact required by how Jenkins Spock is hard-coded
 project.buildDir = "target" 
-sourceSets{
-    main{
-        groovy{
-            srcDirs = [ "libraries" ]
-        }
-    }
-    test{
-        output.resourcesDir("${buildDir}/test-classes")
-        groovy{
-            srcDirs = [ "test" ]
-        }
-        resources{
-            srcDirs = [ "libraries" ]
-        }
-    }
+
+// determine test files
+
+def tests = [ "test" ]
+fileTree("libraries").visit{ FileVisitDetails details ->
+  if(details.file.isDirectory() && details.file.path ==~ ".*libraries/.*/test"){
+    tests << details.file.path
+  }
 }
 
+sourceSets{
+  main{
+    groovy{
+      srcDirs = [ "libraries" ]
+    }
+  }
+  test{
+    output.resourcesDir("${buildDir}/test-classes")
+    groovy{
+      srcDirs = tests
+    }
+    resources{
+      srcDirs = [ "libraries" ]
+    }
+  }
+}
+
+// we don't need to compile libraries before running tests
 compileGroovy.enabled = false 
 
-dependencies {
-    compile group: 'org.slf4j', name: 'slf4j-api', version:'1.7.25'
-    runtime group: 'ch.qos.logback', name: 'logback-core', version:'1.2.3'
-    runtime group: 'ch.qos.logback', name: 'logback-classic', version:'1.2.3'
-    runtime group: 'org.slf4j', name: 'jcl-over-slf4j', version:'1.7.25'
-    runtime group: 'org.slf4j', name: 'log4j-over-slf4j', version:'1.7.25'
-    compile group: 'com.homeaway.devtools.jenkins', name: 'jenkins-spock', version:'2.1.2'
-    testCompile group: 'javax.servlet', name: 'javax.servlet-api', version:'3.1.0'
-    testCompile group: 'junit', name: 'junit', version:'4.12'
-    testCompile group: 'org.jenkins-ci.main', name: 'jenkins-core', version:'2.102', {
-        exclude group: 'com.ibm.icu', module: 'icu4j'
-    }
-    testCompile group: 'org.gitlab4j', name: 'gitlab4j-api', version: '4.15.6'
-    testCompile group: 'org.jenkins-ci.plugins.workflow', name: 'workflow-step-api', version:'2.10'
-    runtime group: 'org.jenkins-ci.plugins.workflow', name: 'workflow-step-api', version:'2.10'
-    testCompile group: 'org.jenkins-ci.plugins.workflow', name: 'workflow-cps', version:'2.36'
-    testCompile group: 'org.jenkins-ci', name: 'symbol-annotation', version:'1.10'
-    compile group: 'org.codehaus.groovy', name: 'groovy-all', version:'2.4.11'
-    testCompile group: 'org.spockframework', name: 'spock-core', version:'1.1-groovy-2.4'
-    // our plugin deps
-    jenkinsTest group: 'org.jenkins-ci.plugins.workflow', name: 'workflow-step-api', version:'2.10'
-    jenkinsTest group: 'org.jenkins-ci.plugins.workflow', name: 'workflow-cps', version:'2.36'
-    jenkinsTest group: 'org.jenkins-ci.plugins.workflow', name: 'workflow-scm-step', version:'2.7'
-    jenkinsTest group: 'org.jenkins-ci.plugins.workflow', name: 'workflow-durable-task-step', version:'2.21'
-    jenkinsTest group: "org.jenkins-ci.plugins.workflow", name: "workflow-basic-steps", version: "2.9"
-    jenkinsTest group: 'org.jenkins-ci.plugins', name: 'slack', version:'2.3'
-    jenkinsTest group: 'org.jenkins-ci.plugins', name: 'pipeline-stage-step', version:'2.3'
-    jenkinsTest group: 'org.jenkins-ci.plugins', name: 'ssh-agent', version:'1.16'
-    jenkinsTest group: "org.jenkins-ci.plugins", name: "pipeline-utility-steps", version: "2.1.0"
-    jenkinsTest group: "org.jenkins-ci.plugins", name: "credentials-binding", version: "1.16"
-    jenkinsTest group: "org.jenkins-ci.plugins", name: "docker-workflow", version: "1.17"
-    jenkinsTest group: "org.jenkins-ci.plugins", name: "sonar", version: "2.11"
-    testCompile group: "org.jenkins-ci.plugins", name: "sonar", version: "2.11"
+jenkinsPlugin {
+  coreVersion = '2.277.4'
+}
 
+dependencies {
+    implementation group: 'com.homeaway.devtools.jenkins', name: 'jenkins-spock', version: '2.1.5'
+    implementation group: 'javax.servlet', name: 'javax.servlet-api', version:'3.1.0'
+    implementation group: 'junit', name: 'junit', version:'4.12'
+    implementation group: 'org.codehaus.groovy', name: 'groovy-all', version:'2.4.11'
+    implementation group: 'org.spockframework', name: 'spock-core', version:'1.1-groovy-2.4'
+    // our plugin deps
+    implementation group: 'org.jenkins-ci.plugins.workflow', name: 'workflow-step-api', version:'2.10'
+    implementation group: 'org.jenkins-ci.plugins.workflow', name: 'workflow-cps', version:'2.36'
+    implementation group: 'org.jenkins-ci.plugins.workflow', name: 'workflow-scm-step', version:'2.7'
+    implementation group: 'org.jenkins-ci.plugins.workflow', name: 'workflow-durable-task-step', version:'2.21'
+    implementation group: "org.jenkins-ci.plugins.workflow", name: "workflow-basic-steps", version: "2.9"
+    implementation group: 'org.jenkins-ci.plugins', name: 'pipeline-stage-step', version:'2.3'
+    implementation group: 'org.jenkins-ci.plugins', name: 'ssh-agent', version:'1.16'
+    implementation group: "org.jenkins-ci.plugins", name: "pipeline-utility-steps", version: "2.1.0"
+    implementation group: "org.jenkins-ci.plugins", name: "credentials-binding", version: "1.16"
+    implementation group: "org.jenkins-ci.plugins", name: "docker-workflow", version: "1.17"
+    implementation group: "org.jenkins-ci.plugins", name: "sonar", version: "2.11"
+    implementation group: "org.jenkins-ci.plugins", name: "slack", version: "2.3"
 
     //our plugin
-    jenkinsTest group: 'org.jenkins-ci.plugins', name: "templating-engine", version: "2.0.3"
+    implementation group: 'org.jenkins-ci.plugins', name: "templating-engine", version: "2.2.2"
  }
-
-test{
-    jacoco{
-        classDumpDir = file("$buildDir/jacoco/classpathdumps")
-    }
-    finalizedBy jacocoTestReport
-}
-
-jacocoTestReport{
-    doFirst{
-        // delete non-library class files 
-        fileTree("$buildDir/jacoco/classpathdumps").exclude("libraries").visit{ FileVisitDetails deets -> 
-            delete deets.file 
-        }
-        // delete Test files 
-        fileTree("$buildDir/jacoco/classpathdumps/libraries").visit{ FileVisitDetails deets ->
-            if(deets.file.name.contains("Spec")){
-                delete deets.file 
-            }
-        }
-    }
-    additionalSourceDirs files(".")
-    additionalClassDirs files("$buildDir/jacoco/classpathdumps")
-    reports{
-        html.enabled = true 
-    }
-}

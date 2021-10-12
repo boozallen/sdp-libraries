@@ -1,0 +1,62 @@
+# SDP Pipeline Libraries
+
+The Solution Delivery Platform's open source pipeline libraries plug in to the [Jenkins Templating Engine](https://boozallen.github.io/sdp-docs/jte/2.2.2/index.html) to accelerate the development of a DevSecOps pipeline. 
+
+**Important** For any relevant upgrade notes about the SDP Pipeline Libraries, checkout the [GitHub Releases](https://github.com/boozallen/sdp-libraries/releases).
+
+## Motivation
+---
+
+The Jenkins pipeline-as-code that is developed to perform various tool integrations is largely undifferentiated.  That is to say, it doesn't really matter what project you're working on - the pipeline code that's written can be reused anywhere if the configuration is appropriately externalized.  
+
+These libraries serve as an open source, reusable portfolio of tool integrations that can help us speak a common language and leverage a common framework when implementing CI/CD pipelines. 
+
+## Approach
+---
+
+### Container Images as Pipeline Run Time Environments
+
+Maintaining tool installations on a Jenkins instance can be a configuration management nightmare.  Trying to keep straight 3 different versions of Java, Maven, Ant, Gradle, and so on within your Jenkins instance quickly leads to a bloated and difficult to maintain instance. 
+
+Furthermore, when tools are installed directly on Jenkins build agents it can be difficult to rapidly introduce new features to the pipeline. 
+
+We use container images to decouple the Jenkins infrastructure from the tools that the pipeline needs for building, testing, and deploying applications. 
+
+Each library, rather than direclty invoke a tool, will leverage helpers from the ``sdp`` library to execute portions of the pipeline inside of container images. 
+
+These images can be found in the [Booz Allen SDP Images GitHub Repository](https://github.com/boozallen/sdp-images) and are hosted through the GitHub Package Registry. 
+
+### The ``sdp`` Library
+
+If using the SDP Pipeline Libraries as a [Library Source](https://boozallen.github.io/sdp-docs/jte/2.2.2/library-development/library_sources/library_sources.html) for your pipeline, then you **must** include the ``sdp`` library.  This library containers helper functions such as ``inside_sdp_image()`` to facilitate the use of the SDP Pipeline Container Images as run time environments. 
+
+## Requirements
+---
+
+Your Jenkins build agents must have Docker installed due to the above-mentioned use of container images in the SDP Pipeline Libraries. 
+
+## Overview
+---
+
+SDP Pipeline Libraries
+
+| Library | Description |
+| ----------- | ----------- |
+| [The A11y Machine](./libraries/a11y/) | Leverages The A11y Machine to perform accessibility compliance scanning |
+| [Anchore](./libraries/anchore/) | Performs comprehensive container image vulnerability scan and compliance policy evaluation using your Anchore Enterprise or Anchore Engine installation |
+| [Docker](./libraries/docker/) | Uses docker to build and publish container images, tagging them with the Git SHA |
+| [Docker Compose](./libraries/docker_compose/) | Uses docker compose to deploy and tear down containers |
+| [Git](./libraries/git/) | Allows you to map a branching strategy to specific pipeline actions when using Public GitHub, GitLab or GitHub Enterprise |
+| [Google Lighthouse](./libraries/google_lighthouse/) | Performs accessibility compliance, performance, search engine optimization, and best practice validations on a frontend application |
+| [Kubernetes](./libraries/kubernetes/) | Allows you to perform deployments using Helm to a kubernetes cluster (or clusters) |
+| [OpenShift](./libraries/openshift/) | Allows you to perform deployments using Helm to a Red Hat OpenShift Container Platform (or platforms)  |
+| [OWASP Dependency Checker](./libraries/owasp_dep_check/) | Leverages OWASP Dependency Checker for scanning third party application dependencies |
+| [OWASP ZAP](./libraries/owasp_zap/) | Leverages OWASP ZAP to perform penetration testing  |
+| [Protractor](./libraries/protractor/) | Leverages Protractor, a frontend unit testing utility, to perform unit tests |
+| [PyTest](./libraries/pytest/) | Leverages PyTest, a Python unit testing library, to perform unit tests |
+| [SDP](./libraries/sdp/) | An internal helper library that the others utilize |
+| [Slack](./libraries/slack/) | Facilitates pipeline notifications to the configured Slack channel |
+| [SonarQube](./libraries/sonarqube/) | Performs static code analysis with SonarQube |
+| [Sysdig Secure](./libraries/sysdig_secure/) | Performs container image scanning with Sysdig Secure's inline scanner |
+| [Terraform](./libraries/terraform/) | Deploys Infrastructure as Code using Terraform |
+| [TwistLock](./libraries/twistlock/) | Performs container image scanning with TwistLock |

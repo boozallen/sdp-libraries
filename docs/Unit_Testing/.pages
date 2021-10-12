@@ -1,0 +1,6 @@
+nav:
+  - index.md
+  - jenkins-spock.md
+  - writing-tests.md
+  - executing-tests.md
+  - "Frequently Asked Questions": faq.md
