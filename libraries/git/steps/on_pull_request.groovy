@@ -11,10 +11,7 @@ void call(Map args = [:], body){
   if (!(env.GIT_BUILD_CAUSE in ["pr"]))
     return
 
-  def distribution = git_distributions.fetch()
-  println(distribution)
-
-  def source_branch = distribution.get_source_branch()
+  def source_branch = git_distributions.fetch().get_source_branch()
   def target_branch = env.CHANGE_TARGET
 
   // do nothing in source branch doesn't match
