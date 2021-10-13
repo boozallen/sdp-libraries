@@ -5,7 +5,7 @@
 */
 package libraries.sdp.steps
 
-def getStep(String stepName){
+def call(String stepName){
   if(jteVersion.lessThanOrEqualTo("2.0.4")){
     return getBinding().getStep(stepName)
   } else { 
