@@ -17,7 +17,7 @@ def getStep(String stepName){
 def getStepFromCollector(String stepName){
   try{
     Class collector = Class.forName("org.boozallen.plugins.jte.init.primitives.TemplatePrimitiveCollector")
-    List steps = collector.current().getStep(stepName)
+    List steps = collector.current().getSteps(stepName)
     if(steps.size() == 0){
       error "Step '${stepName}' not found."
     } else if (steps.size() > 1){
