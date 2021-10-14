@@ -23,7 +23,7 @@ def getStepFromCollector(String stepName){
     } else if (steps.size() > 1){
       error "Ambiguous step name '${stepName}'. Found multiple steps by that name."
     } else {
-      return steps.first().getValue()
+      return steps.first().getValue(null)
     }
   }catch(ClassNotFoundException ex){
     error "can't find the TemplatePrimitiveCollector class. That's odd. current JTE version is '${jteVersion.get()}'. You should submit an issue at https://github.com/jenkinsci/templating-engine-plugin/issues/new/choose"
