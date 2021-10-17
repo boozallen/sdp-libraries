@@ -7,10 +7,12 @@ theme:
   features: 
     - navigation.instant
     - navigation.tabs
+    - navigation.sections
+    - navigation.top
   logo: assets/images/jte.svg
   favicon: assets/images/jte.svg
 
-repo_url: https://github.com/steven-terrana/jte-library-scaffold
+repo_url: https://github.com/boozallen/sdp-libraries.git
 
 plugins:
   - search:
@@ -33,4 +35,13 @@ markdown_extensions:
 
 # nav:
 #   - Home: 'index.md'
-#   - Libraries: 'libraries'
+#   - Libraries: 
+#     - Overview: './libraries/overview.md'
+#     - A11y: './libraries/a11y'
+#     - Anchor: './libraries/anchor'
+#     - Docker: './libraries/docker'
+#     - Docker_Compose: './libraries/docker_compose'
+#   - Tutorials: ''
+#   - Contributing: 'docs/contributing/create-new-library.md'
+#   - Unit_Testing: 
+
