@@ -36,12 +36,12 @@ markdown_extensions:
 # nav:
 #   - Home: 'index.md'
 #   - Libraries: 
-#     - Overview: './libraries/overview.md'
-#     - A11y: './libraries/a11y'
-#     - Anchor: './libraries/anchor'
-#     - Docker: './libraries/docker'
-#     - Docker_Compose: './libraries/docker_compose'
+#     - Overview: 'libraries/README.md'
+#     - A11y: 'libraries/a11y/README.md'
+#     - Anchor: 'libraries/anchor'
+#     - Docker: 'libraries/docker'
+#     - Docker_Compose: 'libraries/docker_compose'
 #   - Tutorials: ''
-#   - Contributing: 'docs/contributing/create-new-library.md'
-#   - Unit_Testing: 
+#   - Contributing: 'contributing/create-new-library.md'
+#   - Unit_Testing: 'unit_testing/index.md'
 

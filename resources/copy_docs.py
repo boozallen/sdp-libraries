@@ -21,3 +21,9 @@ for library in os.listdir(rootdir):
       readme = open(file).read()
       with mkdocs_gen_files.open(f"libraries/{library}.md", "w") as f:
         print(readme, file=f)
+
+#move library index
+if (os.path.exists('libraries/README.md')):
+  file = open("/docs/libraries/README.md").read()
+  with mkdocs_gen_files.open(f"libraries/README.md", "w") as f: 
+    print(file, file=f)

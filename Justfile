@@ -1,3 +1,4 @@
+coverage := "true"
 image := "mkdocs-local"
 
 # Print recipes
