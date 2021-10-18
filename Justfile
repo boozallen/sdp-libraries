@@ -5,7 +5,6 @@ help:
   just --list --unsorted 
 
 # Run unit tests
-coverage := "false"
 test class="*":
   #!/usr/bin/env bash
   set -euxo pipefail
