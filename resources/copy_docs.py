@@ -7,12 +7,6 @@ if(os.path.exists("/docs/docs/index.md") != True):
   with mkdocs_gen_files.open("index.md", "w") as f: 
     print(readme, file=f) 
 
-# Move CONTRIBUTING to developing
-if(os.path.exists("/docs/CONTRIBUTING.md")):
-  readme = open("/docs/CONTRIBUTING.md").read()
-  with mkdocs_gen_files.open(f"contributing/index.md", "w") as f: 
-    print(readme, file=f)
-
 # Move Library Docs
 rootdir = "/docs/libraries"
 for library in os.listdir(rootdir):

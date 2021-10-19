@@ -72,7 +72,7 @@ You can run ``just serve`` at the root of the repository to build the documentat
 It's highly encouraged that unit tests be written for the library.  
 
 . Tests go under the `test` directory in your library.
-. Read the [Unit Testing Documentation](../unit_testing/index.md)
+. Read the [Unit Testing Documentation](../Unit_Testing/index.md)
 . Write some tests for your steps
 
 ## Add a library configuration file
