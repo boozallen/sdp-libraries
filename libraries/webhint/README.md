@@ -35,7 +35,7 @@ libraries{
 
 An example html report has been saved to PDF.
 
-[click here to download](../../assets/attachments/webhint/webhint_mockaroo.pdf)
+[click here to download](../assets/attachments/webhint/webhint_mockaroo.pdf)
 
 ## External Dependencies
 ---

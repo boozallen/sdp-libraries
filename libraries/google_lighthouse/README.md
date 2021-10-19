@@ -44,7 +44,7 @@ libraries{
 
 An example html report has been saved to PDF.
 
-[click here to download.](../../assets/attachments/google_lighthouse/google_lighthouse.pdf)
+[click here to download.](../assets/attachments/google_lighthouse/google_lighthouse.pdf)
 
 ## External Dependencies
 ---

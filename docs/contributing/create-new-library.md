@@ -64,7 +64,7 @@ The landing page for the SDP Pipeline Libraries has a table that outlines each l
 
 ### Preview your documentation
 
-You can run ``just servce`` at the root of the repository to build the documentation as static HTML, and view it at `localhost:8000`.
+You can run ``just serve`` at the root of the repository to build the documentation as static HTML, and view it at `localhost:8000`.
 
 ## Add unit tests
 ---
@@ -72,7 +72,7 @@ You can run ``just servce`` at the root of the repository to build the documenta
 It's highly encouraged that unit tests be written for the library.  
 
 . Tests go under the `test` directory in your library.
-. Read the [Unit Testing Documentation](./unit_testing/index.html)
+. Read the [Unit Testing Documentation](../unit_testing/index.md)
 . Write some tests for your steps
 
 ## Add a library configuration file

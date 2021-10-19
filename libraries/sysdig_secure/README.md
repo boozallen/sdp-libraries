@@ -32,7 +32,7 @@ libraries{
 ## Results
 ---
 
-The `scan_container_images()` step will generate a PDF report of the scan if the upload to the Sysdig Secure API is successful. [Here's an example](../../assets/attachments/sysdig_secure/sysdig_secure_report.pdf).
+The `scan_container_images()` step will generate a PDF report of the scan if the upload to the Sysdig Secure API is successful. [Here's an example](../assets/attachments/sysdig_secure/sysdig_secure_report.pdf).
 
 ## External Dependencies
 ---

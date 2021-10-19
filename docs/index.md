@@ -1,6 +1,6 @@
-# SDP Pipeline Libraries
+# Overview
 
-The Solution Delivery Platform's open source pipeline libraries plug in to the [Jenkins Templating Engine](https://boozallen.github.io/sdp-docs/jte/2.2.2/index.html) to accelerate the development of a DevSecOps pipeline. 
+The Solution Delivery Platform's open source pipeline libraries plug in to the [Jenkins Templating Engine](https://jenkinsci.github.io/templating-engine-plugin) to accelerate the development of a DevSecOps pipeline. 
 
 **Important** For any relevant upgrade notes about the SDP Pipeline Libraries, checkout the [GitHub Releases](https://github.com/boozallen/sdp-libraries/releases).
 
@@ -28,7 +28,7 @@ These images can be found in the [Booz Allen SDP Images GitHub Repository](https
 
 ### The ``sdp`` Library
 
-If using the SDP Pipeline Libraries as a [Library Source](https://boozallen.github.io/sdp-docs/jte/2.2.2/library-development/library_sources/library_sources.html) for your pipeline, then you **must** include the ``sdp`` library.  This library containers helper functions such as ``inside_sdp_image()`` to facilitate the use of the SDP Pipeline Container Images as run time environments. 
+If using the SDP Pipeline Libraries as a [Library Source](https://jenkinsci.github.io/templating-engine-plugin/2.3/concepts/library-development/library-source/) for your pipeline, then you **must** include the ``sdp`` library.  This library containers helper functions such as ``inside_sdp_image()`` to facilitate the use of the SDP Pipeline Container Images as run time environments. 
 
 ## Requirements
 ---

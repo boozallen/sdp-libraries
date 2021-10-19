@@ -34,7 +34,7 @@ libraries{
 ## Results
 ---
 
-![OWASP ZAP example](../../assets/images/owasp_zap/report.png)
+![OWASP ZAP example](../assets/images/owasp_zap/report.png)
 
 ## Troubleshooting
 ---

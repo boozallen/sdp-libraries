@@ -40,9 +40,9 @@ The results of the scan are captured in an HTML report that gets archived by jen
 
 ### Report Index
 
-![HTML Report Landing Page](../../assets/images/a11y/index.png)
+![HTML Report Landing Page](../assets/images/a11y/index.png)
 ### Report of a specific URL
 
-![HTML Report Drill Down](../../assets/images/a11y/report.png)
+![HTML Report Drill Down](../assets/images/a11y/report.png)
 ## Dependencies
 ---
