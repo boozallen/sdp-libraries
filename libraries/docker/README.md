@@ -112,9 +112,11 @@ In order to use the buildx step, the build strategy must be set to 'buildx'.
 ### Use Cases
 This step provides covers 3 use cases for building multi-architecture. 
 
-1. Single docker image name with one tag. e.g example:1.0 
-    -  Use case where the pipeline can build multiple architectures into a single docker image manifest. 
-    -  This method of building the image requires that the base image also supports all the architectures that the pipeline is building for. 
+#### 1. Single docker image name with one tag. 
+Example: repo/example:1.0 that supports amd64, arm64, armv7 
+
+*  Use this when the pipeline can build multiple architectures into a single docker image manifest. 
+*  This method of building the image requires that the base image also supports all the architectures that the pipeline is building for. 
 
 Example Configuration Snippet for buildx Single docker image name with one tag
 
@@ -142,12 +144,13 @@ output buildx command from above:
 ``` bash
 docker buildx build . -t docker-registry.default.svc:5000/java/example:<insert git sha> -t docker-registry.default.svc:5000/java/example:latest --platform linux/amd64,linux/arm64,linux/arm/v7 --build-arg=BASE_IMAGE=alpine:3.12 --push
 ```
-2. Single docker image name with multiple tags. e.g example:1.0-amd64 example:1.0-arm64
+#### 2. Single docker image name with multiple tags. 
+Example: repo/example:1.0-amd64 repo/example:1.0-arm64 where each image supports a different architecture
 
-    * This covers the use case when there is not a multi-architecture base image that can be used to build a single image manifest. 
-    * Buildx is an array of maps that are seperated by unique keys. this allows the pipeline to use the same dockerfile with a parameterized base image or multiple dockerfiles. 
-    * This method requires that the 'same_repo_different_tags' flag is set to true and for each element key in buildx to be unique. 
-    * There can only be one element that can use the useLatestTag as it will throw an error due to the pipeline attempting to overwrite another image being built. 
+* Use this when there is not a multi-architecture base image that can be used to build a single image manifest. 
+* Buildx is an array of maps that are seperated by unique keys. this allows the pipeline to use the same dockerfile with a parameterized base image or multiple dockerfiles. 
+* This method requires that the 'same_repo_different_tags' flag is set to true and for each element key in buildx to be unique. 
+* There can only be one element that can use the useLatestTag as it will throw an error due to the pipeline attempting to overwrite another image being built. 
 
 Example Configuration Snippet for buildx Single docker image name with one tag
 
@@ -187,10 +190,11 @@ docker buildx build . -t docker-registry.default.svc:5000/java/example:1.0-amd64
 docker buildx build . -t docker-registry.default.svc:5000/java/example:1.0-arm64 --platform=linux/arm64 --build-arg=BASE_IMAGE=alpine:3.12 --push
 ```
 
-3. Multiple docker image names with multiple tags. e.g example-big:1.0 example-small:1.0
+#### 3. Multiple docker image names with multiple tags. 
+Example example-big:1.0 example-small:1.0 where each image has its own list of architectures 
 
-    * This use case where there is a single repo with multiple images that need to be built for multiple architectures. 
-    * each elemement's key must be unique for this to build properly or else it will override previous images. 
+* Use this when there is a single repo with multiple images that need to be built for multiple architectures. 
+* Each element's key must be unique for this to build properly or else it will override previous images. 
 
 Example Configuration Snippet for buildx Single docker image name with one tag
 
