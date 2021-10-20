@@ -6,8 +6,8 @@ package libraries.git.steps
 
 void call(Map args = [:], body){
 
-  // do nothing if not commit or pr
-  if (!(env.GIT_BUILD_CAUSE in ["commit", "pr"]))
+  // do nothing if not commit or merge
+  if (!(env.GIT_BUILD_CAUSE in ["commit", "merge"]))
     return
 
   def branch = env.BRANCH_NAME
