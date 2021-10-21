@@ -1,6 +1,6 @@
 # OpenShift
 
-OpenShift is Red Hat's enterprise kubernetes distribution.
+OpenShift is Red Hat's enterprise Kubernetes distribution.
 
 This library allows you to perform deployments to static or ephemeral application environments with [Helm](https://helm.sh).
 
@@ -15,19 +15,21 @@ This library allows you to perform deployments to static or ephemeral applicatio
 ## Overview
 ---
 
-![Openshift deploy_to diagram](../assets/images/openshift/Openshift_deploy_to_diagram.png)
+![OpenShift deploy_to diagram](../assets/images/openshift/Openshift_deploy_to_diagram.png)
 
 ## Library Configurations
 ---
 
-The configurations for the OpenShift library can be specified at multiple levels. Given this additional configurability the typical table of configuration options would be less clear than examples, so we'll be breaking it down per configuration portion.
+The configurations for the OpenShift library can be specified at multiple levels.
+Given the additional layers of configuration the typical table of options would be less clear than examples,
+so we'll be breaking it down per configuration portion.
 
 ### OpenShift URL
 
 The OpenShift URL can be defined in the library spec or on a per application environment basis.
 
-For example, it's common to have a cluster for lower environments with a separate cluster for production.  You would specify this as follows:
-
+For example, it's common to have a cluster for lower environments with a separate cluster for production.
+You would specify this as follows:
 ```groovy
 application_environments{
   dev{
@@ -51,29 +53,41 @@ libraries{
 }
 ```
 
-With this configuration, `https://openshift.dev.example.com:8443` would be used when deploying to `dev` and `test` while `https://openshift.prod.example.com:8443` would be used when deploying to `prod`
+With this configuration, `https://openshift.dev.example.com:8443` would be used when deploying to `dev` and `test`
+while `https://openshift.prod.example.com:8443` would be used when deploying to `prod`.
 
 ### Helm Configuration
 
-We use [Helm](https://helm.sh) for a deployment mechanism to OpenShift.  Helm is a package manager and templating engine for Kubernetes manifests.  Using Helm, the typical YAML manifests used to deploy to Kubernetes distributions can be templatized for reuse.  In our case, a different values file is used for each static application environment.
+We use [Helm](https://helm.sh) for a deployment mechanism to OpenShift.
+Helm is a package manager and templating engine for Kubernetes manifests.
+Using Helm, the typical YAML manifests used to deploy to Kubernetes distributions can be templated for reuse.
+In our case, a different `values` file is used for each static application environment.
 
 **Deploy the Tiller Server**
 
-Instead of using Helm as a package manager by bundling the charts and deploying them to a chart repository, we instead use a configuration repository as our infrastructure as code mechanism.
+Instead of using Helm as a package manager by bundling the charts and deploying them to a chart repository,
+we instead use a configuration repository as our infrastructure as code mechanism.
 
 **Create Helm Configuration Repository**
 
-You'll need to create a GitHub repository to store the helm chart for your application(s). See the [helm docs on provisioning a new chart](https://docs.helm.sh/helm/#helm-create) to get initialize the repository with the skeleton for your chart.
+You'll need to create a GitHub repository to store the helm chart for your application(s).
+See the [helm docs on provisioning a new chart](https://docs.helm.sh/helm/#helm-create) for how to initialize the repository with the skeleton for your chart.
 
-How you choose to build your helm chart is up to you. You can put every api object in the `templates` directory or have subcharts for each individual microservice. All the library does is clone the GitHub repository and deploy the chart using the specified values file.
+How you choose to build your helm chart is up to you.
+You can put every api object in the `templates` directory or have subcharts for each individual microservice.
+All the library does is clone the GitHub repository and deploy the chart using the specified values file.
 
-For most users, the only branch of the helm configuration repository needed is the "master" branch. However, if you want to use different branches for different app environments, you can add a `helm_chart_branch` setting to your application environments in your pipeline config.
+For most users, the only branch of the helm configuration repository needed is the `master` branch.
+However, if you want to use different branches for different app environments,
+you can add a `helm_chart_branch` setting to your application environments in your pipeline config.
 
 **Values File Conventions**
 
-Given that we tag container images using the git SHA, SDP will clone your helm configuration repository and update a key corresponding to the current version of each container image for each application environment.
+Given that we tag container images using the git SHA,
+SDP will clone your helm configuration repository and update a key corresponding to the current version of each container image for each application environment.
 
-As such, a certain syntax is required in your values file.  You must have a `repos` global key. SDP will automatically add elements for each repository to `repos` (assuming `repos` is a List already) and set their value to include the appropriate Git SHA.
+As such, a certain syntax is required in your values file. You must have a `repos` global key.
+SDP will automatically add elements for each repository to `repos` (assuming `repos` is a List already) and set their value to include the appropriate Git SHA.
 
 **Note** Since YAML keys can't have hyphens or numbers, any hyphens in repository names will be replaced with underscores and numbers will be spelled out.
 
@@ -96,10 +110,9 @@ The helm configuration repository, github credential, tiller namespace, and till
 
 The values file used will default to `values.${app_env.short_name}.yaml`, but a different file can be selected through `app_env.chart_values_file`.
 
-The name of the release will default to `app_env.short_name`, but can be set through `app_env.tiller_release_name`
+The name of the release will default to `app_env.short_name`, but can be set through `app_env.tiller_release_name`.
 
 An example of helm configurations:
-
 ```groovy
 application_environments{
   dev{
@@ -132,14 +145,20 @@ libraries{
 
 ### Promoting Images
 
-It's often beneficial to build a container image once, and then promote that image through different application environments. This makes it possible to test the content of an image once in a lower environment, and remain confident that the results of those tests would be the same as an image is promoted. Promoting images also speeds up the CI/CD pipeline, as building a container image is often the most time-consuming part of the pipeline.
+It's often beneficial to build a container image once, and then promote that image through different application environments.
+This makes it possible to test the content of an image once in a lower environment,
+and remain confident that the results of those tests would be the same as an image is promoted.
+Promoting images also speeds up the CI/CD pipeline, as building a container image is often the most time-consuming part of the pipeline.
 
-By default, the `deploy_to()` step of the Openshift pipeline library will promote a container image if it can expect one to exist, which is when the most recent code change was a **merge** into the given code branch. The image would be expected to be built from an earlier commit, or while there was an open PR.
+By default, the `deploy_to()` step of the OpenShift pipeline library will promote a container image if it can expect one to exist,
+which is when the most recent code change was a **merge** into the given code branch.
+The image would be expected to be built from an earlier commit, or while there was an open PR.
 
-You can override this default for the entire pipeline by setting the `promote_previous_image` config setting to **false**. You can also choose whether or not to promote  images for each application environment individually through the `promote_previous_image` application_environment setting. This app_env setting takes priority over the config setting.
+You can override this default for the entire pipeline by setting the `promote_previous_image` config setting to **false**.
+You can also choose whether or not to promote images for each application environment individually through the `promote_previous_image` application_environment setting.
+This app_env setting takes priority over the config setting.
 
 An example of these settings' usage:
-
 ```groovy
 application_environments{
   dev{
@@ -217,8 +236,8 @@ libraries{
 ## External Dependencies
 ---
 
-- Openshift is deployed and accessible from Jenkins
-- The helm configuration repository defines the application as it would be deployed to Openshift
+- OpenShift is deployed and accessible from Jenkins
+- The helm configuration repository defines the application as it would be deployed to OpenShift
 - Values files follow the convention for repo names & Git SHAs
     - The values file has the key `global.repos`
     - That key is a list of maps, each with two keys:
@@ -234,11 +253,14 @@ libraries{
  
 ### Updates were rejected...
 
-**Message**: Updates were rejected because the remote contains work that you do not have locally. This is usually caused by another repository pushing to the same ref. You may want to first integrate the remote changes (e.g., `git pull ...`) before pushing again.
+**Message**: Updates were rejected because the remote contains work that you do not have locally.
+This is usually caused by another repository pushing to the same ref.
+You may want to first integrate the remote changes (e.g., `git pull ...`) before pushing again.
 
-**Solution**: Re-run the pipeline while no other pipeline jobs are running that would deploy to Openshift
+**Solution**: Re-run the pipeline while no other pipeline jobs are running that would deploy to OpenShift.
 
-**Explanation**: After deploying to Helm, the pipeline attempts to update the helm-configuration-repository with the latest Git SHA for the pipeline's source code repo. However, if in the time between checking out the helm chart from Git and pushing updates, another pipeline pushes its own updates, then git will throw an error.
+**Explanation**: After deploying to Helm, the pipeline attempts to update the helm-configuration-repository with the latest Git SHA for the pipeline's source code repo.
+However, if in the time between checking out the helm chart from Git and pushing updates, another pipeline pushes its own updates, then git will throw an error.
  
 ## FAQ
 ---
@@ -249,4 +271,4 @@ Any secrets with the label `ephemeral = true` will be exported from the referenc
 
 ### For my helm configuration repository, do I need to use GitHub?
 
-This library was developed and tested while using GitHub to manage the Helm configuration repostiory, but any Git SCM solution should work as well. 
+This library was developed and tested while using GitHub to manage the Helm configuration repository, but any Git SCM solution should work as well.

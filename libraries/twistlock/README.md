@@ -1,15 +1,17 @@
 # Twistlock
 
-Twistlock is an automated and scalable container cybersecurity platform. Twistlock manages a full-lifecycle vulnerability and compliance management to application-tailored runtime defense and cloud native firewalls, Twistlock helps secure your containers and modern applications against threats across the entire application lifecycle.
+Twistlock is an automated and scalable container cybersecurity platform.
+Twistlock manages a full-lifecycle vulnerability and compliance management to application-tailored runtime defense and cloud native firewalls.
+Twistlock helps secure your containers and modern applications against threats across the entire application lifecycle.
 
-SDP can integrate with Twistlock to perform **container image scanning**
+SDP can integrate with Twistlock to perform **container image scanning**.
 
 ## Steps
 ---
 
 | Step | Description |
 | ----------- | ----------- |
-| ``scan_container_image()`` | Downloads the Twistlock CLI from the Twistlock Console and performs container image scanning |
+| `scan_container_image()` | Downloads the Twistlock CLI from the Twistlock Console and performs container image scanning |
 
 ## Library Configuration
 ---
@@ -18,8 +20,8 @@ Twistlock Library Configuration Options
 
 | Field | Description | Default Value |
 | ----------- | ----------- | ----------- |
-| url | The Twistlock Console url | |
-| credential | The Jenkins credential ID to access Twistlock Console | |
+| `url` | The Twistlock Console URL | |
+| `credential` | The Jenkins credential ID to access Twistlock Console | |
 
 ### Example Configuration Snippet
 
@@ -37,12 +39,13 @@ libraries{
 
 * Twistlock is deployed and accessible from Jenkins
 * A credential has been placed in the Jenkins credential store to access the console
-* A separater container building library that implements ``get_images_to_build()``
+* A separate container building library that implements `get_images_to_build()`
 
 ## Twistlock Scan Results
 ---
 
-Jenkins will output a text based table of the scan results. A more descriptive JSON file is archived that contains details of CVE and compliance vulnerabilities found during the scan.
+Jenkins will output a text based table of the scan results.
+A more descriptive JSON file is archived that contains details of CVE and compliance vulnerabilities found during the scan.
 
 ```
 CVE Results:

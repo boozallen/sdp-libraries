@@ -12,7 +12,7 @@ Currently, Gradle 6.3.0 running on JDK 8 is required. These can be downloaded on
 ```bash
 # gradle via sdkman: https://sdkman.io/
 curl -s "https://get.sdkman.io" | bash
-source "/Users/joshuaearnest/.sdkman/bin/sdkman-init.sh"
+source "$(pwd)/.sdkman/bin/sdkman-init.sh"
 sdk install gradle 6.3
 
 # java8
@@ -22,4 +22,4 @@ alias java8='export JAVA_HOME=$JAVA_8_HOME'
 java8
 ```
 
-See the [contributing page](../contributing/index.md) for instructions on running unit tests.
+See the [Contributing Guide](../contributing/index.md) for instructions on running unit tests.

@@ -1,7 +1,7 @@
 # The A11y Machine
 
-[The A11y Machine](https://github.com/liip/TheA11yMachine) (or `a11ym` for short, spelled “alym”) is an **automated accessibility testing tool**
-which ***crawls*** and ***tests*** pages of any Web application to produce detailed reports. 
+[The A11y Machine](https://github.com/liip/TheA11yMachine) (or `a11ym` for short, spelled “alym”) is an
+**automated accessibility testing tool** which ***crawls*** and ***tests*** pages of any Web application to produce detailed reports. 
 
 It validates pages against the following specifications/laws:
 
@@ -23,7 +23,8 @@ It validates pages against the following specifications/laws:
 | ----------- | ----------- | ----------- |
 | url | The url a11y will crawl and scan | |
 
-A target URL can be given. However `env.FRONTEND_URL` supersedes all configurations. If no `env.FRONTEND_URL` is found then the provided target URL is used. If no URL is provided an error is thrown.
+A target URL can be given. However `env.FRONTEND_URL` supersedes all configurations.
+If no `env.FRONTEND_URL` is found then the provided target URL is used. If no URL is provided an error is thrown.
 
 ```groovy
 libraries{
@@ -36,7 +37,7 @@ libraries{
 ## Results
 ---
 
-The results of the scan are captured in an HTML report that gets archived by jenkins.
+The results of the scan are captured in an HTML report that gets archived by Jenkins.
 
 ### Report Index
 

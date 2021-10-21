@@ -54,7 +54,8 @@ Create a new library by running:
 just create <library name>
 ```
 
-This will produce a folder of the library name with the library structure described above stubbed out. Information for developing a new library can be found in [Create a New Library](./create-new-library/) page.
+This will produce a folder of the library name with the library structure described above stubbed out.
+Information for developing a new library can be found in [Create a New Library](./create-new-library/) page.
 
 ## Documentation
 --- 
@@ -63,7 +64,7 @@ This repository uses [Material for MkDocs](https://squidfunk.github.io/mkdocs-ma
 
 ### Building the Docs
 
-To build the documentation, run: 
+To build the documentation, run:
 
 ``` bash
 just build
@@ -73,7 +74,7 @@ This will build the documentation and produce static html in the `site` director
 
 ### Live Reloading
 
-To see changes live as you make them, run: 
+To see changes live as you make them, run:
 
 ``` bash
 just serve
@@ -88,13 +89,13 @@ Unit tests can be written using [Jenkins Spock](https://github.com/ExpediaGroup/
 
 These tests should go in the `test` directory for each library.
 
-To run all the tests, run: 
+To run all the tests, run:
 
 ``` bash
 just test
 ```
 
-The gradle test report is published to `target/reports/tests/test/index.html`. 
+The gradle test report is published to `target/reports/tests/test/index.html`.
 
 ### For a specific library
 
@@ -115,11 +116,11 @@ just test "*.BuildSpec"
 ## Linting
 ---
 
-This repository uses [npm-groovy-lint](https://github.com/nvuillam/npm-groovy-lint) with the recommended codenarc profile for Jenkins. 
+This repository uses [npm-groovy-lint](https://github.com/nvuillam/npm-groovy-lint) with the recommended codenarc profile for Jenkins.
 
-The `.groovylintrc.json` can be used to tune the rule profile. 
+The `.groovylintrc.json` can be used to tune the rule profile.
 
-To lint the libraries, run: 
+To lint the libraries, run:
 
 ``` bash
 just lint
@@ -134,7 +135,7 @@ This repository automates the create of release branches and tags as well as pub
 
 ### Release Automation
 
-To cut a new release, run: 
+To cut a new release, run:
 
 ``` bash
 just release $version
@@ -144,11 +145,10 @@ Which will:
 
 1. create a `release/$version` branch
 2. create a `$version` tag
-3. publish the documentation for the version and upate the `latest` documentation alias
-
+3. publish the documentation for the version and update the `latest` documentation alias
 
 ### Automated Changelogs
 
-[Release Drafter](https://github.com/release-drafter/release-drafter) is used to automate release note updates as Pull Requests are opened to `main`. 
+[Release Drafter](https://github.com/release-drafter/release-drafter) is used to automate release note updates as Pull Requests are opened to `main`.
 
-The configuration for Release Drafter exists in the `.github/release-drafter.yml` file and uses GitHub Actions. 
+The configuration for Release Drafter exists in the `.github/release-drafter.yml` file and uses GitHub Actions.

@@ -6,7 +6,7 @@ This library will execute Python unit tests leveraging the [PyTest](https://docs
 
 | Step | Description |
 | ----------- | ----------- |
-| ``unit_test()`` | executes unit tests via pytest |
+| `unit_test()` | executes unit tests via pytest |
 
 ## Library Configuration Options
 ---
@@ -15,8 +15,8 @@ Configuration Options
 
 | Field | Description | Required | Default Value |
 | ----------- | ----------- | ----------- | ----------- |
-| enforce_success | Set to false if failing tests should not fail the build | false  | true |
-| requirements_file | Relative path within the repository pointing to a python requirements file | false  | requirements.txt |
+| `enforce_success` | Set to false if failing tests should not fail the build | false  | true |
+| `requirements_file` | Relative path within the repository pointing to a python requirements file | false  | requirements.txt |
 
 ```groovy
 libraries{

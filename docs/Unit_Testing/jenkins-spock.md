@@ -1,13 +1,19 @@
 # Jenkins Spock
 
-We test pipeline libraries using [Jenkins-Spock](https://github.com/homeaway/jenkins-spock), a variation of the [Spock](http://spockframework.org/spock/docs) testing framework that has been designed around testing Jenkins pipelines. 
+We test pipeline libraries using [Jenkins-Spock](https://github.com/homeaway/jenkins-spock),
+a variation of the [Spock](http://spockframework.org/spock/docs) testing framework that has been designed around testing Jenkins pipelines.
 
 ## Writing a Specification File
 ---
 
-A "specification" is a list of features derived from business requirements. A specification file contains that list of features as unit tests, and those tests validate that the features work as expected. There should be a separate file for each pipeline step in your library.
+A **specification** is a list of features derived from business requirements.
+A specification file contains that list of features as unit tests, and those tests validate that the features work as expected.
+There should be a separate file for each pipeline step in your library.
 
-Below is an outline of a specification file. It shows what you need to include in order to run tests, as well as some conventions for what to name methods and variables.  Create a groovy file with the same name as the class (such as ``MyPipelineStepSpec.groovy``) and use this outline to get you started, making sure to swap names with ones for your library.
+Below is an outline of a specification file.
+It shows what you need to include in order to run tests, as well as some conventions for what to name methods and variables.
+Create a groovy file with the same name as the class (such as `MyPipelineStepSpec.groovy`)
+and use this outline to get started, making sure to swap names with ones for your library.
 
 ## Sample Specification
 ---
@@ -19,7 +25,6 @@ Below is an outline of a specification file. It shows what you need to include i
 5. Write a test
 
 ```groovy
-
 // Create a new class for the Spec
 // The naming convention is the pipeline step's name, followed by Spec,
 // all camel-cased starting w/ a capital.

@@ -1,4 +1,4 @@
-# Npm
+# npm
 
 Run npm `test` and `build` commands in an nvm container with a specified node version.
 
@@ -15,7 +15,8 @@ Run npm `test` and `build` commands in an nvm container with a specified node ve
 
 All configs can be set in either the library config or the Application Environment. All configs set in Application Environment take precedence.
 
-Environment variables and secrets set in the library config are concatenated with those set in the Application Environment. Environment variables and secrets with the same key are set to the definition contained in the application environment.
+Environment variables and secrets set in the library config are concatenated with those set in the Application Environment.
+Environment variables and secrets with the same key are set to the definition contained in the application environment.
 
 ## Example Library Configuration
 ---
@@ -139,7 +140,8 @@ libraries{
 }
 ```
 
-This example shows the prod Application Environment overriding configs set in the library config. `npm_build.npm_install` is preserved as set in library config, since it is not overridden by the Application Environment.
+This example shows the prod Application Environment overriding configs set in the library config.
+`npm_build.npm_install` is preserved as set in library config, since it is not overridden by the Application Environment.
 
 ### Minimal Configuration Example
 
@@ -155,9 +157,11 @@ libraries{
 
 ### Secrets
 
-There are two types of secrets currently supported:  secret text and username/password credentials. These credentials must be stored in the Jenkins credential store and be available to the pipeline. 
+There are two types of secrets currently supported: secret text and username/password credentials.
+These credentials must be stored in the Jenkins credential store and be available to the pipeline.
 
-The name of each credential block (such as `someTextCredential`) is arbitrary. It just just a key, used to superseed library config with Application Environment configs, and when describing configuration errors found by the step. 
+The name of each credential block (such as `someTextCredential`) is arbitrary.
+It's just a key, used to supersede library config with Application Environment configs, and when describing configuration errors found by the step.
 
 ## External Dependencies
 
