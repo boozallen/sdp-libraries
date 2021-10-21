@@ -1,11 +1,13 @@
 # Writing Tests
 
-Now that you've laid the groundwork for your tests, it's time to write them. These are the "Feature Methods" because there should be one for each feature. Some of the things to write tests for are:
+Now that you've laid the groundwork for your tests, it's time to write them.
+These are the "Feature Methods" because there should be one for each feature.
+Some of the things to write tests for are:
 
-. Things are built correctly (objects, string variables, maps, etc.)
-. Conditional Hierarchies function as expected
-. Variables get passed correctly
-. Things fail when they're supposed to
+* Things are built correctly (objects, string variables, maps, etc.)
+* Conditional Hierarchies function as expected
+* Variables get passed correctly
+* Things fail when they're supposed to
 
 Once you know the feature you're testing, like "Pipeline Fails When Config Is Undefined", write a feature method for it:
 
@@ -15,8 +17,8 @@ def "Pipeline Fails When Config Is Undefined" () {
 }
 ```
 
-Now create a setup "block" to define some do some pre-test preparation not covered by the `setup()` fixture method. In this example, the binding
-variable "config" is set to null, and a mock for the `error` pipeline step is created.
+Now create a `setup:` block to define some do some pre-test preparation not covered by the `setup()` fixture method.
+In this example, the binding variable `config` is set to null, and a mock for the `error` pipeline step is created.
 
 ```groovy
 def "Pipeline Fails When Config Is Undefined" () {
@@ -26,8 +28,10 @@ def "Pipeline Fails When Config Is Undefined" () {
 }
 ```
 
-Now I need to execute the pipeline step and test the response. This happens in the "when" and "then" blocks, respectively. In this example, the pipeline step
-is called (with no parameters), and I state that I expect the `error` step to be called exactly once with the message `"ERROR: config is not defined"`
+Now we need to execute the pipeline step and test the response.
+This happens in the `when:` and `then:` blocks, respectively.
+In this example, the pipeline step is called (with no parameters),
+and we state that we expect the `error` step to be called exactly once with the message `"ERROR: config is not defined"`
 
 ```groovy
 def "Pipeline Fails When Config Is Undefined" () {
@@ -41,5 +45,6 @@ def "Pipeline Fails When Config Is Undefined" () {
 }
 ```
 
-And that's the gist of it. You can add as many feature methods as necessary in the spec file, testing a variety of things. Be sure to check out the Spock
-Documentation, Jenkins-Spock Documentation, and already-created spec files in this repository for examples.
+And that's the gist of it.
+You can add as many feature methods as necessary in the spec file, testing a variety of things.
+Be sure to check out the [Spock Documentation](http://spockframework.org/spock/docs), [Jenkins-Spock Documentation](./jenkins-spock.md), and already-created spec files in the [SDP Libraries repository](https://github.com/boozallen/sdp-libraries/tree/main/test) for examples.

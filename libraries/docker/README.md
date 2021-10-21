@@ -46,8 +46,8 @@ libraries{
 | repo_path_prefix | The part of the repository name between the registry name and the last forward-slash | "" | false |
 | remove_local_image | Determines if the pipeline should remove the local image after building or retagging | false | false |
 | build_args | A block of build arguments to pass to `docker build`. For more information, see below. | | false | 
-| setExperimentalFlag | If the docker version only has buildx as an expermential feature then this allows that flag to be set | false | false
-| same_repo_different_tags | When building multiple images dont change the repo name but append the key name to the tag | false | false
+| setExperimentalFlag | If the docker version only has buildx as an experimental feature then this allows that flag to be set | false | false
+| same_repo_different_tags | When building multiple images don't change the repo name but append the key name to the tag | false | false
 | buildx[].name { } | the key name to the map of the specific element of the buildx array |  | true
 | buildx[].useLatestTag | Add an additional latest tag to the image being built on top of the other tag | false | false
 | buildx[].tag | Override the tag with a string | git sha from commit | false
@@ -56,7 +56,6 @@ libraries{
 | buildx[].platforms | array of platforms to be built for that image | linux/amd64 | false
 | buildx[].build_args | A block of build arguments to pass for that element to `docker buildx`. For more information, see below. 
 
-
 ## Build Arguments
 ---
 
@@ -64,8 +63,7 @@ libraries{
 
 To pass static values as build arguments, set a field within the configuration block where the key is the build argument name and the value is the build argument value.
 
-For example, 
-
+For example,
 
 ```{ .groovy .annotate }
 libraries{
@@ -79,12 +77,11 @@ libraries{
 
 1.  This configuration would result in `--build-arg BUILD_ARG_NAME='some-inline-argument'` being passed to `docker build`
 
-### Secret Text Credentials 
+### Secret Text Credentials
 
-To pass a secret value, ensure that a Secret Text credential type has been created and fetch the credential id from the Jenkins credential store. 
+To pass a secret value, ensure that a Secret Text credential type has been created and fetch the credential id from the Jenkins credential store.
 
 ```{ .groovy .annotate }
-
 libraries{
   docker{
     build_args{
@@ -97,29 +94,28 @@ libraries{
 }
 ```
 
-1. This will result in the build argument `--build-arg GITHUB_TOKEN=<secret text>` being passed to `docker build`. The library will mask the value of the secret from the build log. 
-2. The type of "credential" must be set. This gives the library flexibilty in the future to support other build argument types
-3. This credential must exist and be a Secret Text credential in the Jenkins credential store. The library could be extended in the future to support other types of credentials, when necessary. 
+1. This will result in the build argument `--build-arg GITHUB_TOKEN=<secret text>` being passed to `docker build`. The library will mask the value of the secret from the build log.
+2. The `type` of `credential` must be set. This gives the library flexibility in the future to support other build argument types.
+3. This credential must exist and be a *Secret Text credential* in the Jenkins credential store. The library could be extended in the future to support other types of credentials, when necessary.
 
 ## Buildx Configuration
 
 ### Buildx Overview
 
-Go to [docker buildx](https://docs.docker.com/buildx/working-with-buildx/) to learn more about buildx and the requirements for it.
+Go to [Docker Buildx](https://docs.docker.com/buildx/working-with-buildx/) to learn more about buildx and the requirements for it.
 
-In order to use the buildx step, the build strategy must be set to 'buildx'. 
+In order to use the buildx step, the build strategy must be set to `'buildx'`.
 
 ### Use Cases
-This step provides covers 3 use cases for building multi-architecture. 
+This step provides covers three use cases for building multi-architecture.
 
-#### 1. Single docker image name with one tag. 
-Example: repo/example:1.0 that supports amd64, arm64, armv7 
+#### 1. Single docker image name with one tag.
+Example: repo/example:1.0 that supports amd64, arm64, armv7
 
-*  Use this when the pipeline can build multiple architectures into a single docker image manifest. 
-*  This method of building the image requires that the base image also supports all the architectures that the pipeline is building for. 
+*  Use this when the pipeline can build multiple architectures into a single docker image manifest.
+*  This method of building the image requires that the base image also supports all the architectures that the pipeline is building for.
 
-Example Configuration Snippet for buildx Single docker image name with one tag
-
+Example Configuration Snippet for buildx Single docker image name with one tag:
 ``` groovy
 libraries{
   docker {
@@ -140,21 +136,20 @@ libraries{
 }
 ```
 
-output buildx command from above: 
+Generated buildx command from above:
 ``` bash
 docker buildx build . -t docker-registry.default.svc:5000/java/example:<insert git sha> -t docker-registry.default.svc:5000/java/example:latest --platform linux/amd64,linux/arm64,linux/arm/v7 --build-arg=BASE_IMAGE=alpine:3.12 --push
 ```
-#### 2. Single docker image name with multiple tags. 
+
+#### 2. Single docker image name with multiple tags.
 Example: repo/example:1.0-amd64 repo/example:1.0-arm64 where each image supports a different architecture
 
-* Use this when there is not a multi-architecture base image that can be used to build a single image manifest. 
-* Buildx is an array of maps that are seperated by unique keys. this allows the pipeline to use the same dockerfile with a parameterized base image or multiple dockerfiles. 
-* This method requires that the 'same_repo_different_tags' flag is set to true and for each element key in buildx to be unique. 
-* There can only be one element that can use the useLatestTag as it will throw an error due to the pipeline attempting to overwrite another image being built. 
+* Use this when there is no multi-architecture base image that can be used to build a single image manifest.
+* Buildx is an array of maps that are separated by unique keys. This allows the pipeline to use the same Dockerfile with a parameterized base image or multiple Dockerfiles.
+* This method requires that the `same_repo_different_tags` flag is set to `true` and for each element key in buildx to be unique.
+* There can only be one element that can use the `useLatestTag` as it will throw an error due to the pipeline attempting to overwrite another image being built.
 
-Example Configuration Snippet for buildx Single docker image name with one tag
-
-
+Example Configuration Snippet for buildx Single docker image name with one tag:
 ``` groovy
 libraries{
   docker {
@@ -183,21 +178,20 @@ libraries{
     }
 }
 ```
-output buildx command from above: 
 
+Generated buildx command from above:
 ``` bash
 docker buildx build . -t docker-registry.default.svc:5000/java/example:1.0-amd64 -t docker-registry.default.svc:5000/java/example:latest --platform=linux/amd64 --build-arg=BASE_IMAGE=alpine:3.12 --push
 docker buildx build . -t docker-registry.default.svc:5000/java/example:1.0-arm64 --platform=linux/arm64 --build-arg=BASE_IMAGE=alpine:3.12 --push
 ```
 
-#### 3. Multiple docker image names with multiple tags. 
-Example example-big:1.0 example-small:1.0 where each image has its own list of architectures 
+#### 3. Multiple docker image names with multiple tags.
+Example: example-big:1.0 and example-small:1.0 where each image has its own list of architectures
 
-* Use this when there is a single repo with multiple images that need to be built for multiple architectures. 
-* Each element's key must be unique for this to build properly or else it will override previous images. 
+* Use this when there is a single repo with multiple images that need to be built for multiple architectures.
+* Each element's key must be unique for this to build properly or else it will override previous images.
 
-Example Configuration Snippet for buildx Single docker image name with one tag
-
+Example Configuration Snippet for buildx Single docker image name with one tag:
 ``` groovy
 libraries{
   docker {
@@ -224,21 +218,20 @@ libraries{
     }
 }
 ```
-output buildx commands from above: 
 
+Generated buildx commands from above:
 ``` bash
 docker buildx build ./jdk -t docker-registry.default.svc:5000/java/example-jdk:1.0 --platform linux/amd64,linux/arm64,linux/arm/v7 --build-arg=BASE_IMAGE=alpine:3.12 --push
 docker buildx build ./jre -t docker-registry.default.svc:5000/java/example-jre:1.0 --platform linux/amd64,linux/arm64,linux/arm/v7 --build-arg=BASE_IMAGE=alpine:3.12 --push
 ```
 
-
 ## External Dependencies
 ---
 
 * A Docker registry must be set up and configured. Credentials to the repository are also needed.
-* Either the github or github_enterprise library needs to be loaded as a library inside your `pipeline_config.groovy` file.
-* Pipelines that use the **buildx** step need to be built on a node that has the correct docker version that supports buildx and also the emulator set up. see [docker buildx](https://docs.docker.com/buildx/working-with-buildx/) on how to set up a node with the right configurations.
-* Buildx enabled nodes needs to be set up with buildkit builders that support the architectures required for the step to work. 
+* Either the `github` or `github_enterprise` library needs to be loaded as a library inside your `pipeline_config.groovy` file.
+* Pipelines that use the **buildx** step need to be built on a node that has the correct Docker version with buildx support and the required emulator set up. See [Docker Buildx](https://docs.docker.com/buildx/working-with-buildx/) for how to set up a node with the right configurations.
+* Buildx enabled nodes needs to be set up with buildkit builders that support the architectures required for the step to work.
 
 ## Troubleshooting
 ---

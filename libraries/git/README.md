@@ -24,7 +24,8 @@ libraries{
 ## Pipeline Template Business Logic
 ---
 
-The Git library contributes some helper methods to help with pipeline template orchestration.  You can achieve fine grained control over what happens when in response to different Git events such as commits, merge requests, and merges.
+The Git library contributes some helper methods to help with pipeline template orchestration.
+You can achieve fine grained control over what happens when in response to different Git events such as commits, merge requests, and merges.
 
 Git Flow Helper Methods
 
@@ -33,12 +34,11 @@ Git Flow Helper Methods
 | on_commit | A direct commit to a branch |
 | on_merge_request | A merge request was created or a developer pushed a commit to the source branch |
 | on_change | A combination of `on_commit` and `on_merge_request` |
-| on_merge | A merge request was merged into the branch. |
+| on_merge | A merge request was merged into the branch |
 
 These methods take named parameters `to` and `from` indicating direction of the git whose value is a regular expression to compare the branch names against.
 
-SDP recommends some keywords for branch name regular expressions:
-
+SDP recommends defining keywords for branch name regular expressions:
 ```groovy
 keywords{
   master = /^[Mm]aster$/
@@ -48,7 +48,7 @@ keywords{
 }
 ```
 
-**Note** These branch name regular expressions are not a part of the Git library but rather leveraged by defining Keywords in the Pipeline Configuration File
+**Note** These branch name regular expressions are not a part of the Git library but rather leveraged by defining Keywords in the Pipeline Configuration File.
 
 ## SCM Specific Methods
 ---

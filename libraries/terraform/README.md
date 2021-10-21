@@ -1,20 +1,20 @@
 # Terraform
 
-This library leverages [Terraform](https://www.terraform.io/intro/index.html) to manage deployments of Infrastructure as Code to different environments. 
+This library leverages [Terraform](https://www.terraform.io/intro/index.html) to manage deployments of Infrastructure as Code to different environments.
 
 ## Steps Contributed
 ---
 
 | *Step* | *Description* |
 | ----------- | ----------- |
-| ``deploy_to(application_environment)`` | performs a terraform apply |
+| `deploy_to(application_environment)` | performs a terraform apply |
 
 ## Library Configuration Options
 ---
 
 ### Working Directory 
 
-The working directory from which to run Terraform commands can be specified on the application environment pass to ``deploy_to`` or within the library configuration. 
+The working directory from which to run Terraform commands can be specified on the application environment pass to `deploy_to` or within the library configuration.
 
 Pipeline Configuration
 ```groovy
@@ -53,7 +53,10 @@ deploy_to prod
 
 ### Secrets 
 
-This library allows you to configure secrets as environment variables.  This can be done in both the library configuration or application environments.  There are two types of secrets currently supported:  secret text and username/password credentials. These credentials must be stored are in the Jenkins credential store. 
+This library allows you to configure secrets as environment variables.
+This can be done in both the library configuration or application environments.
+There are two types of secrets currently supported: secret text and username/password credentials.
+These credentials must be stored are in the Jenkins credential store.
 
 Library Secrets Syntax
 ```groovy
@@ -76,9 +79,9 @@ libraries{
 }
 ```
 
-The name of each credential block is not important, and only used when describing configuration errors found by the step. 
+The name of each credential block is not important, and only used when describing configuration errors found by the step.
 
-To pass secrets on a per application environment basis, define a `app_env.terraform.secrets` block: 
+To pass secrets on a per application environment basis, define a `app_env.terraform.secrets` block:
 
 Application Environments Secrets Syntax
 ```groovy
@@ -108,11 +111,13 @@ application_environments{
 ## Providers
 ---
 
-The [SDP Terraform Pipeline Image](https://github.com/boozallen/sdp-images/tree/master/terraform) can bundle custom providers, if necessary. 
+The [SDP Terraform Container Image](https://github.com/boozallen/sdp-images/tree/master/terraform) can bundle custom providers, if necessary.
 
 ### Sysdig Provider
 
-The [Sysdig Terraform Provider](https://github.com/draios/terraform-provider-sysdig) is bundled with the terraform image. To configure this provider, it is advisable to create secrets for `SYSDIG_SECURE_API_TOKEN` and `SYSDIG_MONITOR_API_TOKEN`.  These environment variables can be consumed by the provider to configure the required secrets. 
+The [Sysdig Terraform Provider](https://github.com/draios/terraform-provider-sysdig) is bundled with the Terraform image.
+To configure this provider, it is advisable to create secrets for `SYSDIG_SECURE_API_TOKEN` and `SYSDIG_MONITOR_API_TOKEN`.
+These environment variables can be consumed by the provider to configure the required secrets.
 
 ## External Dependencies
 ---
