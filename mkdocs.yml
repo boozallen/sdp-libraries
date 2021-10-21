@@ -1,0 +1,34 @@
+site_name: Solutions Delivery Platform
+
+theme:
+  name: material
+  palette:
+    primary: navy
+  features: 
+    - navigation.instant
+    - navigation.tabs
+    - navigation.sections
+    - navigation.top
+  logo: assets/images/jte.svg
+  favicon: assets/images/jte.svg
+
+repo_url: https://github.com/boozallen/sdp-libraries.git
+
+plugins:
+  - search:
+  - gen-files:
+      scripts:
+        - /docs/resources/copy_docs.py
+  - awesome-pages
+
+extra:
+  version:
+    provider: mike
+    default: latest
+
+markdown_extensions:
+  - admonition
+  - pymdownx.tabbed
+  - pymdownx.highlight
+  - pymdownx.superfences
+  - pymdownx.inlinehilite

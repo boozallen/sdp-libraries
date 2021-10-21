@@ -1,6 +1,0 @@
-name: sdp-libraries
-title: SDP Pipeline Libraries
-version: latest
-start_page: ROOT:index.adoc
-nav:
-- modules/ROOT/nav.adoc
