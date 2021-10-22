@@ -1,4 +1,8 @@
-# Google Lighthouse 
+---
+description: Performs accessibility compliance, performance, search engine optimization, and best practice validations on a frontend application
+---
+
+# Google Lighthouse
 
 This library integrates [Google Lighthouse](https://developers.google.com/web/tools/lighthouse) to scan a frontend application for performance,
 accessibility compliance, search engine optimization, and best practice violations.

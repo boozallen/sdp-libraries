@@ -1,3 +1,7 @@
+---
+description: Uses docker compose to deploy and tear down containers
+---
+
 # Docker Compose
 
 This library allows you to perform docker compose commands.

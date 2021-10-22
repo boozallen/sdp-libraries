@@ -1,3 +1,7 @@
+---
+description: Allows you to perform deployments using Helm to a Red Hat OpenShift Container Platform (or platforms)
+---
+
 # OpenShift
 
 OpenShift is Red Hat's enterprise Kubernetes distribution.

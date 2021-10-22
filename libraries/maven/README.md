@@ -1,3 +1,7 @@
+---
+description: This library allows you to perform Maven commands. It requires installing Maven as a tool for Jenkins
+---
+
 # Maven
 
 This library allows you to perform Maven commands. It requires installing Maven as a tool for Jenkins.

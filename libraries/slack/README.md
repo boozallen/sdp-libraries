@@ -1,3 +1,7 @@
+---
+description: Facilitates pipeline notifications to the configured Slack channel 
+---
+
 # Slack
 
 Slack is a collection of tools and services that helps teams collaborate and work more efficiently.

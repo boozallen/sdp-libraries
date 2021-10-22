@@ -1,3 +1,7 @@
+---
+description: An internal helper library that the others utilize
+---
+
 # SDP
 
 The SDP library provides helper steps used by multiple libraries within sdp-libraries.

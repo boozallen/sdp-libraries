@@ -1,3 +1,7 @@
+---
+description: Performs static code analysis with SonarQube
+---
+
 # SonarQube
 
 SonarQube is a tool used for **static code analysis**.

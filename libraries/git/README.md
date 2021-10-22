@@ -1,3 +1,7 @@
+---
+description: Allows you to map a branching strategy to specific pipeline actions when using Public GitHub, GitLab or GitHub Enterprise
+---
+
 # Git
 
 This library is unique in that rather than provide functional step implementations, it provides methods that help with the business logic defined within pipeline templates.

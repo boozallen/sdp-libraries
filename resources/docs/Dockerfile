@@ -1,7 +1,14 @@
-FROM squidfunk/mkdocs-material
+FROM squidfunk/mkdocs-material:7.3.3
 RUN pip install \
     mkdocs-gen-files \
-    mkdocs-awesome-pages-plugin \
     mike \
-    pymdown-extensions && \
+    pymdown-extensions \
+    mkdocs-awesome-pages-plugin \
+    pyyaml \
+    python-frontmatter \
+    beautifulsoup4 \
+    markdown \
+    pytablewriter && \
+    git config --global user.name "docs deployer" && \
+    git config --global user.email "null@null.com" && \
     git config --global credential.helper 'store --file=/root/.git-credentials'

@@ -1,3 +1,7 @@
+---
+description: Deploys Infrastructure as Code using Terraform 
+---
+
 # Terraform
 
 This library leverages [Terraform](https://www.terraform.io/intro/index.html) to manage deployments of Infrastructure as Code to different environments.

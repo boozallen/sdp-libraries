@@ -1,3 +1,7 @@
+---
+description: Leverages Protractor, a frontend unit testing utility, to perform unit tests
+---
+
 # Protractor
 
 Protractor is a test framework built for Angular and AngularJS applications that is used for end-to-end testing.

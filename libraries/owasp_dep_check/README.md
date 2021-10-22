@@ -1,3 +1,7 @@
+---
+description: Leverages OWASP Dependency Checker for scanning third party application dependencies
+---
+
 # OWASP Dependency Check
 
 The OWASP Dependency Check library will use the namesake tool to scan a project's source code to identify components with known vulnerabilities.

@@ -1,3 +1,7 @@
+---
+description: Uses docker to build and publish container images, tagging them with the Git SHA
+---
+
 # Docker
 
 The Docker library will build docker images and push them into a docker repository.

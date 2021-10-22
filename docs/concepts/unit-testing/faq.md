@@ -1,4 +1,4 @@
-# FAQ
+# Frequently Asked Questions
 
 This section covers some of the questions not easily answered in the Spock or Jenkins-Spock documentation.
 
