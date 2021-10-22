@@ -13,7 +13,7 @@ public class JacocoSpec extends JTEPipelineSpecification {
         when:
         new File("libraries").eachFileRecurse (FileType.FILES) { file ->
             String filePath = file.getPath()
-            if(filePath.endsWith(".groovy") && !filePath.endsWith("library_config.groovy")){
+            if(filePath.endsWith(".groovy") && !filePath.endsWith("Spec.groovy") && !filePath.endsWith("library_config.groovy")){
                 String path = filePath - "libraries/"
                 loadPipelineScriptForTest(path)
             }

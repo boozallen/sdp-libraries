@@ -74,7 +74,7 @@ public class DeployToSpec extends JTEPipelineSpecification {
       }
   }
 
-  def "Throw error if helm_configuration_repository_credential (HCRC) not defined" () {
+  def "Throw error if helm_configuration_repository_credential not defined" () {
     setup:
       def app_env = [short_name: 'env', long_name: 'Environment', helm_configuration_repository_credential: null]
       DeployTo.getBinding().setVariable("config", [helm_configuration_repository_credential: null])
@@ -531,9 +531,9 @@ public class DeployToSpec extends JTEPipelineSpecification {
       DeployTo(app_env)
     then:
       1 * getPipelineMock("echo")("updating values file -> values.env.yaml")
-      1 * getPipelineMock("git")( [add: "values.env.yaml"] )
-      1 * getPipelineMock("git")( [commit: "Updating values.env.yaml for unit-test images"])
-      1 * getPipelineMock("git")( getPipelineMock("push") )
+      1 * getPipelineMock("git.call")( [add: "values.env.yaml"] )
+      1 * getPipelineMock("git.call")( [commit: "Updating values.env.yaml for unit-test images"])
+      1 * getPipelineMock("git.call")( getPipelineMock("push") )
   }
   
 }
