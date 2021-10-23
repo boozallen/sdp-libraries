@@ -38,7 +38,7 @@ for library in os.listdir(rootdir):
       # add lib_data to libraries array
       libraries.append(lib_data)
       # virtually add library README to docs/
-      with mkdocs_gen_files.open(f"libraries/SDP Pipeline Libraries/{library}.md", "w") as f:
+      with mkdocs_gen_files.open(f"libraries/{section_name}/{library}.md", "w") as f:
         print(readme, file=f)
 
 # sort libraries by name ignoring case
