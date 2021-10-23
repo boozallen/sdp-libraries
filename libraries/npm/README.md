@@ -7,6 +7,7 @@ description: Run npm `test` and `build` commands in an nvm container with a spec
 Run npm `test` and `build` commands in an nvm container with a specified node version.
 
 ## Steps Provided
+
 ---
 
 | Step | Description |
@@ -23,12 +24,13 @@ Environment variables and secrets set in the library config are concatenated wit
 Environment variables and secrets with the same key are set to the definition contained in the application environment.
 
 ## Example Library Configuration
+
 ---
 
 | Field | Description | Default |
 | ----------- | ----------- | ----------- |
 | ``node_version`` | node version to run npm within (installed via nvm) | lts/* |
-| ```unit_test.script``` | npm command to run; must be present in package.json scripts block | test | 
+| ```unit_test.script``` | npm command to run; must be present in package.json scripts block | test |
 | ``build.script`` | npm command to run; must be present in package.json scripts block | build |
 | ``<step name>.npm_install`` | npm install command to run; npm install can be skipped with value "skip" | ci |
 | ``<step name>.env`` | environment variables to make available to npm process; can include key/value pairs and secrets| [] |
@@ -36,7 +38,7 @@ Environment variables and secrets with the same key are set to the definition co
 
 ### Full Configuration Example
 
-Each available method has config options that can be specified in the application environment or within the library configuration. 
+Each available method has config options that can be specified in the application environment or within the library configuration.
 
 #### Pipeline Configuration
 
@@ -151,9 +153,9 @@ This example shows the prod Application Environment overriding configs set in th
 
 The minimal configuration for this library is:
 
-#### Pipeline Configuration 
+#### Pipeline Configuration
 
-``` groovy 
+``` groovy
 libraries{
   npm
 }

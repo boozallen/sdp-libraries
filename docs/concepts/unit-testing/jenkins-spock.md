@@ -4,6 +4,7 @@ We test pipeline libraries using [Jenkins-Spock](https://github.com/homeaway/jen
 a variation of the [Spock](http://spockframework.org/spock/docs) testing framework that has been designed around testing Jenkins pipelines.
 
 ## Writing a Specification File
+
 ---
 
 A **specification** is a list of features derived from business requirements.
@@ -16,6 +17,7 @@ Create a groovy file with the same name as the class (such as `MyPipelineStepSpe
 and use this outline to get started, making sure to swap names with ones for your library.
 
 ## Sample Specification
+
 ---
 
 1. Import the framework

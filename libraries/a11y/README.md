@@ -2,16 +2,20 @@
 description: Leverages The A11y Machine to perform accessibility compliance scanning
 ---
 
-# The A11y Machine
+# a11y
 
-[The A11y Machine](https://github.com/liip/TheA11yMachine) (or `a11ym` for short, spelled “alym”) is an
-**automated accessibility testing tool** which ***crawls*** and ***tests*** pages of any Web application to produce detailed reports.
+[The A11y Machine](https://github.com/liip/TheA11yMachine) is an automated accessibility testing tool which crawls and tests pages of a web application to produce detailed reports.
 
 It validates pages against the following specifications/laws:
 
 * [W3C Web Content Accessibility Guidelines](http://www.w3.org/TR/WCAG20/) (WCAG) 2.0, including A, AA and AAA levels ([understanding levels of conformance](http://www.w3.org/TR/UNDERSTANDING-WCAG20/conformance.html#uc-levels-head))
 * U.S. [Section 508 legislation](http://www.section508.gov/)
 * [W3C HTML5 Recommendation](https://www.w3.org/TR/html)
+
+!!! warning "Deprecated"
+    This library is no longer maintained because the A11y Machine is no longer maintained.
+
+    Consider using [webhint](./webhint.md) instead.
 
 ## Steps
 

@@ -11,6 +11,11 @@ theme:
     - navigation.top
   logo: assets/images/jte.svg
   favicon: assets/images/jte.svg
+  ## this is a hack
+  ## we add the libraries dir as a custom dir for the theme so that
+  ## we get live reloading of the docs site via `just serve` by passing
+  ## --watch-theme to the `mkdocs serve` command
+  custom_dir: libraries/
 
 repo_url: https://github.com/boozallen/sdp-libraries
 

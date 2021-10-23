@@ -8,6 +8,7 @@ description: Leverages OWASP ZAP to perform penetration testing
 It's also a great tool for experienced penetration-testers to use for manual security testing.
 
 ## Steps
+
 ---
 
 | Step | Description |
@@ -15,6 +16,7 @@ It's also a great tool for experienced penetration-testers to use for manual sec
 | `penetration_test()` | Uses the OWASP ZAP cli to perform penetration testing against the configured URL |
 
 ## Library Configuration Options
+
 ---
 
 OWASP ZAP Library Configuration Options
@@ -37,12 +39,15 @@ libraries{
 ```
 
 ## Results
+
 ---
 
 ![OWASP ZAP example](../assets/images/owasp_zap/report.png)
 
 ## Troubleshooting
+
 ---
 
 ## FAQ
+
 ---

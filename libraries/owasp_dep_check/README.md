@@ -10,6 +10,7 @@ The OWASP Dependency Check library will use the namesake tool to scan a project'
 * [Documentation](https://jeremylong.github.io/DependencyCheck/)
 
 ## Steps
+
 ---
 
 | Step | Description |
@@ -17,6 +18,7 @@ The OWASP Dependency Check library will use the namesake tool to scan a project'
 | `application_dependency_scan()` | Uses the OWASP Dependency Check CLI to perform an application dependency scan |
 
 ## Library Configuration Options
+
 ---
 
 OWASP Dependency Check Library Configuration Options
@@ -29,6 +31,7 @@ OWASP Dependency Check Library Configuration Options
 | `image_tag` | The tag for the scanner docker image used | latest |
 
 ## Example Configuration Snippet
+
 ---
 
 ```groovy
@@ -41,11 +44,13 @@ libraries{
 ```
 
 ## Viewing The Reports
+
 ---
 
 The `application_dependency_scan` step archives artifacts in multiple formats: HTML, JSON, JUnit XML, and CSV.
 
 ## CVSS Threshold & Scores
+
 ---
 
 From the [Wikipedia article](https://en.wikipedia.org/wiki/Common_Vulnerability_Scoring_System),
@@ -59,7 +64,9 @@ If the vulnerability remains, but the `cvss_threshold` is set to 9, the pipeline
 If you wish for the scan to pass regardless of the CVSS scores of detected vulnerabilities, do not set the `cvss_threshold` option.
 
 ## Troubleshooting
+
 ---
 
 ## FAQ
+
 ---

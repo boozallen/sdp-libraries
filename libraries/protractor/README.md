@@ -9,6 +9,7 @@ The framework simulates user activity using the web application by running a dev
 It adds a layer of tests to help ensure that newly added front-end code does not break already existing functionality or the build itself.
 
 ## Steps Provided
+
 ---
 
 | Step | Description |
@@ -16,6 +17,7 @@ It adds a layer of tests to help ensure that newly added front-end code does not
 | `functional_test()` | leverages protractor CLI to perform configured Protractor tests |
 
 ## Library Configurations
+
 ---
 
 Library Configuration Options
@@ -26,7 +28,7 @@ Library Configuration Options
 | `enforce` | Boolean value that determines if a build will fail if a Protractor test fails | |
 | `config_file` | Name of the file where the Protractor configurations are set | |
 
-###  Example Configuration Snippet
+### Example Configuration Snippet
 
 ```groovy
 libraries{
@@ -39,7 +41,9 @@ libraries{
 ```
 
 ## Troubleshooting
+
 ---
 
 ## FAQ
+
 ---

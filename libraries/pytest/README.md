@@ -4,7 +4,7 @@ description: Leverages PyTest, a Python unit testing library, to perform unit te
 
 # PyTest
 
-This library will execute Python unit tests leveraging the [PyTest](https://docs.pytest.org/en/latest/) framework. 
+This library will execute Python unit tests leveraging the [PyTest](https://docs.pytest.org/en/latest/) framework.
 
 ## Steps
 
@@ -13,6 +13,7 @@ This library will execute Python unit tests leveraging the [PyTest](https://docs
 | `unit_test()` | executes unit tests via pytest |
 
 ## Library Configuration Options
+
 ---
 
 Configuration Options
@@ -31,12 +32,15 @@ libraries{
 ```
 
 ## Results
+
 ---
 
-View an example of the HTML output that's been saved as a PDF [here](../assets/attachments/pytest/pytest.pdf). 
+View an example of the HTML output that's been saved as a PDF [here](../assets/attachments/pytest/pytest.pdf).
 
-## External Dependencies 
+## External Dependencies
+
 ---
 
-## Troubleshooting 
+## Troubleshooting
+
 ---

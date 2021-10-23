@@ -7,6 +7,7 @@ description: An internal helper library that the others utilize
 The SDP library provides helper steps used by multiple libraries within sdp-libraries.
 
 ## Steps Provided
+
 ---
 
 | Step | Description |
@@ -22,6 +23,7 @@ Lifecycle Hooks
 | `create_workspace_stash()` | `@Validate` | If the pipeline job is a Multibranch Project, checkout the source code. In either case, save a stash called `workspace` for other libraries to consume. |
 
 ## Library Configuration Options
+
 ---
 
 SDP Library Configuration Options
@@ -36,6 +38,7 @@ SDP Library Configuration Options
 **Important** Unlike the Docker Library, the value in `registry` _does_ include the protocol (http/https)
 
 ## Example Configuration Snippet
+
 ---
 
 ```{ .groovy .annotate }
@@ -55,6 +58,7 @@ libraries{
 3. A Jenkins credential ID to authenticate to the container registry
 
 ## `jteVersion`
+
 ---
 
 `jteVersion` is a multi-method step that provides utilities for determining the current JTE version.
@@ -70,7 +74,7 @@ Methods
 | `jteVersion.greaterThanOrEqualTo(String version)` | returns true if the current JTE version is greater than or equal to the parameter |
 | `jteVersion.equalTo(String version)` | returns true if the current JTE version is equal to the parameter |
 
-For example, 
+For example,
 
 ```groovy
 if (jteVersion.lessThan("2.1")){
@@ -81,6 +85,7 @@ if (jteVersion.lessThan("2.1")){
 ```
 
 ## External Dependencies
+
 ---
 
 * A Docker registry must be setup and configured. Credentials to the registry are also needed.
@@ -89,7 +94,9 @@ if (jteVersion.lessThan("2.1")){
 * The Pipeline Utility Steps plugin is required.
 
 ## Troubleshooting
+
 ---
 
 ## FAQ
+
 ---

@@ -1,6 +1,7 @@
 # Contributing Guide
 
 ## Repository Structure
+
 ---
 
 | Repository Component | Description                                                                               |
@@ -23,7 +24,7 @@ Within the `libraries` directory, there are several components to be aware of:
 | src       | The classes contributed by the library              |
 | test      | The unit tests for the library                      |
 
-For example, the current repository's `a11y` library: 
+For example, the current repository's `a11y` library:
 
 ``` text
 libraries/a11y
@@ -37,6 +38,7 @@ libraries/a11y
 ```
 
 ## Required Tools
+
 ---
 
 | Tool | Purpose |
@@ -46,6 +48,7 @@ libraries/a11y
 | [Docker](https://www.docker.com/get-started) | Used to build the documentation for local preview |
 
 ## Create a Library
+
 ---
 
 Create a new library by running:
@@ -58,7 +61,8 @@ This will produce a folder of the library name with the library structure descri
 Information for developing a new library can be found in [Create a New Library](./create-new-library/) page.
 
 ## Documentation
---- 
+
+---
 
 This repository uses [Material for MkDocs](https://squidfunk.github.io/mkdocs-material/) to build the documentation.
 
@@ -80,9 +84,10 @@ To see changes live as you make them, run:
 just serve
 ```
 
-The documentation will be accessible at http://localhost:8000.
+The documentation will be accessible at <http://localhost:8000>.
 
 ## Testing
+
 ---
 
 Unit tests can be written using [Jenkins Spock](https://github.com/ExpediaGroup/jenkins-spock).
@@ -114,6 +119,7 @@ just test "*.BuildSpec"
 ```
 
 ## Linting
+
 ---
 
 This repository uses [npm-groovy-lint](https://github.com/nvuillam/npm-groovy-lint) with the recommended codenarc profile for Jenkins.
@@ -129,6 +135,7 @@ just lint
 The output will go to standard out.
 
 ## Release Management
+
 ---
 
 This repository automates the create of release branches and tags as well as publishing the documentation for each version.

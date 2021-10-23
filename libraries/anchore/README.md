@@ -10,21 +10,22 @@ The library communicates with your on-premises Anchore Enterprise or Anchore Eng
 For more information on deploying and using Anchore, see the [Anchore Documentation](https://docs.anchore.com).
 
 ## Steps
+
 ---
 
-| Step | Description | 
+| Step | Description |
 | ----------- | ----------- |
 | ``scan_container_image()`` | Scan the container image built and pushed to a registry, with the image tag identifiers to scan fetched by get_images_to_build() |
 | ``add_registry_creds()`` | Add docker registry credentials to Anchore if they do not already exist, so it can pull an image from a private registry. Can run this step before `scan_container_image` to ensure Anchore has access to an image in a private registry. |
 
-
 ## Configuration
+
 ---
 
 | Field | Type | Description | Default Value |
 | ----------- | ----------- | ----------- | ----------- |
 | cred | String | Name of the Jenkins Credential that holds the username/password for authentication against your locally deployed Anchore Engine | None (required to be specified) |
-| anchore_engine_url | String | Full URL of your Anchore Engine API endpoint. Example: http://anchore.yourdomain.com:8228/v1/ | None (required to be specified) |
+| anchore_engine_url | String | Full URL of your Anchore Engine API endpoint. Example: <http://anchore.yourdomain.com:8228/v1/> | None (required to be specified) |
 | policy_id | String | ID of the policy to use when performing policy evaluation. If specified, the policy ID must be present in your Anchore Engine system. |  default (will use the currently default/active policy configured in your Anchore Engine)
 | image_wait_timeout | Integer | Number of seconds to wait for an image to complete analysis. | 300 |
 | archive_only | Boolean | If set to true, instruct library to skip displaying vulnerability / policy evaluation results to stdout. | false |
@@ -56,6 +57,7 @@ libraries{
 ```
 
 ## Results
+
 ---
 
 Results for this library are directly displayed in tabular form in the output of the scan_container_image() step,
@@ -63,6 +65,7 @@ and also stored in parsable/raw form in your job's workspace as anchore_vulnerab
 anchore_policy_evaluations.json for the vulnerability scan and policy evaluation result, respectively.
 
 ## External Dependencies
+
 ---
 
 The Anchore library requires that an on-premises Anchore Enterprise or Anchore Engine deployment is up,
@@ -72,6 +75,7 @@ Any image that is to be scanned must first be pushed to a registry that is also 
 For more information on deploying Anchore Engine, see the [Anchore Documentation](https://docs.anchore.com).
 
 ## Troubleshooting
+
 ---
 
 The library will output both the raw HTTP as well as any JSON error payloads that may be returned when attempting to access the Anchore API.
