@@ -10,5 +10,8 @@ fields{
         timeout_unit = [ "NANOSECONDS", "MICROSECONDS", "MILLISECONDS", "SECONDS", "MINUTES", "HOURS", "DAYS" ]
         cli_parameters = List
         unstash = List
+        project_key = String //dotnet specific
+        test_output_dir = String //dotnet specific
+        coverage_settings_file = String //dotnet specific
     }
 }
