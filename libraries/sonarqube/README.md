@@ -1,3 +1,7 @@
+---
+description: Performs static code analysis with SonarQube
+---
+
 # SonarQube
 
 SonarQube is a tool used for **static code analysis**.
@@ -8,7 +12,8 @@ Organizations can define Quality Profiles which are custom rule profiles that pr
 Quality Gates are then rules defining the organizational policies for code quality.
 SDP will, by default, fail the build if the Quality Gate fails.
 
-##  Steps Contributed
+## Steps Contributed
+
 ---
 
 | Step | Description |
@@ -16,6 +21,7 @@ SDP will, by default, fail the build if the Quality Gate fails.
 | `static_code_analysis()` | Leverages the sonar-scanner cli to perform static code analysis and sends results to the configured SonarQube server |
 
 ## Library Configuration Options
+
 ---
 
  SonarQube Library Configuration Options
@@ -33,15 +39,16 @@ SDP will, by default, fail the build if the Quality Gate fails.
 | `unstash` | a list of pre-existing stashes to try to unstash. Useful if a previous step creates compiled classes or test results for SonarQube to inspect.  | [ ] |
 
 ## Analysis Parameters
+
 ---
 
-In SonarQube, [project analysis settings](https://docs.sonarqube.org/latest/analysis/analysis-parameters/) can be provided to the SonarScanner cli in multiple ways. 
+In SonarQube, [project analysis settings](https://docs.sonarqube.org/latest/analysis/analysis-parameters/) can be provided to the SonarScanner cli in multiple ways.
 
-The SonarScanner will look for the presence of a **sonar-project.properties** file in the current working directory. 
+The SonarScanner will look for the presence of a **sonar-project.properties** file in the current working directory.
 
 Alternatively, users can use this library's `cli_parameters` configuration to pass an array of cli analysis parameters to SonarScanner.
 
-For example, 
+For example,
 
 ```groovy
 libraries{
@@ -59,16 +66,18 @@ libraries{
 It's possible to use pipeline environment variables to populate the analysis parameters.
 This is especially useful when used with one of the source code management libraries to reference the branch name.
 
-#### Configuration File 
+#### Configuration File
 
 .sonar-project.properties
+
 ```txt
 sonar.projectName=My Cool Project: ${env.BRANCH_NAME}
 ```
 
-#### CLI Parameters 
+#### CLI Parameters
 
 .pipeline_config.groovy
+
 ```groovy
 libraries{
     sonarqube{
@@ -79,7 +88,8 @@ libraries{
 }
 ```
 
-##  External Dependencies
+## External Dependencies
+
 ---
 
 * A SonarQube server should be deployed
@@ -88,16 +98,19 @@ libraries{
 ** The "Enable injection of SonarQube server configuration as build environment variables" checkbox should be checked
 
 ## Authentication
+
 ---
 
-This library supports both username/password and API Token authentication to SonarQube. 
+This library supports both username/password and API Token authentication to SonarQube.
 
 If anonymous access is disabled for the SonarQube Server (**it probably should be**),
 then you will need to create an API Token and store it as a Secret Text credential in the Jenkins Credential Store
 for reference in `Manage Jenkins > Configure System > Sonarqube servers` as the `Server authentication token`.
 
-##  Troubleshooting
+## Troubleshooting
+
 ---
 
-##  FAQ
+## FAQ
+
 ---

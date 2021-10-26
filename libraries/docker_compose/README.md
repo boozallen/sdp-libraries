@@ -1,23 +1,31 @@
+---
+description: Uses docker compose to deploy and tear down containers
+---
+
 # Docker Compose
 
 This library allows you to perform docker compose commands.
 
 ## Steps Provided
+
 ---
 
 | Step | Description |
 | ----------- | ----------- |
-| `up()` | Runs docker-compose up with values taken from the configuration. | 
+| `up()` | Runs docker-compose up with values taken from the configuration. |
 | `down()` | Runs docker-compose down with values taken from the configuration. |
 
 ## Example Usage
+
 ---
+
 ```groovy
 compose.up()
 compose.down()
 ```
 
 ## Library Configurations
+
 ---
 
 The library configurations for docker_compose are as follows:
@@ -29,6 +37,7 @@ The library configurations for docker_compose are as follows:
 | `sleep` | Optional configuration that controls how long to wait after running the `up()` command before continuing the pipeline execution. This is helpful when the docker containers need to be started before other steps, like integration tests, may run. |
 
 ## Example Library Configuration
+
 ---
 
 ```groovy
@@ -45,6 +54,7 @@ libraries{
 ```
 
 ## Library Dependencies
+
 ---
 
 * Docker and docker-compose installed on Jenkins.

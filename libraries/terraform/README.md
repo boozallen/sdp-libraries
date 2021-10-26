@@ -1,8 +1,13 @@
+---
+description: Deploys Infrastructure as Code using Terraform 
+---
+
 # Terraform
 
 This library leverages [Terraform](https://www.terraform.io/intro/index.html) to manage deployments of Infrastructure as Code to different environments.
 
 ## Steps Contributed
+
 ---
 
 | *Step* | *Description* |
@@ -10,13 +15,15 @@ This library leverages [Terraform](https://www.terraform.io/intro/index.html) to
 | `deploy_to(application_environment)` | performs a terraform apply |
 
 ## Library Configuration Options
+
 ---
 
-### Working Directory 
+### Working Directory
 
 The working directory from which to run Terraform commands can be specified on the application environment pass to `deploy_to` or within the library configuration.
 
 Pipeline Configuration
+
 ```groovy
 application_environments{
   dev
@@ -35,6 +42,7 @@ libraries{
 ```
 
 Pipeline Template
+
 ```groovy
 /*
   because dev.terraform.working_directory is not set
@@ -51,7 +59,7 @@ deploy_to prod
 
 **Note** If the working directory is not defined on either the library configuration or the application environment then the default value `"."` will be used.
 
-### Secrets 
+### Secrets
 
 This library allows you to configure secrets as environment variables.
 This can be done in both the library configuration or application environments.
@@ -59,6 +67,7 @@ There are two types of secrets currently supported: secret text and username/pas
 These credentials must be stored are in the Jenkins credential store.
 
 Library Secrets Syntax
+
 ```groovy
 libraries{
   terraform{
@@ -84,6 +93,7 @@ The name of each credential block is not important, and only used when describin
 To pass secrets on a per application environment basis, define a `app_env.terraform.secrets` block:
 
 Application Environments Secrets Syntax
+
 ```groovy
 application_environments{
   prod{
@@ -109,6 +119,7 @@ application_environments{
 **Important** If the same secret block is defined on both the application environment and the library configuration, the application environment secret definition will be used.
 
 ## Providers
+
 ---
 
 The [SDP Terraform Container Image](https://github.com/boozallen/sdp-images/tree/master/terraform) can bundle custom providers, if necessary.
@@ -120,7 +131,9 @@ To configure this provider, it is advisable to create secrets for `SYSDIG_SECURE
 These environment variables can be consumed by the provider to configure the required secrets.
 
 ## External Dependencies
+
 ---
 
 ## Troubleshooting
+
 ---

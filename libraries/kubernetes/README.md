@@ -1,8 +1,13 @@
+---
+description: Allows you to perform deployments using Helm to a kubernetes cluster (or clusters)
+---
+
 # Kubernetes
 
 This library allows you to perform deployments to static or ephemeral Kubernetes application environments with [Helm](https://helm.sh/).
 
 ## Steps Provided
+
 ---
 
 | Step | Description |
@@ -11,18 +16,19 @@ This library allows you to perform deployments to static or ephemeral Kubernetes
 | ``ephemeral(Closure body, ApplicationEnvironment)`` | Creates a short-lived application environment for testing |
 
 ## Library Configuration
+
 ---
 
 The configurations for the Kubernetes library can be specified in the library spec or on a per application environment.
 
-
-###  Kubernetes Credential and Context
+### Kubernetes Credential and Context
 
 The Kubernetes Credential is the Jenkins credential defined as a Secrets file that holds the kubeconfig file contents
 with access information to the Kubernetes target environments.
 The Kubernetes Context is the context within the kubeconfig that should be used to identify the target environment for deployment.
 
 You would specify this as follows:
+
 ```groovy
 application_environments{
   dev{
@@ -50,6 +56,7 @@ libraries{
 ```
 
 With this configuration,
+
 * `dev` context within the `cluster2-config` would be used when deploying to `dev`
 * `test` context within the `cluster2-config` would be used when deploying to `test`
 * `production` context within the `cluster1-config` would be used when deploying to `prod`
@@ -100,6 +107,7 @@ The values file to will default to `values.${app_env.short_name}.yaml`, or can b
 The name of the release will default to `app_env.short_name`, or can be overridden via `app_env.release_name`.
 
 An example of helm configurations:
+
 ```groovy
 application_environments{
   dev{
@@ -142,6 +150,7 @@ You can also choose whether or not to promote images for each application enviro
 This app_env setting takes priority over the config setting.
 
 An example of these settings' usage:
+
 ```groovy
 application_environments{
   dev{
@@ -212,11 +221,13 @@ libraries{
 ```
 
 ## Library Dependencies
+
 ---
 
 * A library that implements the `withGit` method such as github.
 
 ## External Dependencies
+
 ---
 
 * Target Kubernetes cluster is deployed and accessible from Jenkins
@@ -227,7 +238,9 @@ libraries{
 * A Jenkins credential exists specifying the current context within the kubeconfig
 
 ## Troubleshooting
+
 ---
 
 ## FAQ
+
 ---

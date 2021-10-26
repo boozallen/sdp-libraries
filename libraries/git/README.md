@@ -1,3 +1,7 @@
+---
+description: Allows you to map a branching strategy to specific pipeline actions when using Public GitHub, GitLab or GitHub Enterprise
+---
+
 # Git
 
 This library is unique in that rather than provide functional step implementations, it provides methods that help with the business logic defined within pipeline templates.
@@ -5,6 +9,7 @@ This library is unique in that rather than provide functional step implementatio
 **Note** It also provides additional functionality that can be useful for library developers to get scm metadata or interact with a remote Gitlab or GitHub repository.
 
 ## Configuration
+
 ---
 
 ```groovy
@@ -22,6 +27,7 @@ libraries{
 ```
 
 ## Pipeline Template Business Logic
+
 ---
 
 The Git library contributes some helper methods to help with pipeline template orchestration.
@@ -39,6 +45,7 @@ Git Flow Helper Methods
 These methods take named parameters `to` and `from` indicating direction of the git whose value is a regular expression to compare the branch names against.
 
 SDP recommends defining keywords for branch name regular expressions:
+
 ```groovy
 keywords{
   master = /^[Mm]aster$/
@@ -51,6 +58,7 @@ keywords{
 **Note** These branch name regular expressions are not a part of the Git library but rather leveraged by defining Keywords in the Pipeline Configuration File.
 
 ## SCM Specific Methods
+
 ---
 
 Gitlab Methods
@@ -60,6 +68,7 @@ Gitlab Methods
 | gitlab_status | Track Jenkins pipeline jobs in Gitlab |
 
 ## Example Pipeline Templates
+
 ---
 
 **Full example using keywords**
@@ -119,12 +128,15 @@ on_merge to: master, {
 ```
 
 ## External Dependencies
+
 ---
 
 * `gitlab-branch-source-plugin:1.4.4` if using gitlab
 
 ## Troubleshooting
+
 ---
 
 ## FAQ
+
 ---

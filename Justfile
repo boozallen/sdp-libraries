@@ -1,39 +1,13 @@
 coverage := "true"
 image := "mkdocs-local"
 
+#########################
+# Misc Recipes
+#########################
+
 # Print recipes
 help:
   just --list --unsorted 
-
-# Run unit tests
-test class="*":
-  #!/usr/bin/env bash
-  set -euxo pipefail
-  coverage=$([[ {{coverage}} == "true" ]] && echo "jacocoTestReport" || echo "")
-  ./gradlew test --tests '{{class}}' $coverage
-
-# Uses npm-groovy-lint to lint the libraries
-lint: 
-  docker run --rm \
-  -u "$(id -u):$(id -g)" \
-  -w=/tmp \
-  -v "$PWD":/tmp \
-  nvuillam/npm-groovy-lint -f "libraries/**/*.groovy" -o json
-
-# Build the docs container image
-buildImage:
-  docker build resources -t {{image}}
-
-# Build the documentation
-build:
-  docker run --rm -v $(pwd):/docs {{image}} build
-
-# Live reloading of the documentation
-serve: buildImage build
-  #!/bin/bash
-  docker run --rm -it -p 8000:80 -v $(pwd)/site:/usr/share/nginx/html --name local-docs -d nginx
-  trap "just clean" INT
-  watchexec --exts md,yml,pages just build
 
 # Cleanup the docs and target directory
 clean: 
@@ -44,7 +18,55 @@ clean:
 # Create a library
 create libName:
   mkdir -p libraries/{{libName}}/{steps,src,resources,test}
-  cp resources/README.template.md libraries/{{libName}}/README.md
+  LIB={{libName}} envsubst < resources/docs/README.template.md > libraries/{{libName}}/README.md
+
+###################
+# Code Recipes
+###################
+
+# Run unit tests
+test class="*":
+  #!/usr/bin/env bash
+  set -euxo pipefail
+  coverage=$([[ {{coverage}} == "true" ]] && echo "jacocoTestReport" || echo "")
+  ./gradlew test --tests '{{class}}' $coverage
+
+# Uses npm-groovy-lint to lint the libraries
+lint-code: 
+  docker run --rm \
+  -u "$(id -u):$(id -g)" \
+  -w=/tmp \
+  -v "$PWD":/tmp \
+  nvuillam/npm-groovy-lint -f "libraries/**/*.groovy" -o json
+
+########################
+# Documentation Recipes
+########################
+
+# Build the docs container image
+buildImage:
+  docker build resources/docs -t {{image}}
+
+# Build the documentation
+build:
+  docker run --rm -v $(pwd):/docs {{image}} build
+
+# serve the docs locally for development
+serve: buildImage
+  docker run --rm -p 8000:8000 -v $(pwd):/docs {{image}} serve -a 0.0.0.0:8000 --watch-theme
+
+# Lint the documentation
+lint-docs: lint-prose lint-markdown
+
+# use Vale to lint the prose of the documentation
+lint-prose:
+  docker run -v $(pwd):/app -w /app jdkato/vale docs
+
+# use markdownlit to lint the docs
+lint-markdown: 
+  docker run -v $(pwd):/app -w /app davidanson/markdownlint-cli2:0.3.1 "docs/**/*.md" "libraries/**/*.md"
+
+######################
 
 release version: 
   #!/usr/bin/env bash
@@ -58,6 +80,7 @@ release version:
 
   # cut a release branch
   git checkout -B release/{{version}}
+
   # bump the version in relevant places
   git commit -m "bump version to {{version}}"
   git push --set-upstream origin release/{{version}}

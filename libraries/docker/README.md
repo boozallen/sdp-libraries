@@ -1,8 +1,13 @@
+---
+description: Uses docker to build and publish container images, tagging them with the Git SHA
+---
+
 # Docker
 
 The Docker library will build docker images and push them into a docker repository.
 
 ## Steps
+
 ---
 
 | Step | Description |
@@ -14,6 +19,7 @@ The Docker library will build docker images and push them into a docker reposito
 | ``retag()``| retags the container images determined by ``get_images_to_build()`` |
 
 ## Example Configuration Snippet
+
 ---
 
 ```groovy
@@ -34,7 +40,9 @@ libraries{
   }
 }
 ```
+
 ## Configuration
+
 ---
 
 | Field | Description | Default Value | Required |
@@ -45,7 +53,7 @@ libraries{
 | cred | Credentials used for the repository where different docker pipeline tools are stored. |  | true |
 | repo_path_prefix | The part of the repository name between the registry name and the last forward-slash | "" | false |
 | remove_local_image | Determines if the pipeline should remove the local image after building or retagging | false | false |
-| build_args | A block of build arguments to pass to `docker build`. For more information, see below. | | false | 
+| build_args | A block of build arguments to pass to `docker build`. For more information, see below. | | false |
 | setExperimentalFlag | If the docker version only has buildx as an experimental feature then this allows that flag to be set | false | false
 | same_repo_different_tags | When building multiple images don't change the repo name but append the key name to the tag | false | false
 | buildx[].name { } | the key name to the map of the specific element of the buildx array |  | true
@@ -54,9 +62,10 @@ libraries{
 | buildx[].context | Dockerfile context for that image | "." | false
 | buildx[].dockerfile_path | Dockerfile location and name for that image | "Dockerfile" | false
 | buildx[].platforms | array of platforms to be built for that image | linux/amd64 | false
-| buildx[].build_args | A block of build arguments to pass for that element to `docker buildx`. For more information, see below. 
+| buildx[].build_args | A block of build arguments to pass for that element to `docker buildx`. For more information, see below.
 
 ## Build Arguments
+
 ---
 
 ### Static Inline Build Arguments
@@ -75,7 +84,7 @@ libraries{
 }
 ```
 
-1.  This configuration would result in `--build-arg BUILD_ARG_NAME='some-inline-argument'` being passed to `docker build`
+1. This configuration would result in `--build-arg BUILD_ARG_NAME='some-inline-argument'` being passed to `docker build`
 
 ### Secret Text Credentials
 
@@ -107,15 +116,18 @@ Go to [Docker Buildx](https://docs.docker.com/buildx/working-with-buildx/) to le
 In order to use the buildx step, the build strategy must be set to `'buildx'`.
 
 ### Use Cases
+
 This step provides covers three use cases for building multi-architecture.
 
-#### 1. Single docker image name with one tag.
+#### 1. Single docker image name with one tag
+
 Example: repo/example:1.0 that supports amd64, arm64, armv7
 
-*  Use this when the pipeline can build multiple architectures into a single docker image manifest.
-*  This method of building the image requires that the base image also supports all the architectures that the pipeline is building for.
+* Use this when the pipeline can build multiple architectures into a single docker image manifest.
+* This method of building the image requires that the base image also supports all the architectures that the pipeline is building for.
 
 Example Configuration Snippet for buildx Single docker image name with one tag:
+
 ``` groovy
 libraries{
   docker {
@@ -137,11 +149,13 @@ libraries{
 ```
 
 Generated buildx command from above:
+
 ``` bash
 docker buildx build . -t docker-registry.default.svc:5000/java/example:<insert git sha> -t docker-registry.default.svc:5000/java/example:latest --platform linux/amd64,linux/arm64,linux/arm/v7 --build-arg=BASE_IMAGE=alpine:3.12 --push
 ```
 
-#### 2. Single docker image name with multiple tags.
+#### 2. Single docker image name with multiple tags
+
 Example: repo/example:1.0-amd64 repo/example:1.0-arm64 where each image supports a different architecture
 
 * Use this when there is no multi-architecture base image that can be used to build a single image manifest.
@@ -150,6 +164,7 @@ Example: repo/example:1.0-amd64 repo/example:1.0-arm64 where each image supports
 * There can only be one element that can use the `useLatestTag` as it will throw an error due to the pipeline attempting to overwrite another image being built.
 
 Example Configuration Snippet for buildx Single docker image name with one tag:
+
 ``` groovy
 libraries{
   docker {
@@ -180,18 +195,21 @@ libraries{
 ```
 
 Generated buildx command from above:
+
 ``` bash
 docker buildx build . -t docker-registry.default.svc:5000/java/example:1.0-amd64 -t docker-registry.default.svc:5000/java/example:latest --platform=linux/amd64 --build-arg=BASE_IMAGE=alpine:3.12 --push
 docker buildx build . -t docker-registry.default.svc:5000/java/example:1.0-arm64 --platform=linux/arm64 --build-arg=BASE_IMAGE=alpine:3.12 --push
 ```
 
-#### 3. Multiple docker image names with multiple tags.
+#### 3. Multiple docker image names with multiple tags
+
 Example: example-big:1.0 and example-small:1.0 where each image has its own list of architectures
 
 * Use this when there is a single repo with multiple images that need to be built for multiple architectures.
 * Each element's key must be unique for this to build properly or else it will override previous images.
 
 Example Configuration Snippet for buildx Single docker image name with one tag:
+
 ``` groovy
 libraries{
   docker {
@@ -220,12 +238,14 @@ libraries{
 ```
 
 Generated buildx commands from above:
+
 ``` bash
 docker buildx build ./jdk -t docker-registry.default.svc:5000/java/example-jdk:1.0 --platform linux/amd64,linux/arm64,linux/arm/v7 --build-arg=BASE_IMAGE=alpine:3.12 --push
 docker buildx build ./jre -t docker-registry.default.svc:5000/java/example-jre:1.0 --platform linux/amd64,linux/arm64,linux/arm/v7 --build-arg=BASE_IMAGE=alpine:3.12 --push
 ```
 
 ## External Dependencies
+
 ---
 
 * A Docker registry must be set up and configured. Credentials to the repository are also needed.
@@ -234,7 +254,9 @@ docker buildx build ./jre -t docker-registry.default.svc:5000/java/example-jre:1
 * Buildx enabled nodes needs to be set up with buildkit builders that support the architectures required for the step to work.
 
 ## Troubleshooting
+
 ---
 
 ## FAQ
+
 ---

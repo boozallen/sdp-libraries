@@ -1,3 +1,7 @@
+---
+description: Allows you to perform deployments using Helm to a Red Hat OpenShift Container Platform (or platforms)
+---
+
 # OpenShift
 
 OpenShift is Red Hat's enterprise Kubernetes distribution.
@@ -5,6 +9,7 @@ OpenShift is Red Hat's enterprise Kubernetes distribution.
 This library allows you to perform deployments to static or ephemeral application environments with [Helm](https://helm.sh).
 
 ## Steps Provided
+
 ---
 
 | Step | Description |
@@ -13,11 +18,13 @@ This library allows you to perform deployments to static or ephemeral applicatio
 | ``ephemeral(Closure body, ApplicationEnvironment)`` | Creates a short-lived application environment for testing |
 
 ## Overview
+
 ---
 
 ![OpenShift deploy_to diagram](../assets/images/openshift/Openshift_deploy_to_diagram.png)
 
 ## Library Configurations
+
 ---
 
 The configurations for the OpenShift library can be specified at multiple levels.
@@ -30,6 +37,7 @@ The OpenShift URL can be defined in the library spec or on a per application env
 
 For example, it's common to have a cluster for lower environments with a separate cluster for production.
 You would specify this as follows:
+
 ```groovy
 application_environments{
   dev{
@@ -113,6 +121,7 @@ The values file used will default to `values.${app_env.short_name}.yaml`, but a 
 The name of the release will default to `app_env.short_name`, but can be set through `app_env.tiller_release_name`.
 
 An example of helm configurations:
+
 ```groovy
 application_environments{
   dev{
@@ -159,6 +168,7 @@ You can also choose whether or not to promote images for each application enviro
 This app_env setting takes priority over the config setting.
 
 An example of these settings' usage:
+
 ```groovy
 application_environments{
   dev{
@@ -234,24 +244,26 @@ libraries{
 ```
 
 ## External Dependencies
+
 ---
 
 - OpenShift is deployed and accessible from Jenkins
 - The helm configuration repository defines the application as it would be deployed to OpenShift
 - Values files follow the convention for repo names & Git SHAs
-    - The values file has the key `global.repos`
-    - That key is a list of maps, each with two keys:
-        - **name**: the name of the source GitHub repository
-        - **sha**: the Git SHA for the last commit
-    - These maps are added automatically so long as `global.repos` is a list of maps
+  - The values file has the key `global.repos`
+  - That key is a list of maps, each with two keys:
+    - **name**: the name of the source GitHub repository
+    - **sha**: the Git SHA for the last commit
+  - These maps are added automatically so long as `global.repos` is a list of maps
 - A Jenkins credential exists to access the helm configuration repository
 - A Jenkins credential exists to log in with OpenShift CLI
 - The "pipeline-utility-steps plugin" is installed on Jenkins (supplies the readYAML step)
 
 ## Troubleshooting
+
 ---
- 
-### Updates were rejected...
+
+### Updates were rejected
 
 **Message**: Updates were rejected because the remote contains work that you do not have locally.
 This is usually caused by another repository pushing to the same ref.
@@ -261,8 +273,9 @@ You may want to first integrate the remote changes (e.g., `git pull ...`) before
 
 **Explanation**: After deploying to Helm, the pipeline attempts to update the helm-configuration-repository with the latest Git SHA for the pipeline's source code repo.
 However, if in the time between checking out the helm chart from Git and pushing updates, another pipeline pushes its own updates, then git will throw an error.
- 
+
 ## FAQ
+
 ---
 
 ### Is there a way to securely deploy OpenShift Secrets to my ephemeral environment(s)?
