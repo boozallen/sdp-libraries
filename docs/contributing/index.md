@@ -9,9 +9,7 @@
 | `README.md`          | Repository overview, displays on Github.                                                  |
 | `docs/index.md`      | Repository overview, gets compiled as the landing page for the documentation              |
 | `docs`               | Documentation not specific to a particular library, and assets for library docs           |
-| `CONTRIBUTING.md`    | Explains how to develop against this repository                                           |
 | `libraries`          | The base directory where the libraries are stored                                         |
-| `test`               | The base directory where the libraries tests are stored                                         |
 
 
 ### Library Structure
@@ -24,6 +22,8 @@ Within the `libraries` directory, there are several components to be aware of:
 | steps     | The steps contributed by the library                |
 | resources | Any reusable content for consumption by the library |
 | src       | The classes contributed by the library              |
+| test      | The tests for the library                           |
+
 
 For example, the current repository's `a11y` library:
 
@@ -34,6 +34,8 @@ libraries/a11y
 ├── src
 ├── steps
     └── accessibility_compliance_test.groovy
+├── test
+    └── AccessibilityComplianceTestSpec.groovy
 ```
 
 ## Required Tools
