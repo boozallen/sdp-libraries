@@ -1,6 +1,6 @@
 # Jenkins Spock
 
-We test pipeline libraries using [Jenkins-Spock](https://github.com/homeaway/jenkins-spock),
+Pipeline libraries are tested using [Jenkins-Spock](https://github.com/homeaway/jenkins-spock),
 a variation of the [Spock](http://spockframework.org/spock/docs) testing framework that has been designed around testing Jenkins pipelines.
 
 ## Writing a Specification File
@@ -12,7 +12,7 @@ A specification file contains that list of features as unit tests, and those tes
 There should be a separate file for each pipeline step in your library.
 
 Below is an outline of a specification file.
-It shows what you need to include in order to run tests, as well as some conventions for what to name methods and variables.
+It shows what you need to include to run tests, as well as some conventions for what to name methods and variables.
 Create a groovy file with the same name as the class (such as `MyPipelineStepSpec.groovy`)
 and use this outline to get started, making sure to swap names with ones for your library.
 
@@ -52,7 +52,7 @@ public class MyPipelineStepSpec extends JTEPipelineSpecification {
       // unit tests. Use this to set it manually
       MyPipelineStep.getBinding().setVariable("config", [ field: "String" ])
     when:
-      // This is the "stimulus". It does things so we can test what happens
+      // This is the "stimulus". It does things to test what happens
       // Typically, you execute the step's groovy code like this
       MyPipelineStep()
     then:

@@ -1,6 +1,6 @@
 # Frequently Asked Questions
 
-This section covers some of the questions not easily answered in the Spock or Jenkins-Spock documentation.
+This section covers questions that aren't answered in the Spock or Jenkins-Spock documentation.
 
 **Q: What's the difference between explicitlyMockPipelineStep and explicitlyMockPipelineVariable?**
 
@@ -23,7 +23,7 @@ The standard format for interaction-based tests is:
 ```
 
 While you can put the exact parameter value in the second parentheses, you can also run arbitrary groovy code inside curly brackets.
-Whether or not it's a "match" depends on if that code returns `true` or `false`.
+If it's a "match" depends on if that code returns `true` or `false`.
 A good example is in [PenetrationTestSpec.groovy](https://github.com/boozallen/sdp-libraries/blob/main/test/owasp_zap/PenetrationTestSpec.groovy#L33). Use `it` to get the value of the parameter:
 `1 * getPipelineMock("sh")({it =~ / (zap-cli open-url) Kirk (.+)/})`.
 

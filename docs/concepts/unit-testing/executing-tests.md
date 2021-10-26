@@ -1,12 +1,12 @@
 # Test Execution
 
-For our SDP Pipeline Libraries, tests are placed in a directory called `tests` within the library directory.
+In SDP Pipeline Libraries, tests are placed in a directory called `test` within the library directory.
 
 ## Executing tests with Gradle
 
 ---
 
-This repo has been set up to run Jenkins-Spock tests using Gradle.
+This repository has been set up to run Jenkins-Spock tests using Gradle.
 
 Currently, Gradle 6.3.0 running on JDK 8 is required. These can be downloaded on OSX via:
 

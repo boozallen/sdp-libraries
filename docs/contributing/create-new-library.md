@@ -48,14 +48,14 @@ It's worthwhile to see if any of those steps are going to be useful to you durin
 ### Add an SDP Pipeline Image (if necessary)
 
 The SDP Pipeline Libraries try to install as few plugins on the Jenkins instance and as few tools on the underlying infrastructure as possible.
-We run portions of the pipeline inside container images, leveraging them as runtime pipeline environments.
+Part of the pipeline runs inside container images, leveraging them as runtime pipeline environments.
 The existing container images used for this purpose can be found in the [SDP Pipeline Images](https://github.com/boozallen/sdp-images) repository.
 
 If your library requires runtime dependencies, like a CLI, capture them in a container image and open a PR to the SDP Pipeline Images repository.
 
-In your step implementations, the image that is to be used should be overridable but default to the image hosted via GitHub Package Registry on the SDP Pipeline Images repository.
+In your step implementations, the image that's used should be overrideable but default to the image hosted via GitHub Package Registry on the SDP Pipeline Images repository.
 
-**Note** If your library requires runtime dependencies, your new library will not be accepted until the required image has been merged and published to the SDP Pipeline Images repository.
+**Note** If your library requires runtime dependencies, your new library won't be accepted until the required image has been merged and published to the SDP Pipeline Images repository.
 
 ## Add documentation for the library
 
