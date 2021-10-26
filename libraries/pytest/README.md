@@ -20,7 +20,7 @@ Configuration Options
 
 | Field | Description | Required | Default Value |
 | ----------- | ----------- | ----------- | ----------- |
-| `enforce_success` | Set to false if failing tests should not fail the build | false  | true |
+| `enforce_success` | Set to false if failing tests shouldn't fail the build | false  | true |
 | `requirements_file` | Relative path within the repository pointing to a python requirements file | false  | requirements.txt |
 
 ```groovy

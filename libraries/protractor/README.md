@@ -4,9 +4,9 @@ description: Leverages Protractor, a frontend unit testing utility, to perform u
 
 # Protractor
 
-Protractor is a test framework built for Angular and AngularJS applications that is used for end-to-end testing.
+Protractor is a test framework built for Angular and AngularJS applications that's used for end-to-end testing.
 The framework simulates user activity using the web application by running a developer's tests on a real browser.
-It adds a layer of tests to help ensure that newly added front-end code does not break already existing functionality or the build itself.
+It adds a layer of tests to help ensure that newly added front-end code doesn't break already existing functionality or the build itself.
 
 ## Steps Provided
 

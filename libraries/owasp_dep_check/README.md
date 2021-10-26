@@ -56,12 +56,12 @@ The `application_dependency_scan` step archives artifacts in multiple formats: H
 From the [Wikipedia article](https://en.wikipedia.org/wiki/Common_Vulnerability_Scoring_System),
 >The Common Vulnerability Scoring System (CVSS) is a free and open industry standard for assessing the severity of computer system security vulnerabilities ... Scores range from 0 to 10, with 10 being the most severe
 
-The pipeline has the ability to fail if vulnerability is detected at or above a given threshold.
+The pipeline can fail if a vulnerability is detected at or above a given threshold.
 This threshold is set with the `cvss_threshold` configuration option.
 For example, if `cvss_threshold` is set to 7, and a vulnerability with a CVSS score of 7.5 is detected, the pipeline will fail.
 If the vulnerability remains, but the `cvss_threshold` is set to 9, the pipeline will pass the OWASP Dependency Check scan.
 
-If you wish for the scan to pass regardless of the CVSS scores of detected vulnerabilities, do not set the `cvss_threshold` option.
+If you wish for the scan to pass regardless of the CVSS scores of detected vulnerabilities, don't set the `cvss_threshold` option.
 
 ## Troubleshooting
 

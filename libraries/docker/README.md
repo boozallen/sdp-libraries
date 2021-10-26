@@ -113,7 +113,7 @@ libraries{
 
 Go to [Docker Buildx](https://docs.docker.com/buildx/working-with-buildx/) to learn more about buildx and the requirements for it.
 
-In order to use the buildx step, the build strategy must be set to `'buildx'`.
+The build strategy must be set to `'buildx'` to use the buildx step.
 
 ### Use Cases
 
@@ -206,7 +206,7 @@ docker buildx build . -t docker-registry.default.svc:5000/java/example:1.0-arm64
 Example: example-big:1.0 and example-small:1.0 where each image has its own list of architectures
 
 * Use this when there is a single repo with multiple images that need to be built for multiple architectures.
-* Each element's key must be unique for this to build properly or else it will override previous images.
+* Each element's key must be unique for this to build or else it will override previous images and fail.
 
 Example Configuration Snippet for buildx Single docker image name with one tag:
 

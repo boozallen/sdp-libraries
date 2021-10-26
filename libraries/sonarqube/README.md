@@ -29,7 +29,7 @@ SDP will, by default, fail the build if the Quality Gate fails.
 | Field | Description | Default Value |
 | ----------- | ----------- | ----------- |
 | `installation_name` | The name of the SonarQube installation configured in `Manage Jenkins > Configure System` | "SonarQube" |
-| `credential_id` | The Jenkins credential ID to use when authenticating to SonarQube.  Can either be a valid username/password or an API Token stored in a Secret Text credential type. | If unset, the library will check if the installation defined via `installation_name` has a server authorization token configured. If a server authorization token has been provided in the plugin configuration, then that will be the default. If unset, then a credential id of "sonarqube" will be assumed. |
+| `credential_id` | The Jenkins credential ID to use when authenticating to SonarQube. Can either be a valid username/password or an API Token stored in a Secret Text credential type. | If unset, the library will check if the installation defined via `installation_name` has a server authorization token configured. If a server authorization token has been provided in the plugin configuration, then that will be the default. If unset, then a credential id of "sonarqube" will be assumed. |
 | `wait_for_quality_gate` | Whether or not to wait for SonarQube to send a webhook back to Jenkins notifying with the Quality Gate result | true |
 | `enforce_quality_gate` | Determine whether the build will fail if the code does not pass the quality gate | true |
 | `stage_display_name` | Purely aesthetic. The name of the stage block during analysis for pipeline visualization in the Jenkins console. | "SonarQube Analysis" |

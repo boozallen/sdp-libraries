@@ -147,7 +147,7 @@ libraries{
 ```
 
 This example shows the prod Application Environment overriding configs set in the library config.
-`npm_build.npm_install` is preserved as set in library config, since it is not overridden by the Application Environment.
+`npm_build.npm_install` is preserved as set in library config, since it isn't overridden by the Application Environment.
 
 ### Minimal Configuration Example
 

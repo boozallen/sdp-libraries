@@ -55,7 +55,7 @@ keywords{
 }
 ```
 
-**Note** These branch name regular expressions are not a part of the Git library but rather leveraged by defining Keywords in the Pipeline Configuration File.
+**Note** These branch name regular expressions aren't a part of the Git library but rather leveraged by defining Keywords in the Pipeline Configuration File.
 
 ## SCM Specific Methods
 

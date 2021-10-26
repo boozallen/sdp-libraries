@@ -31,7 +31,7 @@ SDP Library Configuration Options
 | Field | Description | Default Value |
 | ----------- | ----------- | ----------- |
 | `images.registry` | This sets the registry the sdp library expects to find its Docker images | |
-| `images.repository` | The first [path component](https://forums.docker.com/t/docker-registry-v2-spec-and-repository-naming-rule/5466) in the repository name, e.g. if your images follow the format `my-registry.com/sdp/*`, this would be *sdp* | |
+| `images.repository` | The first [path component](https://forums.docker.com/t/docker-registry-v2-spec-and-repository-naming-rule/5466) in the repository name. For example if your images follow the format `my-registry.com/sdp/*`, this would be *sdp* | |
 | `sdp.images.cred` | Credentials used for the repository where different docker pipeline tools are stored | |
 | `sdp.images.docker_args` | Arguments to use when starting the container. Uses the same flags as `docker run` | |
 

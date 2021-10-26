@@ -65,10 +65,10 @@ Together `k8s_credential` and `k8s_context` uniquely identify the target environ
 
 ### Helm Configuration
 
-We use [Helm](https://helm.sh/) for a deployment mechanism to Kubernetes.
+[Helm](https://helm.sh/) is used for deployment into Kubernetes.
 Helm is a package manager and templating engine for Kubernetes manifests.
 Using Helm, the typical YAML manifests used to deploy to Kubernetes distributions can be templated for reuse.
-In our case, a different `values` file is used for each static application environment.
+In this case, a different `values` file is used for each static application environment.
 
 **Create Helm Configuration Repository**
 
@@ -82,11 +82,11 @@ it doesn't require any specific helm chart repository structure.
 
 **Values File Conventions**
 
-Given that we tag container images using the git SHA,
+Given that container images are tagged using the git SHA,
 SDP will clone your helm configuration repository and update a key corresponding to the current version of each container image for each application environment.
 
 As such, a certain syntax is required in your values file. You must have an `image_shas` key.
-SDP will automatically add subkeys for each repositories under this `image_shas` with a value that is the git SHA.
+SDP will automatically add subkeys for each repositories under this `image_shas` with a value that's the git SHA.
 
 **Note** Given that YAML keys can't have hyphens, hyphens in repository names will be replaced with underscores.
 
@@ -146,7 +146,7 @@ which is when the most recent code change was a **merge** into the given code br
 The image would be expected to be built from an earlier commit, or while there was an open PR.
 
 You can override this default for the entire pipeline by setting the `promote_previous_image` config setting to **false**.
-You can also choose whether or not to promote images for each application environment individually through the `promote_previous_image` application_environment setting.
+You can also choose whether to promote images for each application environment individually through the `promote_previous_image` application_environment setting.
 This app_env setting takes priority over the config setting.
 
 An example of these settings' usage:
@@ -187,7 +187,7 @@ Kubernetes Library Configuration Options
 | helm_configuration_repository_credential | The Jenkins credential ID to access the helm configuration GitHub repository |  | both |
 | k8s_context | The Jenkins credential ID specifying the context within the k8s_credential kubeconfig that identifies the target environment |  | both |
 | chart_values_file | The values file to use for the release |  | app_env |
-| promote_previous_image | Whether or not to promote a previously-built image | (Boolean) true | both |
+| promote_previous_image | Whether or not to promote a previously built image | (Boolean) true | both |
 
 ```groovy
 application_environments{

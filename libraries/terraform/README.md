@@ -57,7 +57,7 @@ deploy_to dev
 deploy_to prod 
 ```
 
-**Note** If the working directory is not defined on either the library configuration or the application environment then the default value `"."` will be used.
+**Note** If the working directory isn't defined on either the library configuration or the application environment then the default value `"."` will be used.
 
 ### Secrets
 
@@ -88,7 +88,7 @@ libraries{
 }
 ```
 
-The name of each credential block is not important, and only used when describing configuration errors found by the step.
+The name of each credential block isn't important, and only used when describing configuration errors found by the step.
 
 To pass secrets on a per application environment basis, define a `app_env.terraform.secrets` block:
 

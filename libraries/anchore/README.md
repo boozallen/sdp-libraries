@@ -16,7 +16,7 @@ For more information on deploying and using Anchore, see the [Anchore Documentat
 | Step | Description |
 | ----------- | ----------- |
 | ``scan_container_image()`` | Scan the container image built and pushed to a registry, with the image tag identifiers to scan fetched by get_images_to_build() |
-| ``add_registry_creds()`` | Add docker registry credentials to Anchore if they do not already exist, so it can pull an image from a private registry. Can run this step before `scan_container_image` to ensure Anchore has access to an image in a private registry. |
+| ``add_registry_creds()`` | Add docker registry credentials to Anchore if they don't already exist, so it can pull an image from a private registry. Can run this step before `scan_container_image` to ensure Anchore has access to an image in a private registry. |
 
 ## Configuration
 
@@ -29,7 +29,7 @@ For more information on deploying and using Anchore, see the [Anchore Documentat
 | policy_id | String | ID of the policy to use when performing policy evaluation. If specified, the policy ID must be present in your Anchore Engine system. |  default (will use the currently default/active policy configured in your Anchore Engine)
 | image_wait_timeout | Integer | Number of seconds to wait for an image to complete analysis. | 300 |
 | archive_only | Boolean | If set to true, instruct library to skip displaying vulnerability / policy evaluation results to stdout. | false |
-| bail_on_fail | Boolean | If set to true, cause the library to fail the build if the Anchore Policy Evaluation step results in a 'STOP' final action. Leave this set to default (true) if you would like your build to fail when your Anchore Policy Evaluation is successful, but the image does not conform to your specified policy requirements. | true |
+| bail_on_fail | Boolean | If set to true, cause the library to fail the build if the Anchore Policy Evaluation step results in a 'STOP' final action. Leave this set to default (true) if you would like your build to fail when your Anchore Policy Evaluation is successful, but the image doesn't conform to your specified policy requirements. | true |
 | perform_vulnerability_scan | Boolean | If set to true, cause the library to perform an Anchore Software Vulnerability scan and generate a report. | true |
 | perform_policy_evaluation | Boolean | If set to true, cause the library to perform an Anchore Policy Evaluation compliance scan and generate a report. | true |
 | docker_registry_credential_id | String | Credential id of private docker registry | true |
@@ -70,7 +70,7 @@ anchore_policy_evaluations.json for the vulnerability scan and policy evaluation
 
 The Anchore library requires that an on-premises Anchore Enterprise or Anchore Engine deployment is up,
 configured, and running, as the library acts as a client against the Anchore API.
-Any image that is to be scanned must first be pushed to a registry that is also accessible to the Anchore Engine deployment
+Any image that's to be scanned must first be pushed to a registry that's also accessible to the Anchore Engine deployment
 (with registry credentials added if needed via regular Anchore Engine mechanisms for accessing registries).
 For more information on deploying Anchore Engine, see the [Anchore Documentation](https://docs.anchore.com).
 
