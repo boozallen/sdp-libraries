@@ -65,7 +65,7 @@ nav:
     - 'concepts/unit-testing/jenkins-spock.md'
     - 'concepts/unit-testing/writing-tests.md'
     - 'concepts/unit-testing/executing-tests.md'
-    - 'docs/concepts/unit-testing/faq.md'
+    - 'concepts/unit-testing/faq.md'
 - Tutorials:
   - 'tutorials/overview.md'
 - How-To Guides:
