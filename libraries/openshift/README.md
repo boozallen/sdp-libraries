@@ -21,7 +21,7 @@ This library allows you to perform deployments to static or ephemeral applicatio
 
 ---
 
-![OpenShift deploy_to diagram](../assets/images/openshift/Openshift_deploy_to_diagram.png)
+![OpenShift deploy_to diagram](../../assets/images/openshift/Openshift_deploy_to_diagram.png)
 
 ## Library Configurations
 

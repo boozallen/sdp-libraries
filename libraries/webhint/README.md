@@ -41,7 +41,7 @@ libraries{
 
 ---
 
-[View an example HTML report, saved to PDF](../assets/attachments/webhint/webhint_mockaroo.pdf).
+[View an example HTML report, saved to PDF](../../assets/attachments/webhint/webhint_mockaroo.pdf).
 
 ## External Dependencies
 

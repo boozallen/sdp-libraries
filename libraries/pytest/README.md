@@ -35,7 +35,7 @@ libraries{
 
 ---
 
-View an example of the HTML output that's been saved as a PDF [here](../assets/attachments/pytest/pytest.pdf).
+View an example of the HTML output that's been saved as a PDF [here](../../assets/attachments/pytest/pytest.pdf).
 
 ## External Dependencies
 

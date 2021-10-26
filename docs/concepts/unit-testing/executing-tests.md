@@ -23,4 +23,4 @@ alias java8='export JAVA_HOME=$JAVA_8_HOME'
 java8
 ```
 
-See the [Contributing Guide](../contributing/index.md) for instructions on running unit tests.
+See the [Contributing Guide](../../contributing/index.md) for instructions on running unit tests.
