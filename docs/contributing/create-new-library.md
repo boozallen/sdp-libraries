@@ -29,7 +29,7 @@ so if you haven't, go ahead and fork the [SDP Pipeline Libraries Repository](htt
 
 ```bash
 # from the root of the repository
-mkdir libraries/<name_of_new_library>
+just create <name_of_new_library>
 ```
 
 ## Implement the library's steps

@@ -75,3 +75,4 @@ nav:
 - ... | glob=libraries/**
 - Contributing:
   - 'contributing/index.md'
+  - 'contributing/create-new-library.md'

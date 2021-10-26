@@ -93,6 +93,8 @@ The documentation will be accessible at <http://localhost:8000>.
 
 Unit tests can be written using [Jenkins Spock](https://github.com/ExpediaGroup/jenkins-spock).
 
+Currently, Gradle 6.3.0 running on JDK 8 is required to run the tests. To see how to install these tools go to [Executing Tests](../concepts/unit-testing/executing-tests.md).
+
 These tests should go in the `test` directory for each library.
 
 To run all the tests, run:
