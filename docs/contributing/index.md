@@ -132,7 +132,8 @@ The `.groovylintrc.json` can be used to tune the rule profile.
 To lint the libraries, run:
 
 ``` bash
-just lint
+just lint-code
+just lint-docs
 ```
 
 The output will go to standard out.
