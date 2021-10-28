@@ -37,7 +37,7 @@ lint-code:
   -u "$(id -u):$(id -g)" \
   -w=/tmp \
   -v "$PWD":/tmp \
-  nvuillam/npm-groovy-lint -f "libraries/**/*.groovy" -o json
+  nvuillam/npm-groovy-lint -p ./libraries -f **/*.groovy -i "**/test/* -o json"
 
 ########################
 # Documentation Recipes
