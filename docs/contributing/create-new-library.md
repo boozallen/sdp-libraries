@@ -13,7 +13,7 @@ This page will outline the steps for adding a new SDP library that's ready for o
 If the library doesn't already exist, wouldn't make more sense as an addition to an existing library,
 and represents a use case that will be applicable outside of your current situation then it's likely a good candidate for contribution!
 
-## Fork the SDP Libraries repository
+## Fork the repository
 
 ---
 
@@ -40,12 +40,12 @@ Go on over to JTE's [Library Development](https://jenkinsci.github.io/templating
 
 There are a few conventions the SDP Pipeline Libraries have adopted, outlined below:
 
-### Check SDP library's helper methods
+### Review the `sdp` library's helper methods
 
 The [SDP library](./libraries/sdp/) exists to implement common functionality required by other libraries.
 It's worthwhile to see if any of those steps are going to be useful to you during library development.
 
-### Add an SDP Pipeline Image (if necessary)
+### Add a container image (if necessary)
 
 The SDP Pipeline Libraries try to install as few plugins on the Jenkins instance and as few tools on the underlying infrastructure as possible.
 Part of the pipeline runs inside container images, leveraging them as runtime pipeline environments.
@@ -65,16 +65,22 @@ In your step implementations, the image that's used should be overrideable but d
 
 Libraries are required to have a documentation page to be accepted.
 
-To keep the library documentation consistent, copy the [resources/README.template.md](https://github.com/boozallen/sdp-libraries/blob/mkdocs/resources/README.template.md) is copied into a new library's `README.md` as a starting point to fill in.
+To keep the library documentation consistent, copy the [resources/README.template.md](https://github.com/boozallen/sdp-libraries/blob/main/resources/docs/README.template.md) is copied into a new library's `README.md` as a starting point to fill in.
 
 ### Update the landing page libraries table
 
-The landing page for the SDP Pipeline Libraries has a table that outlines each library and a high-level description of the library.
-Update this table in docs/index.md.
+The landing page for the [SDP Pipeline Libraries](../libraries/README.md) contains a table that outlines each library and a high-level description of the library.
+To make sure new library descriptions are added to the list, be sure to fill out the Frontmatter description block at the top of the new library's `README.md` file:
+
+```markdown
+---
+description:
+---
+```
 
 ### Preview your documentation
 
-You can run `just serve` at the root of the repository to build the documentation as static HTML, and view it at `localhost:8000`.
+You can run `just serve` at the root of the repository to build the documentation as static HTML, and view it at <localhost:8000>.
 
 ## Add unit tests
 
@@ -82,7 +88,7 @@ You can run `just serve` at the root of the repository to build the documentatio
 
 It's highly encouraged that unit tests be written for the library.  
 
-* Tests go under the `test` directory in the 'test' directory
+* Tests should be placed in the `test` directory within the library directory
 * Read the [Unit Testing Documentation](../concepts/unit-testing/index.md)
 * Write some tests for your steps
 

@@ -6,14 +6,14 @@ description: An internal helper library that the others utilize
 
 The SDP library provides helper steps used by multiple libraries within sdp-libraries.
 
-## Steps Provided
+## Steps
 
 ---
 
 | Step | Description |
 | ----------- | ----------- |
 | `inside_sdp_images(String image, Closure body)` | helper function that wraps `docker.image(<image>).inside{}` to execute a portion of the pipeline inside the specified container image runtime environment |
-| `jteVersion` | a multi-method step that provides utilities for determining the current JTE version. more docs below. |
+| `jteVersion` | a multi-method step that provides utilities for determining the current JTE version |
 
 Lifecycle Hooks
 
@@ -22,7 +22,7 @@ Lifecycle Hooks
 | `archive_pipeline_config()` | `@Init` | Writes the aggregated pipeline configuration to a file and saves it as a build artifact |
 | `create_workspace_stash()` | `@Validate` | If the pipeline job is a Multibranch Project, checkout the source code. In either case, save a stash called `workspace` for other libraries to consume. |
 
-## Library Configuration Options
+## Configuration
 
 ---
 
@@ -30,12 +30,12 @@ SDP Library Configuration Options
 
 | Field | Description | Default Value |
 | ----------- | ----------- | ----------- |
-| `images.registry` | This sets the registry the sdp library expects to find its Docker images | |
-| `images.repository` | The first [path component](https://forums.docker.com/t/docker-registry-v2-spec-and-repository-naming-rule/5466) in the repository name. For example if your images follow the format `my-registry.com/sdp/*`, this would be *sdp* | |
+| `images.registry` | This sets the registry the SDP library expects to find its Docker images | |
+| `images.repository` | The first [path component](https://forums.docker.com/t/docker-registry-v2-spec-and-repository-naming-rule/5466) in the repository name. For example if your images follow the format `my-registry.com/sdp/*`, this would be `sdp` | |
 | `sdp.images.cred` | Credentials used for the repository where different docker pipeline tools are stored | |
 | `sdp.images.docker_args` | Arguments to use when starting the container. Uses the same flags as `docker run` | |
 
-**Important** Unlike the Docker Library, the value in `registry` _does_ include the protocol (http/https)
+**Important** Unlike the Docker Library, the value in `registry` _does_ include the protocol (`http://` `https://`)
 
 ## Example Configuration Snippet
 
@@ -84,19 +84,11 @@ if (jteVersion.lessThan("2.1")){
 }
 ```
 
-## External Dependencies
+## Dependencies
 
 ---
 
 * A Docker registry must be setup and configured. Credentials to the registry are also needed.
 * A repository for the image being used by the given library is expected to be in the given registry.
-* The repository name for the pipeline tools' images should be in the format  _"${images.registry}/${images.repository}/tool-name"_.
-* The Pipeline Utility Steps plugin is required.
-
-## Troubleshooting
-
----
-
-## FAQ
-
----
+* The repository name for the pipeline tools' images should be in the format  `"${images.registry}/${images.repository}/tool-name"`.
+* The [Pipeline Utility Steps plugin](https://plugins.jenkins.io/pipeline-utility-steps/) is required.

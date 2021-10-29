@@ -14,23 +14,22 @@ It validates pages against the following specifications/laws:
 
 !!! warning "Deprecated"
     This library is no longer maintained because the A11y Machine is no longer maintained.
-
     Consider using [webhint](./webhint.md) instead.
 
 ## Steps
 
-| Step                                | Description                                                            |
-|-------------------------------------|------------------------------------------------------------------------|
-| ``accessibility_compliance_test()`` | crawls the provided URL and performs accessibility compliance scanning |
+| Step                              | Description                                                                |
+|-----------------------------------|----------------------------------------------------------------------------|
+| `accessibility_compliance_test()` | crawls the provided website and performs accessibility compliance scanning |
 
 ## Configuration
 
 | Field | Description                          | Default Value |
 |-------|--------------------------------------|---------------|
-| URL   | The address a11y will crawl and scan |               |
+| `URL` | The address a11y will crawl and scan |               |
 
-A target URL can be given. However `env.FRONTEND_URL` supersedes all configurations.
-If no `env.FRONTEND_URL` is found then the provided target URL is used. If no URL is provided an error is thrown.
+A target `URL` can be given. However `env.FRONTEND_URL` supersedes all configurations.
+If no `env.FRONTEND_URL` is found then the provided target `URL` is used. If no `URL` is provided an error is thrown.
 
 ```groovy
 libraries{
@@ -48,7 +47,7 @@ The results of the scan are captured in an HTML report that gets archived by Jen
 
 ![HTML Report Landing Page](../../assets/images/a11y/index.png)
 
-### Report of a specific URL
+### Report from a specific address
 
 ![HTML Report Drill Down](../../assets/images/a11y/report.png)
 

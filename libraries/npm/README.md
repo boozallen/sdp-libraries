@@ -1,12 +1,12 @@
 ---
-description: Run npm `test` and `build` commands in an nvm container with a specified node version.
+description: Run npm `test` and `build` commands in an nvm container with a specified Node version
 ---
 
 # npm
 
-Run npm `test` and `build` commands in an nvm container with a specified node version.
+Run npm `test` and `build` commands in an nvm container with a specified Node version.
 
-## Steps Provided
+## Steps
 
 ---
 
@@ -16,12 +16,12 @@ Run npm `test` and `build` commands in an nvm container with a specified node ve
 | ``npm_build()`` | Calls npm_invoke to run `npm run build` command |
 | ``npm_invoke(String stepName)`` | Runs npm command in nvm container |
 
-## Library Configuration Options
+## Configuration
 
 All configs can be set in either the library config or the Application Environment. All configs set in Application Environment take precedence.
 
 Environment variables and secrets set in the library config are concatenated with those set in the Application Environment.
-Environment variables and secrets with the same key are set to the definition contained in the application environment.
+Environment variables and secrets with the same key are set to the definition contained in the Application Environment.
 
 ## Example Library Configuration
 
@@ -29,20 +29,19 @@ Environment variables and secrets with the same key are set to the definition co
 
 | Field | Description | Default |
 | ----------- | ----------- | ----------- |
-| ``node_version`` | node version to run npm within (installed via nvm) | lts/* |
-| ```unit_test.script``` | npm command to run; must be present in package.json scripts block | test |
-| ``build.script`` | npm command to run; must be present in package.json scripts block | build |
-| ``<step name>.npm_install`` | npm install command to run; npm install can be skipped with value "skip" | ci |
-| ``<step name>.env`` | environment variables to make available to npm process; can include key/value pairs and secrets| [] |
-| ``<step name>.env.secrets`` | text or username/password credentials to make available to npm process; must be present and available in Jenkins credential store | [] |
+| `node_version` | node version to run npm within (installed via nvm) | `lts/*` |
+| `unit_test.script` | npm command to run; must be present in package.json scripts block | `test` |
+| `build.script` | npm command to run; must be present in package.json scripts block | `build` |
+| `<step name>.npm_install` | npm install command to run; npm install can be skipped with value "skip" | `ci` |
+| `<step name>.env` | environment variables to make available to npm process; can include key/value pairs and secrets| `[]` |
+| `<step name>.env.secrets` | text or username/password credentials to make available to npm process; must be present and available in Jenkins credential store | `[]` |
 
 ### Full Configuration Example
 
 Each available method has config options that can be specified in the application environment or within the library configuration.
 
-#### Pipeline Configuration
-
 ``` groovy
+//pipeline_configuration.groovy
 application_environments{
   dev
   prod{
@@ -153,9 +152,8 @@ This example shows the prod Application Environment overriding configs set in th
 
 The minimal configuration for this library is:
 
-#### Pipeline Configuration
-
 ``` groovy
+//pipeline_configuration.groovy
 libraries{
   npm
 }
@@ -169,8 +167,6 @@ These credentials must be stored in the Jenkins credential store and be availabl
 The name of each credential block (such as `someTextCredential`) is arbitrary.
 It's just a key, used to supersede library config with Application Environment configs, and when describing configuration errors found by the step.
 
-## External Dependencies
+## Dependencies
 
-* The SDP library must be loaded inside the `pipeline_config.groovy` file.
-
-## Troubleshooting
+* The [SDP library](../sdp/) must be loaded inside the `pipeline_config.groovy` file.

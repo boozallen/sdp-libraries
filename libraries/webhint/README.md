@@ -2,9 +2,9 @@
 description: A customizable linting tool that helps you improve your site's accessibility, speed, cross-browser compatibility, and more by checking your code for best practices and common errors
 ---
 
-# Webhint
+# webhint
 
-[Webhint](https://webhint.io) is a customizable linting tool that helps you improve your site's accessibility,
+[webhint](https://webhint.io) is a customizable linting tool that helps you improve your site's accessibility,
 speed, cross-browser compatibility, and more by checking your code for best practices and common errors.
 
 ## Steps
@@ -13,7 +13,7 @@ speed, cross-browser compatibility, and more by checking your code for best prac
 
 | Step | Description |
 | ----------- | ----------- |
-| `accessibility_compliance_scan()` | generates website developer hints from the given URL |
+| `accessibility_compliance_scan()` | generates website developer hints from the given web address |
 
 ## Library Configuration Options
 

@@ -1,12 +1,12 @@
 ---
-description: Allows you to map a branching strategy to specific pipeline actions when using Public GitHub, GitLab or GitHub Enterprise
+description: Allows you to map a branching strategy to specific pipeline actions when using Public GitHub, GitLab, or GitHub Enterprise
 ---
 
 # Git
 
 This library is unique in that rather than provide functional step implementations, it provides methods that help with the business logic defined within pipeline templates.
 
-**Note** It also provides additional functionality that can be useful for library developers to get scm metadata or interact with a remote Gitlab or GitHub repository.
+**Note** It also provides additional functionality that can be useful for library developers to get SCM metadata or interact with a remote GitLab or GitHub repository.
 
 ## Configuration
 
@@ -37,10 +37,10 @@ Git Flow Helper Methods
 
 | Method | Build Cause |
 | ----------- | ----------- |
-| on_commit | A direct commit to a branch |
-| on_merge_request | A merge request was created or a developer pushed a commit to the source branch |
-| on_change | A combination of `on_commit` and `on_merge_request` |
-| on_merge | A merge request was merged into the branch |
+| `on_commit` | A direct commit to a branch |
+| `on_merge_request` | A merge request was created or a developer pushed a commit to the source branch |
+| `on_change` | A combination of `on_commit` and `on_merge_request` |
+| `on_merge` | A merge request was merged into the branch |
 
 These methods take named parameters `to` and `from` indicating direction of the git whose value is a regular expression to compare the branch names against.
 
@@ -61,17 +61,17 @@ keywords{
 
 ---
 
-Gitlab Methods
+GitLab Methods
 
 | Method | Explanation |
 | ----------- | ----------- |
-| gitlab_status | Track Jenkins pipeline jobs in Gitlab |
+| `gitlab_status` | Track Jenkins pipeline jobs in GitLab |
 
 ## Example Pipeline Templates
 
 ---
 
-**Full example using keywords**
+### Full example using keywords
 
 ```groovy
 on_commit{
@@ -101,7 +101,7 @@ on_merge to: master, from: develop, {
 }
 ```
 
-**Example using regular expressions directly**
+### Example using regular expressions directly
 
 ```groovy
 on_commit to: /^[Ff]eature-.*/, {
@@ -112,7 +112,7 @@ on_merge_request from: /^[Ff]eature-.*/, to: develop, {
 }
 ```
 
-**Example using on_change**
+### Example using on_change
 
 ```groovy
 on_change{
@@ -131,12 +131,4 @@ on_merge to: master, {
 
 ---
 
-* `gitlab-branch-source-plugin:1.4.4` if using gitlab
-
-## Troubleshooting
-
----
-
-## FAQ
-
----
+* `gitlab-branch-source-plugin:1.4.4` if using GitLab

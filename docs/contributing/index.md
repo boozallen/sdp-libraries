@@ -6,24 +6,22 @@
 
 | Repository Component | Description                                                                               |
 |----------------------|-------------------------------------------------------------------------------------------|
-| `README.md`          | Repository overview, displays on Github.                                                  |
+| `README.md`          | Repository overview, displays on GitHub.                                                  |
 | `docs/index.md`      | Repository overview, gets compiled as the landing page for the documentation              |
 | `docs`               | Documentation not specific to a particular library, and assets for library docs           |
 | `libraries`          | The base directory where the libraries are stored                                         |
-
 
 ### Library Structure
 
 Within the `libraries` directory, there are several components to be aware of:
 
-| Component | Description                                         |
-|-----------|-----------------------------------------------------|
-| README.md | The library's documentation page                    |
-| steps     | The steps contributed by the library                |
-| resources | Any reusable content for consumption by the library |
-| src       | The classes contributed by the library              |
-| test      | The tests for the library                           |
-
+| Component   | Description                                         |
+|-------------|-----------------------------------------------------|
+| `README.md` | The library's documentation page                    |
+| `steps`     | The steps contributed by the library                |
+| `resources` | Any reusable content for consumption by the library |
+| `src`       | The classes contributed by the library              |
+| `test`      | The tests for the library                           |
 
 For example, the current repository's `a11y` library:
 
@@ -59,7 +57,7 @@ just create <library name>
 ```
 
 This will produce a folder of the library name with the library structure described above stubbed out.
-Information for developing a new library can be found in [Create a New Library](./create-new-library/) page.
+Information for developing a new library can be found on the [Create a New Library](./create-new-library.md) page.
 
 ## Documentation
 
@@ -75,7 +73,7 @@ To build the documentation, run:
 just build
 ```
 
-This will build the documentation and produce static html in the `site` directory.
+This will build the documentation and produce static HTML in the `site` directory.
 
 ### Live Reloading
 
@@ -103,7 +101,7 @@ To run all the tests, run:
 just test
 ```
 
-The gradle test report is published to `target/reports/tests/test/index.html`.
+The Gradle test report is published to `target/reports/tests/test/index.html`.
 
 ### For a specific library
 
@@ -125,9 +123,9 @@ just test "*.BuildSpec"
 
 ---
 
-This repository uses [npm-groovy-lint](https://github.com/nvuillam/npm-groovy-lint) with the recommended codenarc profile for Jenkins.
+This repository uses [npm-groovy-lint](https://github.com/nvuillam/npm-groovy-lint) with the recommended CodeNarc profile for Jenkins.
 
-The `.groovylintrc.json` can be used to tune the rule profile.
+The `.groovylintrc.json` file can be used to tune the rule profile.
 
 To lint the libraries, run:
 
@@ -142,7 +140,7 @@ The output will go to standard out.
 
 ---
 
-This repository automates the create of release branches and tags as well as publishing the documentation for each version.
+This repository automates the creation of release branches and tags as well as publishes the documentation for each version.
 
 ### Release Automation
 

@@ -4,7 +4,7 @@ description: Performs container image scanning with TwistLock
 
 # Twistlock
 
-Twistlock is an automated and scalable container cybersecurity platform.
+Twistlock is an automated and scalable container cyber-security platform.
 Twistlock manages a full-lifecycle vulnerability and compliance management to application-tailored runtime defense and cloud native firewalls.
 Twistlock helps secure your containers and modern applications against threats across the entire application lifecycle.
 
@@ -18,7 +18,7 @@ SDP can integrate with Twistlock to perform **container image scanning**.
 | ----------- | ----------- |
 | `scan_container_image()` | Downloads the Twistlock CLI from the Twistlock Console and performs container image scanning |
 
-## Library Configuration
+## Configuration
 
 ---
 
@@ -26,7 +26,7 @@ Twistlock Library Configuration Options
 
 | Field | Description | Default Value |
 | ----------- | ----------- | ----------- |
-| `url` | The Twistlock Console URL | |
+| `url` | The Twistlock Console address | |
 | `credential` | The Jenkins credential ID to access Twistlock Console | |
 
 ### Example Configuration Snippet
@@ -40,7 +40,7 @@ libraries{
 }
 ```
 
-## External Dependencies
+## Dependencies
 
 ---
 
@@ -55,7 +55,7 @@ libraries{
 Jenkins will output a text based table of the scan results.
 A more descriptive JSON file is archived that contains details of CVE and compliance vulnerabilities found during the scan.
 
-```
+```txt
 CVE Results:
 -----------------------------------------
 Low:      [0-9]*  Number of Low vulnerabilities
