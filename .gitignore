@@ -1,15 +1,14 @@
-target
-_build
-.idea
-.vscode
-.project
-.gradle 
-.settings
+# Ignore Gradle project-specific cache directory
+.gradle
+
 .classpath
-*.iml
-build 
+.project
+.settings
 bin
-docs/html
-docs/node_modules
-.DS_Store
-node_modules
+
+# Ignore Gradle build output directory
+site/
+target/
+
+# Local Netlify folder
+.netlify

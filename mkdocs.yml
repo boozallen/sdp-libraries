@@ -1,0 +1,78 @@
+site_name: Solutions Delivery Platform
+
+theme:
+  name: material
+  palette:
+    primary: navy
+  features: 
+    - navigation.instant
+    - navigation.tabs
+    - navigation.sections
+    - navigation.top
+  logo: assets/images/jte.svg
+  favicon: assets/images/jte.svg
+  ## this is a hack
+  ## we add the libraries dir as a custom dir for the theme so that
+  ## we get live reloading of the docs site via `just serve` by passing
+  ## --watch-theme to the `mkdocs serve` command
+  custom_dir: libraries/
+
+repo_url: https://github.com/boozallen/sdp-libraries
+
+plugins:
+  - search
+  - awesome-pages
+  - gen-files:
+      scripts:
+        - resources/docs/copy_docs.py
+        - resources/docs/add_glossary.py
+
+extra_css:
+  - css/extra.css
+
+extra:
+  version:
+    provider: mike
+    default: latest
+  social: 
+    - icon: fontawesome/brands/github
+      link: https://github.com/boozallen/sdp-libraries.git
+
+markdown_extensions:
+  - admonition
+  - abbr
+  - footnotes
+  - attr_list
+  - pymdownx.tabbed
+  - pymdownx.highlight
+  - pymdownx.superfences
+  - toc:
+      permalink: true
+  - pymdownx.snippets:
+      base_path: "docs"
+  - pymdownx.betterem:
+      smart_enable: all
+  - pymdownx.emoji:
+      emoji_index: !!python/name:materialx.emoji.twemoji
+      emoji_generator: !!python/name:materialx.emoji.to_svg
+
+nav:
+- Home: 'index.md'
+- Concepts:
+  - 'concepts/overview.md'
+  - Unit Testing:
+    - 'concepts/unit-testing/index.md'
+    - 'concepts/unit-testing/jenkins-spock.md'
+    - 'concepts/unit-testing/writing-tests.md'
+    - 'concepts/unit-testing/executing-tests.md'
+    - 'concepts/unit-testing/faq.md'
+- Tutorials:
+  - 'tutorials/overview.md'
+- How-To Guides:
+  - 'how-to/overview.md'
+# navigation for Libraries section is driven by the gen_scripts and awesome-pages plugins
+# see: /resources/docs/copy_docs.py
+- ... | glob=libraries/**
+- Contributing:
+  - 'contributing/index.md'
+  - 'contributing/create-new-library.md'
