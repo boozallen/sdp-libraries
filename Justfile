@@ -69,6 +69,18 @@ lint-libraries:
 lint-markdown: 
   docker run -v $(pwd):/app -w /app davidanson/markdownlint-cli2:0.3.1 "docs/**/*.md" "libraries/**/*.md"
 
+# update current docs
+update-docs: buildImage
+    #!/usr/bin/env bash
+    version=$(./gradlew -q printVersion)
+    docker run --rm \
+    -v ~/.git-credentials:/root/.git-credentials \
+    -v $(pwd):/docs \
+    -w /docs \
+    --entrypoint=mike \
+    {{image}} deploy --push --update-aliases $version latest
+    echo "INFO     -  Published version '$version' to GitHub Pages"
+
 ######################
 
 release version: 

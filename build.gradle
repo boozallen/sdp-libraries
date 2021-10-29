@@ -11,6 +11,8 @@ repositories {
   maven { url "http://repo.maven.apache.org/maven2" }
 }
 
+version = 3.1
+
 // determine test files
 def tests = [ "resources/test" ]
 fileTree("libraries").visit{ FileVisitDetails details ->
@@ -109,5 +111,11 @@ jacocoTestReport{
   additionalClassDirs files("$buildDir/jacoco/classpathdumps")
   reports{
     html.enabled = true
+  }
+}
+
+tasks.register('printVersion'){
+  doLast{
+    println version
   }
 }
