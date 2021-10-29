@@ -1,0 +1,16 @@
+name: docs
+on:
+  push:
+    branches: 
+      - main
+jobs:
+  DeployDocs:
+    runs-on: ubuntu-latest
+    if: github.repository == 'boozallen/sdp-libraries'
+    steps:
+      - uses: actions/checkout@v2
+        with: 
+          fetch-depth: 0
+      - uses: extractions/setup-just@v1
+      - name: "Deploy the Docs"
+        run: just update-docs
