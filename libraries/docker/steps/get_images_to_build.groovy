@@ -6,10 +6,10 @@
 package libraries.docker.steps
 
 /*
-  returns an of the images that are built by this pipeline run.
+  returns an array of the images that are built by this pipeline run.
   each image in the array is a hashmap with fields:
     registry: image registry
-    repo: repo name
+    repo: image name with repo path
     tag: image tag
     context: directory context for docker build
 
@@ -40,6 +40,7 @@ def call(){
     }
 
     def images = []
+    def image_name = config.image_name ?: env.REPO_NAME
 
     switch (config.build_strategy) {
       case "docker-compose":
@@ -49,7 +50,7 @@ def call(){
         findFiles(glob: "*/Dockerfile").collect{ it.path.split("/").first() }.each{ service ->
           images.push([
             registry: image_reg,
-            repo: "${path_prefix}${env.REPO_NAME}_${service}".toLowerCase(),
+            repo: "${path_prefix}${image_name}_${service}".toLowerCase(),
             tag: env.GIT_SHA,
             context: service
           ])
@@ -62,7 +63,7 @@ def call(){
       case null:
         images.push([
           registry: image_reg,
-          repo: "${path_prefix}${env.REPO_NAME}".toLowerCase(),
+          repo: "${path_prefix}${image_name}".toLowerCase(),
           tag: env.GIT_SHA,
           context: "."
         ])

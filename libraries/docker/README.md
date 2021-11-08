@@ -29,6 +29,7 @@ libraries{
     registry = "docker-registry.default.svc:5000"
     cred = "openshift-docker-registry"
     repo_path_prefix = "proj-images"
+    image_name = "my-container-image"
     remove_local_image = true
     build_args{
       GITHUB_TOKEN{
@@ -52,6 +53,7 @@ libraries{
 | registry_protocol | the protocol to prepend to the `registry` when authenticating to the container registry | "https://" | false |
 | cred | Credentials used for the repository where different docker pipeline tools are stored. |  | true |
 | repo_path_prefix | The part of the repository name between the registry name and the last forward-slash | "" | false |
+| image_name | Name of the container image being built | `env.REPO_NAME` | false |
 | remove_local_image | Determines if the pipeline should remove the local image after building or retagging | false | false |
 | build_args | A block of build arguments to pass to `docker build`. For more information, see below. | | false |
 | setExperimentalFlag | If the docker version only has buildx as an experimental feature then this allows that flag to be set | false | false

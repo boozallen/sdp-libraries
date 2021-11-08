@@ -59,6 +59,21 @@ public class GetImagesToBuildSpec extends JTEPipelineSpecification {
       "modules"      | "service"     | "test_prefix/git_repo_service"
   }
 
+  def "image_name Properly Overrides env.REPO_NAME When Set" () {
+    setup:
+      GetImagesToBuild.getBinding().setVariable("config", [repo_path_prefix: "test_prefix", build_strategy: build_strategy, image_name: "my-cool-image-name"])
+      GetImagesToBuild.getBinding().setVariable("env", [REPO_NAME: "git_repo", GIT_SHA: "8675309"])
+      getPipelineMock("findFiles")([glob: "*/Dockerfile"]) >> [[path: "service/Dockerfile"]]
+    when:
+      def imageList = GetImagesToBuild()
+    then:
+      imageList == [[registry: "test_registry", repo: repo, context: build_context, tag: "8675309"]]
+    where:
+      build_strategy | build_context | repo
+      "dockerfile"   | "."           | "test_prefix/my-cool-image-name"
+      "modules"      | "service"     | "test_prefix/my-cool-image-name_service"
+  }
+
   def "Invalid build_strategy Throws Error" () {
     setup:
       GetImagesToBuild.getBinding().setVariable("config", [build_strategy: x])
