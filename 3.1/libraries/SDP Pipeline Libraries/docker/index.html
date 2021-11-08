@@ -1375,6 +1375,7 @@
     <span class="n">registry</span> <span class="o">=</span> <span class="s2">&quot;docker-registry.default.svc:5000&quot;</span>
     <span class="n">cred</span> <span class="o">=</span> <span class="s2">&quot;openshift-docker-registry&quot;</span>
     <span class="n">repo_path_prefix</span> <span class="o">=</span> <span class="s2">&quot;proj-images&quot;</span>
+    <span class="n">image_name</span> <span class="o">=</span> <span class="s2">&quot;my-container-image&quot;</span>
     <span class="n">remove_local_image</span> <span class="o">=</span> <span class="kc">true</span>
     <span class="n">build_args</span><span class="o">{</span>
       <span class="n">GITHUB_TOKEN</span><span class="o">{</span>
@@ -1426,6 +1427,12 @@
 <td>repo_path_prefix</td>
 <td>The part of the repository name between the registry name and the last forward-slash</td>
 <td>""</td>
+<td>false</td>
+</tr>
+<tr>
+<td>image_name</td>
+<td>Name of the container image being built</td>
+<td><code>env.REPO_NAME</code></td>
 <td>false</td>
 </tr>
 <tr>
