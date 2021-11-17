@@ -13,16 +13,8 @@ Services that it provides include a messaging platform as well as the capability
 
 * slack()
 
-## External Dependencies
+## Dependencies
 
 ---
 
-More information can be found on the [Slack plugin website](https://wiki.jenkins.io/display/JENKINS/Slack+Plugin).
-
-## Troubleshooting
-
----
-
-## FAQ
-
----
+More information can be found on the [Slack plugin website](https://plugins.jenkins.io/slack/).

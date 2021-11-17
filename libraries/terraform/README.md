@@ -6,15 +6,15 @@ description: Deploys Infrastructure as Code using Terraform
 
 This library leverages [Terraform](https://www.terraform.io/intro/index.html) to manage deployments of Infrastructure as Code to different environments.
 
-## Steps Contributed
+## Steps
 
 ---
 
 | *Step* | *Description* |
 | ----------- | ----------- |
-| `deploy_to(application_environment)` | performs a terraform apply |
+| `deploy_to(application_environment)` | performs a `terraform apply` |
 
-## Library Configuration Options
+## Configuration
 
 ---
 
@@ -130,7 +130,7 @@ The [Sysdig Terraform Provider](https://github.com/draios/terraform-provider-sys
 To configure this provider, it is advisable to create secrets for `SYSDIG_SECURE_API_TOKEN` and `SYSDIG_MONITOR_API_TOKEN`.
 These environment variables can be consumed by the provider to configure the required secrets.
 
-## External Dependencies
+## Dependencies
 
 ---
 

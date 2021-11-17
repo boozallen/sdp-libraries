@@ -18,7 +18,7 @@ def "Pipeline Fails When Config Is Undefined" () {
 ```
 
 Now create a `setup:` block to define some do some pre-test preparation not covered by the `setup()` fixture method.
-In this example, the binding variable `config` is set to null, and a mock for the `error` pipeline step is created.
+In this example, the binding variable `config` is set to `null`, and a mock for the `error` pipeline step is created.
 
 ```groovy
 def "Pipeline Fails When Config Is Undefined" () {
@@ -47,4 +47,4 @@ def "Pipeline Fails When Config Is Undefined" () {
 
 And that's the gist of it.
 You can add as many feature methods as necessary in the spec file, testing a variety of things.
-Be sure to check out the [Spock Documentation](http://spockframework.org/spock/docs), [Jenkins-Spock Documentation](./jenkins-spock.md), and already-created spec files in the [SDP Libraries repository](https://github.com/boozallen/sdp-libraries/tree/main/test) for examples.
+Be sure to check out the [Spock Documentation](http://spockframework.org/spock/docs), [Jenkins-Spock Documentation](./jenkins-spock.md), and already-created spec files in the [SDP Libraries repository](https://github.com/boozallen/sdp-libraries/tree/main/resources/test) for examples.
