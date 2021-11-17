@@ -22,7 +22,7 @@ The standard format for interaction-based tests is:
 
 While you can put the exact parameter value in the second parentheses, you can also run arbitrary groovy code inside curly brackets.
 If it's a "match" depends on if that code returns `true` or `false`.
-A good example is in [PenetrationTestSpec.groovy](https://github.com/boozallen/sdp-libraries/blob/main/test/owasp_zap/PenetrationTestSpec.groovy#L33). Use `it` to get the value of the parameter:
+A good example is in [PenetrationTestSpec.groovy](https://github.com/boozallen/sdp-libraries/blob/main/libraries/owasp_zap/test/PenetrationTestSpec.groovy#L33). Use `it` to get the value of the parameter:
 `1 * getPipelineMock("sh")({it =~ / (zap-cli open-url) Kirk (.+)/})`.
 
 **Q: Is interaction-based testing required?**
@@ -36,10 +36,10 @@ and make sure those pipeline steps use the correct value for those variables.
 Similarly, if you need to control how a variable is set,
 you need to stub whatever method or pipeline step sets the initial value for that variable.
 
-As an example, in [PenetrationTestSpec.groovy](https://github.com/boozallen/sdp-libraries/blob/main/test/owasp_zap/PenetrationTestSpec.groovy),
+As an example, in [PenetrationTestSpec.groovy](https://github.com/boozallen/sdp-libraries/blob/main/libraries/owasp_zap/test/PenetrationTestSpec.groovy),
 the `target` variable in [penetration_test.groovy](https://github.com/boozallen/sdp-libraries/blob/main/libraries/owasp_zap/steps/penetration_test.groovy) is tested by checking the parameters to an `sh` step.
 
 **Q: What troubleshooting steps are required for "can't run method foo() on null" errors?"**
 **A: You need to find a way to stub the method that sets the value for the object that calls foo()**
 
-Check out an example in [GetImagesToBuildSpec.groovy](https://github.com/boozallen/sdp-libraries/blob/main/test/docker/GetImagesToBuildSpec.groovy).
+Check out an example in [GetImagesToBuildSpec.groovy](https://github.com/boozallen/sdp-libraries/blob/main/libraries/docker/test/GetImagesToBuildSpec.groovy).
