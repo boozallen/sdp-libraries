@@ -6,7 +6,7 @@
       <meta charset="utf-8">
       <meta name="viewport" content="width=device-width,initial-scale=1">
       
-        <meta name="description" content="Allows you to map a branching strategy to specific pipeline actions when using Public GitHub, GitLab or GitHub Enterprise">
+        <meta name="description" content="Allows you to map a branching strategy to specific pipeline actions when using Public GitHub, GitLab, or GitHub Enterprise">
       
       
       
@@ -767,25 +767,38 @@
     Example Pipeline Templates
   </a>
   
+    <nav class="md-nav" aria-label="Example Pipeline Templates">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#full-example-using-keywords" class="md-nav__link">
+    Full example using keywords
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#example-using-regular-expressions-directly" class="md-nav__link">
+    Example using regular expressions directly
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#example-using-on_change" class="md-nav__link">
+    Example using on_change
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
 </li>
       
         <li class="md-nav__item">
   <a href="#external-dependencies" class="md-nav__link">
     External Dependencies
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#troubleshooting" class="md-nav__link">
-    Troubleshooting
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#faq" class="md-nav__link">
-    FAQ
   </a>
   
 </li>
@@ -1016,7 +1029,7 @@
   
     <li class="md-nav__item">
       <a href="../webhint/" class="md-nav__link">
-        Webhint
+        webhint
       </a>
     </li>
   
@@ -1149,25 +1162,38 @@
     Example Pipeline Templates
   </a>
   
+    <nav class="md-nav" aria-label="Example Pipeline Templates">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#full-example-using-keywords" class="md-nav__link">
+    Full example using keywords
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#example-using-regular-expressions-directly" class="md-nav__link">
+    Example using regular expressions directly
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#example-using-on_change" class="md-nav__link">
+    Example using on_change
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
 </li>
       
         <li class="md-nav__item">
   <a href="#external-dependencies" class="md-nav__link">
     External Dependencies
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#troubleshooting" class="md-nav__link">
-    Troubleshooting
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#faq" class="md-nav__link">
-    FAQ
   </a>
   
 </li>
@@ -1187,7 +1213,7 @@
                 
                 <h1 id="git">Git<a class="headerlink" href="#git" title="Permanent link">&para;</a></h1>
 <p>This library is unique in that rather than provide functional step implementations, it provides methods that help with the business logic defined within pipeline templates.</p>
-<p><strong>Note</strong> It also provides additional functionality that can be useful for library developers to get scm metadata or interact with a remote Gitlab or GitHub repository.</p>
+<p><strong>Note</strong> It also provides additional functionality that can be useful for library developers to get SCM metadata or interact with a remote GitLab or GitHub repository.</p>
 <h2 id="configuration">Configuration<a class="headerlink" href="#configuration" title="Permanent link">&para;</a></h2>
 <hr />
 <div class="highlight"><pre><span></span><code><span class="n">libraries</span><span class="o">{</span>
@@ -1216,19 +1242,19 @@ You can achieve fine grained control over what happens when in response to diffe
 </thead>
 <tbody>
 <tr>
-<td>on_commit</td>
+<td><code>on_commit</code></td>
 <td>A direct commit to a branch</td>
 </tr>
 <tr>
-<td>on_merge_request</td>
+<td><code>on_merge_request</code></td>
 <td>A merge request was created or a developer pushed a commit to the source branch</td>
 </tr>
 <tr>
-<td>on_change</td>
+<td><code>on_change</code></td>
 <td>A combination of <code>on_commit</code> and <code>on_merge_request</code></td>
 </tr>
 <tr>
-<td>on_merge</td>
+<td><code>on_merge</code></td>
 <td>A merge request was merged into the branch</td>
 </tr>
 </tbody>
@@ -1245,7 +1271,7 @@ You can achieve fine grained control over what happens when in response to diffe
 <p><strong>Note</strong> These branch name regular expressions aren't a part of the Git library but rather leveraged by defining Keywords in the Pipeline Configuration File.</p>
 <h2 id="scm-specific-methods">SCM Specific Methods<a class="headerlink" href="#scm-specific-methods" title="Permanent link">&para;</a></h2>
 <hr />
-<p>Gitlab Methods</p>
+<p>GitLab Methods</p>
 <table>
 <thead>
 <tr>
@@ -1255,14 +1281,14 @@ You can achieve fine grained control over what happens when in response to diffe
 </thead>
 <tbody>
 <tr>
-<td>gitlab_status</td>
-<td>Track Jenkins pipeline jobs in Gitlab</td>
+<td><code>gitlab_status</code></td>
+<td>Track Jenkins pipeline jobs in GitLab</td>
 </tr>
 </tbody>
 </table>
 <h2 id="example-pipeline-templates">Example Pipeline Templates<a class="headerlink" href="#example-pipeline-templates" title="Permanent link">&para;</a></h2>
 <hr />
-<p><strong>Full example using keywords</strong></p>
+<h3 id="full-example-using-keywords">Full example using keywords<a class="headerlink" href="#full-example-using-keywords" title="Permanent link">&para;</a></h3>
 <div class="highlight"><pre><span></span><code><span class="n">on_commit</span><span class="o">{</span>
   <span class="n">gitlab_status</span><span class="o">(</span><span class="s2">&quot;connection1&quot;</span><span class="o">,</span> <span class="s2">&quot;service-account&quot;</span><span class="o">,</span> <span class="s2">&quot;running&quot;</span><span class="o">)</span>
   <span class="n">continuous_integration</span><span class="o">()</span>
@@ -1289,7 +1315,7 @@ You can achieve fine grained control over what happens when in response to diffe
   <span class="n">gitlab_status</span><span class="o">(</span><span class="s2">&quot;connection&quot;</span><span class="o">,</span> <span class="s2">&quot;service-account2&quot;</span><span class="o">,</span> <span class="s2">&quot;success&quot;</span><span class="o">)</span>
 <span class="o">}</span>
 </code></pre></div>
-<p><strong>Example using regular expressions directly</strong></p>
+<h3 id="example-using-regular-expressions-directly">Example using regular expressions directly<a class="headerlink" href="#example-using-regular-expressions-directly" title="Permanent link">&para;</a></h3>
 <div class="highlight"><pre><span></span><code><span class="n">on_commit</span> <span class="nl">to:</span> <span class="s">/^[Ff]eature-.*/</span><span class="o">,</span> <span class="o">{</span>
   <span class="c1">// will be triggered on feature branches</span>
 <span class="o">}</span>
@@ -1297,7 +1323,7 @@ You can achieve fine grained control over what happens when in response to diffe
   <span class="c1">// will be triggered on PR&#39;s from feature to develop</span>
 <span class="o">}</span>
 </code></pre></div>
-<p><strong>Example using on_change</strong></p>
+<h3 id="example-using-on_change">Example using on_change<a class="headerlink" href="#example-using-on_change" title="Permanent link">&para;</a></h3>
 <div class="highlight"><pre><span></span><code><span class="n">on_change</span><span class="o">{</span>
   <span class="c1">// do CI on every commit or PR</span>
   <span class="n">continuous_integration</span><span class="o">()</span>
@@ -1312,12 +1338,8 @@ You can achieve fine grained control over what happens when in response to diffe
 <h2 id="external-dependencies">External Dependencies<a class="headerlink" href="#external-dependencies" title="Permanent link">&para;</a></h2>
 <hr />
 <ul>
-<li><code>gitlab-branch-source-plugin:1.4.4</code> if using gitlab</li>
+<li><code>gitlab-branch-source-plugin:1.4.4</code> if using GitLab</li>
 </ul>
-<h2 id="troubleshooting">Troubleshooting<a class="headerlink" href="#troubleshooting" title="Permanent link">&para;</a></h2>
-<hr />
-<h2 id="faq">FAQ<a class="headerlink" href="#faq" title="Permanent link">&para;</a></h2>
-<hr />
                 
                   
                 

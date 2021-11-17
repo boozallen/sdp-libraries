@@ -715,8 +715,8 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#report-of-a-specific-url" class="md-nav__link">
-    Report of a specific URL
+  <a href="#report-from-a-specific-address" class="md-nav__link">
+    Report from a specific address
   </a>
   
 </li>
@@ -1015,7 +1015,7 @@
   
     <li class="md-nav__item">
       <a href="../webhint/" class="md-nav__link">
-        Webhint
+        webhint
       </a>
     </li>
   
@@ -1152,8 +1152,8 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#report-of-a-specific-url" class="md-nav__link">
-    Report of a specific URL
+  <a href="#report-from-a-specific-address" class="md-nav__link">
+    Report from a specific address
   </a>
   
 </li>
@@ -1193,8 +1193,8 @@
 </ul>
 <div class="admonition warning">
 <p class="admonition-title">Deprecated</p>
-<p>This library is no longer maintained because the A11y Machine is no longer maintained.</p>
-<p>Consider using <a href="../webhint/">webhint</a> instead.</p>
+<p>This library is no longer maintained because the A11y Machine is no longer maintained.
+Consider using <a href="../webhint/">webhint</a> instead.</p>
 </div>
 <h2 id="steps">Steps<a class="headerlink" href="#steps" title="Permanent link">&para;</a></h2>
 <table>
@@ -1207,7 +1207,7 @@
 <tbody>
 <tr>
 <td><code>accessibility_compliance_test()</code></td>
-<td>crawls the provided URL and performs accessibility compliance scanning</td>
+<td>crawls the provided website and performs accessibility compliance scanning</td>
 </tr>
 </tbody>
 </table>
@@ -1222,14 +1222,14 @@
 </thead>
 <tbody>
 <tr>
-<td>URL</td>
+<td><code>URL</code></td>
 <td>The address a11y will crawl and scan</td>
 <td></td>
 </tr>
 </tbody>
 </table>
-<p>A target URL can be given. However <code>env.FRONTEND_URL</code> supersedes all configurations.
-If no <code>env.FRONTEND_URL</code> is found then the provided target URL is used. If no URL is provided an error is thrown.</p>
+<p>A target <code>URL</code> can be given. However <code>env.FRONTEND_URL</code> supersedes all configurations.
+If no <code>env.FRONTEND_URL</code> is found then the provided target <code>URL</code> is used. If no <code>URL</code> is provided an error is thrown.</p>
 <div class="highlight"><pre><span></span><code><span class="n">libraries</span><span class="o">{</span>
   <span class="n">a11y</span><span class="o">{</span>
     <span class="n">url</span> <span class="o">=</span> <span class="s2">&quot;https://example.com&quot;</span>
@@ -1240,7 +1240,7 @@ If no <code>env.FRONTEND_URL</code> is found then the provided target URL is use
 <p>The results of the scan are captured in an HTML report that gets archived by Jenkins.</p>
 <h3 id="report-index">Report Index<a class="headerlink" href="#report-index" title="Permanent link">&para;</a></h3>
 <p><img alt="HTML Report Landing Page" src="../../../assets/images/a11y/index.png" /></p>
-<h3 id="report-of-a-specific-url">Report of a specific URL<a class="headerlink" href="#report-of-a-specific-url" title="Permanent link">&para;</a></h3>
+<h3 id="report-from-a-specific-address">Report from a specific address<a class="headerlink" href="#report-from-a-specific-address" title="Permanent link">&para;</a></h3>
 <p><img alt="HTML Report Drill Down" src="../../../assets/images/a11y/report.png" /></p>
 <h2 id="dependencies">Dependencies<a class="headerlink" href="#dependencies" title="Permanent link">&para;</a></h2>
                 

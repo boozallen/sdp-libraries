@@ -770,18 +770,18 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#steps-provided" class="md-nav__link">
-    Steps Provided
+  <a href="#steps" class="md-nav__link">
+    Steps
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#library-configuration" class="md-nav__link">
-    Library Configuration
+  <a href="#configuration" class="md-nav__link">
+    Configuration
   </a>
   
-    <nav class="md-nav" aria-label="Library Configuration">
+    <nav class="md-nav" aria-label="Configuration">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
@@ -795,6 +795,33 @@
   <a href="#helm-configuration" class="md-nav__link">
     Helm Configuration
   </a>
+  
+    <nav class="md-nav" aria-label="Helm Configuration">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#create-helm-configuration-repository" class="md-nav__link">
+    Create Helm Configuration Repository
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#values-file-conventions" class="md-nav__link">
+    Values File Conventions*
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#helm-configurations-for-the-library" class="md-nav__link">
+    Helm Configurations for the Library
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
   
 </li>
         
@@ -827,20 +854,6 @@
         <li class="md-nav__item">
   <a href="#external-dependencies" class="md-nav__link">
     External Dependencies
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#troubleshooting" class="md-nav__link">
-    Troubleshooting
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#faq" class="md-nav__link">
-    FAQ
   </a>
   
 </li>
@@ -1043,7 +1056,7 @@
   
     <li class="md-nav__item">
       <a href="../webhint/" class="md-nav__link">
-        Webhint
+        webhint
       </a>
     </li>
   
@@ -1151,18 +1164,18 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#steps-provided" class="md-nav__link">
-    Steps Provided
+  <a href="#steps" class="md-nav__link">
+    Steps
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#library-configuration" class="md-nav__link">
-    Library Configuration
+  <a href="#configuration" class="md-nav__link">
+    Configuration
   </a>
   
-    <nav class="md-nav" aria-label="Library Configuration">
+    <nav class="md-nav" aria-label="Configuration">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
@@ -1176,6 +1189,33 @@
   <a href="#helm-configuration" class="md-nav__link">
     Helm Configuration
   </a>
+  
+    <nav class="md-nav" aria-label="Helm Configuration">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#create-helm-configuration-repository" class="md-nav__link">
+    Create Helm Configuration Repository
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#values-file-conventions" class="md-nav__link">
+    Values File Conventions*
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#helm-configurations-for-the-library" class="md-nav__link">
+    Helm Configurations for the Library
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
   
 </li>
         
@@ -1212,20 +1252,6 @@
   
 </li>
       
-        <li class="md-nav__item">
-  <a href="#troubleshooting" class="md-nav__link">
-    Troubleshooting
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#faq" class="md-nav__link">
-    FAQ
-  </a>
-  
-</li>
-      
     </ul>
   
 </nav>
@@ -1241,7 +1267,7 @@
                 
                 <h1 id="kubernetes">Kubernetes<a class="headerlink" href="#kubernetes" title="Permanent link">&para;</a></h1>
 <p>This library allows you to perform deployments to static or ephemeral Kubernetes application environments with <a href="https://helm.sh/">Helm</a>.</p>
-<h2 id="steps-provided">Steps Provided<a class="headerlink" href="#steps-provided" title="Permanent link">&para;</a></h2>
+<h2 id="steps">Steps<a class="headerlink" href="#steps" title="Permanent link">&para;</a></h2>
 <hr />
 <table>
 <thead>
@@ -1261,7 +1287,7 @@
 </tr>
 </tbody>
 </table>
-<h2 id="library-configuration">Library Configuration<a class="headerlink" href="#library-configuration" title="Permanent link">&para;</a></h2>
+<h2 id="configuration">Configuration<a class="headerlink" href="#configuration" title="Permanent link">&para;</a></h2>
 <hr />
 <p>The configurations for the Kubernetes library can be specified in the library spec or on a per application environment.</p>
 <h3 id="kubernetes-credential-and-context">Kubernetes Credential and Context<a class="headerlink" href="#kubernetes-credential-and-context" title="Permanent link">&para;</a></h3>
@@ -1305,29 +1331,29 @@ The Kubernetes Context is the context within the kubeconfig that should be used 
 Helm is a package manager and templating engine for Kubernetes manifests.
 Using Helm, the typical YAML manifests used to deploy to Kubernetes distributions can be templated for reuse.
 In this case, a different <code>values</code> file is used for each static application environment.</p>
-<p><strong>Create Helm Configuration Repository</strong></p>
-<p>You'll need to create a GitHub repository to store the helm chart for your application(s).
-See the <a href="https://docs.helm.sh/helm/#helm-create">helm docs on provisioning a new chart</a> for how to initialize the repository with the skeleton for your chart.</p>
-<p>How you choose to build your helm chart is up to you,
+<h4 id="create-helm-configuration-repository">Create Helm Configuration Repository<a class="headerlink" href="#create-helm-configuration-repository" title="Permanent link">&para;</a></h4>
+<p>You'll need to create a GitHub repository to store the Helm chart for your application(s).
+See the <a href="https://docs.helm.sh/helm/#helm-create">Helm docs on provisioning a new chart</a> for how to initialize the repository with the skeleton for your chart.</p>
+<p>How you choose to build your Helm chart is up to you,
 you can put every API object in the <code>templates</code> directory or have subcharts for each individual microservice.
 Since SDP clones the GitHub repository and deploys the chart using the specified <code>values</code> file,
-it doesn't require any specific helm chart repository structure.</p>
-<p><strong>Values File Conventions</strong></p>
-<p>Given that container images are tagged using the git SHA,
-SDP will clone your helm configuration repository and update a key corresponding to the current version of each container image for each application environment.</p>
+it doesn't require any specific Helm chart repository structure.</p>
+<h4 id="values-file-conventions">Values File Conventions*<a class="headerlink" href="#values-file-conventions" title="Permanent link">&para;</a></h4>
+<p>Given that container images are tagged using the Git SHA,
+SDP will clone your Helm configuration repository and update a key corresponding to the current version of each container image for each application environment.</p>
 <p>As such, a certain syntax is required in your values file. You must have an <code>image_shas</code> key.
-SDP will automatically add subkeys for each repositories under this <code>image_shas</code> with a value that's the git SHA.</p>
+SDP will automatically add subkeys for each repositories under this <code>image_shas</code> with a value that's the Git SHA.</p>
 <p><strong>Note</strong> Given that YAML keys can't have hyphens, hyphens in repository names will be replaced with underscores.</p>
 <div class="highlight"><pre><span></span><code><span class="nl">image_shas:</span>
   <span class="nl">my_sample_application:</span> <span class="n">abcdefgh</span>
   <span class="nl">another_repo:</span> <span class="n">abcdef</span>
 </code></pre></div>
-<p>You can add any other keys necessary to appropriately parameterize your helm chart.</p>
-<p><strong>Helm Configurations for the Library</strong></p>
-<p>The helm configuration repository and github credential can be configured globally in the library spec and overridden for specific application environments.</p>
+<p>You can add any other keys necessary to appropriately parameterize your Helm chart.</p>
+<h4 id="helm-configurations-for-the-library">Helm Configurations for the Library<a class="headerlink" href="#helm-configurations-for-the-library" title="Permanent link">&para;</a></h4>
+<p>The Helm configuration repository and GitHub credential can be configured globally in the library spec and overridden for specific application environments.</p>
 <p>The values file to will default to <code>values.${app_env.short_name}.yaml</code>, or can be overridden via <code>app_env.chart_values_file</code>.</p>
 <p>The name of the release will default to <code>app_env.short_name</code>, or can be overridden via <code>app_env.release_name</code>.</p>
-<p>An example of helm configurations:</p>
+<p>An example of Helm configurations:</p>
 <div class="highlight"><pre><span></span><code><span class="n">application_environments</span><span class="o">{</span>
   <span class="n">dev</span><span class="o">{</span>
     <span class="n">short_name</span> <span class="o">=</span> <span class="s2">&quot;dev&quot;</span>
@@ -1362,7 +1388,7 @@ which is when the most recent code change was a <strong>merge</strong> into the 
 The image would be expected to be built from an earlier commit, or while there was an open PR.</p>
 <p>You can override this default for the entire pipeline by setting the <code>promote_previous_image</code> config setting to <strong>false</strong>.
 You can also choose whether to promote images for each application environment individually through the <code>promote_previous_image</code> application_environment setting.
-This app_env setting takes priority over the config setting.</p>
+This application_environment setting takes priority over the config setting.</p>
 <p>An example of these settings' usage:</p>
 <div class="highlight"><pre><span></span><code><span class="n">application_environments</span><span class="o">{</span>
   <span class="n">dev</span><span class="o">{</span>
@@ -1398,51 +1424,51 @@ This app_env setting takes priority over the config setting.</p>
 </thead>
 <tbody>
 <tr>
-<td>k8s_credential</td>
+<td><code>k8s_credential</code></td>
 <td>The Jenkins credential ID defined as a Secrets File that holds the kubeconfig file</td>
 <td></td>
 <td>both</td>
 </tr>
 <tr>
-<td>helm_configuration_repository</td>
-<td>The GitHub Repository containing the helm chart(s) for this application</td>
+<td><code>helm_configuration_repository</code></td>
+<td>The GitHub Repository containing the Helm chart(s) for this application</td>
 <td></td>
 <td>both</td>
 </tr>
 <tr>
-<td>helm_configuration_repository_branch</td>
-<td>The repository branch to fetch the helm chart(s) from</td>
-<td>"main"</td>
+<td><code>helm_configuration_repository_branch</code></td>
+<td>The repository branch to fetch the Helm chart(s) from</td>
+<td><code>"main"</code></td>
 <td>both</td>
 </tr>
 <tr>
-<td>helm_configuration_repository_start_path</td>
-<td>The directory within the repository containing the helm chart</td>
-<td>".", which is the root of the repository</td>
+<td><code>helm_configuration_repository_start_path</code></td>
+<td>The directory within the repository containing the Helm chart</td>
+<td><code>"."</code>, which is the root of the repository</td>
 <td>both</td>
 </tr>
 <tr>
-<td>helm_configuration_repository_credential</td>
-<td>The Jenkins credential ID to access the helm configuration GitHub repository</td>
+<td><code>helm_configuration_repository_credential</code></td>
+<td>The Jenkins credential ID to access the Helm configuration GitHub repository</td>
 <td></td>
 <td>both</td>
 </tr>
 <tr>
-<td>k8s_context</td>
+<td><code>k8s_context</code></td>
 <td>The Jenkins credential ID specifying the context within the k8s_credential kubeconfig that identifies the target environment</td>
 <td></td>
 <td>both</td>
 </tr>
 <tr>
-<td>chart_values_file</td>
+<td><code>chart_values_file</code></td>
 <td>The values file to use for the release</td>
 <td></td>
-<td>app_env</td>
+<td>Application Environment</td>
 </tr>
 <tr>
-<td>promote_previous_image</td>
-<td>Whether or not to promote a previously built image</td>
-<td>(Boolean) true</td>
+<td><code>promote_previous_image</code></td>
+<td>Whether to promote a previously built image</td>
+<td>(Boolean) <code>true</code></td>
 <td>both</td>
 </tr>
 </tbody>
@@ -1479,7 +1505,7 @@ This app_env setting takes priority over the config setting.</p>
 <h2 id="library-dependencies">Library Dependencies<a class="headerlink" href="#library-dependencies" title="Permanent link">&para;</a></h2>
 <hr />
 <ul>
-<li>A library that implements the <code>withGit</code> method such as github.</li>
+<li>A library that implements the <code>withGit</code> method such as GitHub.</li>
 </ul>
 <h2 id="external-dependencies">External Dependencies<a class="headerlink" href="#external-dependencies" title="Permanent link">&para;</a></h2>
 <hr />
@@ -1487,14 +1513,10 @@ This app_env setting takes priority over the config setting.</p>
 <li>Target Kubernetes cluster is deployed and accessible from Jenkins</li>
 <li>Helm configuration repository creates</li>
 <li>Values files contain the <code>image_shas</code> key convention</li>
-<li>A Jenkins credential exists to access helm configuration repository</li>
+<li>A Jenkins credential exists to access Helm configuration repository</li>
 <li>A Jenkins credential exists holding the kubeconfig file</li>
 <li>A Jenkins credential exists specifying the current context within the kubeconfig</li>
 </ul>
-<h2 id="troubleshooting">Troubleshooting<a class="headerlink" href="#troubleshooting" title="Permanent link">&para;</a></h2>
-<hr />
-<h2 id="faq">FAQ<a class="headerlink" href="#faq" title="Permanent link">&para;</a></h2>
-<hr />
                 
                   
                 

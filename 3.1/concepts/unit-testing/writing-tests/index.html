@@ -942,7 +942,7 @@
   
     <li class="md-nav__item">
       <a href="../../../libraries/SDP%20Pipeline%20Libraries/webhint/" class="md-nav__link">
-        Webhint
+        webhint
       </a>
     </li>
   
@@ -1070,7 +1070,7 @@ Some things to write tests for are:</p>
 <span class="o">}</span>
 </code></pre></div>
 <p>Now create a <code>setup:</code> block to define some do some pre-test preparation not covered by the <code>setup()</code> fixture method.
-In this example, the binding variable <code>config</code> is set to null, and a mock for the <code>error</code> pipeline step is created.</p>
+In this example, the binding variable <code>config</code> is set to <code>null</code>, and a mock for the <code>error</code> pipeline step is created.</p>
 <div class="highlight"><pre><span></span><code><span class="kt">def</span> <span class="nf">&quot;Pipeline Fails When Config Is Undefined&quot;</span> <span class="o">()</span> <span class="o">{</span>
   <span class="nl">setup:</span>
     <span class="n">explicitlyMockPipelineStep</span><span class="o">(</span><span class="s2">&quot;error&quot;</span><span class="o">)</span>
@@ -1093,7 +1093,7 @@ and expects the <code>error</code> step to be called exactly once with the messa
 </code></pre></div>
 <p>And that's the gist of it.
 You can add as many feature methods as necessary in the spec file, testing a variety of things.
-Be sure to check out the <a href="http://spockframework.org/spock/docs">Spock Documentation</a>, <a href="../jenkins-spock/">Jenkins-Spock Documentation</a>, and already-created spec files in the <a href="https://github.com/boozallen/sdp-libraries/tree/main/test"><abbr title="Solutions Delivery Platform">SDP</abbr> Libraries repository</a> for examples.</p>
+Be sure to check out the <a href="http://spockframework.org/spock/docs">Spock Documentation</a>, <a href="../jenkins-spock/">Jenkins-Spock Documentation</a>, and already-created spec files in the <a href="https://github.com/boozallen/sdp-libraries/tree/main/resources/test"><abbr title="Solutions Delivery Platform">SDP</abbr> Libraries repository</a> for examples.</p>
 <!--markdownlint-disable-->
                 
               

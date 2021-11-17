@@ -938,18 +938,18 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#steps-contributed" class="md-nav__link">
-    Steps Contributed
+  <a href="#steps" class="md-nav__link">
+    Steps
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#library-configuration-options" class="md-nav__link">
-    Library Configuration Options
+  <a href="#configuration" class="md-nav__link">
+    Configuration
   </a>
   
-    <nav class="md-nav" aria-label="Library Configuration Options">
+    <nav class="md-nav" aria-label="Configuration">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
@@ -992,8 +992,8 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#external-dependencies" class="md-nav__link">
-    External Dependencies
+  <a href="#dependencies" class="md-nav__link">
+    Dependencies
   </a>
   
 </li>
@@ -1035,7 +1035,7 @@
   
     <li class="md-nav__item">
       <a href="../webhint/" class="md-nav__link">
-        Webhint
+        webhint
       </a>
     </li>
   
@@ -1143,18 +1143,18 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#steps-contributed" class="md-nav__link">
-    Steps Contributed
+  <a href="#steps" class="md-nav__link">
+    Steps
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#library-configuration-options" class="md-nav__link">
-    Library Configuration Options
+  <a href="#configuration" class="md-nav__link">
+    Configuration
   </a>
   
-    <nav class="md-nav" aria-label="Library Configuration Options">
+    <nav class="md-nav" aria-label="Configuration">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
@@ -1197,8 +1197,8 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#external-dependencies" class="md-nav__link">
-    External Dependencies
+  <a href="#dependencies" class="md-nav__link">
+    Dependencies
   </a>
   
 </li>
@@ -1225,7 +1225,7 @@
                 
                 <h1 id="terraform">Terraform<a class="headerlink" href="#terraform" title="Permanent link">&para;</a></h1>
 <p>This library leverages <a href="https://www.terraform.io/intro/index.html">Terraform</a> to manage deployments of Infrastructure as Code to different environments.</p>
-<h2 id="steps-contributed">Steps Contributed<a class="headerlink" href="#steps-contributed" title="Permanent link">&para;</a></h2>
+<h2 id="steps">Steps<a class="headerlink" href="#steps" title="Permanent link">&para;</a></h2>
 <hr />
 <table>
 <thead>
@@ -1237,11 +1237,11 @@
 <tbody>
 <tr>
 <td><code>deploy_to(application_environment)</code></td>
-<td>performs a terraform apply</td>
+<td>performs a <code>terraform apply</code></td>
 </tr>
 </tbody>
 </table>
-<h2 id="library-configuration-options">Library Configuration Options<a class="headerlink" href="#library-configuration-options" title="Permanent link">&para;</a></h2>
+<h2 id="configuration">Configuration<a class="headerlink" href="#configuration" title="Permanent link">&para;</a></h2>
 <hr />
 <h3 id="working-directory">Working Directory<a class="headerlink" href="#working-directory" title="Permanent link">&para;</a></h3>
 <p>The working directory from which to run Terraform commands can be specified on the application environment pass to <code>deploy_to</code> or within the library configuration.</p>
@@ -1330,7 +1330,7 @@ These credentials must be stored are in the Jenkins credential store.</p>
 <p>The <a href="https://github.com/draios/terraform-provider-sysdig">Sysdig Terraform Provider</a> is bundled with the Terraform image.
 To configure this provider, it is advisable to create secrets for <code>SYSDIG_SECURE_API_TOKEN</code> and <code>SYSDIG_MONITOR_API_TOKEN</code>.
 These environment variables can be consumed by the provider to configure the required secrets.</p>
-<h2 id="external-dependencies">External Dependencies<a class="headerlink" href="#external-dependencies" title="Permanent link">&para;</a></h2>
+<h2 id="dependencies">Dependencies<a class="headerlink" href="#dependencies" title="Permanent link">&para;</a></h2>
 <hr />
 <h2 id="troubleshooting">Troubleshooting<a class="headerlink" href="#troubleshooting" title="Permanent link">&para;</a></h2>
 <hr />

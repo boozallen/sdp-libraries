@@ -882,15 +882,15 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#steps-provided" class="md-nav__link">
-    Steps Provided
+  <a href="#steps" class="md-nav__link">
+    Steps
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#library-configuration-options" class="md-nav__link">
-    Library Configuration Options
+  <a href="#configuration" class="md-nav__link">
+    Configuration
   </a>
   
 </li>
@@ -910,22 +910,8 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#external-dependencies" class="md-nav__link">
-    External Dependencies
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#troubleshooting" class="md-nav__link">
-    Troubleshooting
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#faq" class="md-nav__link">
-    FAQ
+  <a href="#dependencies" class="md-nav__link">
+    Dependencies
   </a>
   
 </li>
@@ -1016,7 +1002,7 @@
   
     <li class="md-nav__item">
       <a href="../webhint/" class="md-nav__link">
-        Webhint
+        webhint
       </a>
     </li>
   
@@ -1124,15 +1110,15 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#steps-provided" class="md-nav__link">
-    Steps Provided
+  <a href="#steps" class="md-nav__link">
+    Steps
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#library-configuration-options" class="md-nav__link">
-    Library Configuration Options
+  <a href="#configuration" class="md-nav__link">
+    Configuration
   </a>
   
 </li>
@@ -1152,22 +1138,8 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#external-dependencies" class="md-nav__link">
-    External Dependencies
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#troubleshooting" class="md-nav__link">
-    Troubleshooting
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#faq" class="md-nav__link">
-    FAQ
+  <a href="#dependencies" class="md-nav__link">
+    Dependencies
   </a>
   
 </li>
@@ -1187,7 +1159,7 @@
                 
                 <h1 id="sdp">SDP<a class="headerlink" href="#sdp" title="Permanent link">&para;</a></h1>
 <p>The SDP library provides helper steps used by multiple libraries within sdp-libraries.</p>
-<h2 id="steps-provided">Steps Provided<a class="headerlink" href="#steps-provided" title="Permanent link">&para;</a></h2>
+<h2 id="steps">Steps<a class="headerlink" href="#steps" title="Permanent link">&para;</a></h2>
 <hr />
 <table>
 <thead>
@@ -1203,7 +1175,7 @@
 </tr>
 <tr>
 <td><code>jteVersion</code></td>
-<td>a multi-method step that provides utilities for determining the current JTE version. more docs below.</td>
+<td>a multi-method step that provides utilities for determining the current JTE version</td>
 </tr>
 </tbody>
 </table>
@@ -1229,7 +1201,7 @@
 </tr>
 </tbody>
 </table>
-<h2 id="library-configuration-options">Library Configuration Options<a class="headerlink" href="#library-configuration-options" title="Permanent link">&para;</a></h2>
+<h2 id="configuration">Configuration<a class="headerlink" href="#configuration" title="Permanent link">&para;</a></h2>
 <hr />
 <p>SDP Library Configuration Options</p>
 <table>
@@ -1243,12 +1215,12 @@
 <tbody>
 <tr>
 <td><code>images.registry</code></td>
-<td>This sets the registry the sdp library expects to find its Docker images</td>
+<td>This sets the registry the SDP library expects to find its Docker images</td>
 <td></td>
 </tr>
 <tr>
 <td><code>images.repository</code></td>
-<td>The first <a href="https://forums.docker.com/t/docker-registry-v2-spec-and-repository-naming-rule/5466">path component</a> in the repository name. For example if your images follow the format <code>my-registry.com/sdp/*</code>, this would be <em>sdp</em></td>
+<td>The first <a href="https://forums.docker.com/t/docker-registry-v2-spec-and-repository-naming-rule/5466">path component</a> in the repository name. For example if your images follow the format <code>my-registry.com/sdp/*</code>, this would be <code>sdp</code></td>
 <td></td>
 </tr>
 <tr>
@@ -1263,7 +1235,7 @@
 </tr>
 </tbody>
 </table>
-<p><strong>Important</strong> Unlike the Docker Library, the value in <code>registry</code> <em>does</em> include the protocol (http/https)</p>
+<p><strong>Important</strong> Unlike the Docker Library, the value in <code>registry</code> <em>does</em> include the protocol (<code>http://</code> <code>https://</code>)</p>
 <h2 id="example-configuration-snippet">Example Configuration Snippet<a class="headerlink" href="#example-configuration-snippet" title="Permanent link">&para;</a></h2>
 <hr />
 <div class="annotate highlight"><pre><span></span><code><span class="n">libraries</span><span class="o">{</span>
@@ -1300,18 +1272,14 @@ This is particularly useful when making changes to support backwards compatibili
   <span class="c1">// code to run if current installed version is &gt;= 2.1</span>
 <span class="o">}</span>
 </code></pre></div>
-<h2 id="external-dependencies">External Dependencies<a class="headerlink" href="#external-dependencies" title="Permanent link">&para;</a></h2>
+<h2 id="dependencies">Dependencies<a class="headerlink" href="#dependencies" title="Permanent link">&para;</a></h2>
 <hr />
 <ul>
 <li>A Docker registry must be setup and configured. Credentials to the registry are also needed.</li>
 <li>A repository for the image being used by the given library is expected to be in the given registry.</li>
-<li>The repository name for the pipeline tools' images should be in the format  <em>"${images.registry}/${images.repository}/tool-name"</em>.</li>
-<li>The Pipeline Utility Steps plugin is required.</li>
+<li>The repository name for the pipeline tools' images should be in the format  <code>"${images.registry}/${images.repository}/tool-name"</code>.</li>
+<li>The <a href="https://plugins.jenkins.io/pipeline-utility-steps/">Pipeline Utility Steps plugin</a> is required.</li>
 </ul>
-<h2 id="troubleshooting">Troubleshooting<a class="headerlink" href="#troubleshooting" title="Permanent link">&para;</a></h2>
-<hr />
-<h2 id="faq">FAQ<a class="headerlink" href="#faq" title="Permanent link">&para;</a></h2>
-<hr />
                 
                   
                 

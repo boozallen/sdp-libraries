@@ -816,22 +816,8 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#external-dependencies" class="md-nav__link">
-    External Dependencies
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#troubleshooting" class="md-nav__link">
-    Troubleshooting
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#faq" class="md-nav__link">
-    FAQ
+  <a href="#dependencies" class="md-nav__link">
+    Dependencies
   </a>
   
 </li>
@@ -1090,7 +1076,7 @@
   
     <li class="md-nav__item">
       <a href="../webhint/" class="md-nav__link">
-        Webhint
+        webhint
       </a>
     </li>
   
@@ -1300,22 +1286,8 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#external-dependencies" class="md-nav__link">
-    External Dependencies
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#troubleshooting" class="md-nav__link">
-    Troubleshooting
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#faq" class="md-nav__link">
-    FAQ
+  <a href="#dependencies" class="md-nav__link">
+    Dependencies
   </a>
   
 </li>
@@ -1334,7 +1306,7 @@
                 
                 
                 <h1 id="docker">Docker<a class="headerlink" href="#docker" title="Permanent link">&para;</a></h1>
-<p>The Docker library will build docker images and push them into a docker repository.</p>
+<p>The Docker library will build Docker images and push them into a Docker repository.</p>
 <h2 id="steps">Steps<a class="headerlink" href="#steps" title="Permanent link">&para;</a></h2>
 <hr />
 <table>
@@ -1351,7 +1323,7 @@
 </tr>
 <tr>
 <td><code>buildx()</code></td>
-<td>builds a multi-architecture image using buildx emulation, and pushes the image or images to the defined registry</td>
+<td>builds a multi-architecture image using Buildx emulation, and pushes the image or images to the defined registry</td>
 </tr>
 <tr>
 <td><code>get_images_to_build()</code></td>
@@ -1400,104 +1372,104 @@
 </thead>
 <tbody>
 <tr>
-<td>build_strategy</td>
-<td>Sets how the library will build the container image(s); Must be dockerfile, docker-compose, or modules</td>
-<td>dockerfile</td>
-<td>false</td>
+<td><code>build_strategy</code></td>
+<td>Sets how the library will build the container image(s); must be <code>dockerfile</code>, <code>docker-compose</code>, or <code>modules</code></td>
+<td><code>dockerfile</code></td>
+<td>No</td>
 </tr>
 <tr>
-<td>registry</td>
+<td><code>registry</code></td>
 <td>Where the container images produced during the pipeline builds are going to be pushed to</td>
 <td></td>
-<td>true</td>
+<td>Yes</td>
 </tr>
 <tr>
-<td>registry_protocol</td>
+<td><code>registry_protocol</code></td>
 <td>the protocol to prepend to the <code>registry</code> when authenticating to the container registry</td>
-<td>"https://"</td>
-<td>false</td>
+<td><code>"https://"</code></td>
+<td>No</td>
 </tr>
 <tr>
-<td>cred</td>
-<td>Credentials used for the repository where different docker pipeline tools are stored.</td>
+<td><code>cred</code></td>
+<td>Credentials used for the repository where different docker pipeline tools are stored</td>
 <td></td>
-<td>true</td>
+<td>Yes</td>
 </tr>
 <tr>
-<td>repo_path_prefix</td>
+<td><code>repo_path_prefix</code></td>
 <td>The part of the repository name between the registry name and the last forward-slash</td>
 <td>""</td>
-<td>false</td>
+<td>No</td>
 </tr>
 <tr>
-<td>image_name</td>
+<td><code>image_name</code></td>
 <td>Name of the container image being built</td>
 <td><code>env.REPO_NAME</code></td>
-<td>false</td>
+<td>No</td>
 </tr>
 <tr>
-<td>remove_local_image</td>
+<td><code>remove_local_image</code></td>
 <td>Determines if the pipeline should remove the local image after building or retagging</td>
-<td>false</td>
-<td>false</td>
+<td><code>false</code></td>
+<td>No</td>
 </tr>
 <tr>
-<td>build_args</td>
-<td>A block of build arguments to pass to <code>docker build</code>. For more information, see below.</td>
+<td><code>build_args</code></td>
+<td>A block of build arguments to pass to <code>docker build</code> (for more information, see below)</td>
 <td></td>
-<td>false</td>
+<td>No</td>
 </tr>
 <tr>
-<td>setExperimentalFlag</td>
+<td><code>setExperimentalFlag</code></td>
 <td>If the docker version only has buildx as an experimental feature then this allows that flag to be set</td>
-<td>false</td>
-<td>false</td>
+<td><code>false</code></td>
+<td>No</td>
 </tr>
 <tr>
-<td>same_repo_different_tags</td>
-<td>When building multiple images don't change the repo name but append the key name to the tag</td>
-<td>false</td>
-<td>false</td>
+<td><code>same_repo_different_tags</code></td>
+<td>When building multiple images don't change the repository name but append the key name to the tag</td>
+<td><code>false</code></td>
+<td>No</td>
 </tr>
 <tr>
-<td>buildx[].name { }</td>
+<td><code>buildx[].name { }</code></td>
 <td>the key name to the map of the specific element of the buildx array</td>
 <td></td>
-<td>true</td>
+<td>Yes</td>
 </tr>
 <tr>
-<td>buildx[].useLatestTag</td>
+<td><code>buildx[].useLatestTag</code></td>
 <td>Add an additional latest tag to the image being built on top of the other tag</td>
-<td>false</td>
-<td>false</td>
+<td><code>false</code></td>
+<td>No</td>
 </tr>
 <tr>
-<td>buildx[].tag</td>
+<td><code>buildx[].tag</code></td>
 <td>Override the tag with a string</td>
-<td>git sha from commit</td>
-<td>false</td>
+<td>Git SHA from commit</td>
+<td>No</td>
 </tr>
 <tr>
-<td>buildx[].context</td>
+<td><code>buildx[].context</code></td>
 <td>Dockerfile context for that image</td>
-<td>"."</td>
-<td>false</td>
+<td><code>"."</code></td>
+<td>No</td>
 </tr>
 <tr>
-<td>buildx[].dockerfile_path</td>
+<td><code>buildx[].dockerfile_path</code></td>
 <td>Dockerfile location and name for that image</td>
-<td>"Dockerfile"</td>
-<td>false</td>
+<td><code>"Dockerfile"</code></td>
+<td>No</td>
 </tr>
 <tr>
-<td>buildx[].platforms</td>
+<td><code>buildx[].platforms</code></td>
 <td>array of platforms to be built for that image</td>
-<td>linux/amd64</td>
-<td>false</td>
+<td><code>linux/amd64</code></td>
+<td>No</td>
 </tr>
 <tr>
-<td>buildx[].build_args</td>
-<td>A block of build arguments to pass for that element to <code>docker buildx</code>. For more information, see below.</td>
+<td><code>buildx[].build_args</code></td>
+<td>A block of build arguments to pass for that element to <code>docker buildx</code> (for more information, see below)</td>
 <td></td>
 <td></td>
 </tr>
@@ -1508,7 +1480,7 @@
 <h3 id="static-inline-build-arguments">Static Inline Build Arguments<a class="headerlink" href="#static-inline-build-arguments" title="Permanent link">&para;</a></h3>
 <p>To pass static values as build arguments, set a field within the configuration block where the key is the build argument name and the value is the build argument value.</p>
 <p>For example,</p>
-<div class="annotate highlight"><pre><span></span><code><span class="n">libraries</span><span class="o">{</span>
+<div class="highlight"><pre><span></span><code><span class="n">libraries</span><span class="o">{</span>
   <span class="n">docker</span><span class="o">{</span>
     <span class="n">build_args</span><span class="o">{</span>
       <span class="n">BUILD_ARG_NAME</span> <span class="o">=</span> <span class="s2">&quot;some-inline-argument&quot;</span> <span class="c1">// (1)</span>
@@ -1521,7 +1493,7 @@
 </ol>
 <h3 id="secret-text-credentials">Secret Text Credentials<a class="headerlink" href="#secret-text-credentials" title="Permanent link">&para;</a></h3>
 <p>To pass a secret value, ensure that a Secret Text credential type has been created and fetch the credential id from the Jenkins credential store.</p>
-<div class="annotate highlight"><pre><span></span><code><span class="n">libraries</span><span class="o">{</span>
+<div class="highlight"><pre><span></span><code><span class="n">libraries</span><span class="o">{</span>
   <span class="n">docker</span><span class="o">{</span>
     <span class="n">build_args</span><span class="o">{</span>
       <span class="n">GITHUB_TOKEN</span><span class="o">{</span> <span class="c1">// (1)</span>
@@ -1539,12 +1511,12 @@
 </ol>
 <h2 id="buildx-configuration">Buildx Configuration<a class="headerlink" href="#buildx-configuration" title="Permanent link">&para;</a></h2>
 <h3 id="buildx-overview">Buildx Overview<a class="headerlink" href="#buildx-overview" title="Permanent link">&para;</a></h3>
-<p>Go to <a href="https://docs.docker.com/buildx/working-with-buildx/">Docker Buildx</a> to learn more about buildx and the requirements for it.</p>
-<p>The build strategy must be set to <code>'buildx'</code> to use the buildx step.</p>
+<p>Go to <a href="https://docs.docker.com/buildx/working-with-buildx/">Docker Buildx</a> to learn more about Buildx and the requirements for it.</p>
+<p>The build strategy must be set to <code>'buildx'</code> to use the <code>buildx()</code> step.</p>
 <h3 id="use-cases">Use Cases<a class="headerlink" href="#use-cases" title="Permanent link">&para;</a></h3>
 <p>This step provides covers three use cases for building multi-architecture.</p>
 <h4 id="1-single-docker-image-name-with-one-tag">1. Single docker image name with one tag<a class="headerlink" href="#1-single-docker-image-name-with-one-tag" title="Permanent link">&para;</a></h4>
-<p>Example: repo/example:1.0 that supports amd64, arm64, armv7</p>
+<p>Example: <code>repo/example:1.0</code> which supports <code>amd64</code>, <code>arm64</code>, <code>armv7</code></p>
 <ul>
 <li>Use this when the pipeline can build multiple architectures into a single docker image manifest.</li>
 <li>This method of building the image requires that the base image also supports all the architectures that the pipeline is building for.</li>
@@ -1572,7 +1544,7 @@
 <div class="highlight"><pre><span></span><code>docker buildx build . -t docker-registry.default.svc:5000/java/example:&lt;insert git sha&gt; -t docker-registry.default.svc:5000/java/example:latest --platform linux/amd64,linux/arm64,linux/arm/v7 --build-arg<span class="o">=</span><span class="nv">BASE_IMAGE</span><span class="o">=</span>alpine:3.12 --push
 </code></pre></div>
 <h4 id="2-single-docker-image-name-with-multiple-tags">2. Single docker image name with multiple tags<a class="headerlink" href="#2-single-docker-image-name-with-multiple-tags" title="Permanent link">&para;</a></h4>
-<p>Example: repo/example:1.0-amd64 repo/example:1.0-arm64 where each image supports a different architecture</p>
+<p>Example: <code>repo/example:1.0-amd64</code> <code>repo/example:1.0-arm64</code> where each image supports a different architecture</p>
 <ul>
 <li>Use this when there is no multi-architecture base image that can be used to build a single image manifest.</li>
 <li>Buildx is an array of maps that are separated by unique keys. This allows the pipeline to use the same Dockerfile with a parameterized base image or multiple Dockerfiles.</li>
@@ -1612,9 +1584,9 @@
 docker buildx build . -t docker-registry.default.svc:5000/java/example:1.0-arm64 --platform<span class="o">=</span>linux/arm64 --build-arg<span class="o">=</span><span class="nv">BASE_IMAGE</span><span class="o">=</span>alpine:3.12 --push
 </code></pre></div>
 <h4 id="3-multiple-docker-image-names-with-multiple-tags">3. Multiple docker image names with multiple tags<a class="headerlink" href="#3-multiple-docker-image-names-with-multiple-tags" title="Permanent link">&para;</a></h4>
-<p>Example: example-big:1.0 and example-small:1.0 where each image has its own list of architectures</p>
+<p>Example: <code>example-big:1.0</code> and <code>example-small:1.0</code> where each image has its own list of architectures</p>
 <ul>
-<li>Use this when there is a single repo with multiple images that need to be built for multiple architectures.</li>
+<li>Use this when there is a single repository with multiple images that need to be built for multiple architectures.</li>
 <li>Each element's key must be unique for this to build or else it will override previous images and fail.</li>
 </ul>
 <p>Example Configuration Snippet for buildx Single docker image name with one tag:</p>
@@ -1647,18 +1619,14 @@ docker buildx build . -t docker-registry.default.svc:5000/java/example:1.0-arm64
 <div class="highlight"><pre><span></span><code>docker buildx build ./jdk -t docker-registry.default.svc:5000/java/example-jdk:1.0 --platform linux/amd64,linux/arm64,linux/arm/v7 --build-arg<span class="o">=</span><span class="nv">BASE_IMAGE</span><span class="o">=</span>alpine:3.12 --push
 docker buildx build ./jre -t docker-registry.default.svc:5000/java/example-jre:1.0 --platform linux/amd64,linux/arm64,linux/arm/v7 --build-arg<span class="o">=</span><span class="nv">BASE_IMAGE</span><span class="o">=</span>alpine:3.12 --push
 </code></pre></div>
-<h2 id="external-dependencies">External Dependencies<a class="headerlink" href="#external-dependencies" title="Permanent link">&para;</a></h2>
+<h2 id="dependencies">Dependencies<a class="headerlink" href="#dependencies" title="Permanent link">&para;</a></h2>
 <hr />
 <ul>
 <li>A Docker registry must be set up and configured. Credentials to the repository are also needed.</li>
 <li>Either the <code>github</code> or <code>github_enterprise</code> library needs to be loaded as a library inside your <code>pipeline_config.groovy</code> file.</li>
 <li>Pipelines that use the <strong>buildx</strong> step need to be built on a node that has the correct Docker version with buildx support and the required emulator set up. See <a href="https://docs.docker.com/buildx/working-with-buildx/">Docker Buildx</a> for how to set up a node with the right configurations.</li>
-<li>Buildx enabled nodes needs to be set up with buildkit builders that support the architectures required for the step to work.</li>
+<li>Buildx enabled nodes need to be set up with BuildKit builders that support the architectures required for the step to work.</li>
 </ul>
-<h2 id="troubleshooting">Troubleshooting<a class="headerlink" href="#troubleshooting" title="Permanent link">&para;</a></h2>
-<hr />
-<h2 id="faq">FAQ<a class="headerlink" href="#faq" title="Permanent link">&para;</a></h2>
-<hr />
                 
                   
                 

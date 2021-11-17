@@ -928,7 +928,7 @@
   
     <li class="md-nav__item">
       <a href="../../libraries/SDP%20Pipeline%20Libraries/webhint/" class="md-nav__link">
-        Webhint
+        webhint
       </a>
     </li>
   
@@ -1038,8 +1038,8 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#fork-the-sdp-libraries-repository" class="md-nav__link">
-    Fork the SDP Libraries repository
+  <a href="#fork-the-repository" class="md-nav__link">
+    Fork the repository
   </a>
   
 </li>
@@ -1060,15 +1060,15 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#check-sdp-librarys-helper-methods" class="md-nav__link">
-    Check SDP library's helper methods
+  <a href="#review-the-sdp-librarys-helper-methods" class="md-nav__link">
+    Review the sdp library's helper methods
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#add-an-sdp-pipeline-image-if-necessary" class="md-nav__link">
-    Add an SDP Pipeline Image (if necessary)
+  <a href="#add-a-container-image-if-necessary" class="md-nav__link">
+    Add a container image (if necessary)
   </a>
   
 </li>
@@ -1181,8 +1181,8 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#fork-the-sdp-libraries-repository" class="md-nav__link">
-    Fork the SDP Libraries repository
+  <a href="#fork-the-repository" class="md-nav__link">
+    Fork the repository
   </a>
   
 </li>
@@ -1203,15 +1203,15 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#check-sdp-librarys-helper-methods" class="md-nav__link">
-    Check SDP library's helper methods
+  <a href="#review-the-sdp-librarys-helper-methods" class="md-nav__link">
+    Review the sdp library's helper methods
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#add-an-sdp-pipeline-image-if-necessary" class="md-nav__link">
-    Add an SDP Pipeline Image (if necessary)
+  <a href="#add-a-container-image-if-necessary" class="md-nav__link">
+    Add a container image (if necessary)
   </a>
   
 </li>
@@ -1300,7 +1300,7 @@
 </ul>
 <p>If the library doesn't already exist, wouldn't make more sense as an addition to an existing library,
 and represents a use case that will be applicable outside of your current situation then it's likely a good candidate for contribution!</p>
-<h2 id="fork-the-sdp-libraries-repository">Fork the <abbr title="Solutions Delivery Platform">SDP</abbr> Libraries repository<a class="headerlink" href="#fork-the-sdp-libraries-repository" title="Permanent link">&para;</a></h2>
+<h2 id="fork-the-repository">Fork the repository<a class="headerlink" href="#fork-the-repository" title="Permanent link">&para;</a></h2>
 <hr />
 <p>This project follows a standard <a href="https://gist.github.com/Chaser324/ce0505fbed06b947d962">Fork Contribution Model</a>,
 so if you haven't, go ahead and fork the <a href="https://github.com/boozallen/sdp-libraries"><abbr title="Solutions Delivery Platform">SDP</abbr> Pipeline Libraries Repository</a>.</p>
@@ -1317,31 +1317,35 @@ just create &lt;name_of_new_library&gt;
 <hr />
 <p>Go on over to <abbr title="Jenkins Templating Engine">JTE</abbr>'s <a href="https://jenkinsci.github.io/templating-engine-plugin/2.3/concepts/library-development/overview/">Library Development</a> documentation to learn how to create libraries.</p>
 <p>There are a few conventions the <abbr title="Solutions Delivery Platform">SDP</abbr> Pipeline Libraries have adopted, outlined below:</p>
-<h3 id="check-sdp-librarys-helper-methods">Check <abbr title="Solutions Delivery Platform">SDP</abbr> library's helper methods<a class="headerlink" href="#check-sdp-librarys-helper-methods" title="Permanent link">&para;</a></h3>
+<h3 id="review-the-sdp-librarys-helper-methods">Review the <code>sdp</code> library's helper methods<a class="headerlink" href="#review-the-sdp-librarys-helper-methods" title="Permanent link">&para;</a></h3>
 <p>The <a href="./libraries/sdp/"><abbr title="Solutions Delivery Platform">SDP</abbr> library</a> exists to implement common functionality required by other libraries.
 It's worthwhile to see if any of those steps are going to be useful to you during library development.</p>
-<h3 id="add-an-sdp-pipeline-image-if-necessary">Add an <abbr title="Solutions Delivery Platform">SDP</abbr> Pipeline Image (if necessary)<a class="headerlink" href="#add-an-sdp-pipeline-image-if-necessary" title="Permanent link">&para;</a></h3>
+<h3 id="add-a-container-image-if-necessary">Add a container image (if necessary)<a class="headerlink" href="#add-a-container-image-if-necessary" title="Permanent link">&para;</a></h3>
 <p>The <abbr title="Solutions Delivery Platform">SDP</abbr> Pipeline Libraries try to install as few plugins on the Jenkins instance and as few tools on the underlying infrastructure as possible.
 Part of the pipeline runs inside container images, leveraging them as runtime pipeline environments.
 The existing container images used for this purpose can be found in the <a href="https://github.com/boozallen/sdp-images"><abbr title="Solutions Delivery Platform">SDP</abbr> Pipeline Images</a> repository.</p>
-<p>If your library requires runtime dependencies, like a CLI, capture them in a container image and open a PR to the <abbr title="Solutions Delivery Platform">SDP</abbr> Pipeline Images repository.</p>
+<p>If your library requires runtime dependencies, like a <abbr title="Command Line Interface">CLI</abbr>, capture them in a container image and open a <abbr title="Pull Request">PR</abbr> to the <abbr title="Solutions Delivery Platform">SDP</abbr> Pipeline Images repository.</p>
 <p>In your step implementations, the image that's used should be overrideable but default to the image hosted via GitHub Package Registry on the <abbr title="Solutions Delivery Platform">SDP</abbr> Pipeline Images repository.</p>
 <p><strong>Note</strong> If your library requires runtime dependencies, your new library won't be accepted until the required image has been merged and published to the <abbr title="Solutions Delivery Platform">SDP</abbr> Pipeline Images repository.</p>
 <h2 id="add-documentation-for-the-library">Add documentation for the library<a class="headerlink" href="#add-documentation-for-the-library" title="Permanent link">&para;</a></h2>
 <hr />
 <h3 id="create-the-documentation-page">Create the documentation page<a class="headerlink" href="#create-the-documentation-page" title="Permanent link">&para;</a></h3>
 <p>Libraries are required to have a documentation page to be accepted.</p>
-<p>To keep the library documentation consistent, copy the <a href="https://github.com/boozallen/sdp-libraries/blob/mkdocs/resources/README.template.md">resources/README.template.md</a> is copied into a new library's <code>README.md</code> as a starting point to fill in.</p>
+<p>To keep the library documentation consistent, copy the <a href="https://github.com/boozallen/sdp-libraries/blob/main/resources/docs/README.template.md">resources/README.template.md</a> is copied into a new library's <code>README.md</code> as a starting point to fill in.</p>
 <h3 id="update-the-landing-page-libraries-table">Update the landing page libraries table<a class="headerlink" href="#update-the-landing-page-libraries-table" title="Permanent link">&para;</a></h3>
-<p>The landing page for the <abbr title="Solutions Delivery Platform">SDP</abbr> Pipeline Libraries has a table that outlines each library and a high-level description of the library.
-Update this table in docs/index.md.</p>
+<p>The landing page for the <a href="../../libraries/"><abbr title="Solutions Delivery Platform">SDP</abbr> Pipeline Libraries</a> contains a table that outlines each library and a high-level description of the library.
+To make sure new library descriptions are added to the list, be sure to fill out the Frontmatter description block at the top of the new library's <code>README.md</code> file:</p>
+<div class="highlight"><pre><span></span><code>---
+<span class="gu">description:</span>
+<span class="gu">---</span>
+</code></pre></div>
 <h3 id="preview-your-documentation">Preview your documentation<a class="headerlink" href="#preview-your-documentation" title="Permanent link">&para;</a></h3>
-<p>You can run <code>just serve</code> at the root of the repository to build the documentation as static HTML, and view it at <code>localhost:8000</code>.</p>
+<p>You can run <code>just serve</code> at the root of the repository to build the documentation as static HTML, and view it at <localhost:8000>.</p>
 <h2 id="add-unit-tests">Add unit tests<a class="headerlink" href="#add-unit-tests" title="Permanent link">&para;</a></h2>
 <hr />
 <p>It's highly encouraged that unit tests be written for the library.  </p>
 <ul>
-<li>Tests go under the <code>test</code> directory in the 'test' directory</li>
+<li>Tests should be placed in the <code>test</code> directory within the library directory</li>
 <li>Read the <a href="../../concepts/unit-testing/">Unit Testing Documentation</a></li>
 <li>Write some tests for your steps</li>
 </ul>
@@ -1358,7 +1362,7 @@ Update this table in docs/index.md.</p>
 <li>Unit tests for the library</li>
 <li>A strategy for validating the library's configuration parameters</li>
 </ul>
-<p>These will all be confirmed during PR review.</p>
+<p>These will all be confirmed during <abbr title="Pull Request">PR</abbr> review.</p>
 <!--markdownlint-disable-->
                 
               

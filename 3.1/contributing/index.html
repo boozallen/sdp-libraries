@@ -928,7 +928,7 @@
   
     <li class="md-nav__item">
       <a href="../libraries/SDP%20Pipeline%20Libraries/webhint/" class="md-nav__link">
-        Webhint
+        webhint
       </a>
     </li>
   
@@ -1340,7 +1340,7 @@
 <tbody>
 <tr>
 <td><code>README.md</code></td>
-<td>Repository overview, displays on Github.</td>
+<td>Repository overview, displays on GitHub.</td>
 </tr>
 <tr>
 <td><code>docs/index.md</code></td>
@@ -1367,23 +1367,23 @@
 </thead>
 <tbody>
 <tr>
-<td>README.md</td>
+<td><code>README.md</code></td>
 <td>The library's documentation page</td>
 </tr>
 <tr>
-<td>steps</td>
+<td><code>steps</code></td>
 <td>The steps contributed by the library</td>
 </tr>
 <tr>
-<td>resources</td>
+<td><code>resources</code></td>
 <td>Any reusable content for consumption by the library</td>
 </tr>
 <tr>
-<td>src</td>
+<td><code>src</code></td>
 <td>The classes contributed by the library</td>
 </tr>
 <tr>
-<td>test</td>
+<td><code>test</code></td>
 <td>The tests for the library</td>
 </tr>
 </tbody>
@@ -1428,7 +1428,7 @@
 <div class="highlight"><pre><span></span><code>just create &lt;library name&gt;
 </code></pre></div>
 <p>This will produce a folder of the library name with the library structure described above stubbed out.
-Information for developing a new library can be found in <a href="./create-new-library/">Create a New Library</a> page.</p>
+Information for developing a new library can be found on the <a href="create-new-library/">Create a New Library</a> page.</p>
 <h2 id="documentation">Documentation<a class="headerlink" href="#documentation" title="Permanent link">&para;</a></h2>
 <hr />
 <p>This repository uses <a href="https://squidfunk.github.io/mkdocs-material/">Material for MkDocs</a> to build the documentation.</p>
@@ -1436,7 +1436,7 @@ Information for developing a new library can be found in <a href="./create-new-l
 <p>To build the documentation, run:</p>
 <div class="highlight"><pre><span></span><code>just build
 </code></pre></div>
-<p>This will build the documentation and produce static html in the <code>site</code> directory.</p>
+<p>This will build the documentation and produce static HTML in the <code>site</code> directory.</p>
 <h3 id="live-reloading">Live Reloading<a class="headerlink" href="#live-reloading" title="Permanent link">&para;</a></h3>
 <p>To see changes live as you make them, run:</p>
 <div class="highlight"><pre><span></span><code>just serve
@@ -1445,12 +1445,12 @@ Information for developing a new library can be found in <a href="./create-new-l
 <h2 id="testing">Testing<a class="headerlink" href="#testing" title="Permanent link">&para;</a></h2>
 <hr />
 <p>Unit tests can be written using <a href="https://github.com/ExpediaGroup/jenkins-spock">Jenkins Spock</a>.</p>
-<p>Currently, Gradle 6.3.0 running on JDK 8 is required to run the tests. To see how to install these tools go to <a href="../concepts/unit-testing/executing-tests/">Executing Tests</a>.</p>
+<p>Currently, Gradle 6.3.0 running on <abbr title="Java Development Kit">JDK</abbr> 8 is required to run the tests. To see how to install these tools go to <a href="../concepts/unit-testing/executing-tests/">Executing Tests</a>.</p>
 <p>These tests should go in the <code>test</code> directory for each library.</p>
 <p>To run all the tests, run:</p>
 <div class="highlight"><pre><span></span><code>just <span class="nb">test</span>
 </code></pre></div>
-<p>The gradle test report is published to <code>target/reports/tests/test/index.html</code>.</p>
+<p>The Gradle test report is published to <code>target/reports/tests/test/index.html</code>.</p>
 <h3 id="for-a-specific-library">For a specific library<a class="headerlink" href="#for-a-specific-library" title="Permanent link">&para;</a></h3>
 <p>To run tests for a specific library, <code>docker</code> for example, run:</p>
 <div class="highlight"><pre><span></span><code>just <span class="nb">test</span> <span class="s1">&#39;*docker*&#39;</span>
@@ -1461,8 +1461,8 @@ Information for developing a new library can be found in <a href="./create-new-l
 </code></pre></div>
 <h2 id="linting">Linting<a class="headerlink" href="#linting" title="Permanent link">&para;</a></h2>
 <hr />
-<p>This repository uses <a href="https://github.com/nvuillam/npm-groovy-lint">npm-groovy-lint</a> with the recommended codenarc profile for Jenkins.</p>
-<p>The <code>.groovylintrc.json</code> can be used to tune the rule profile.</p>
+<p>This repository uses <a href="https://github.com/nvuillam/npm-groovy-lint">npm-groovy-lint</a> with the recommended CodeNarc profile for Jenkins.</p>
+<p>The <code>.groovylintrc.json</code> file can be used to tune the rule profile.</p>
 <p>To lint the libraries, run:</p>
 <div class="highlight"><pre><span></span><code>just lint-code
 just lint-docs
@@ -1470,7 +1470,7 @@ just lint-docs
 <p>The output will go to standard out.</p>
 <h2 id="release-management">Release Management<a class="headerlink" href="#release-management" title="Permanent link">&para;</a></h2>
 <hr />
-<p>This repository automates the create of release branches and tags as well as publishing the documentation for each version.</p>
+<p>This repository automates the creation of release branches and tags as well as publishes the documentation for each version.</p>
 <h3 id="release-automation">Release Automation<a class="headerlink" href="#release-automation" title="Permanent link">&para;</a></h3>
 <p>To cut a new release, run:</p>
 <div class="highlight"><pre><span></span><code>just release <span class="nv">$version</span>
@@ -1509,7 +1509,7 @@ just lint-docs
     <nav class="md-footer__inner md-grid" aria-label="Footer">
       
         
-        <a href="../libraries/SDP%20Pipeline%20Libraries/webhint/" class="md-footer__link md-footer__link--prev" aria-label="Previous: Webhint" rel="prev">
+        <a href="../libraries/SDP%20Pipeline%20Libraries/webhint/" class="md-footer__link md-footer__link--prev" aria-label="Previous: webhint" rel="prev">
           <div class="md-footer__button md-icon">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
           </div>
@@ -1518,7 +1518,7 @@ just lint-docs
               <span class="md-footer__direction">
                 Previous
               </span>
-              Webhint
+              webhint
             </div>
           </div>
         </a>

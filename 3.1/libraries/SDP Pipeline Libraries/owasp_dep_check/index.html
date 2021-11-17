@@ -6,7 +6,7 @@
       <meta charset="utf-8">
       <meta name="viewport" content="width=device-width,initial-scale=1">
       
-        <meta name="description" content="Leverages OWASP Dependency Checker for scanning third party application dependencies">
+        <meta name="description" content="Leverages OWASP Dependency Check for scanning third party application dependencies">
       
       
       
@@ -833,8 +833,8 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#library-configuration-options" class="md-nav__link">
-    Library Configuration Options
+  <a href="#configuration" class="md-nav__link">
+    Configuration
   </a>
   
 </li>
@@ -856,20 +856,6 @@
         <li class="md-nav__item">
   <a href="#cvss-threshold-scores" class="md-nav__link">
     CVSS Threshold &amp; Scores
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#troubleshooting" class="md-nav__link">
-    Troubleshooting
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#faq" class="md-nav__link">
-    FAQ
   </a>
   
 </li>
@@ -1016,7 +1002,7 @@
   
     <li class="md-nav__item">
       <a href="../webhint/" class="md-nav__link">
-        Webhint
+        webhint
       </a>
     </li>
   
@@ -1131,8 +1117,8 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#library-configuration-options" class="md-nav__link">
-    Library Configuration Options
+  <a href="#configuration" class="md-nav__link">
+    Configuration
   </a>
   
 </li>
@@ -1154,20 +1140,6 @@
         <li class="md-nav__item">
   <a href="#cvss-threshold-scores" class="md-nav__link">
     CVSS Threshold &amp; Scores
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#troubleshooting" class="md-nav__link">
-    Troubleshooting
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#faq" class="md-nav__link">
-    FAQ
   </a>
   
 </li>
@@ -1207,7 +1179,7 @@
 </tr>
 </tbody>
 </table>
-<h2 id="library-configuration-options">Library Configuration Options<a class="headerlink" href="#library-configuration-options" title="Permanent link">&para;</a></h2>
+<h2 id="configuration">Configuration<a class="headerlink" href="#configuration" title="Permanent link">&para;</a></h2>
 <hr />
 <p>OWASP Dependency Check Library Configuration Options</p>
 <table>
@@ -1222,22 +1194,22 @@
 <tr>
 <td><code>scan</code></td>
 <td>ArrayList of Ant style paths to scan</td>
-<td>[ '.' ]</td>
+<td><code>[ '.' ]</code></td>
 </tr>
 <tr>
 <td><code>exclude</code></td>
 <td>ArrayList of Ant style paths to exclude</td>
-<td>[ ]</td>
+<td><code>[ ]</code></td>
 </tr>
 <tr>
 <td><code>cvss_threshold</code></td>
-<td>A number between 0 and 10, inclusive, representing the failure threshold for vulnerabilities</td>
-<td>will never fail unless a threshold is provided</td>
+<td>A number between 0 and 10, inclusive, representing the failure threshold for vulnerabilities (<strong>note:</strong> will never fail unless a threshold is provided)</td>
+<td></td>
 </tr>
 <tr>
 <td><code>image_tag</code></td>
 <td>The tag for the scanner docker image used</td>
-<td>latest</td>
+<td><code>latest</code></td>
 </tr>
 </tbody>
 </table>
@@ -1257,17 +1229,13 @@
 <hr />
 <p>From the <a href="https://en.wikipedia.org/wiki/Common_Vulnerability_Scoring_System">Wikipedia article</a>,</p>
 <blockquote>
-<p>The Common Vulnerability Scoring System (CVSS) is a free and open industry standard for assessing the severity of computer system security vulnerabilities ... Scores range from 0 to 10, with 10 being the most severe</p>
+<p>The Common Vulnerability Scoring System (CVSS) is a free and open industry standard for assessing the severity of computer system security vulnerabilities [...] Scores range from 0 to 10, with 10 being the most severe</p>
 </blockquote>
 <p>The pipeline can fail if a vulnerability is detected at or above a given threshold.
 This threshold is set with the <code>cvss_threshold</code> configuration option.
 For example, if <code>cvss_threshold</code> is set to 7, and a vulnerability with a CVSS score of 7.5 is detected, the pipeline will fail.
 If the vulnerability remains, but the <code>cvss_threshold</code> is set to 9, the pipeline will pass the OWASP Dependency Check scan.</p>
 <p>If you wish for the scan to pass regardless of the CVSS scores of detected vulnerabilities, don't set the <code>cvss_threshold</code> option.</p>
-<h2 id="troubleshooting">Troubleshooting<a class="headerlink" href="#troubleshooting" title="Permanent link">&para;</a></h2>
-<hr />
-<h2 id="faq">FAQ<a class="headerlink" href="#faq" title="Permanent link">&para;</a></h2>
-<hr />
                 
                   
                 

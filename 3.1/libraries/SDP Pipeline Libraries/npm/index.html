@@ -6,7 +6,7 @@
       <meta charset="utf-8">
       <meta name="viewport" content="width=device-width,initial-scale=1">
       
-        <meta name="description" content="Run npm `test` and `build` commands in an nvm container with a specified node version.">
+        <meta name="description" content="Run npm `test` and `build` commands in an nvm container with a specified Node version">
       
       
       
@@ -798,15 +798,15 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#steps-provided" class="md-nav__link">
-    Steps Provided
+  <a href="#steps" class="md-nav__link">
+    Steps
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#library-configuration-options" class="md-nav__link">
-    Library Configuration Options
+  <a href="#configuration" class="md-nav__link">
+    Configuration
   </a>
   
 </li>
@@ -824,38 +824,12 @@
     Full Configuration Example
   </a>
   
-    <nav class="md-nav" aria-label="Full Configuration Example">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#pipeline-configuration" class="md-nav__link">
-    Pipeline Configuration
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
 </li>
         
           <li class="md-nav__item">
   <a href="#minimal-configuration-example" class="md-nav__link">
     Minimal Configuration Example
   </a>
-  
-    <nav class="md-nav" aria-label="Minimal Configuration Example">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#pipeline-configuration_1" class="md-nav__link">
-    Pipeline Configuration
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
   
 </li>
         
@@ -872,15 +846,8 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#external-dependencies" class="md-nav__link">
-    External Dependencies
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#troubleshooting" class="md-nav__link">
-    Troubleshooting
+  <a href="#dependencies" class="md-nav__link">
+    Dependencies
   </a>
   
 </li>
@@ -1055,7 +1022,7 @@
   
     <li class="md-nav__item">
       <a href="../webhint/" class="md-nav__link">
-        Webhint
+        webhint
       </a>
     </li>
   
@@ -1163,15 +1130,15 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#steps-provided" class="md-nav__link">
-    Steps Provided
+  <a href="#steps" class="md-nav__link">
+    Steps
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#library-configuration-options" class="md-nav__link">
-    Library Configuration Options
+  <a href="#configuration" class="md-nav__link">
+    Configuration
   </a>
   
 </li>
@@ -1189,38 +1156,12 @@
     Full Configuration Example
   </a>
   
-    <nav class="md-nav" aria-label="Full Configuration Example">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#pipeline-configuration" class="md-nav__link">
-    Pipeline Configuration
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
 </li>
         
           <li class="md-nav__item">
   <a href="#minimal-configuration-example" class="md-nav__link">
     Minimal Configuration Example
   </a>
-  
-    <nav class="md-nav" aria-label="Minimal Configuration Example">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#pipeline-configuration_1" class="md-nav__link">
-    Pipeline Configuration
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
   
 </li>
         
@@ -1237,15 +1178,8 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#external-dependencies" class="md-nav__link">
-    External Dependencies
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#troubleshooting" class="md-nav__link">
-    Troubleshooting
+  <a href="#dependencies" class="md-nav__link">
+    Dependencies
   </a>
   
 </li>
@@ -1264,8 +1198,8 @@
                 
                 
                 <h1 id="npm">npm<a class="headerlink" href="#npm" title="Permanent link">&para;</a></h1>
-<p>Run npm <code>test</code> and <code>build</code> commands in an nvm container with a specified node version.</p>
-<h2 id="steps-provided">Steps Provided<a class="headerlink" href="#steps-provided" title="Permanent link">&para;</a></h2>
+<p>Run npm <code>test</code> and <code>build</code> commands in an nvm container with a specified Node version.</p>
+<h2 id="steps">Steps<a class="headerlink" href="#steps" title="Permanent link">&para;</a></h2>
 <hr />
 <table>
 <thead>
@@ -1289,10 +1223,10 @@
 </tr>
 </tbody>
 </table>
-<h2 id="library-configuration-options">Library Configuration Options<a class="headerlink" href="#library-configuration-options" title="Permanent link">&para;</a></h2>
+<h2 id="configuration">Configuration<a class="headerlink" href="#configuration" title="Permanent link">&para;</a></h2>
 <p>All configs can be set in either the library config or the Application Environment. All configs set in Application Environment take precedence.</p>
 <p>Environment variables and secrets set in the library config are concatenated with those set in the Application Environment.
-Environment variables and secrets with the same key are set to the definition contained in the application environment.</p>
+Environment variables and secrets with the same key are set to the definition contained in the Application Environment.</p>
 <h2 id="example-library-configuration">Example Library Configuration<a class="headerlink" href="#example-library-configuration" title="Permanent link">&para;</a></h2>
 <hr />
 <table>
@@ -1307,39 +1241,39 @@ Environment variables and secrets with the same key are set to the definition co
 <tr>
 <td><code>node_version</code></td>
 <td>node version to run npm within (installed via nvm)</td>
-<td>lts/*</td>
+<td><code>lts/*</code></td>
 </tr>
 <tr>
 <td><code>unit_test.script</code></td>
 <td>npm command to run; must be present in package.json scripts block</td>
-<td>test</td>
+<td><code>test</code></td>
 </tr>
 <tr>
 <td><code>build.script</code></td>
 <td>npm command to run; must be present in package.json scripts block</td>
-<td>build</td>
+<td><code>build</code></td>
 </tr>
 <tr>
 <td><code>&lt;step name&gt;.npm_install</code></td>
 <td>npm install command to run; npm install can be skipped with value "skip"</td>
-<td>ci</td>
+<td><code>ci</code></td>
 </tr>
 <tr>
 <td><code>&lt;step name&gt;.env</code></td>
 <td>environment variables to make available to npm process; can include key/value pairs and secrets</td>
-<td>[]</td>
+<td><code>[]</code></td>
 </tr>
 <tr>
 <td><code>&lt;step name&gt;.env.secrets</code></td>
 <td>text or username/password credentials to make available to npm process; must be present and available in Jenkins credential store</td>
-<td>[]</td>
+<td><code>[]</code></td>
 </tr>
 </tbody>
 </table>
 <h3 id="full-configuration-example">Full Configuration Example<a class="headerlink" href="#full-configuration-example" title="Permanent link">&para;</a></h3>
 <p>Each available method has config options that can be specified in the application environment or within the library configuration.</p>
-<h4 id="pipeline-configuration">Pipeline Configuration<a class="headerlink" href="#pipeline-configuration" title="Permanent link">&para;</a></h4>
-<div class="highlight"><pre><span></span><code><span class="n">application_environments</span><span class="o">{</span>
+<div class="highlight"><pre><span></span><code><span class="c1">//pipeline_configuration.groovy</span>
+<span class="n">application_environments</span><span class="o">{</span>
   <span class="n">dev</span>
   <span class="n">prod</span><span class="o">{</span>
     <span class="n">npm</span><span class="o">{</span>
@@ -1445,8 +1379,8 @@ Environment variables and secrets with the same key are set to the definition co
 <code>npm_build.npm_install</code> is preserved as set in library config, since it isn't overridden by the Application Environment.</p>
 <h3 id="minimal-configuration-example">Minimal Configuration Example<a class="headerlink" href="#minimal-configuration-example" title="Permanent link">&para;</a></h3>
 <p>The minimal configuration for this library is:</p>
-<h4 id="pipeline-configuration_1">Pipeline Configuration<a class="headerlink" href="#pipeline-configuration_1" title="Permanent link">&para;</a></h4>
-<div class="highlight"><pre><span></span><code><span class="n">libraries</span><span class="o">{</span>
+<div class="highlight"><pre><span></span><code><span class="c1">//pipeline_configuration.groovy</span>
+<span class="n">libraries</span><span class="o">{</span>
   <span class="n">npm</span>
 <span class="o">}</span>
 </code></pre></div>
@@ -1455,11 +1389,10 @@ Environment variables and secrets with the same key are set to the definition co
 These credentials must be stored in the Jenkins credential store and be available to the pipeline.</p>
 <p>The name of each credential block (such as <code>someTextCredential</code>) is arbitrary.
 It's just a key, used to supersede library config with Application Environment configs, and when describing configuration errors found by the step.</p>
-<h2 id="external-dependencies">External Dependencies<a class="headerlink" href="#external-dependencies" title="Permanent link">&para;</a></h2>
+<h2 id="dependencies">Dependencies<a class="headerlink" href="#dependencies" title="Permanent link">&para;</a></h2>
 <ul>
-<li>The SDP library must be loaded inside the <code>pipeline_config.groovy</code> file.</li>
+<li>The <a href="../sdp/">SDP library</a> must be loaded inside the <code>pipeline_config.groovy</code> file.</li>
 </ul>
-<h2 id="troubleshooting">Troubleshooting<a class="headerlink" href="#troubleshooting" title="Permanent link">&para;</a></h2>
                 
                   
                 

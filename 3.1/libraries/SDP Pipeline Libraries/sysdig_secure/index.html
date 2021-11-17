@@ -924,15 +924,15 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#steps-contributed" class="md-nav__link">
-    Steps Contributed
+  <a href="#steps" class="md-nav__link">
+    Steps
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#library-configuration-options" class="md-nav__link">
-    Library Configuration Options
+  <a href="#configuration" class="md-nav__link">
+    Configuration
   </a>
   
 </li>
@@ -945,8 +945,8 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#external-dependencies" class="md-nav__link">
-    External Dependencies
+  <a href="#dependencies" class="md-nav__link">
+    Dependencies
   </a>
   
 </li>
@@ -1002,7 +1002,7 @@
   
     <li class="md-nav__item">
       <a href="../webhint/" class="md-nav__link">
-        Webhint
+        webhint
       </a>
     </li>
   
@@ -1110,15 +1110,15 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#steps-contributed" class="md-nav__link">
-    Steps Contributed
+  <a href="#steps" class="md-nav__link">
+    Steps
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#library-configuration-options" class="md-nav__link">
-    Library Configuration Options
+  <a href="#configuration" class="md-nav__link">
+    Configuration
   </a>
   
 </li>
@@ -1131,8 +1131,8 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#external-dependencies" class="md-nav__link">
-    External Dependencies
+  <a href="#dependencies" class="md-nav__link">
+    Dependencies
   </a>
   
 </li>
@@ -1160,7 +1160,7 @@
                 <h1 id="sysdig-secure">Sysdig Secure<a class="headerlink" href="#sysdig-secure" title="Permanent link">&para;</a></h1>
 <p>This library leverages Sysdig Secure's <a href="https://github.com/sysdiglabs/secure-inline-scan">inline scanning script</a> to scan container images,
 report the information to the Sysdig Secure server, and download a PDF report of the findings.</p>
-<h2 id="steps-contributed">Steps Contributed<a class="headerlink" href="#steps-contributed" title="Permanent link">&para;</a></h2>
+<h2 id="steps">Steps<a class="headerlink" href="#steps" title="Permanent link">&para;</a></h2>
 <hr />
 <table>
 <thead>
@@ -1176,7 +1176,7 @@ report the information to the Sysdig Secure server, and download a PDF report of
 </tr>
 </tbody>
 </table>
-<h2 id="library-configuration-options">Library Configuration Options<a class="headerlink" href="#library-configuration-options" title="Permanent link">&para;</a></h2>
+<h2 id="configuration">Configuration<a class="headerlink" href="#configuration" title="Permanent link">&para;</a></h2>
 <hr />
 <p>Configuration Options</p>
 <table>
@@ -1192,13 +1192,13 @@ report the information to the Sysdig Secure server, and download a PDF report of
 <tr>
 <td><code>scan_script_url</code></td>
 <td>String</td>
-<td>A URL from which to download the inline_scan.sh file</td>
+<td>An address from which to download the inline_scan.sh file</td>
 <td><a href="https://download.sysdig.com/stable/inline_scan.sh">https://download.sysdig.com/stable/inline_scan.sh</a></td>
 </tr>
 <tr>
 <td><code>sysdig_secure_url</code></td>
 <td>String</td>
-<td>The Sysdig Secure URL to publish results to</td>
+<td>The Sysdig Secure address to publish results to</td>
 <td><a href="https://secure.sysdig.com">https://secure.sysdig.com</a></td>
 </tr>
 <tr>
@@ -1210,8 +1210,8 @@ report the information to the Sysdig Secure server, and download a PDF report of
 <tr>
 <td><code>enforce_success</code></td>
 <td>Boolean</td>
-<td>Whether or not to fail the build if the scan fails</td>
-<td>true</td>
+<td>Whether to fail the build if the scan fails</td>
+<td><code>true</code></td>
 </tr>
 </tbody>
 </table>
@@ -1225,12 +1225,12 @@ report the information to the Sysdig Secure server, and download a PDF report of
 <hr />
 <p>The <code>scan_container_images()</code> step will generate a PDF report of the scan if the upload to the Sysdig Secure API is successful.
 <a href="../../../assets/attachments/sysdig_secure/sysdig_secure_report.pdf">Here's an example</a>.</p>
-<h2 id="external-dependencies">External Dependencies<a class="headerlink" href="#external-dependencies" title="Permanent link">&para;</a></h2>
+<h2 id="dependencies">Dependencies<a class="headerlink" href="#dependencies" title="Permanent link">&para;</a></h2>
 <hr />
 <p>This library, by nature of the inline scanning script, requires that:</p>
 <ul>
 <li>a running docker daemon is available</li>
-<li>internet access to pull an image from docker.io/anchore/inline-scan</li>
+<li>internet access to pull an image from <a href="https://hub.docker.com/r/anchore/inline-scan">Docker Hub</a></li>
 </ul>
 <p><strong>Note</strong> At the time of writing, this library could be expanded to pass a custom image to perform the scanning,
 perhaps helpful if proxying through a local registry, by setting the environment variable <code>SYSDIG_CI_IMAGE</code> as part of the command invocation.</p>

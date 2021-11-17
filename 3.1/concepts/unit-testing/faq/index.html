@@ -942,7 +942,7 @@
   
     <li class="md-nav__item">
       <a href="../../../libraries/SDP%20Pipeline%20Libraries/webhint/" class="md-nav__link">
-        Webhint
+        webhint
       </a>
     </li>
   
@@ -1056,34 +1056,34 @@
                 
                 <h1 id="frequently-asked-questions">Frequently Asked Questions<a class="headerlink" href="#frequently-asked-questions" title="Permanent link">&para;</a></h1>
 <p>This section covers questions that aren't answered in the Spock or Jenkins-Spock documentation.</p>
-<p><strong>Q: What's the difference between explicitlyMockPipelineStep and explicitlyMockPipelineVariable?</strong></p>
-<p><strong>A: Practically speaking, the difference is you can omit ".call" for explicitlyMockPipelineStep() when you use getPipelineMock()</strong></p>
-<p>In the example on the <a href="../writing-tests/">Writing Tests</a> page, I used <code>explicitlyMockPipelineStep()</code> to mock <code>error</code>.
-Because of that, if I want to see if the <code>error</code> pipeline step is run, I use <code>1 * getPipelineMock("error")</code>.
-If I were to create the mock using <code>explicitlyMockPipelineVariable()</code> I would instead use <code>1 * getPipelineMock("error.call")</code>.</p>
+<p><strong>Q: What's the difference between explicitlyMockPipelineStep and explicitlyMockPipelineVariable?</strong>
+<strong>A: Practically speaking, the difference is you can omit ".call" for explicitlyMockPipelineStep() when you use getPipelineMock()</strong></p>
+<p>In the example on the <a href="../writing-tests/">Writing Tests</a> page, <code>explicitlyMockPipelineStep()</code> is used to mock <code>error</code>.
+In this case, <code>1 * getPipelineMock("error")</code> can be used to see if the <code>error</code> pipeline step is run.
+If <code>explicitlyMockPipelineVariable()</code> had been used instead, <code>1 * getPipelineMock("error.call")</code> could be used to check for the <code>error</code> pipeline step.</p>
 <p>There may be some additional differences as well, so try to use what makes the most sense.</p>
-<p><strong>Q: What if I don't know exactly what the parameters are going to be?</strong></p>
-<p><strong>A: There are ways to match parameters to regex expressions, as well as test parameters individually</strong></p>
+<p><strong>Q: What if the exact parameters are unknown?</strong>
+<strong>A: There are ways to match parameters to regex expressions, as well as test parameters individually</strong></p>
 <p>The standard format for interaction-based tests is:</p>
 <div class="highlight"><pre><span></span><code><span class="o">&lt;</span><span class="n">count</span><span class="o">&gt;</span> <span class="o">*</span> <span class="n">getPipelineMock</span><span class="o">(&lt;</span><span class="n">method</span><span class="o">&gt;)(&lt;</span><span class="n">parameter</span><span class="o">(</span><span class="n">s</span><span class="o">)&gt;)</span>
 </code></pre></div>
 <p>While you can put the exact parameter value in the second parentheses, you can also run arbitrary groovy code inside curly brackets.
 If it's a "match" depends on if that code returns <code>true</code> or <code>false</code>.
-A good example is in <a href="https://github.com/boozallen/sdp-libraries/blob/main/test/owasp_zap/PenetrationTestSpec.groovy#L33">PenetrationTestSpec.groovy</a>. Use <code>it</code> to get the value of the parameter:
+A good example is in <a href="https://github.com/boozallen/sdp-libraries/blob/main/libraries/owasp_zap/test/PenetrationTestSpec.groovy#L33">PenetrationTestSpec.groovy</a>. Use <code>it</code> to get the value of the parameter:
 <code>1 * getPipelineMock("sh")({it =~ / (zap-cli open-url) Kirk (.+)/})</code>.</p>
-<p><strong>Q: Do I have to do interaction-based testing?</strong></p>
-<p><strong>A: No, but you can't get variables the same way as traditional Spock tests</strong></p>
-<p>This is because the script gets run in that <code>loadPipelineScriptForTest</code> object.
-You can only access variables stored in the binding, which are few.
+<p><strong>Q: Is interaction-based testing required?</strong>
+<strong>A: No, but you can't get variables the same way as traditional Spock tests</strong></p>
+<p>This is because the script gets run within the <code>loadPipelineScriptForTest</code> object.
+You can only access the limited set of variables stored in the binding.
 It makes more sense to see how variables are being used in pipeline steps,
 and make sure those pipeline steps use the correct value for those variables.</p>
 <p>Similarly, if you need to control how a variable is set,
-you need to stub whatever method or pipeline step that sets the initial value for that variable.</p>
-<p>As an example, in <a href="https://github.com/boozallen/sdp-libraries/blob/main/test/owasp_zap/PenetrationTestSpec.groovy">PenetrationTestSpec.groovy</a>,
+you need to stub whatever method or pipeline step sets the initial value for that variable.</p>
+<p>As an example, in <a href="https://github.com/boozallen/sdp-libraries/blob/main/libraries/owasp_zap/test/PenetrationTestSpec.groovy">PenetrationTestSpec.groovy</a>,
 the <code>target</code> variable in <a href="https://github.com/boozallen/sdp-libraries/blob/main/libraries/owasp_zap/steps/penetration_test.groovy">penetration_test.groovy</a> is tested by checking the parameters to an <code>sh</code> step.</p>
-<p><strong>Q: I keep getting "can't run method foo() on null; what do I do?"</strong></p>
-<p><strong>A: You need to find a way to stub the method that sets the value for the object that calls foo()</strong></p>
-<p>Check out an example in <a href="https://github.com/boozallen/sdp-libraries/blob/main/test/docker/GetImagesToBuildSpec.groovy">GetImagesToBuildSpec.groovy</a>.</p>
+<p><strong>Q: What troubleshooting steps are required for "can't run method foo() on null" errors?"</strong>
+<strong>A: You need to find a way to stub the method that sets the value for the object that calls foo()</strong></p>
+<p>Check out an example in <a href="https://github.com/boozallen/sdp-libraries/blob/main/libraries/docker/test/GetImagesToBuildSpec.groovy">GetImagesToBuildSpec.groovy</a>.</p>
 <!--markdownlint-disable-->
                 
               

@@ -847,11 +847,11 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#library-configuration-options" class="md-nav__link">
-    Library Configuration Options
+  <a href="#configuration" class="md-nav__link">
+    Configuration
   </a>
   
-    <nav class="md-nav" aria-label="Library Configuration Options">
+    <nav class="md-nav" aria-label="Configuration">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
@@ -869,20 +869,6 @@
         <li class="md-nav__item">
   <a href="#results" class="md-nav__link">
     Results
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#troubleshooting" class="md-nav__link">
-    Troubleshooting
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#faq" class="md-nav__link">
-    FAQ
   </a>
   
 </li>
@@ -1015,7 +1001,7 @@
   
     <li class="md-nav__item">
       <a href="../webhint/" class="md-nav__link">
-        Webhint
+        webhint
       </a>
     </li>
   
@@ -1130,11 +1116,11 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#library-configuration-options" class="md-nav__link">
-    Library Configuration Options
+  <a href="#configuration" class="md-nav__link">
+    Configuration
   </a>
   
-    <nav class="md-nav" aria-label="Library Configuration Options">
+    <nav class="md-nav" aria-label="Configuration">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
@@ -1152,20 +1138,6 @@
         <li class="md-nav__item">
   <a href="#results" class="md-nav__link">
     Results
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#troubleshooting" class="md-nav__link">
-    Troubleshooting
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#faq" class="md-nav__link">
-    FAQ
   </a>
   
 </li>
@@ -1198,17 +1170,38 @@ It's also a great tool for experienced penetration-testers to use for manual sec
 <tbody>
 <tr>
 <td><code>penetration_test()</code></td>
-<td>Uses the OWASP ZAP cli to perform penetration testing against the configured URL</td>
+<td>Uses the OWASP ZAP CLI to perform penetration testing against the configured web application</td>
 </tr>
 </tbody>
 </table>
-<h2 id="library-configuration-options">Library Configuration Options<a class="headerlink" href="#library-configuration-options" title="Permanent link">&para;</a></h2>
+<h2 id="configuration">Configuration<a class="headerlink" href="#configuration" title="Permanent link">&para;</a></h2>
 <hr />
 <p>OWASP ZAP Library Configuration Options</p>
-<p>| Field | Description | Default Value | Options |
-| <code>target</code> | The target url to test | none |  |
-| <code>vulnerability_threshold</code> | Minimum alert level to include in report | High | one of "Ignore", "Low", "Medium", "High", or "Informational" |</p>
-<p><code>target</code> is set to <code>env.FRONTEND_URL</code> if available. If not then it uses the provided URL. If no URL is provided, an error is thrown.</p>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+<th>Default Value</th>
+<th>Options</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>target</code></td>
+<td>The target web application address to test</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>vulnerability_threshold</code></td>
+<td>Minimum alert level to include in report</td>
+<td><code>High</code></td>
+<td>one of <code>Ignore</code>, <code>Low</code>, <code>Medium</code>, <code>High</code>, or <code>Informational</code></td>
+</tr>
+</tbody>
+</table>
+<p><code>target</code> is set to <code>env.FRONTEND_URL</code> if available. If not then it uses the provided <code>target</code>. If neither is provided, an error is thrown.</p>
 <h3 id="example-configuration-snippet">Example Configuration Snippet<a class="headerlink" href="#example-configuration-snippet" title="Permanent link">&para;</a></h3>
 <div class="highlight"><pre><span></span><code><span class="n">libraries</span><span class="o">{</span>
   <span class="n">owasp_zap</span><span class="o">{</span>
@@ -1220,10 +1213,6 @@ It's also a great tool for experienced penetration-testers to use for manual sec
 <h2 id="results">Results<a class="headerlink" href="#results" title="Permanent link">&para;</a></h2>
 <hr />
 <p><img alt="OWASP ZAP example" src="../../../assets/images/owasp_zap/report.png" /></p>
-<h2 id="troubleshooting">Troubleshooting<a class="headerlink" href="#troubleshooting" title="Permanent link">&para;</a></h2>
-<hr />
-<h2 id="faq">FAQ<a class="headerlink" href="#faq" title="Permanent link">&para;</a></h2>
-<hr />
                 
                   
                 
