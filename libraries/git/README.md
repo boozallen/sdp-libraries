@@ -18,13 +18,15 @@ libraries{
     github
     github_enterprise
     gitlab{
-      connection (optional) = String // for gitlab_status
+      connection (optional) = String // (1)
       job_name (optional) = String
-      job_status (optional) =  "pending" or "running" or "canceled" or "failed" or "success".
+      job_status (optional) =  ["pending", "running", "canceled", "failed", "success"]
     }
   }
 }
 ```
+
+1. Used for `gitlab_status()`
 
 ## Pipeline Template Business Logic
 

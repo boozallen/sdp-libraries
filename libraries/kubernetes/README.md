@@ -169,10 +169,12 @@ libraries{
     helm_configuration_repository_credential = "github"
     k8s_credential = "cluster1-config"
     k8s_context = "staging"
-    promote_previous_image = true // note: making this setting true is redundant, since true is the default
+    promote_previous_image = true // (1)
   }
 }
 ```
+
+1. note: making this setting true is redundant, since true is the default
 
 ### Putting It All Together
 

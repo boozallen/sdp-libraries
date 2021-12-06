@@ -186,10 +186,12 @@ libraries{
     helm_configuration_repository_credential = "github"
     tiller_namespace = "rhs-tiller"
     tiller_credential = "rhs-tiller"
-    promote_previous_image = true // note: making this setting true is redundant, since true is the default
+    promote_previous_image = true // (1)
   }
 }
 ```
+
+1. note: making this setting true is redundant, since true is the default
 
 ### Putting It All Together
 

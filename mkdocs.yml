@@ -9,6 +9,7 @@ theme:
     - navigation.tabs
     - navigation.sections
     - navigation.top
+    - content.code.annotate
   logo: assets/images/jte.svg
   favicon: assets/images/jte.svg
   ## this is a hack
@@ -40,10 +41,12 @@ extra:
 
 markdown_extensions:
   - admonition
+  - pymdownx.details
   - abbr
   - footnotes
   - attr_list
-  - pymdownx.tabbed
+  - pymdownx.tabbed:
+      alternate_style: true
   - pymdownx.highlight
   - pymdownx.superfences
   - toc:
