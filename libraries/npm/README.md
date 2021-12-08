@@ -40,8 +40,7 @@ Environment variables and secrets with the same key are set to the definition co
 
 Each available method has config options that can be specified in the application environment or within the library configuration.
 
-``` groovy
-//pipeline_configuration.groovy
+``` groovy title="pipeline_configuration.groovy"
 application_environments{
   dev
   prod{
@@ -52,7 +51,7 @@ application_environments{
         npm_install = "ci"
         env{
           someKey = "prodValue for tests"
-          // more envVars as needed
+          // (1)
           secrets{
             someTextCredential{
               type = "text"
@@ -65,7 +64,7 @@ application_environments{
               passwordVar = "PASS"
               id = "prod-credential-id"
             }
-            // more secrets as needed
+            // (2)
           }
         }
       }
@@ -73,7 +72,7 @@ application_environments{
         script = "prod-build"
         env{
           someKey = "prodValue for builds"
-          // more envVars as needed
+          // (3)
           secrets{
             someTextCredential{
               type = "text"
@@ -86,7 +85,7 @@ application_environments{
               passwordVar = "PASS"
               id = "prod-credential-id"
             }
-            // more secrets as needed
+            // (4)
           }
         }
       }
@@ -102,7 +101,7 @@ libraries{
       npm_install = "install"
       env{
         someKey = "someValue for tests"
-        // more envVars as needed
+        // (5)
         secrets{
           someTextCredential{
             type = "text"
@@ -115,7 +114,7 @@ libraries{
             passwordVar = "PASS"
             id = "some-credential-id"
           }
-          // more secrets as needed
+          // (6)
         }
       }
     }
@@ -124,7 +123,7 @@ libraries{
       npm_install = "skip"
       env{
         someKey = "someValue for builds"
-        // more envVars as needed
+        // (7)
         secrets{
           someTextCredential{
             type = "text"
@@ -137,13 +136,22 @@ libraries{
             passwordVar = "PASS"
             id = "some-credential-id"
           }
-          // more secrets as needed
+          // (8)
         }
       }
     }
   }
 }
 ```
+
+1. more envVars as needed
+2. more secrets as needed
+3. more envVars as needed
+4. more secrets as needed
+5. more envVars as needed
+6. more secrets as needed
+7. more envVars as needed
+8. more secrets as needed
 
 This example shows the prod Application Environment overriding configs set in the library config.
 `npm_build.npm_install` is preserved as set in library config, since it isn't overridden by the Application Environment.
