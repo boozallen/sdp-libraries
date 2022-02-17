@@ -1,8 +1,8 @@
 void call() {
-  stage("UIP - Grype Image Scan") {
-    def GRYPE_CONFIG = ".grype.yaml"
-    def RAW_RESULTS_FILE = "grype-scan-results.json"
-    def TRANSFORMED_RESULSTS_FILE = "grype-scan-results.txt"
+  stage("Container Image Scan") {
+    String GRYPE_CONFIG = config.configuration_file ?: ".grype.yaml"
+    String RAW_RESULTS_FILE = "grype-scan-results.json"
+    String TRANSFORMED_RESULSTS_FILE = "grype-scan-results.txt"
 
     if (!fileExists("./${GRYPE_CONFIG}")) { error "no grype config found" }
 

@@ -1,16 +1,16 @@
 ---
-description: Allows you to perform Grype Vulnerabilty scans against your scaffold build image.
+description: Uses the Grype CLI to scan container images for vulnerabilities.
 ---
 
 # Grype
 
-This library allows you to scan your scaffold build image.
+Uses the [Grype CLI](https://github.com/anchore/grype) to scan container images for vulnerabilities.
 
 ## Steps
 
 | Step | Description |
 |------|-------------|
-|   grype_scan()   | Performs the Grype scan against your scaffold build image.             |
+|   container_image_scan()   | Performs the Grype scan against your scaffold build image.             |
 
 ## Configuration
 
