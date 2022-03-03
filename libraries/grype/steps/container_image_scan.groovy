@@ -59,7 +59,6 @@ void call() {
             exceptions.each{ error ->
               throw error
             }
-          }
         }
       }
     }
