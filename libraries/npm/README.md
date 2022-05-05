@@ -1,20 +1,20 @@
 ---
-description: Run npm `test` and `build` commands in an nvm container with a specified Node version
+description: Run npm `lint`, `test`, and `build` commands in an nvm container with a specified Node version
 ---
 
 # npm
 
-Run npm `test` and `build` commands in an nvm container with a specified Node version.
+Run npm `lint`, `test`, and `build` commands in an nvm container with a specified Node version.
 
 ## Steps
 
 ---
 
-| Step | Description |
-| ----------- | ----------- |
-| ``unit_test()`` | Calls npm_invoke to run `npm run test` command |
-| ``npm_build()`` | Calls npm_invoke to run `npm run build` command |
-| ``npm_invoke(String stepName)`` | Runs npm command in nvm container |
+| Step               | Description                                     |
+| ------------------ | ----------------------------------------------- |
+| ``unit_test()``    | Calls npm_invoke to run `npm run test` command  |
+| ``source_build()`` | Calls npm_invoke to run `npm run build` command |
+| ``lint_code()``    | Calls npm_invoke to run `npm run lint` command  |
 
 ## Configuration
 
@@ -27,14 +27,19 @@ Environment variables and secrets with the same key are set to the definition co
 
 ---
 
-| Field | Description | Default |
-| ----------- | ----------- | ----------- |
-| `node_version` | node version to run npm within (installed via nvm) | `lts/*` |
-| `unit_test.script` | npm command to run; must be present in package.json scripts block | `test` |
-| `build.script` | npm command to run; must be present in package.json scripts block | `build` |
-| `<step name>.npm_install` | npm install command to run; npm install can be skipped with value "skip" | `ci` |
-| `<step name>.env` | environment variables to make available to npm process; can include key/value pairs and secrets| `[]` |
-| `<step name>.env.secrets` | text or username/password credentials to make available to npm process; must be present and available in Jenkins credential store | `[]` |
+| Field                               | Description                                                                                                                       | Default |
+| ----------------------------------- | --------------------------------------------------------------------------------------------------------------------------------- | ------- |
+| `node_version`                      | node version to run npm within (installed via nvm)                                                                                | `lts/*` |
+| `unit_test.script`                  | npm command to run; must be present in package.json scripts block                                                                 | `test`  |
+| `build.script`                      | npm command to run; must be present in package.json scripts block                                                                 | `build` |
+| `lint_code.script`                  | npm command to run; must be present in package.json scripts block                                                                 | `lint`  |
+| `lint_code.use_eslint_plugin`       | if the Jenkins ESLint Plugin is installed, will run the `recordIssues` step to send lint results to the plugin dashboard          | `false` |
+| `<step name>.npm_private_repo_name` | used to run `npm config set` for a private repository (skipped if set to `skip`)                                                  | `skip`  |
+| `<step name>.npm_private_repo_url`  | used to run `npm config set` for a private repository (if `npm.private_repo_name` is set)                                         |         |
+| `<step name>.npm_private_repo_auth` | used to run `npm config set` for a private repository (if `npm.private_repo_name` is set)                                         |         |
+| `<step name>.npm_install`           | npm install command to run; npm install can be skipped with value "skip"                                                          | `ci`    |
+| `<step name>.env`                   | environment variables to make available to npm process; can include key/value pairs and secrets                                   | `[]`    |
+| `<step name>.env.secrets`           | text or username/password credentials to make available to npm process; must be present and available in Jenkins credential store | `[]`    |
 
 ### Full Configuration Example
 
@@ -68,11 +73,10 @@ application_environments{
           }
         }
       }
-      npm_build{
+      source_build{
         script = "prod-build"
         env{
           someKey = "prodValue for builds"
-          // (3)
           secrets{
             someTextCredential{
               type = "text"
@@ -85,7 +89,26 @@ application_environments{
               passwordVar = "PASS"
               id = "prod-credential-id"
             }
-            // (4)
+          }
+        }
+      }
+    }
+    lint_code{
+        script = "lint"
+        env{
+          someKey = "prodValue for linting"
+          secrets{
+            someTextCredential{
+              type = "text"
+              name = "VARIABLE_NAME"
+              id = "prod-credential-id"
+            }
+            someUsernamePasswordCredential{
+              type = "usernamePassword"
+              usernameVar = "USER"
+              passwordVar = "PASS"
+              id = "prod-credential-id"
+            }
           }
         }
       }
@@ -101,7 +124,7 @@ libraries{
       npm_install = "install"
       env{
         someKey = "someValue for tests"
-        // (5)
+        // (3)
         secrets{
           someTextCredential{
             type = "text"
@@ -114,16 +137,15 @@ libraries{
             passwordVar = "PASS"
             id = "some-credential-id"
           }
-          // (6)
+          // (4)
         }
       }
     }
-    npm_build{
+    source_build{
       script = "build"
       npm_install = "skip"
       env{
         someKey = "someValue for builds"
-        // (7)
         secrets{
           someTextCredential{
             type = "text"
@@ -136,7 +158,26 @@ libraries{
             passwordVar = "PASS"
             id = "some-credential-id"
           }
-          // (8)
+        }
+      }
+    }
+    lint_code{
+      script = "lint"
+      npm_install = "skip"
+      env{
+        someKey = "someValue for linting"
+        secrets{
+          someTextCredential{
+            type = "text"
+            name = "VARIABLE_NAME"
+            id = "some-credential-id"
+          }
+          someUsernamePasswordCredential{
+            type = "usernamePassword"
+            usernameVar = "USER"
+            passwordVar = "PASS"
+            id = "some-credential-id"
+          }
         }
       }
     }
@@ -148,13 +189,10 @@ libraries{
 2. more secrets as needed
 3. more envVars as needed
 4. more secrets as needed
-5. more envVars as needed
-6. more secrets as needed
-7. more envVars as needed
-8. more secrets as needed
+
 
 This example shows the prod Application Environment overriding configs set in the library config.
-`npm_build.npm_install` is preserved as set in library config, since it isn't overridden by the Application Environment.
+`source_build.npm_install` is preserved as set in library config, since it isn't overridden by the Application Environment.
 
 ### Minimal Configuration Example
 

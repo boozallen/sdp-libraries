@@ -28,7 +28,7 @@ public class NpmInvokeSpec extends JTEPipelineSpecification {
     when:
       NpmInvoke("not_a_step")
     then:
-      1 * getPipelineMock("error")('stepName must be "build" or "unit_test", got "not_a_step"')
+      1 * getPipelineMock("error")('stepName must be "lint_code", "source_build", or "unit_test", got "not_a_step"')
   }
 
   def "Fails if npm method is not listed in package.json scripts" () {
@@ -58,13 +58,22 @@ public class NpmInvokeSpec extends JTEPipelineSpecification {
       NpmInvoke.getBinding().variables.env.scriptCommand == "test"
   }
 
-  def "build defaults node_version, npm_install and scriptCommand correctly if they are not otherwise specified" () {
+  def "source_build defaults node_version, npm_install and scriptCommand correctly if they are not otherwise specified" () {
     when:
-      NpmInvoke("build")
+      NpmInvoke("source_build")
     then:
       NpmInvoke.getBinding().variables.env.node_version == 'lts/*'
       NpmInvoke.getBinding().variables.env.npm_install == "ci"
       NpmInvoke.getBinding().variables.env.scriptCommand == "build"
+  }
+
+  def "lint_code defaults node_version, npm_install and scriptCommand correctly if they are not otherwise specified" () {
+    when:
+      NpmInvoke("lint_code")
+    then:
+      NpmInvoke.getBinding().variables.env.node_version == 'lts/*'
+      NpmInvoke.getBinding().variables.env.npm_install == "ci"
+      NpmInvoke.getBinding().variables.env.scriptCommand == "lint"
   }
 
   def "Library sets config for node_version, npm_install, scriptCommand and environment variables when specified and App Env does not" () {
