@@ -18,8 +18,8 @@ As a dependency for every other library, it is important that the sdp library no
 
 ## Repository Structure
 
-A detailed description is available in the [contributing guide](./CONTRIBUTING.md)
+A detailed description is available in the [contributing guide](./docs/contributing/index.md)
 
 ## Contributing
 
-We accept contributions via a fork-based development workflow. See the [contributing guide](./CONTRIBUTING.md).
+We accept contributions via a fork-based development workflow. See the [contributing guide](./docs/contributing/index.md).
