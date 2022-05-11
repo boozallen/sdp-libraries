@@ -5,7 +5,7 @@
 
 package libraries.npm.steps
 
-@StepAlias(["source_build", "unit_test", "lint_code"])
+@StepAlias(value = ["source_build", "unit_test", "lint_code"], keepOriginal = true)
 void call(app_env = []) {
     String stepName = ""
     LinkedHashMap libStepConfig = [:]
