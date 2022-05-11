@@ -49,28 +49,43 @@ void call(app_env = []) {
                 if (!packageJson?.scripts?.containsKey(env.scriptCommand)) error("scriptCommand: '$env.scriptCommand' not found in package.json scripts")
                 
                 if (env.npm_install != "skip") {
+                    def npmRegistryCredentials = appStepConfig?.npm_registry_credentials ?:
+                                                 libStepConfig?.npm_registry_credentials ?:
+                                                 "skip"
 
-                    withCredentials([string(credentialsId: 'bah-npm-registry', variable: 'AUTH_TOKEN')]) {
-                        if (env.npm_private_repo_name != "skip") {
-                            sh '''
-                                set +x
-                                npm config set $npm_private_repo_name $npm_private_repo_url
-                                npm config set $npm_private_repo_auth $AUTH_TOKEN
-                            '''
+                    // configure private registry credentials
+                    if (npmRegistryCredentials != "skip") {
+                        npmRegistryCredentials.each { cred ->
+                            env.npm_repo_name = cred.repo_name
+                            env.npm_repo_url = cred.repo_url
+                            env.npm_repo_auth = cred.repo_auth
+
+                            withCredentials([string(credentialsId: cred.credential_id, variable: 'AUTH_TOKEN')]) {
+                                sh '''
+                                    set +x
+                                    echo 'Configuring $npm_repo_name registry'
+                                    npm config set $npm_repo_name $npm_repo_url
+                                    npm config set $npm_repo_auth $AUTH_TOKEN
+                                '''
+                            }
                         }
                     }
+
+                    // run script command after installing dependencies
                     sh '''
                         set +x
-                        echo 'running with install'
+                        echo 'Running with install'
                         npm $npm_install
                         npm run $scriptCommand
                     '''
+
                     stash name: 'test-results', excludes: "**/node_modules/**"
                 }
                 else {
+                    // run script command without installing dependencies
                     sh '''
                         set +x
-                        echo 'running without install'
+                        echo 'Running without install'
                         npm run $scriptCommand
                     '''
                 }
@@ -154,16 +169,6 @@ void setEnvVars(libStepConfig, appStepConfig, config, app_env, stepName) {
     env.node_version = app_env?.npm?.node_version ?: 
                        config?.node_version  ?:
                        'lts/*'
-
-    env.npm_private_repo_name = appStepConfig?.npm_private_repo_name ?:
-                                libStepConfig?.npm_private_repo_name ?: 
-                                "skip"
-
-    env.npm_private_repo_url = appStepConfig?.npm_private_repo_url ?:
-                               libStepConfig?.npm_private_repo_url
-
-    env.npm_private_repo_auth = appStepConfig?.npm_private_repo_auth ?:
-                                libStepConfig?.npm_private_repo_auth
     
     env.npm_install = appStepConfig?.npm_install ?:
                       libStepConfig?.npm_install ?:
