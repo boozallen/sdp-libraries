@@ -10,7 +10,7 @@ public class SourceBuildSpec extends JTEPipelineSpecification {
   def SourceBuild = null
 
   def setup() {
-    SourceBuild = loadPipelineScriptForStep("npm","source_build")
+    SourceBuild = loadPipelineScriptForStep("npm","npm_invoke")
   }
 
   def "npm_invoke called" () {
