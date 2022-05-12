@@ -10,27 +10,33 @@ public class UnitTestSpec extends JTEPipelineSpecification {
   def UnitTest = null
 
   def setup() {
-    UnitTest = loadPipelineScriptForStep("npm","unit_test")
+    UnitTest = loadPipelineScriptForStep("npm","npm_invoke")
   }
 
-  def "npm_invoke called" () {
-    setup:
-      explicitlyMockPipelineStep("npm_invoke")
-      UnitTest.getBinding().setVariable("config", [unit_test: [script: "test", npm_install: "ci"]])
-    when:
+  def "unit test install command used when no app env present"(){
+    given:
+      def config = [
+        unit_test: [
+          npm_install: "unit test install"
+        ]
+      ]
+      def stepContext = [
+        name: "unit_test"
+      ]
+      def env = [:]
+      explicitlyMockPipelineStep("inside_sdp_image")
+      UnitTest.getBinding().setVariable("config", config)
+      UnitTest.getBinding().setVariable("stepContext", stepContext)
+      UnitTest.getBinding().setVariable("env", env)
+    when: 
       UnitTest()
     then:
-      1 * getPipelineMock("npm_invoke").call(['unit_test', []])
+      assert env.npm_install == "unit test install"
   }
 
-  def "npm_invoke called with app_env when present" () {
-    setup:
-      def app_env = [short_name: 'env', long_name: 'Environment', unit_test: [:]]
-      explicitlyMockPipelineStep("npm_invoke")
-      UnitTest.getBinding().setVariable("config", [unit_test: [script: "test", npm_install: "ci"]])
-    when:
-      UnitTest(app_env)
-    then:
-      1 * getPipelineMock("npm_invoke").call(['unit_test', app_env])
-  }
+
+
+
+
+
 }
