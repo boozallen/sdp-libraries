@@ -5,39 +5,34 @@
 
 package libraries.npm.steps
 
-@StepAlias(value = ["source_build", "unit_test", "lint_code"], keepOriginal = true)
+@StepAlias(dynamic = { return config.keySet() })
 void call(app_env = []) {
-    String stepName = ""
+    String stageName = ""
     LinkedHashMap libStepConfig = [:]
     LinkedHashMap appStepConfig = [:]
 
-    // Get config for stepName, fail if stepName is not supported
-    switch(stepContext.name) {
-        case "source_build":
-            stepName = "NPM Build"
-            libStepConfig = config?.source_build ?: [:]
-            appStepConfig = app_env?.npm?.source_build ?: [:]
-            break
-        case "unit_test":
-            stepName = "NPM Unit Tests"
-            libStepConfig = config?.unit_test ?: [:]
-            appStepConfig = app_env?.npm?.unit_test ?: [:]
-            break
-        case "lint_code":
-            stepName = "NPM Lint Code (ESLint)"
-            libStepConfig = config?.lint_code ?: [:]
-            appStepConfig = app_env?.npm?.lint_code ?: [:]
-            break
-        default:
-            error("stepName must be \"source_build\", \"unit_test\", or \"lint_code\", got \"${stepName}\"")
+    // Get config for step
+    libStepConfig = config?[stepContext.name] ?: [:]
+    appStepConfig = app_env?.npm?[stepContext.name] ?: [:]
+
+    stageName = appStepConfig?.stageName ?:
+                libStepConfig?.stageName ?:
+                null
+
+    if (!stageName) {
+        error("No stage name found for step: " + stepContext.name)
     }
 
-    stage(stepName) {
+    def artifacts = appStepConfig?.artifacts ?:
+                    libStepConfig?.artifacts ?:
+                    [] as String[]
+
+    stage(stageName) {
         // Gather, validate and format secrets to pull from credential store
         ArrayList creds = this.formatSecrets(libStepConfig, appStepConfig)
 
         // Gather and set non-secret environment variables
-        this.setEnvVars(libStepConfig, appStepConfig, config, app_env, stepName)
+        this.setEnvVars(libStepConfig, appStepConfig, config, app_env)
 
         // run npm command in nvm container
         withCredentials(creds) {
@@ -46,31 +41,11 @@ void call(app_env = []) {
 
                 // verify package.json script block has command to run
                 def packageJson = readJSON(file: "package.json")
-                if (!packageJson?.scripts?.containsKey(env.scriptCommand)) error("scriptCommand: '$env.scriptCommand' not found in package.json scripts")
+                if (!packageJson?.scripts?.containsKey(env.scriptCommand)) {
+                    error("scriptCommand: '$env.scriptCommand' not found in package.json scripts")
+                }
                 
                 if (env.npm_install != "skip") {
-                    def npmRegistryCredentials = appStepConfig?.npm_registry_credentials ?:
-                                                 libStepConfig?.npm_registry_credentials ?:
-                                                 "skip"
-
-                    // configure private registry credentials
-                    if (npmRegistryCredentials != "skip") {
-                        npmRegistryCredentials.each { cred ->
-                            env.npm_repo_name = cred.repo_name
-                            env.npm_repo_url = cred.repo_url
-                            env.npm_repo_auth = cred.repo_auth
-
-                            withCredentials([string(credentialsId: cred.credential_id, variable: 'AUTH_TOKEN')]) {
-                                sh '''
-                                    set +x
-                                    echo 'Configuring $npm_repo_name registry'
-                                    npm config set $npm_repo_name $npm_repo_url
-                                    npm config set $npm_repo_auth $AUTH_TOKEN
-                                '''
-                            }
-                        }
-                    }
-
                     // run script command after installing dependencies
                     sh '''
                         set +x
@@ -78,8 +53,6 @@ void call(app_env = []) {
                         npm $npm_install
                         npm run $scriptCommand
                     '''
-
-                    stash name: 'test-results', excludes: "**/node_modules/**"
                 }
                 else {
                     // run script command without installing dependencies
@@ -90,18 +63,12 @@ void call(app_env = []) {
                     '''
                 }
 
-                // archive generated reports
-                ArrayList reports = [
-                    "eslint-report.json",
-                    "eslint-report.html",
-                    "eslint-report.xml",
-                    "coverage/lcov.info"
-                ]
-                reports.each{ report ->
+                // archive artifacts
+                artifacts.each{ artifact ->
                     try {
-                        if (fileExists(report)) { archiveArtifacts artifacts: "${report}" }
+                        if (fileExists(artifact)) { archiveArtifacts artifacts: "${artifact}" }
                     } catch(any) {
-                        println "Error archiving expected artifact: ${report}"
+                        println "Error archiving expected artifact: ${artifact}"
                     }
                 }
             }
@@ -157,7 +124,7 @@ ArrayList formatSecrets(libStepConfig, appStepConfig) {
     return creds
 }
 
-void setEnvVars(libStepConfig, appStepConfig, config, app_env, stepName) {
+void setEnvVars(libStepConfig, appStepConfig, config, app_env) {
     LinkedHashMap libEnv = libStepConfig?.env?.findAll { it.key != 'secrets' } ?: [:]
     LinkedHashMap appEnv = appStepConfig?.env?.findAll { it.key != 'secrets' } ?: [:]
     LinkedHashMap envVars = libEnv + appEnv
@@ -167,19 +134,22 @@ void setEnvVars(libStepConfig, appStepConfig, config, app_env, stepName) {
     }
 
     env.node_version = app_env?.npm?.node_version ?: 
-                       config?.node_version  ?:
+                       config?.node_version ?:
                        'lts/*'
     
     env.npm_install = appStepConfig?.npm_install ?:
                       libStepConfig?.npm_install ?:
                       "ci"
 
+    if (!["install", "i", "ci", "skip"].contains(env.npm_install)) {
+        error("npm_install must be one of \"install\", \"i\", \"ci\" or \"skip\"; got \"$env.npm_install\"")
+    }
+
     env.scriptCommand = appStepConfig?.script ?:
                         libStepConfig?.script ?:
-                        stepName == "NPM Build" ? "build" : 
-                        stepName == "NPM Unit Tests" ? "test" :
-                        "lint"
+                        null
 
-    if (!["install", "i", "ci", "skip"].contains(env.npm_install)) 
-        error("npm_install must be one of \"install\", \"i\", \"ci\" or \"skip\"; got \"$env.npm_install\"")
+    if (!env.scriptCommand) {
+        error("No script command found for step: " + stepContext.name)
+    }
 }
