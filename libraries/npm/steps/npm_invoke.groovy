@@ -65,11 +65,7 @@ void call(app_env = []) {
 
                 // archive artifacts
                 artifacts.each{ artifact ->
-                    try {
-                        if (fileExists(artifact)) { archiveArtifacts artifacts: "${artifact}" }
-                    } catch(any) {
-                        println "Error archiving expected artifact: ${artifact}"
-                    }
+                    archiveArtifacts artifacts: artifact, allowEmptyArchive: true
                 }
             }
         }
