@@ -4,33 +4,62 @@
 */
 
 package libraries.npm
+import spock.lang.Unroll
 
 public class UnitTestSpec extends JTEPipelineSpecification {
 
-  def UnitTest = null
+  def NpmInvoke = null
 
   def setup() {
-    UnitTest = loadPipelineScriptForStep("npm","unit_test")
+    NpmInvoke = loadPipelineScriptForStep("npm","npm_invoke")
   }
 
-  def "npm_invoke called" () {
-    setup:
-      explicitlyMockPipelineStep("npm_invoke")
-      UnitTest.getBinding().setVariable("config", [unit_test: [script: "test", npm_install: "ci"]])
-    when:
-      UnitTest()
+  def "unit test install command used when no app env present"(){
+    given:
+      def config = [
+        unit_test: [
+          npm_install: "unit test install"
+        ]
+      ]
+      def stepContext = [
+        name: "unit_test"
+      ]
+      def env = [:]
+      explicitlyMockPipelineStep("inside_sdp_image")
+      NpmInvoke.getBinding().setVariable("config", config)
+      NpmInvoke.getBinding().setVariable("stepContext", stepContext)
+      NpmInvoke.getBinding().setVariable("env", env)
+    when: 
+      NpmInvoke()
     then:
-      1 * getPipelineMock("npm_invoke").call(['unit_test', []])
+      assert env.npm_install == "unit test install"
   }
 
-  def "npm_invoke called with app_env when present" () {
-    setup:
-      def app_env = [short_name: 'env', long_name: 'Environment', unit_test: [:]]
-      explicitlyMockPipelineStep("npm_invoke")
-      UnitTest.getBinding().setVariable("config", [unit_test: [script: "test", npm_install: "ci"]])
-    when:
-      UnitTest(app_env)
-    then:
-      1 * getPipelineMock("npm_invoke").call(['unit_test', app_env])
+  @Unroll
+  def "step #step: install command reads from lib config when app env is null"(){
+      given:
+        def config = [
+          (step): [
+            npm_install: "unit test install"
+          ]
+        ]
+        def stepContext = [
+          name: step
+        ]
+        def env = [:]
+        explicitlyMockPipelineStep("inside_sdp_image")
+        NpmInvoke.getBinding().setVariable("config", config)
+        NpmInvoke.getBinding().setVariable("stepContext", stepContext)
+        NpmInvoke.getBinding().setVariable("env", env)
+      when: 
+        NpmInvoke()
+      then:
+        assert env.npm_install == "unit test install"
+      where:
+        step | _ 
+        "source_build" | _ 
+        "unit_test" | _
+        "lint_code" | _ 
   }
+
 }
