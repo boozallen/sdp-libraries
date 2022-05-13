@@ -45,27 +45,33 @@ void call(app_env = []) {
                     error("scriptCommand: '$env.scriptCommand' not found in package.json scripts")
                 }
                 
-                if (env.npm_install != "skip") {
-                    // run script command after installing dependencies
-                    sh '''
-                        set +x
-                        echo 'Running with install'
-                        npm $npm_install
-                        npm run $scriptCommand
-                    '''
+                try {
+                    if (env.npm_install != "skip") {
+                        // run script command after installing dependencies
+                        sh '''
+                            set +x
+                            echo 'Running with install'
+                            npm $npm_install
+                            npm run $scriptCommand
+                        '''
+                    }
+                    else {
+                        // run script command without installing dependencies
+                        sh '''
+                            set +x
+                            echo 'Running without install'
+                            npm run $scriptCommand
+                        '''
+                    }
                 }
-                else {
-                    // run script command without installing dependencies
-                    sh '''
-                        set +x
-                        echo 'Running without install'
-                        npm run $scriptCommand
-                    '''
+                catch (any) {
+                    throw any
                 }
-
-                // archive artifacts
-                artifacts.each{ artifact ->
-                    archiveArtifacts artifacts: artifact, allowEmptyArchive: true
+                finally {
+                    // archive artifacts
+                    artifacts.each{ artifact ->
+                        archiveArtifacts artifacts: artifact, allowEmptyArchive: true
+                    }
                 }
             }
         }
