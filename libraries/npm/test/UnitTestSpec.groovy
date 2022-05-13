@@ -4,13 +4,14 @@
 */
 
 package libraries.npm
+import spock.lang.Unroll
 
 public class UnitTestSpec extends JTEPipelineSpecification {
 
-  def UnitTest = null
+  def NpmInvoke = null
 
   def setup() {
-    UnitTest = loadPipelineScriptForStep("npm","npm_invoke")
+    NpmInvoke = loadPipelineScriptForStep("npm","npm_invoke")
   }
 
   def "unit test install command used when no app env present"(){
@@ -25,18 +26,40 @@ public class UnitTestSpec extends JTEPipelineSpecification {
       ]
       def env = [:]
       explicitlyMockPipelineStep("inside_sdp_image")
-      UnitTest.getBinding().setVariable("config", config)
-      UnitTest.getBinding().setVariable("stepContext", stepContext)
-      UnitTest.getBinding().setVariable("env", env)
+      NpmInvoke.getBinding().setVariable("config", config)
+      NpmInvoke.getBinding().setVariable("stepContext", stepContext)
+      NpmInvoke.getBinding().setVariable("env", env)
     when: 
-      UnitTest()
+      NpmInvoke()
     then:
       assert env.npm_install == "unit test install"
   }
 
-
-
-
-
+  @Unroll
+  def "step #step: install command reads from lib config when app env is null"(){
+      given:
+        def config = [
+          (step): [
+            npm_install: "unit test install"
+          ]
+        ]
+        def stepContext = [
+          name: step
+        ]
+        def env = [:]
+        explicitlyMockPipelineStep("inside_sdp_image")
+        NpmInvoke.getBinding().setVariable("config", config)
+        NpmInvoke.getBinding().setVariable("stepContext", stepContext)
+        NpmInvoke.getBinding().setVariable("env", env)
+      when: 
+        NpmInvoke()
+      then:
+        assert env.npm_install == "unit test install"
+      where:
+        step | _ 
+        "source_build" | _ 
+        "unit_test" | _
+        "lint_code" | _ 
+  }
 
 }
