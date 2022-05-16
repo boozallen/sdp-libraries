@@ -46,6 +46,10 @@ void call(app_env = []) {
                         // run script command after installing dependencies
                         sh '''
                             set +x
+                            source ~/.bashrc
+                            nvm install $node_version
+                            nvm version
+
                             echo 'Running with install'
                             npm $npmInstall
                             npm run $scriptCommand
@@ -55,6 +59,10 @@ void call(app_env = []) {
                         // run script command without installing dependencies
                         sh '''
                             set +x
+                            source ~/.bashrc
+                            nvm install $node_version
+                            nvm version
+                            
                             echo 'Running without install'
                             npm run $scriptCommand
                         '''
