@@ -46,12 +46,12 @@ void call(app_env = []) {
                 }
                 
                 try {
-                    if (env.npm_install != "skip") {
+                    if (env.npmInstall != "skip") {
                         // run script command after installing dependencies
                         sh '''
                             set +x
                             echo 'Running with install'
-                            npm $npm_install
+                            npm $npmInstall
                             npm run $scriptCommand
                         '''
                     }
@@ -139,12 +139,12 @@ void setEnvVars(libStepConfig, appStepConfig, config, app_env) {
                        config?.node_version ?:
                        'lts/*'
     
-    env.npm_install = appStepConfig?.npm_install ?:
-                      libStepConfig?.npm_install ?:
-                      "ci"
+    env.npmInstall = appStepConfig?.npmInstall ?:
+                     libStepConfig?.npmInstall ?:
+                     "ci"
 
-    if (!["install", "i", "ci", "skip"].contains(env.npm_install)) {
-        error("npm_install must be one of \"install\", \"i\", \"ci\" or \"skip\"; got \"$env.npm_install\"")
+    if (!["install", "i", "ci", "skip"].contains(env.npmInstall)) {
+        error("npmInstall must be one of \"install\", \"i\", \"ci\" or \"skip\"; got \"$env.npmInstall\"")
     }
 
     env.scriptCommand = appStepConfig?.script ?:
