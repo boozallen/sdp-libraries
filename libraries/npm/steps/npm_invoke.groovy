@@ -135,8 +135,8 @@ void setEnvVars(libStepConfig, appStepConfig, config, app_env) {
         env[it.key] = it.value
     }
 
-    env.node_version = app_env?.npm?.nodeVersion ?: 
-                       config?.nodeVersion ?:
+    env.node_version = app_env?.npm?.node_version ?: 
+                       config?.node_version ?:
                        'lts/*'
     
     env.npmInstall = appStepConfig?.npmInstall ?:
