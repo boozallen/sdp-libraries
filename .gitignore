@@ -12,3 +12,6 @@ target/
 
 # Local Netlify folder
 .netlify
+
+# Other
+.DS_Store
