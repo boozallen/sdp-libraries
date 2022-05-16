@@ -8,8 +8,8 @@ package libraries.npm.steps
 @StepAlias(dynamic = { return config.keySet() })
 void call(app_env = []) {
     // Get config for step
-    LinkedHashMap libStepConfig = config?[stepContext.name] ?: [:]
-    LinkedHashMap appStepConfig = app_env?.npm?[stepContext.name] ?: [:]
+    LinkedHashMap libStepConfig = config?."${stepContext.name}" ?: [:]
+    LinkedHashMap appStepConfig = app_env?.npm?."${stepContext.name}" ?: [:]
 
     String stageName = appStepConfig?.stageName ?:
                        libStepConfig?.stageName ?:
