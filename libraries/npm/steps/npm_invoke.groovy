@@ -7,17 +7,13 @@ package libraries.npm.steps
 
 @StepAlias(dynamic = { return config.keySet() })
 void call(app_env = []) {
-    String stageName = ""
-    LinkedHashMap libStepConfig = [:]
-    LinkedHashMap appStepConfig = [:]
-
     // Get config for step
-    libStepConfig = config?[stepContext.name] ?: [:]
-    appStepConfig = app_env?.npm?[stepContext.name] ?: [:]
+    LinkedHashMap libStepConfig = config?[stepContext.name] ?: [:]
+    LinkedHashMap appStepConfig = app_env?.npm?[stepContext.name] ?: [:]
 
-    stageName = appStepConfig?.stageName ?:
-                libStepConfig?.stageName ?:
-                null
+    String stageName = appStepConfig?.stageName ?:
+                       libStepConfig?.stageName ?:
+                       null
 
     if (!stageName) {
         error("No stage name found for step: " + stepContext.name)
