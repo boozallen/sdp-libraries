@@ -50,7 +50,7 @@ void call(app_env = []) {
                             nvm install $node_version
                             nvm version
 
-                            echo 'Running with install'
+                            echo 'Running with NPM install'
                             npm $npmInstall
                             npm run $scriptCommand
                         '''
@@ -62,8 +62,8 @@ void call(app_env = []) {
                             source ~/.bashrc
                             nvm install $node_version
                             nvm version
-                            
-                            echo 'Running without install'
+
+                            echo 'Running without NPM install'
                             npm run $scriptCommand
                         '''
                     }
