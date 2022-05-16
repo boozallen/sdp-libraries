@@ -72,6 +72,15 @@ void call(app_env = []) {
                     artifacts.each{ artifact ->
                         archiveArtifacts artifacts: artifact, allowEmptyArchive: true
                     }
+
+                    // check if using ESLint plugin
+                    def usingEslintPlugin = appStepConfig?.useEslintPlugin ?:
+                                            libStepConfig?.useEslintPlugin ?:
+                                            false
+
+                    if (usingEslintPlugin) {
+                        evaluate "recordIssues enabledForFailure: true, tool: esLint(pattern: 'eslint-report.xml')"
+                    }
                 }
             }
         }
