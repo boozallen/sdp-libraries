@@ -38,7 +38,7 @@ void call(app_env = []) {
                 // verify package.json script block has command to run
                 def packageJson = readJSON(file: "package.json")
                 if (!packageJson?.scripts?.containsKey(env.scriptCommand)) {
-                    error("scriptCommand: '$env.scriptCommand' not found in package.json scripts")
+                    error("script: '$env.scriptCommand' not found in package.json scripts")
                 }
                 
                 try {
