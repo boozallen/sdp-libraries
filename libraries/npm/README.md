@@ -38,6 +38,7 @@ libraries {
 | `node_version`                | Node version to run NPM within (installed via NVM)                                                                                    | `lts/*` |
 | `<step name>.stageName`       | stage name displayed in the Jenkins dashboard                                                                                         | N/A     |
 | `<step name>.script`          | NPM script ran by the step                                                                                                            | N/A     |
+| `<step name>.artifacts`       | array of glob patterns for artifacts that should be archived                                                                          |
 | `<step name>.npmInstall`      | NPM install command to run; npm install can be skipped with value "skip"                                                              | `ci`    |
 | `<step name>.env`             | environment variables to make available to the NPM process; can include key/value pairs and secrets                                   | `[]`    |
 | `<step name>.env.secrets`     | text or username/password credentials to make available to the NPM process; must be present and available in Jenkins credential store | `[]`    |
@@ -56,6 +57,7 @@ application_environments {
       unit_test {
         stageName = "NPM Unit Tests"
         script = "full-test-suite"
+        artifacts = ["coverage/lcov.info"]
         npmInstall = "ci"
         env {
           someKey = "prodValue for tests"
@@ -100,6 +102,11 @@ application_environments {
     lint_code {
         stageName = "NPM Lint Code"
         script = "lint"
+        artifacts = [
+          "eslint-report.json",
+          "eslint-report.html",
+          "eslint-report.xml",
+        ]
         useEslintPlugin = true
         env {
           someKey = "prodValue for linting"
