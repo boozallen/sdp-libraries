@@ -1,20 +1,10 @@
 ---
-description: Run npm `lint`, `test`, and `build` commands in an nvm container with a specified Node version
+description: Run NPM script commands in an NVM container with a specified Node version
 ---
 
 # npm
 
-Run npm `lint`, `test`, and `build` commands in an nvm container with a specified Node version.
-
-## Steps
-
----
-
-| Step               | Description                                     |
-| ------------------ | ----------------------------------------------- |
-| ``unit_test()``    | Calls npm_invoke to run `npm run test` command  |
-| ``source_build()`` | Calls npm_invoke to run `npm run build` command |
-| ``lint_code()``    | Calls npm_invoke to run `npm run lint` command  |
+Run NPM script commands in an NVM container with a specified Node version.
 
 ## Configuration
 
@@ -22,6 +12,22 @@ All configs can be set in either the library config or the Application Environme
 
 Environment variables and secrets set in the library config are concatenated with those set in the Application Environment.
 Environment variables and secrets with the same key are set to the definition contained in the Application Environment.
+
+## Steps
+
+Steps are configured dynamically in either the library config or the Application Environment.
+
+
+``` groovy title="pipeline_configuration.groovy"
+libraries {
+  npm {
+    [step_name] {
+      // config fields described below
+    }
+    ...
+  }
+}
+```
 
 ## Example Library Configuration
 
@@ -39,7 +45,7 @@ Environment variables and secrets with the same key are set to the definition co
 
 ### Full Configuration Example
 
-Each available method has config options that can be specified in the application environment or within the library configuration.
+Each available method has config options that can be specified in the Application Environment or within the library configuration.
 
 ``` groovy title="pipeline_configuration.groovy"
 application_environments {
@@ -201,10 +207,14 @@ This example shows the prod Application Environment overriding configs set in th
 
 The minimal configuration for this library is:
 
-``` groovy
-//pipeline_configuration.groovy
+``` groovy title="pipeline_configuration.groovy"
 libraries {
-  npm
+  npm {
+    unit_test {
+      stageName = "NPM Unit Tests"
+      script = "test"
+    }
+  }
 }
 ```
 
