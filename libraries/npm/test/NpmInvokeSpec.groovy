@@ -254,7 +254,7 @@ public class NpmInvokeSpec extends JTEPipelineSpecification {
       NpmInvoke()
     then:
       1* getPipelineMock("error")([
-        "Npm Library Validation Errors: ",
+        "NPM Library Validation Errors: ",
         "- secret 'someTextSecret' must define 'id'"
       ])
   }
@@ -281,7 +281,7 @@ public class NpmInvokeSpec extends JTEPipelineSpecification {
       NpmInvoke()
     then:
       1* getPipelineMock("error")([
-        "Npm Library Validation Errors: ",
+        "NPM Library Validation Errors: ",
         "- secret 'someSecret': type 'not_a_type' is not defined"
       ])
   }
@@ -307,7 +307,7 @@ public class NpmInvokeSpec extends JTEPipelineSpecification {
       NpmInvoke()
     then:
       1* getPipelineMock("error")([
-        "Npm Library Validation Errors: ",
+        "NPM Library Validation Errors: ",
         "- secret 'someTextSecret' must define 'name'"
       ])
   }
@@ -333,7 +333,7 @@ public class NpmInvokeSpec extends JTEPipelineSpecification {
       NpmInvoke()
     then:
       1* getPipelineMock("error")([
-        "Npm Library Validation Errors: ",
+        "NPM Library Validation Errors: ",
         "- secret 'someUsernamePasswordSecret' must define 'usernameVar'",
         "- secret 'someUsernamePasswordSecret' must define 'passwordVar'"
       ])
