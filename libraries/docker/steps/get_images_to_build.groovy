@@ -34,7 +34,6 @@ def call(){
     def path_prefix = config.repo_path_prefix ? config.repo_path_prefix + "/" : ""
 
     def build_strategies = [ "docker-compose", "modules", "dockerfile", "buildx" ]
-    println config
     if (config.build_strategy)
     if (!(config.build_strategy in build_strategies)) {
         error "build strategy: ${config.build_strategy} not one of ${build_strategies}"
