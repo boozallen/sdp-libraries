@@ -46,6 +46,7 @@ public class NpmInvokeSpec extends JTEPipelineSpecification {
     NpmInvoke = loadPipelineScriptForStep("npm", "npm_invoke")
     
     explicitlyMockPipelineStep("inside_sdp_image")
+    explicitlyMockPipelineVariable("out")
 
     NpmInvoke.getBinding().setVariable("config", config)
     NpmInvoke.getBinding().setVariable("stepContext", stepContext)
