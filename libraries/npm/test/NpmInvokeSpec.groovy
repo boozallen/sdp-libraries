@@ -52,7 +52,14 @@ public class NpmInvokeSpec extends JTEPipelineSpecification {
     NpmInvoke.getBinding().setVariable("stepContext", stepContext)
     NpmInvoke.getBinding().setVariable("env", env)
 
-    getPipelineMock("readJSON")(['file': 'package.json']) >> { return [scripts: [test: "jest"]] }
+    getPipelineMock("readJSON")(['file': 'package.json']) >> {
+      return [
+        scripts: [
+          test: "jest",
+          lint: "eslint"
+        ]
+      ]
+    }
   }
 
   def "Fails if npm script is not listed in package.json scripts" () {
@@ -156,6 +163,23 @@ public class NpmInvokeSpec extends JTEPipelineSpecification {
       NpmInvoke()
     then:
       1 * getPipelineMock("sh")(shellCommandWithoutNpmInstall)
+  }
+
+  def "Records ESLint results when useEslintPlugin is true" () {
+    setup:
+      NpmInvoke.getBinding().setVariable("stepContext", [name: "lint_code"])
+      NpmInvoke.getBinding().setVariable("config", [
+        lint_code: [
+          stageName: "NPM Linting",
+          script: "lint",
+          useEslintPlugin: true
+        ]
+      ])
+    when:
+      NpmInvoke()
+    then:
+      1 * explicitlyMockPipelineStep("esLint")(_ as Map)
+      1 * explicitlyMockPipelineStep("recordIssues")(_ as Map)
   }
 
   def "Secrets set by library config when specified in library config and not specified in App Env" () {

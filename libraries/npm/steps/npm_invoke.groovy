@@ -83,7 +83,7 @@ void call(app_env = [:]) {
                                             false
 
                     if (usingEslintPlugin) {
-                        evaluate "recordIssues enabledForFailure: true, tool: esLint(pattern: 'eslint-report.xml')"
+                        recordIssues enabledForFailure: true, tool: esLint(pattern: 'eslint-report.xml')
                     }
                 }
             }
