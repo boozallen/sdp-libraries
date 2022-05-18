@@ -80,3 +80,4 @@ class MavenTestSpec extends JTEPipelineSpecification {
         then:
             1 * getPipelineMock("archiveArtifacts.call")(_ as Map)
     }
+}
