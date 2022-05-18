@@ -73,6 +73,7 @@ nav:
   - 'tutorials/overview.md'
 - How-To Guides:
   - 'how-to/overview.md'
+  - 'how-to/pin-a-library-source-to-a-specific-release.md'
 # navigation for Libraries section is driven by the gen_scripts and awesome-pages plugins
 # see: /resources/docs/copy_docs.py
 - ... | glob=libraries/**
