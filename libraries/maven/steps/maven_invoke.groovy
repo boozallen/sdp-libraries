@@ -6,12 +6,12 @@
 package libraries.maven.steps
 
 @StepAlias(dynamic = { return config.keySet() })
-void call(app_env = []) {
+void call(app_env = [:]) {
 
     // Get config for step
-    LinkedHashMap libStepConfig = config?[stepContext.name] ?: [:]
-    LinkedHashMap appStepConfig = app_env?.maven?[stepContext.name] ?: [:]
-    
+    LinkedHashMap libStepConfig = config?."${stepContext.name}" ?: [:]
+    LinkedHashMap appStepConfig = app_env?.maven?."${stepContext.name}" ?: [:]
+
     // Merge the two configs: app_env settings take precendence, and there is no deep copy/sublist merging
     LinkedHashMap fullConfig = libStepConfig + appStepConfig
 
