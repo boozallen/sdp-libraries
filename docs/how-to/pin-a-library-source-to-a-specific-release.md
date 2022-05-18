@@ -1,6 +1,6 @@
-# Pin a Library Source to a specific release
+# Pin a Library Source to a Specific Release
 
-Breaking changes will sometimes be merged into the default branch of the SDP Libraries repo. Because of this, you may want to pin the library source to a specific release so that your pipelines don't break unexpectedly when the library is updated.
+Breaking changes will sometimes be merged into the default branch of the SDP Libraries repository. Because of this, you may want to pin the Library Source to a specific release so that your pipelines don't break when the library is updated.
 
 ## Steps
 
@@ -12,4 +12,4 @@ Breaking changes will sometimes be merged into the default branch of the SDP Lib
 6. Update the "Branch Specifier" field using the following format: `refs/tags/{git tag}` (replacing `{git tag}` with the tag you want to pin the Library Source to).
 7. Click "Save" to save the changes.
 
-![Pinning the boozallen/sdp-libraries Library Source to version 3.2](./pinning-sdp-libraries-to-a-specific-release.png)
+![Pinning the boozallen/sdp-libraries Library Source to version 3.2](../assets/images/jenkins/pinning-sdp-libraries-to-a-specific-release.png)
