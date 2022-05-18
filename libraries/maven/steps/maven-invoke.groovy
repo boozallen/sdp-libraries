@@ -88,9 +88,9 @@ void validateSecrets(secrets) {
 }
 
 ArrayList formatSecrets(libStepConfig, appStepConfig) {
-    LinkedHashMap libSecrets = libStepConfig?.env?.secrets ?: [:]
-    LinkedHashMap envSecrets = appStepConfig?.env?.secrets ?: [:]
-    LinkedHashMap secrets = libSecrets + envSecrets
+    LinkedHashMap libSecrets = libStepConfig?.secrets ?: [:]
+    LinkedHashMap appSecrets = appStepConfig?.secrets ?: [:]
+    LinkedHashMap secrets = libSecrets + appSecrets
 
     this.validateSecrets(secrets)
 
