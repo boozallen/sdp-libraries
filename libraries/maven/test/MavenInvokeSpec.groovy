@@ -5,7 +5,7 @@
 
 package libraries.maven
 
-class MavenTestSpec extends JTEPipelineSpecification {
+class MavenInvokeSpec extends JTEPipelineSpecification {
 
     def MavenInvoke = null
 
@@ -35,13 +35,12 @@ class MavenTestSpec extends JTEPipelineSpecification {
 
     def "Completes a mvn test successfully" () {
         setup:
-            getPipelineMock("sh")("mvn archetype:generate -DgroupId=com.mycompany.app -DartifactId=my-app -DarchetypeArtifactId=maven-archetype-quickstart -DarchetypeVersion=1.4 -DinteractiveMode=false")
+            getPipelineMock("sh")("mvn archetype:generate -DgroupId=com.mycompany.app -DartifactId=my-app -DarchetypeArtifactId=maven-archetype-quickstart -DarchetypeVersion=1.4 -DinteractiveMode=false && cd my-app")
             MavenInvoke.getBinding().setVariable("config", minimalUnitTestingConfig)
         when:
             MavenInvoke()
         then:
             1 * getPipelineMock("sh")("mvn test")
-
     }
 
     def "Application environment settings take precendence over library config" () {
@@ -66,7 +65,7 @@ class MavenTestSpec extends JTEPipelineSpecification {
 
     def "Artifacts get archived as expected" () {
         setup:
-            getPipelineMock("sh")("mvn archetype:generate -DgroupId=com.mycompany.app -DartifactId=my-app -DarchetypeArtifactId=maven-archetype-quickstart -DarchetypeVersion=1.4 -DinteractiveMode=false")
+            getPipelineMock("sh")("mvn archetype:generate -DgroupId=com.mycompany.app -DartifactId=my-app -DarchetypeArtifactId=maven-archetype-quickstart -DarchetypeVersion=1.4 -DinteractiveMode=false && cd my-app")
             MavenInvoke.getBinding().setVariable("config", [
                 build: [
                     stageName: "Maven Build",
