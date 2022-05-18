@@ -31,7 +31,8 @@ void call(app_env = []) {
 
         // run maven command in specified container
         withCredentials(creds) {
-            inside_sdp_image fullConfig["buildContainer"], {
+            // inside_sdp_image fullConfig["buildContainer"], {
+            docker.image(fullConfig["buildContainer"]).inside() {
                 unstash "workspace"
 
                 String command = "mvn "

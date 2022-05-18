@@ -19,11 +19,10 @@ libraries {
   maven {
     myMavenStep {
       stageName = "Initial Maven Lifecycle"
-      buildContainer = "mvn-builder:1.0"
+      buildContainer = "maven:3.8.5-openjdk-11"
       phases = ["clean", "validate"]
       goals = ["compiler:testCompile"]
       options = ["-q"]
-      artifacts = ["target/*.jar"]
       secrets {
         myToken {
           type = "text"
@@ -31,7 +30,7 @@ libraries {
           id = "my-token-id"
         }
         myCredentials {
-          type = "UsernamePassword"
+          type = "usernamePassword"
           usernameVar = "USER"
           passwordVar = "PASS"
           id = "my-credentials-id"
@@ -40,8 +39,9 @@ libraries {
     }
     anotherMavenStep {
       stageName = "Maven Build"
-      buildContainer = "mvn-builder:1.0"
+      buildContainer = "maven:3.8.5-openjdk-11"
       phases = ["build"]
+      artifacts = ["target/*.jar"]
     }
   }
 }
