@@ -14,7 +14,7 @@ This library allows you to perform Maven commands in a defined build agent conta
 
 ## Configuration
 
-``` groovy
+``` groovy title="pipeline_config.groovy"
 libraries {
   maven {
     myMavenStep {
@@ -24,10 +24,24 @@ libraries {
       goals = ["compiler:testCompile"]
       options = ["-q"]
       artifacts = ["target/*.jar"]
-      secrets = []
+      secrets {
+        myToken {
+          type = "text"
+          name = "token-name"
+          id = "my-token-id"
+        }
+        myCredentials {
+          type = "UsernamePassword"
+          usernameVar = "USER"
+          passwordVar = "PASS"
+          id = "my-credentials-id"
+        }
+      }
     }
     anotherMavenStep {
-
+      stageName = "Maven Build"
+      buildContainer = "mvn-builder:1.0"
+      phases = ["build"]
     }
   }
 }
