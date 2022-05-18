@@ -6,84 +6,108 @@
 package libraries.npm
 
 public class NpmInvokeSpec extends JTEPipelineSpecification {
-
   def NpmInvoke = null
 
-  def env = [:]
-  def shellCommandWithNpmInstall = '\n                        set +x\n                        source ~/.bashrc\n                        nvm install $node_version\n                        nvm version\n                        \n                        npm $npm_install\n                        npm run $scriptCommand\n                    '
+  def shellCommandWithNpmInstall = '''
+                            set +x
+                            source ~/.bashrc
+                            nvm install $node_version
+                            nvm version
 
-  def shellCommandWithOutNpmInstall = '\n                        set +x\n                        source ~/.bashrc\n                        nvm install $node_version\n                        nvm version\n\n                        npm run $scriptCommand\n                    '
+                            echo 'Running with NPM install'
+                            npm $npmInstall
+                            npm run $scriptCommand
+                        '''
+
+  def shellCommandWithoutNpmInstall = '''
+                            set +x
+                            source ~/.bashrc
+                            nvm install $node_version
+                            nvm version
+
+                            echo 'Running without NPM install'
+                            npm run $scriptCommand
+                        '''
+
+  LinkedHashMap minimalUnitTestConfig = [
+    unit_test: [
+      stageName: "NPM Unit Tests",
+      script: "test"
+    ]
+  ]
 
   def setup() {
-    env = [:]
-    NpmInvoke = loadPipelineScriptForStep("npm","npm_invoke")
-    NpmInvoke.getBinding().setVariable("env", env)
-    explicitlyMockPipelineStep("inside_sdp_image")("npx:1.0.0")
+    LinkedHashMap config = [:]
+    LinkedHashMap stepContext = [
+      name: "unit_test"
+    ]
+    LinkedHashMap env = [:]
+
+    NpmInvoke = loadPipelineScriptForStep("npm", "npm_invoke")
+    
+    explicitlyMockPipelineStep("inside_sdp_image")
     explicitlyMockPipelineVariable("out")
-    NpmInvoke.getBinding().setVariable("config", [:])
-    getPipelineMock("readJSON")(['file':'package.json']) >> { return [scripts: [test: "jest"]] }
+
+    NpmInvoke.getBinding().setVariable("config", config)
+    NpmInvoke.getBinding().setVariable("stepContext", stepContext)
+    NpmInvoke.getBinding().setVariable("env", env)
+
+    getPipelineMock("readJSON")(['file': 'package.json']) >> {
+      return [
+        scripts: [
+          test: "jest",
+          lint: "eslint"
+        ]
+      ]
+    }
   }
 
-  def "Fails if stepName is not supported" () {
-    when:
-      NpmInvoke("not_a_step")
-    then:
-      1 * getPipelineMock("error")('stepName must be "build" or "unit_test", got "not_a_step"')
-  }
-
-  def "Fails if npm method is not listed in package.json scripts" () {
+  def "Fails if npm script is not listed in package.json scripts" () {
     setup:
-      NpmInvoke.getBinding().setVariable("config", [unit_test: [script: "not_found"]])
+      NpmInvoke.getBinding().setVariable("config", [unit_test: [stageName: "NPM Unit Tests", script: "not_found"]])
     when:
-      NpmInvoke("unit_test")
+      NpmInvoke()
     then:
-      1 * getPipelineMock("error")("stepName 'not_found' not found in package.json scripts")
+      1 * getPipelineMock("error")("script: 'not_found' not found in package.json scripts")
   }
 
-  def "Succeeds when npm method is listed in package.json scripts" () {
+  def "Succeeds when npm script is listed in package.json scripts" () {
     setup:
-      NpmInvoke.getBinding().setVariable("config", [unit_test: [script: "test"]])
+      NpmInvoke.getBinding().setVariable("config", minimalUnitTestConfig)
     when:
-      NpmInvoke("unit_test")
+      NpmInvoke()
     then:
-      0 * getPipelineMock("error")("stepName 'test' not found in package.json scripts")
+      0 * getPipelineMock("error")("script: 'test' not found in package.json scripts")
   }
 
-  def "unit_test defaults node_version, npm_install and scriptCommand correctly if they are not otherwise specified" () {
+  def "defaults node_version and npm_install correctly if they are not otherwise specified" () {
+    setup:
+      NpmInvoke.getBinding().setVariable("config", minimalUnitTestConfig)
     when:
-      NpmInvoke("unit_test")
+      NpmInvoke()
     then:
       NpmInvoke.getBinding().variables.env.node_version == 'lts/*'
-      NpmInvoke.getBinding().variables.env.npm_install == "ci"
-      NpmInvoke.getBinding().variables.env.scriptCommand == "test"
+      NpmInvoke.getBinding().variables.env.npmInstall == "ci"
   }
 
-  def "build defaults node_version, npm_install and scriptCommand correctly if they are not otherwise specified" () {
-    when:
-      NpmInvoke("build")
-    then:
-      NpmInvoke.getBinding().variables.env.node_version == 'lts/*'
-      NpmInvoke.getBinding().variables.env.npm_install == "ci"
-      NpmInvoke.getBinding().variables.env.scriptCommand == "build"
-  }
-
-  def "Library sets config for node_version, npm_install, scriptCommand and environment variables when specified and App Env does not" () {
+  def "Library sets config for node_version, npm_install, scriptCommand, and environment variables when specified and App Env does not" () {
     setup:
       NpmInvoke.getBinding().setVariable("config", [
         node_version: "config_node_version",
         unit_test: [
-          npm_install: "config_npm_install", 
+          stageName: "NPM Unit Tests",
           script: "config_scriptCommand",
+          npmInstall: "config_npm_install",
           env: [
             someKey: "some_config_value"
           ]
         ]
       ])
     when:
-      NpmInvoke("unit_test")
+      NpmInvoke()
     then:
       NpmInvoke.getBinding().variables.env.node_version == "config_node_version"
-      NpmInvoke.getBinding().variables.env.npm_install == "config_npm_install"
+      NpmInvoke.getBinding().variables.env.npmInstall == "config_npm_install"
       NpmInvoke.getBinding().variables.env.scriptCommand == "config_scriptCommand"
       NpmInvoke.getBinding().variables.env.someKey == "some_config_value"
   }
@@ -93,20 +117,22 @@ public class NpmInvokeSpec extends JTEPipelineSpecification {
       NpmInvoke.getBinding().setVariable("config", [
         node_version: "config_node_version",
         unit_test: [
-          npm_install: "config_npm_install", 
+          stageName: "NPM Unit Tests",
           script: "config_scriptCommand",
+          npmInstall: "config_npm_install",
           env: [
             someKey: "some_config_value"
           ]
         ]
       ])
     when:
-      NpmInvoke("unit_test", [
+      NpmInvoke([
         npm: [
           node_version: "appEnv_node_version",
           unit_test: [
-            npm_install: "appEnv_npm_install", 
+            stageName: "NPM Unit Tests",
             script: "appEnv_scriptCommand",
+            npmInstall: "appEnv_npm_install",
             env: [
               someKey: "some_appEnv_value"
             ]
@@ -115,28 +141,63 @@ public class NpmInvokeSpec extends JTEPipelineSpecification {
       ])
     then:
       NpmInvoke.getBinding().variables.env.node_version == "appEnv_node_version"
-      NpmInvoke.getBinding().variables.env.npm_install == "appEnv_npm_install"
+      NpmInvoke.getBinding().variables.env.npmInstall == "appEnv_npm_install"
       NpmInvoke.getBinding().variables.env.scriptCommand == "appEnv_scriptCommand"
       NpmInvoke.getBinding().variables.env.someKey == "some_appEnv_value"
   }
 
-  def "Defaults npm install to 'ci' when npm_install is not set; runs npm install step" () {
+  def "Defaults npm install to 'ci' when npmInstall is not set; runs npm install step" () {
     setup:
-      NpmInvoke.getBinding().setVariable("config", [unit_test: [script: "test"]])
+      NpmInvoke.getBinding().setVariable("config", minimalUnitTestConfig)
     when:
-      NpmInvoke("unit_test")
+      NpmInvoke()
     then:
-      NpmInvoke.getBinding().variables.env.npm_install == "ci"
+      NpmInvoke.getBinding().variables.env.npmInstall == "ci"
       1 * getPipelineMock("sh")(shellCommandWithNpmInstall)
   }
 
-  def "Skips npm install step when npm_install is set to \"skip\"" () {
+  def "Skips npm install step when npmInstall is set to \"skip\"" () {
     setup:
-      NpmInvoke.getBinding().setVariable("config", [unit_test: [script: "test", npm_install: "skip"]])
+      NpmInvoke.getBinding().setVariable("config", [unit_test: [stageName: "NPM Unit Tests", script: "test", npmInstall: "skip"]])
     when:
-      NpmInvoke("unit_test")
+      NpmInvoke()
     then:
-      1 * getPipelineMock("sh")(shellCommandWithOutNpmInstall)
+      1 * getPipelineMock("sh")(shellCommandWithoutNpmInstall)
+  }
+
+  def "Archives artifacts correctly" () {
+    setup:
+      NpmInvoke.getBinding().setVariable("config", [
+        unit_test: [
+          stageName: "NPM Unit Tests",
+          script: "test",
+          artifacts: [
+            "coverage/lcov.info",
+            "coverage/lcov-report/**/*"
+          ]
+        ]
+      ])
+    when:
+      NpmInvoke()
+    then:
+      2 * getPipelineMock("archiveArtifacts.call")(_ as Map)
+  }
+
+  def "Records ESLint results when useEslintPlugin is true" () {
+    setup:
+      NpmInvoke.getBinding().setVariable("stepContext", [name: "lint_code"])
+      NpmInvoke.getBinding().setVariable("config", [
+        lint_code: [
+          stageName: "NPM Linting",
+          script: "lint",
+          useEslintPlugin: true
+        ]
+      ])
+    when:
+      NpmInvoke()
+    then:
+      1 * explicitlyMockPipelineStep("esLint")(_ as Map)
+      1 * explicitlyMockPipelineStep("recordIssues")(_ as Map)
   }
 
   def "Secrets set by library config when specified in library config and not specified in App Env" () {
@@ -144,6 +205,8 @@ public class NpmInvokeSpec extends JTEPipelineSpecification {
       NpmInvoke.getBinding().setVariable("config", [
         node_version: "config_node_version",
         unit_test: [
+          stageName: "NPM Unit Tests",
+          script: "test",
           env: [
             secrets: [
               someTextSecret: [
@@ -156,7 +219,7 @@ public class NpmInvokeSpec extends JTEPipelineSpecification {
         ]
       ])
     when:
-      NpmInvoke("unit_test")
+      NpmInvoke()
     then:
       1 * getPipelineMock("string.call")([
         'credentialsId':'credId',
@@ -172,6 +235,8 @@ public class NpmInvokeSpec extends JTEPipelineSpecification {
       NpmInvoke.getBinding().setVariable("config", [
         node_version: "config_node_version",
         unit_test: [
+          stageName: "NPM Unit Tests",
+          script: "test",
           env: [
             secrets: [
               someTextSecret: [
@@ -184,9 +249,11 @@ public class NpmInvokeSpec extends JTEPipelineSpecification {
         ]
       ])
     when:
-      NpmInvoke("unit_test", [
+      NpmInvoke([
         npm: [
           unit_test: [
+            stageName: "NPM Unit Tests",
+            script: "test",
             env: [
             secrets: [
               someTextSecret: [
@@ -214,6 +281,8 @@ public class NpmInvokeSpec extends JTEPipelineSpecification {
       NpmInvoke.getBinding().setVariable("config", [
         node_version: "config_node_version",
         unit_test: [
+          stageName: "NPM Unit Tests",
+          script: "test",
           env: [
             secrets: [
               someTextSecret: [
@@ -225,10 +294,10 @@ public class NpmInvokeSpec extends JTEPipelineSpecification {
         ]
       ])
     when:
-      NpmInvoke("unit_test")
+      NpmInvoke()
     then:
       1* getPipelineMock("error")([
-        "Npm Library Validation Errors: ",
+        "NPM Library Validation Errors: ",
         "- secret 'someTextSecret' must define 'id'"
       ])
   }
@@ -238,6 +307,8 @@ public class NpmInvokeSpec extends JTEPipelineSpecification {
       NpmInvoke.getBinding().setVariable("config", [
         node_version: "config_node_version",
         unit_test: [
+          stageName: "NPM Unit Tests",
+          script: "test",
           env: [
             secrets: [
               someSecret: [
@@ -250,10 +321,10 @@ public class NpmInvokeSpec extends JTEPipelineSpecification {
         ]
       ])
     when:
-      NpmInvoke("unit_test")
+      NpmInvoke()
     then:
       1* getPipelineMock("error")([
-        "Npm Library Validation Errors: ",
+        "NPM Library Validation Errors: ",
         "- secret 'someSecret': type 'not_a_type' is not defined"
       ])
   }
@@ -263,6 +334,8 @@ public class NpmInvokeSpec extends JTEPipelineSpecification {
       NpmInvoke.getBinding().setVariable("config", [
         node_version: "config_node_version",
         unit_test: [
+          stageName: "NPM Unit Tests",
+          script: "test",
           env: [
             secrets: [
               someTextSecret: [
@@ -274,10 +347,10 @@ public class NpmInvokeSpec extends JTEPipelineSpecification {
         ]
       ])
     when:
-      NpmInvoke("unit_test")
+      NpmInvoke()
     then:
       1* getPipelineMock("error")([
-        "Npm Library Validation Errors: ",
+        "NPM Library Validation Errors: ",
         "- secret 'someTextSecret' must define 'name'"
       ])
   }
@@ -287,6 +360,8 @@ public class NpmInvokeSpec extends JTEPipelineSpecification {
       NpmInvoke.getBinding().setVariable("config", [
         node_version: "config_node_version",
         unit_test: [
+          stageName: "NPM Unit Tests",
+          script: "test",
           env: [
             secrets: [
               someUsernamePasswordSecret: [
@@ -298,13 +373,12 @@ public class NpmInvokeSpec extends JTEPipelineSpecification {
         ]
       ])
     when:
-      NpmInvoke("unit_test")
+      NpmInvoke()
     then:
       1* getPipelineMock("error")([
-        "Npm Library Validation Errors: ",
+        "NPM Library Validation Errors: ",
         "- secret 'someUsernamePasswordSecret' must define 'usernameVar'",
         "- secret 'someUsernamePasswordSecret' must define 'passwordVar'"
       ])
   }
-  
 }
