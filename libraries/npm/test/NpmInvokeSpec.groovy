@@ -165,6 +165,24 @@ public class NpmInvokeSpec extends JTEPipelineSpecification {
       1 * getPipelineMock("sh")(shellCommandWithoutNpmInstall)
   }
 
+  def "Archives artifacts correctly" () {
+    setup:
+      NpmInvoke.getBinding().setVariable("config", [
+        unit_test: [
+          stageName: "NPM Unit Tests",
+          script: "test",
+          artifacts: [
+            "coverage/lcov.info",
+            "coverage/lcov-report/**/*"
+          ]
+        ]
+      ])
+    when:
+      NpmInvoke()
+    then:
+      2 * getPipelineMock("archiveArtifacts.call")(_ as Map)
+  }
+
   def "Records ESLint results when useEslintPlugin is true" () {
     setup:
       NpmInvoke.getBinding().setVariable("stepContext", [name: "lint_code"])
