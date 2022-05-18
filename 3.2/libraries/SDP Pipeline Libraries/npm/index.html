@@ -6,7 +6,7 @@
       <meta charset="utf-8">
       <meta name="viewport" content="width=device-width,initial-scale=1">
       
-        <meta name="description" content="Run npm `test` and `build` commands in an nvm container with a specified Node version">
+        <meta name="description" content="Run NPM script commands in an NVM container with a specified Node version">
       
       
       
@@ -800,15 +800,15 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#steps" class="md-nav__link">
-    Steps
+  <a href="#configuration" class="md-nav__link">
+    Configuration
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#configuration" class="md-nav__link">
-    Configuration
+  <a href="#steps" class="md-nav__link">
+    Steps
   </a>
   
 </li>
@@ -1133,15 +1133,15 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#steps" class="md-nav__link">
-    Steps
+  <a href="#configuration" class="md-nav__link">
+    Configuration
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#configuration" class="md-nav__link">
-    Configuration
+  <a href="#steps" class="md-nav__link">
+    Steps
   </a>
   
 </li>
@@ -1201,35 +1201,22 @@
                 
 
 <h1 id="npm">npm<a class="headerlink" href="#npm" title="Permanent link">&para;</a></h1>
-<p>Run npm <code>test</code> and <code>build</code> commands in an nvm container with a specified Node version.</p>
-<h2 id="steps">Steps<a class="headerlink" href="#steps" title="Permanent link">&para;</a></h2>
-<hr />
-<table>
-<thead>
-<tr>
-<th>Step</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>unit_test()</code></td>
-<td>Calls npm_invoke to run <code>npm run test</code> command</td>
-</tr>
-<tr>
-<td><code>npm_build()</code></td>
-<td>Calls npm_invoke to run <code>npm run build</code> command</td>
-</tr>
-<tr>
-<td><code>npm_invoke(String stepName)</code></td>
-<td>Runs npm command in nvm container</td>
-</tr>
-</tbody>
-</table>
+<p>Run NPM script commands in an NVM container with a specified Node version.</p>
 <h2 id="configuration">Configuration<a class="headerlink" href="#configuration" title="Permanent link">&para;</a></h2>
 <p>All configs can be set in either the library config or the Application Environment. All configs set in Application Environment take precedence.</p>
 <p>Environment variables and secrets set in the library config are concatenated with those set in the Application Environment.
 Environment variables and secrets with the same key are set to the definition contained in the Application Environment.</p>
+<h2 id="steps">Steps<a class="headerlink" href="#steps" title="Permanent link">&para;</a></h2>
+<p>Steps are configured dynamically in either the library config or the Application Environment.</p>
+<div class="highlight"><span class="filename">pipeline_configuration.groovy</span><pre><span></span><code><span class="n">libraries</span> <span class="o">{</span>
+  <span class="n">npm</span> <span class="o">{</span>
+    <span class="o">[</span><span class="n">step_name</span><span class="o">]</span> <span class="o">{</span>
+      <span class="c1">// config fields described below</span>
+    <span class="o">}</span>
+    <span class="o">...</span>
+  <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div>
 <h2 id="example-library-configuration">Example Library Configuration<a class="headerlink" href="#example-library-configuration" title="Permanent link">&para;</a></h2>
 <hr />
 <table>
@@ -1243,56 +1230,68 @@ Environment variables and secrets with the same key are set to the definition co
 <tbody>
 <tr>
 <td><code>node_version</code></td>
-<td>node version to run npm within (installed via nvm)</td>
+<td>Node version to run NPM within (installed via NVM)</td>
 <td><code>lts/*</code></td>
 </tr>
 <tr>
-<td><code>unit_test.script</code></td>
-<td>npm command to run; must be present in package.json scripts block</td>
-<td><code>test</code></td>
+<td><code>&lt;step name&gt;.stageName</code></td>
+<td>stage name displayed in the Jenkins dashboard</td>
+<td>N/A</td>
 </tr>
 <tr>
-<td><code>build.script</code></td>
-<td>npm command to run; must be present in package.json scripts block</td>
-<td><code>build</code></td>
+<td><code>&lt;step name&gt;.script</code></td>
+<td>NPM script ran by the step</td>
+<td>N/A</td>
 </tr>
 <tr>
-<td><code>&lt;step name&gt;.npm_install</code></td>
-<td>npm install command to run; npm install can be skipped with value "skip"</td>
+<td><code>&lt;step name&gt;.artifacts</code></td>
+<td>array of glob patterns for artifacts that should be archived</td>
+<td></td>
+</tr>
+<tr>
+<td><code>&lt;step name&gt;.npmInstall</code></td>
+<td>NPM install command to run; npm install can be skipped with value "skip"</td>
 <td><code>ci</code></td>
 </tr>
 <tr>
 <td><code>&lt;step name&gt;.env</code></td>
-<td>environment variables to make available to npm process; can include key/value pairs and secrets</td>
+<td>environment variables to make available to the NPM process; can include key/value pairs and secrets</td>
 <td><code>[]</code></td>
 </tr>
 <tr>
 <td><code>&lt;step name&gt;.env.secrets</code></td>
-<td>text or username/password credentials to make available to npm process; must be present and available in Jenkins credential store</td>
+<td>text or username/password credentials to make available to the NPM process; must be present and available in Jenkins credential store</td>
 <td><code>[]</code></td>
+</tr>
+<tr>
+<td><code>&lt;step name&gt;.useEslintPlugin</code></td>
+<td>if the Jenkins ESLint Plugin is installed, will run the <code>recordIssues</code> step to send lint results to the plugin dashboard</td>
+<td><code>false</code></td>
 </tr>
 </tbody>
 </table>
 <h3 id="full-configuration-example">Full Configuration Example<a class="headerlink" href="#full-configuration-example" title="Permanent link">&para;</a></h3>
-<p>Each available method has config options that can be specified in the application environment or within the library configuration.</p>
-<div class="highlight"><span class="filename">pipeline_configuration.groovy</span><pre><span></span><code><span class="n">application_environments</span><span class="o">{</span>
+<p>Each available method has config options that can be specified in the Application Environment or within the library configuration.</p>
+<div class="highlight"><span class="filename">pipeline_configuration.groovy</span><pre><span></span><code><span class="n">application_environments</span> <span class="o">{</span>
   <span class="n">dev</span>
-  <span class="n">prod</span><span class="o">{</span>
-    <span class="n">npm</span><span class="o">{</span>
+  <span class="n">prod</span> <span class="o">{</span>
+    <span class="n">npm</span> <span class="o">{</span>
       <span class="n">node_version</span> <span class="o">=</span> <span class="s2">&quot;14.16.1&quot;</span>
-      <span class="n">unit_test</span><span class="o">{</span>
+      <span class="n">unit_test</span> <span class="o">{</span>
+        <span class="n">stageName</span> <span class="o">=</span> <span class="s2">&quot;NPM Unit Tests&quot;</span>
         <span class="n">script</span> <span class="o">=</span> <span class="s2">&quot;full-test-suite&quot;</span>
-        <span class="n">npm_install</span> <span class="o">=</span> <span class="s2">&quot;ci&quot;</span>
-        <span class="n">env</span><span class="o">{</span>
+        <span class="n">artifacts</span> <span class="o">=</span> <span class="o">[</span><span class="s2">&quot;coverage/lcov.info&quot;</span><span class="o">]</span>
+        <span class="n">npmInstall</span> <span class="o">=</span> <span class="s2">&quot;ci&quot;</span>
+        <span class="n">env</span> <span class="o">{</span>
           <span class="n">someKey</span> <span class="o">=</span> <span class="s2">&quot;prodValue for tests&quot;</span>
           <span class="c1">// (1)</span>
           <span class="n">secrets</span><span class="o">{</span>
-            <span class="n">someTextCredential</span><span class="o">{</span>
+            <span class="n">someTextCredential</span> <span class="o">{</span>
               <span class="n">type</span> <span class="o">=</span> <span class="s2">&quot;text&quot;</span>
               <span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;VARIABLE_NAME&quot;</span>
               <span class="n">id</span> <span class="o">=</span> <span class="s2">&quot;prod-credential-id&quot;</span>
             <span class="o">}</span>
-            <span class="n">someUsernamePasswordCredential</span><span class="o">{</span>
+            <span class="n">someUsernamePasswordCredential</span> <span class="o">{</span>
               <span class="n">type</span> <span class="o">=</span> <span class="s2">&quot;usernamePassword&quot;</span>
               <span class="n">usernameVar</span> <span class="o">=</span> <span class="s2">&quot;USER&quot;</span>
               <span class="n">passwordVar</span> <span class="o">=</span> <span class="s2">&quot;PASS&quot;</span>
@@ -1302,24 +1301,50 @@ Environment variables and secrets with the same key are set to the definition co
           <span class="o">}</span>
         <span class="o">}</span>
       <span class="o">}</span>
-      <span class="n">npm_build</span><span class="o">{</span>
+      <span class="n">source_build</span> <span class="o">{</span>
+        <span class="n">stageName</span> <span class="o">=</span> <span class="s2">&quot;NPM Source Build&quot;</span>
         <span class="n">script</span> <span class="o">=</span> <span class="s2">&quot;prod-build&quot;</span>
-        <span class="n">env</span><span class="o">{</span>
+        <span class="n">env</span> <span class="o">{</span>
           <span class="n">someKey</span> <span class="o">=</span> <span class="s2">&quot;prodValue for builds&quot;</span>
-          <span class="c1">// (3)</span>
-          <span class="n">secrets</span><span class="o">{</span>
-            <span class="n">someTextCredential</span><span class="o">{</span>
+          <span class="n">secrets</span> <span class="o">{</span>
+            <span class="n">someTextCredential</span> <span class="o">{</span>
               <span class="n">type</span> <span class="o">=</span> <span class="s2">&quot;text&quot;</span>
               <span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;VARIABLE_NAME&quot;</span>
               <span class="n">id</span> <span class="o">=</span> <span class="s2">&quot;prod-credential-id&quot;</span>
             <span class="o">}</span>
-            <span class="n">someUsernamePasswordCredential</span><span class="o">{</span>
+            <span class="n">someUsernamePasswordCredential</span> <span class="o">{</span>
               <span class="n">type</span> <span class="o">=</span> <span class="s2">&quot;usernamePassword&quot;</span>
               <span class="n">usernameVar</span> <span class="o">=</span> <span class="s2">&quot;USER&quot;</span>
               <span class="n">passwordVar</span> <span class="o">=</span> <span class="s2">&quot;PASS&quot;</span>
               <span class="n">id</span> <span class="o">=</span> <span class="s2">&quot;prod-credential-id&quot;</span>
             <span class="o">}</span>
-            <span class="c1">// (4)</span>
+          <span class="o">}</span>
+        <span class="o">}</span>
+      <span class="o">}</span>
+    <span class="o">}</span>
+    <span class="n">lint_code</span> <span class="o">{</span>
+        <span class="n">stageName</span> <span class="o">=</span> <span class="s2">&quot;NPM Lint Code&quot;</span>
+        <span class="n">script</span> <span class="o">=</span> <span class="s2">&quot;lint&quot;</span>
+        <span class="n">artifacts</span> <span class="o">=</span> <span class="o">[</span>
+          <span class="s2">&quot;eslint-report.json&quot;</span><span class="o">,</span>
+          <span class="s2">&quot;eslint-report.html&quot;</span><span class="o">,</span>
+          <span class="s2">&quot;eslint-report.xml&quot;</span><span class="o">,</span>
+        <span class="o">]</span>
+        <span class="n">useEslintPlugin</span> <span class="o">=</span> <span class="kc">true</span>
+        <span class="n">env</span> <span class="o">{</span>
+          <span class="n">someKey</span> <span class="o">=</span> <span class="s2">&quot;prodValue for linting&quot;</span>
+          <span class="n">secrets</span> <span class="o">{</span>
+            <span class="n">someTextCredential</span> <span class="o">{</span>
+              <span class="n">type</span> <span class="o">=</span> <span class="s2">&quot;text&quot;</span>
+              <span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;VARIABLE_NAME&quot;</span>
+              <span class="n">id</span> <span class="o">=</span> <span class="s2">&quot;prod-credential-id&quot;</span>
+            <span class="o">}</span>
+            <span class="n">someUsernamePasswordCredential</span> <span class="o">{</span>
+              <span class="n">type</span> <span class="o">=</span> <span class="s2">&quot;usernamePassword&quot;</span>
+              <span class="n">usernameVar</span> <span class="o">=</span> <span class="s2">&quot;USER&quot;</span>
+              <span class="n">passwordVar</span> <span class="o">=</span> <span class="s2">&quot;PASS&quot;</span>
+              <span class="n">id</span> <span class="o">=</span> <span class="s2">&quot;prod-credential-id&quot;</span>
+            <span class="o">}</span>
           <span class="o">}</span>
         <span class="o">}</span>
       <span class="o">}</span>
@@ -1327,50 +1352,71 @@ Environment variables and secrets with the same key are set to the definition co
   <span class="o">}</span>
 <span class="o">}</span>
 
-<span class="n">libraries</span><span class="o">{</span>
-  <span class="n">npm</span><span class="o">{</span>
+<span class="n">libraries</span> <span class="o">{</span>
+  <span class="n">npm</span> <span class="o">{</span>
     <span class="n">node_version</span> <span class="o">=</span> <span class="s2">&quot;lts/*&quot;</span>
-    <span class="n">unit_test</span><span class="o">{</span>
+    <span class="n">unit_test</span> <span class="o">{</span>
+      <span class="n">stageName</span> <span class="o">=</span> <span class="s2">&quot;NPM Unit Tests&quot;</span>
       <span class="n">script</span> <span class="o">=</span> <span class="s2">&quot;test&quot;</span>
-      <span class="n">npm_install</span> <span class="o">=</span> <span class="s2">&quot;install&quot;</span>
-      <span class="n">env</span><span class="o">{</span>
+      <span class="n">npmInstall</span> <span class="o">=</span> <span class="s2">&quot;install&quot;</span>
+      <span class="n">env</span> <span class="o">{</span>
         <span class="n">someKey</span> <span class="o">=</span> <span class="s2">&quot;someValue for tests&quot;</span>
-        <span class="c1">// (5)</span>
-        <span class="n">secrets</span><span class="o">{</span>
-          <span class="n">someTextCredential</span><span class="o">{</span>
+        <span class="c1">// (3)</span>
+        <span class="n">secrets</span> <span class="o">{</span>
+          <span class="n">someTextCredential</span> <span class="o">{</span>
             <span class="n">type</span> <span class="o">=</span> <span class="s2">&quot;text&quot;</span>
             <span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;VARIABLE_NAME&quot;</span>
             <span class="n">id</span> <span class="o">=</span> <span class="s2">&quot;some-credential-id&quot;</span>
           <span class="o">}</span>
-          <span class="n">someUsernamePasswordCredential</span><span class="o">{</span>
+          <span class="n">someUsernamePasswordCredential</span> <span class="o">{</span>
             <span class="n">type</span> <span class="o">=</span> <span class="s2">&quot;usernamePassword&quot;</span>
             <span class="n">usernameVar</span> <span class="o">=</span> <span class="s2">&quot;USER&quot;</span>
             <span class="n">passwordVar</span> <span class="o">=</span> <span class="s2">&quot;PASS&quot;</span>
             <span class="n">id</span> <span class="o">=</span> <span class="s2">&quot;some-credential-id&quot;</span>
           <span class="o">}</span>
-          <span class="c1">// (6)</span>
+          <span class="c1">// (4)</span>
         <span class="o">}</span>
       <span class="o">}</span>
     <span class="o">}</span>
-    <span class="n">npm_build</span><span class="o">{</span>
+    <span class="n">source_build</span> <span class="o">{</span>
+      <span class="n">stageName</span> <span class="o">=</span> <span class="s2">&quot;NPM Source Build&quot;</span>
       <span class="n">script</span> <span class="o">=</span> <span class="s2">&quot;build&quot;</span>
-      <span class="n">npm_install</span> <span class="o">=</span> <span class="s2">&quot;skip&quot;</span>
-      <span class="n">env</span><span class="o">{</span>
+      <span class="n">npmInstall</span> <span class="o">=</span> <span class="s2">&quot;skip&quot;</span>
+      <span class="n">env</span> <span class="o">{</span>
         <span class="n">someKey</span> <span class="o">=</span> <span class="s2">&quot;someValue for builds&quot;</span>
-        <span class="c1">// (7)</span>
-        <span class="n">secrets</span><span class="o">{</span>
-          <span class="n">someTextCredential</span><span class="o">{</span>
+        <span class="n">secrets</span> <span class="o">{</span>
+          <span class="n">someTextCredential</span> <span class="o">{</span>
             <span class="n">type</span> <span class="o">=</span> <span class="s2">&quot;text&quot;</span>
             <span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;VARIABLE_NAME&quot;</span>
             <span class="n">id</span> <span class="o">=</span> <span class="s2">&quot;some-credential-id&quot;</span>
           <span class="o">}</span>
-          <span class="n">someUsernamePasswordCredential</span><span class="o">{</span>
+          <span class="n">someUsernamePasswordCredential</span> <span class="o">{</span>
             <span class="n">type</span> <span class="o">=</span> <span class="s2">&quot;usernamePassword&quot;</span>
             <span class="n">usernameVar</span> <span class="o">=</span> <span class="s2">&quot;USER&quot;</span>
             <span class="n">passwordVar</span> <span class="o">=</span> <span class="s2">&quot;PASS&quot;</span>
             <span class="n">id</span> <span class="o">=</span> <span class="s2">&quot;some-credential-id&quot;</span>
           <span class="o">}</span>
-          <span class="c1">// (8)</span>
+        <span class="o">}</span>
+      <span class="o">}</span>
+    <span class="o">}</span>
+    <span class="n">lint_code</span> <span class="o">{</span>
+      <span class="n">stageName</span> <span class="o">=</span> <span class="s2">&quot;NPM Lint Code&quot;</span>
+      <span class="n">script</span> <span class="o">=</span> <span class="s2">&quot;lint&quot;</span>
+      <span class="n">npmInstall</span> <span class="o">=</span> <span class="s2">&quot;skip&quot;</span>
+      <span class="n">env</span> <span class="o">{</span>
+        <span class="n">someKey</span> <span class="o">=</span> <span class="s2">&quot;someValue for linting&quot;</span>
+        <span class="n">secrets</span> <span class="o">{</span>
+          <span class="n">someTextCredential</span> <span class="o">{</span>
+            <span class="n">type</span> <span class="o">=</span> <span class="s2">&quot;text&quot;</span>
+            <span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;VARIABLE_NAME&quot;</span>
+            <span class="n">id</span> <span class="o">=</span> <span class="s2">&quot;some-credential-id&quot;</span>
+          <span class="o">}</span>
+          <span class="n">someUsernamePasswordCredential</span> <span class="o">{</span>
+            <span class="n">type</span> <span class="o">=</span> <span class="s2">&quot;usernamePassword&quot;</span>
+            <span class="n">usernameVar</span> <span class="o">=</span> <span class="s2">&quot;USER&quot;</span>
+            <span class="n">passwordVar</span> <span class="o">=</span> <span class="s2">&quot;PASS&quot;</span>
+            <span class="n">id</span> <span class="o">=</span> <span class="s2">&quot;some-credential-id&quot;</span>
+          <span class="o">}</span>
         <span class="o">}</span>
       <span class="o">}</span>
     <span class="o">}</span>
@@ -1382,18 +1428,18 @@ Environment variables and secrets with the same key are set to the definition co
 <li>more secrets as needed</li>
 <li>more envVars as needed</li>
 <li>more secrets as needed</li>
-<li>more envVars as needed</li>
-<li>more secrets as needed</li>
-<li>more envVars as needed</li>
-<li>more secrets as needed</li>
 </ol>
 <p>This example shows the prod Application Environment overriding configs set in the library config.
-<code>npm_build.npm_install</code> is preserved as set in library config, since it isn't overridden by the Application Environment.</p>
+<code>source_build.npm_install</code> is preserved as set in library config, since it isn't overridden by the Application Environment.</p>
 <h3 id="minimal-configuration-example">Minimal Configuration Example<a class="headerlink" href="#minimal-configuration-example" title="Permanent link">&para;</a></h3>
 <p>The minimal configuration for this library is:</p>
-<div class="highlight"><pre><span></span><code><span class="c1">//pipeline_configuration.groovy</span>
-<span class="n">libraries</span><span class="o">{</span>
-  <span class="n">npm</span>
+<div class="highlight"><span class="filename">pipeline_configuration.groovy</span><pre><span></span><code><span class="n">libraries</span> <span class="o">{</span>
+  <span class="n">npm</span> <span class="o">{</span>
+    <span class="n">unit_test</span> <span class="o">{</span>
+      <span class="n">stageName</span> <span class="o">=</span> <span class="s2">&quot;NPM Unit Tests&quot;</span>
+      <span class="n">script</span> <span class="o">=</span> <span class="s2">&quot;test&quot;</span>
+    <span class="o">}</span>
+  <span class="o">}</span>
 <span class="o">}</span>
 </code></pre></div>
 <h3 id="secrets">Secrets<a class="headerlink" href="#secrets" title="Permanent link">&para;</a></h3>
