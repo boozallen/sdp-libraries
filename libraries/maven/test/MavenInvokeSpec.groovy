@@ -5,7 +5,7 @@
 
 package libraries.maven
 
-class MavenInvokeSpec extends JTEPipelineSpecification {
+public class MavenInvokeSpec extends JTEPipelineSpecification {
 
     def MavenInvoke = null
 
