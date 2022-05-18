@@ -11,6 +11,8 @@ void call(app_env = []) {
     // Get config for step
     LinkedHashMap libStepConfig = config?[stepContext.name] ?: [:]
     LinkedHashMap appStepConfig = app_env?.maven?[stepContext.name] ?: [:]
+    
+    // Merge the two configs: app_env settings take precendence, and there is no deep copy/sublist merging
     LinkedHashMap fullConfig = libStepConfig + appStepConfig
 
     // Checking to make sure required fields are present (may be redundant once a library_config.groovy is added)
