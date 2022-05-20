@@ -23,6 +23,7 @@ public class MavenInvokeSpec extends JTEPipelineSpecification {
 
     def setup() {
         LinkedHashMap config = [:]
+        LinkedHashMap env = [:]
         LinkedHashMap stepContext = [ name: "unit_test" ]
 
         MavenInvoke = loadPipelineScriptForStep("maven", "maven_invoke")
@@ -30,6 +31,7 @@ public class MavenInvokeSpec extends JTEPipelineSpecification {
         explicitlyMockPipelineStep("inside_sdp_image")
 
         MavenInvoke.getBinding().setVariable("config", config)
+        MavenInvoke.getBinding().setVariable("env", env)
         MavenInvoke.getBinding().setVariable("stepContext", stepContext)
     }
 
@@ -40,12 +42,20 @@ public class MavenInvokeSpec extends JTEPipelineSpecification {
         when:
             MavenInvoke()
         then:
-            1 * getPipelineMock("sh")("mvn test")
+            1 * getPipelineMock("docker.image")("maven:3.8.5-openjdk-11") >> explicitlyMockPipelineVariable("testContainerImage")
+            1 * getPipelineMock("testContainerImage.inside")(_ as Closure)
+            1 * getPipelineMock("sh").call("mvn test ")
     }
 
     def "Application environment settings take precendence over library config" () {
         setup:
-            MavenInvoke.getBinding().setVariable("config", minimalUnitTestingConfig)
+            MavenInvoke.getBinding().setVariable("config", [
+                unit_test: [
+                    stageName: "LibConfig Maven Stage",
+                    buildContainer: "maven:3.8.5-openjdk-11",
+                    phases: ["clean", "build"]
+                ]
+            ])
         when:
             MavenInvoke([
                 maven: [
@@ -57,15 +67,18 @@ public class MavenInvokeSpec extends JTEPipelineSpecification {
                 ]
             ])
         then:
-            MavenInvoke.getBinding().variables.stageName == "AppEnv Defined Maven Stage"
-            MavenInvoke.getBinding().variables.buildContainer == "maven:3.8.5-openjdk-11"
-            MavenInvoke.getBinding().variables.options == ["-v"]
-            MavenInvoke.getBinding().variables.phases == []
+            1 * getPipelineMock("docker.image")("maven:3.8.5-openjdk-11") >> explicitlyMockPipelineVariable("testContainerImage")
+            1 * getPipelineMock("testContainerImage.inside")(_ as Closure)
+            MavenInvoke.getBinding().variables.env.buildContainer == "maven:3.8.5-openjdk-11"
+            MavenInvoke.getBinding().variables.env.options == ["-v"]
+            MavenInvoke.getBinding().variables.env.stageName == "AppEnv Defined Maven Stage"
+            MavenInvoke.getBinding().variables.env.phases == []
     }
 
     def "Artifacts get archived as expected" () {
         setup:
             getPipelineMock("sh")("mvn archetype:generate -DgroupId=com.mycompany.app -DartifactId=my-app -DarchetypeArtifactId=maven-archetype-quickstart -DarchetypeVersion=1.4 -DinteractiveMode=false && cd my-app")
+            MavenInvoke.getBinding().setVariable("stepContext", [name: "build"])
             MavenInvoke.getBinding().setVariable("config", [
                 build: [
                     stageName: "Maven Build",
@@ -77,6 +90,8 @@ public class MavenInvokeSpec extends JTEPipelineSpecification {
         when:
             MavenInvoke()
         then:
+            1 * getPipelineMock("docker.image")("maven:3.8.5-openjdk-11") >> explicitlyMockPipelineVariable("testContainerImage")
+            1 * getPipelineMock("testContainerImage.inside")(_ as Closure)
             1 * getPipelineMock("archiveArtifacts.call")(_ as Map)
     }
 }

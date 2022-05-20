@@ -12,39 +12,25 @@ void call(app_env = [:]) {
     LinkedHashMap libStepConfig = config?."${stepContext.name}" ?: [:]
     LinkedHashMap appStepConfig = app_env?.maven?."${stepContext.name}" ?: [:]
 
-    // Merge the two configs: app_env settings take precendence, and there is no deep copy/sublist merging
-    LinkedHashMap fullConfig = libStepConfig + appStepConfig
+    // Gather and set non-secret environment variables
+    this.setEnvVars(libStepConfig, appStepConfig)
 
-    // Checking to make sure required fields are present (may be redundant once a library_config.groovy is added)
-    ArrayList requiredFields = ["stageName", "buildContainer", "phases"]
-    String missingRequired = ""
-    requiredFields.each { field ->
-        if (!fullConfig.containsKey(field)) {
-            missingRequired += "Missing required configuration option: ${field} for step: ${stepContext.name}\n"
-        }
-    }
-    if (missingRequired) {
-        error missingRequired
-    }
-
-    stage(fullConfig["stageName"]) {
+    stage(env.stageName) {
         // Gather, validate and format secrets to pull from credential store
         ArrayList creds = this.formatSecrets(libStepConfig, appStepConfig)
 
         // run maven command in specified container
         withCredentials(creds) {
-            // inside_sdp_image fullConfig["buildContainer"], {
-            docker.image(fullConfig["buildContainer"]).inside() {
+            // inside_sdp_image env["buildContainer"], {
+            docker.image("${env["buildContainer"]}").inside() {
                 unstash "workspace"
 
                 String command = "mvn "
-                if (fullConfig["options"]) {
-                    fullConfig["options"].each { option -> command += "${option} " }
+                ["options", "goals", "phases"].each { field ->
+                    if (env["${field}"]) {
+                        env["${field}"].each { value -> command += "${value} " }
+                    }
                 }
-                if (fullConfig["goals"]) {
-                    fullConfig["goals"].each { goal -> command += "${goal} " }
-                }
-                fullConfig["phases"].each { phase -> command += "${phase} " }
 
                 try {
                     sh command
@@ -53,8 +39,8 @@ void call(app_env = [:]) {
                     throw any
                 }
                 finally {
-                    if (fullConfig.containsKey("artifacts")) {
-                        fullConfig["artifacts"].each{ artifact ->
+                    if (env.containsKey("artifacts")) {
+                        env["artifacts"].each{ artifact ->
                             archiveArtifacts artifacts: artifact, allowEmptyArchive: true
                         }
                     }
@@ -65,6 +51,7 @@ void call(app_env = [:]) {
 }
 
 void validateSecrets(secrets) {
+
     ArrayList errors = []
     secrets.keySet().each{ key ->
         def secret = secrets[key]
@@ -91,6 +78,7 @@ void validateSecrets(secrets) {
 }
 
 ArrayList formatSecrets(libStepConfig, appStepConfig) {
+
     LinkedHashMap libSecrets = libStepConfig?.secrets ?: [:]
     LinkedHashMap appSecrets = appStepConfig?.secrets ?: [:]
     LinkedHashMap secrets = libSecrets + appSecrets
@@ -110,4 +98,27 @@ ArrayList formatSecrets(libStepConfig, appStepConfig) {
         }
     }
     return creds
+}
+
+void setEnvVars(libStepConfig, appStepConfig) {
+
+    LinkedHashMap libEnv = libStepConfig?.findAll { it.key != 'secrets' } ?: [:]
+    LinkedHashMap appEnv = appStepConfig?.findAll { it.key != 'secrets' } ?: [:]
+    LinkedHashMap envVars = libEnv + appEnv
+
+    envVars.each {
+        env[it.key] = it.value
+    }
+
+    // Checking to make sure required fields are present (may be redundant once a library_config.groovy is added)
+    ArrayList requiredFields = ["stageName", "buildContainer", "phases"]
+    String missingRequired = ""
+    requiredFields.each { field ->
+        if (!env.containsKey(field)) {
+            missingRequired += "Missing required configuration option: ${field} for step: ${stepContext.name}\n"
+        }
+    }
+    if (missingRequired) {
+        error missingRequired
+    }
 }
