@@ -1,5 +1,5 @@
 ---
-description: This library allows you to perform Maven commands in a defined build agent container.
+description: This library allows you to perform Maven commands in a defined build agent container
 ---
 
 # Maven
@@ -14,34 +14,34 @@ This library allows you to perform Maven commands in a defined build agent conta
 
 ## Configuration
 
-``` groovy title="pipeline_config.groovy"
+``` groovy title='pipeline_config.groovy'
 libraries {
   maven {
     myMavenStep {
-      stageName = "Initial Maven Lifecycle"
-      buildContainer = "maven:3.8.5-openjdk-11"
-      phases = ["clean", "validate"]
-      goals = ["compiler:testCompile"]
-      options = ["-q"]
+      stageName = 'Initial Maven Lifecycle'
+      buildContainer = 'maven:3.8.5-openjdk-11'
+      phases = ['clean', 'validate']
+      goals = ['compiler:testCompile']
+      options = ['-q']
       secrets {
         myToken {
-          type = "text"
-          name = "token-name"
-          id = "my-token-id"
+          type = 'text'
+          name = 'token-name'
+          id = 'my-token-id'
         }
         myCredentials {
-          type = "usernamePassword"
-          usernameVar = "USER"
-          passwordVar = "PASS"
-          id = "my-credentials-id"
+          type = 'usernamePassword'
+          usernameVar = 'USER'
+          passwordVar = 'PASS'
+          id = 'my-credentials-id'
         }
       }
     }
     anotherMavenStep {
-      stageName = "Maven Build"
-      buildContainer = "maven:3.8.5-openjdk-11"
-      phases = ["build"]
-      artifacts = ["target/*.jar"]
+      stageName = 'Maven Build'
+      buildContainer = 'maven:3.8.5-openjdk-11'
+      phases = ['build']
+      artifacts = ['target/*.jar']
     }
   }
 }

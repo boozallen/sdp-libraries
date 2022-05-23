@@ -1,13 +1,13 @@
 /*
   Copyright © 2022 Booz Allen Hamilton. All Rights Reserved.
-  This software package is licensed under the Booz Allen Public License. The license can be found in the License file or at http://boozallen.github.io/licenses/bapl
+  This software package is licensed under the Booz Allen Public License.
+  The license can be found in the License file or at http://boozallen.github.io/licenses/bapl
 */
 
 package libraries.maven.steps
 
 @StepAlias(dynamic = { return config.keySet() })
 void call(app_env = [:]) {
-
     // Get config for step
     LinkedHashMap libStepConfig = config?."${stepContext.name}" ?: [:]
     LinkedHashMap appStepConfig = app_env?.maven?."${stepContext.name}" ?: [:]
@@ -21,12 +21,12 @@ void call(app_env = [:]) {
 
         // run maven command in specified container
         withCredentials(creds) {
-            // inside_sdp_image env["buildContainer"], {
-            docker.image("${env["buildContainer"]}").inside() {
-                unstash "workspace"
+            // inside_sdp_image "${env["buildContainer"]}", {
+            docker.image("${env['buildContainer']}").inside() {
+                unstash 'workspace'
 
-                String command = "mvn "
-                ["options", "goals", "phases"].each { field ->
+                String command = 'mvn '
+                ['options', 'goals', 'phases'].each { field ->
                     if (env["${field}"]) {
                         env["${field}"].each { value -> command += "${value} " }
                     }
@@ -39,8 +39,8 @@ void call(app_env = [:]) {
                     throw any
                 }
                 finally {
-                    if (env.containsKey("artifacts")) {
-                        env["artifacts"].each{ artifact ->
+                    if (env.containsKey('artifacts')) {
+                        env['artifacts'].each { artifact ->
                             archiveArtifacts artifacts: artifact, allowEmptyArchive: true
                         }
                     }
@@ -51,21 +51,20 @@ void call(app_env = [:]) {
 }
 
 void validateSecrets(secrets) {
-
     ArrayList errors = []
-    secrets.keySet().each{ key ->
+    secrets.keySet().each { key ->
         def secret = secrets[key]
         println "secret -> ${secret}"
         if (!secret.id) {
             errors << "secret '${key}' must define 'id'"
         }
-        switch(secret.type) {
-            case "text":
-                if (!secret.name) errors << "secret '${key}' must define 'name'" 
+        switch (secret.type) {
+            case 'text':
+                if (!secret.name) { errors << "secret '${key}' must define 'name'" }
                 break
-            case "usernamePassword":
-                if (!secret.usernameVar) errors << "secret '${key}' must define 'usernameVar'"
-                if (!secret.passwordVar) errors << "secret '${key}' must define 'passwordVar'"
+            case 'usernamePassword':
+                if (!secret.usernameVar) { errors << "secret '${key}' must define 'usernameVar'" }
+                if (!secret.passwordVar) { errors << "secret '${key}' must define 'passwordVar'" }
                 break
             default:
                 errors << "secret '${key}': type '${secret.type}' is not defined"
@@ -73,12 +72,11 @@ void validateSecrets(secrets) {
     }
 
     if (errors) {
-        error (["Maven Library Validation Errors: "] + errors.collect{ "- ${it}"})?.join("\n")
+        error (['Maven Library Validation Errors: '] + errors.collect { "- ${it}" })?.join("\n")
     }
 }
 
 ArrayList formatSecrets(libStepConfig, appStepConfig) {
-
     LinkedHashMap libSecrets = libStepConfig?.secrets ?: [:]
     LinkedHashMap appSecrets = appStepConfig?.secrets ?: [:]
     LinkedHashMap secrets = libSecrets + appSecrets
@@ -86,13 +84,13 @@ ArrayList formatSecrets(libStepConfig, appStepConfig) {
     this.validateSecrets(secrets)
 
     ArrayList creds = [] 
-    secrets.keySet().each{ key -> 
+    secrets.keySet().each { key -> 
         def secret = secrets[key]
-        switch(secret.type) {
-            case "text": 
+        switch (secret.type) {
+            case 'text':
                 creds << string(credentialsId: secret.id, variable: secret.name)
                 break
-            case "usernamePassword":
+            case 'usernamePassword':
                 creds << usernamePassword(credentialsId: secret.id, usernameVariable: secret.usernameVar, passwordVariable: secret.passwordVar)
                 break
         }
@@ -101,7 +99,6 @@ ArrayList formatSecrets(libStepConfig, appStepConfig) {
 }
 
 void setEnvVars(libStepConfig, appStepConfig) {
-
     LinkedHashMap libEnv = libStepConfig?.findAll { it.key != 'secrets' } ?: [:]
     LinkedHashMap appEnv = appStepConfig?.findAll { it.key != 'secrets' } ?: [:]
     LinkedHashMap envVars = libEnv + appEnv
@@ -111,8 +108,8 @@ void setEnvVars(libStepConfig, appStepConfig) {
     }
 
     // Checking to make sure required fields are present (may be redundant once a library_config.groovy is added)
-    ArrayList requiredFields = ["stageName", "buildContainer", "phases"]
-    String missingRequired = ""
+    ArrayList requiredFields = ['stageName', 'buildContainer', 'phases']
+    String missingRequired = ''
     requiredFields.each { field ->
         if (!env.containsKey(field)) {
             missingRequired += "Missing required configuration option: ${field} for step: ${stepContext.name}\n"

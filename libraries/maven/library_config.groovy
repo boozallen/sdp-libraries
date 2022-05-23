@@ -1,9 +1,9 @@
-fields{
-  required{
+fields {
+  required {
     stageName = String
     buildContainer = String
   }
-  optional{
+  optional {
     options = ArrayList
     goals = ArrayList
     phases = ArrayList
