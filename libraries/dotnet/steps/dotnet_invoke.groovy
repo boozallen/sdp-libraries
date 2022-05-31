@@ -5,7 +5,7 @@
 
 
 @StepAlias(["source_build", "unit_test"])
-void call(app_env = []) {
+void call() {
     String stepName = ""
 
     switch(stepContext.name) {
@@ -33,7 +33,7 @@ void call(app_env = []) {
                 if(stepName == "DotNet Build") {
                                    
                     try{
-                    sh "dotnet publish -c release -o" //${outDir}"
+                    sh "dotnet publish -c release -o ${outDir}"
                     }
                     catch (any){
                         throw any
