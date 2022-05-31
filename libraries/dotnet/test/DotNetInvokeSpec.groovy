@@ -5,7 +5,7 @@
 
 package libraries.dotnet
 
-public class DotNetInvokeSpe extends JTEPipelineSpecification {
+public class DotNetInvokeSpec extends JTEPipelineSpecification {
     def DotNetInvoke = null 
 
     def buildCommand = "dotnet publish -c release -o ${outDir}"
