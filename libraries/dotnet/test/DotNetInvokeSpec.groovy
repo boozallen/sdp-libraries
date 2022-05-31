@@ -8,7 +8,7 @@ package libraries.dotnet
 public class DotNetInvokeSpec extends JTEPipelineSpecification {
     def DotNetInvoke = null 
 
-    def buildCommand = "dotnet publish -c release -o ${outDir}"
+    def buildCommand = 'dotnet publish -c release -o ${outDir}'
 
     def testCommand = '''
                 rm -drf ${ResultDir}

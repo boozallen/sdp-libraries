@@ -7,6 +7,8 @@
 @StepAlias(["source_build", "unit_test"])
 void call() {
     String stepName = ""
+    String outDir = ""
+    String resultDir = ""
 
     switch(stepContext.name) {
         case "source_build":
