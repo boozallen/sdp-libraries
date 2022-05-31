@@ -5,7 +5,7 @@
 
 package libraries.dotnet
 
-public class DotNetInvokeSpec extends JTEPipelineSpecification {
+public class DotNetInvokeSpe extends JTEPipelineSpecification {
     def DotNetInvoke = null 
 
     def buildCommand = "dotnet publish -c release -o ${outDir}"
@@ -17,12 +17,13 @@ public class DotNetInvokeSpec extends JTEPipelineSpecification {
 
     LinkedHashMap minimalSourceBuildConfig = [
         source_build: [
+            stepName: "source_build",
             outDir: "OutTest"
         ]
     ]
     LinkedHashMap minimalUnitTestConfig = [
         unit_test: [
-            stepName: 
+            stepName: "unit_test",
             resultDir: "test"
         ]
     ]
@@ -41,7 +42,7 @@ public class DotNetInvokeSpec extends JTEPipelineSpecification {
 
 }
 
-def "Fails if no resultDir is specified" () {
+def "Succeeds when result dir is specified" () {
     setup:
         DotNetInvoke.getBinding().setVariable("config", [unit_test: [resultDir: "test"]])
     when:
