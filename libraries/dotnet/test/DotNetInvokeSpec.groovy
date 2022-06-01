@@ -42,6 +42,8 @@ public class DotNetInvokeSpec extends JTEPipelineSpecification {
             DotNetInvoke()
         then:
             noExceptionThrown()
+            1 * getPipelineMock("sh")("rm -drf test")
+            1 * getPipelineMock("sh")("dotnet test --collect:'XPlat Code Coverage' --results-directory test --logger trx")
     }
 
     def "Source build runs successfully" () {
@@ -52,5 +54,6 @@ public class DotNetInvokeSpec extends JTEPipelineSpecification {
             DotNetInvoke()
         then:
             noExceptionThrown()
+            1 * getPipelineMock("sh")("dotnet publish -c release -o test")
     }
 }
