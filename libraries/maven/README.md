@@ -19,7 +19,7 @@ libraries {
   maven {
     myMavenStep {
       stageName = 'Initial Maven Lifecycle'
-      buildContainer = 'maven:3.8.5-openjdk-11'
+      buildContainer = 'mvn:3.8.5-openjdk-11'
       phases = ['clean', 'validate']
       goals = ['compiler:testCompile']
       options = ['-q']
@@ -39,7 +39,7 @@ libraries {
     }
     anotherMavenStep {
       stageName = 'Maven Build'
-      buildContainer = 'maven:3.8.5-openjdk-11'
+      buildContainer = 'mvn'
       phases = ['build']
       artifacts = ['target/*.jar']
     }
