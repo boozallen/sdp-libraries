@@ -12,7 +12,7 @@ public class MavenInvokeSpec extends JTEPipelineSpecification {
     LinkedHashMap minimalUnitTestingConfig = [
         unit_test: [
             stageName: 'Maven Unit Tests',
-            buildContainer: 'maven:3.8.5-openjdk-11',
+            buildContainer: 'mvn',
             phases: ['test']
         ]
     ]
@@ -42,8 +42,6 @@ public class MavenInvokeSpec extends JTEPipelineSpecification {
         when:
             MavenInvoke()
         then:
-            1 * getPipelineMock('docker.image')('maven:3.8.5-openjdk-11') >> explicitlyMockPipelineVariable('testContainerImage')
-            1 * getPipelineMock('testContainerImage.inside')(_ as Closure)
             1 * getPipelineMock('sh').call('mvn test ')
     }
 
@@ -52,7 +50,7 @@ public class MavenInvokeSpec extends JTEPipelineSpecification {
             MavenInvoke.getBinding().setVariable('config', [
                 unit_test: [
                     stageName: 'LibConfig Maven Stage',
-                    buildContainer: 'maven:3.8.5-openjdk-11',
+                    buildContainer: 'mvn',
                     phases: ['clean', 'build']
                 ]
             ])
@@ -67,9 +65,7 @@ public class MavenInvokeSpec extends JTEPipelineSpecification {
                 ]
             ])
         then:
-            1 * getPipelineMock('docker.image')('maven:3.8.5-openjdk-11') >> explicitlyMockPipelineVariable('testContainerImage')
-            1 * getPipelineMock('testContainerImage.inside')(_ as Closure)
-            MavenInvoke.getBinding().variables.env.buildContainer == 'maven:3.8.5-openjdk-11'
+            MavenInvoke.getBinding().variables.env.buildContainer == 'mvn'
             MavenInvoke.getBinding().variables.env.options == ['-v']
             MavenInvoke.getBinding().variables.env.stageName == 'AppEnv Defined Maven Stage'
             MavenInvoke.getBinding().variables.env.phases == []
@@ -82,7 +78,7 @@ public class MavenInvokeSpec extends JTEPipelineSpecification {
             MavenInvoke.getBinding().setVariable('config', [
                 build: [
                     stageName: 'Maven Build',
-                    buildContainer: 'maven:3.8.5-openjdk-11',
+                    buildContainer: 'mvn',
                     phases: ['clean', 'install'],
                     artifacts: ['target/*.jar']
                 ]
@@ -90,8 +86,6 @@ public class MavenInvokeSpec extends JTEPipelineSpecification {
         when:
             MavenInvoke()
         then:
-            1 * getPipelineMock('docker.image')('maven:3.8.5-openjdk-11') >> explicitlyMockPipelineVariable('testContainerImage')
-            1 * getPipelineMock('testContainerImage.inside')(_ as Closure)
             1 * getPipelineMock('archiveArtifacts.call')(_ as Map)
     }
 }
