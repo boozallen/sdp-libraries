@@ -43,7 +43,7 @@ void call() {
                 //Execute dotnet tests and output to coverage directory
                 try {
                     sh "rm -drf ${resultDir}"
-                    sh "dotnet test --collect:'XPlat Code Coverage' --results-directory  --logger trx" //${resultDir}
+                    sh "dotnet test --collect:'XPlat Code Coverage' --results-directory ${resultDir} --logger trx"
                 }
                 catch (any) {
                     throw any

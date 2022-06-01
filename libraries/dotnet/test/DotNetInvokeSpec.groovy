@@ -29,25 +29,28 @@ public class DotNetInvokeSpec extends JTEPipelineSpecification {
     ]
 
     def setup() {
-        LinkedHashMap stepContext = [
-            name: "unit_test"
-        ]
+        explicitlyMockPipelineStep("inside_sdp_image")
 
-        //explicitlyMockPipelineStep("docker.inside")
-
-        DotNetInvoke = loadPipelineScriptForStep("dotnet", "dotnet_invoke")
-        
-        DotNetInvoke.getBinding().setVariable("stepContext", stepContext)
+        DotNetInvoke = loadPipelineScriptForStep("dotnet", "dotnet_invoke")    
     }
 
-    def "Succeeds when result dir is specified" () {
+    def "Unit tests run successfully" () {
         setup:
+            DotNetInvoke.getBinding().setVariable("stepContext", [name: "unit_test"])
             DotNetInvoke.getBinding().setVariable("config", [unit_test: [resultDir: "test"]])
         when:
             DotNetInvoke()
         then:
-            1 * getPipelineMock("docker.image")("registry.uip.sh/toolkit/dotnet-sdk-builder:latest") >> explicitlyMockPipelineVariable("Image")
-            0 * getPipelineMock("error")("Required argument missing for option: --results-directory")
+            noExceptionThrown()
+    }
+
+    def "Source build runs successfully" () {
+        setup:
+            DotNetInvoke.getBinding().setVariable("stepContext", [name: "source_build"])
+            DotNetInvoke.getBinding().setVariable("config", [source_build: [outDir: "test"]])
+        when:
+            DotNetInvoke()
+        then:
+            noExceptionThrown()
     }
 }
-//Required argument missing for option: --output
