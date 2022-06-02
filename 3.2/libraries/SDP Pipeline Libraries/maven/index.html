@@ -6,7 +6,7 @@
       <meta charset="utf-8">
       <meta name="viewport" content="width=device-width,initial-scale=1">
       
-        <meta name="description" content="This library allows you to perform Maven commands. It requires installing Maven as a tool for Jenkins">
+        <meta name="description" content="This library allows you to perform Maven commands in a defined build agent container">
       
       
       
@@ -807,13 +807,6 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#example-usage" class="md-nav__link">
-    Example Usage
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
   <a href="#configuration" class="md-nav__link">
     Configuration
   </a>
@@ -1127,13 +1120,6 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#example-usage" class="md-nav__link">
-    Example Usage
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
   <a href="#configuration" class="md-nav__link">
     Configuration
   </a>
@@ -1161,9 +1147,8 @@
                 
 
 <h1 id="maven">Maven<a class="headerlink" href="#maven" title="Permanent link">&para;</a></h1>
-<p>This library allows you to perform Maven commands. It requires installing Maven as a tool for Jenkins.</p>
+<p>This library allows you to perform Maven commands in a defined build agent container.</p>
 <h2 id="steps">Steps<a class="headerlink" href="#steps" title="Permanent link">&para;</a></h2>
-<hr />
 <table>
 <thead>
 <tr>
@@ -1173,26 +1158,47 @@
 </thead>
 <tbody>
 <tr>
-<td><code>run(Map params = [:], ArrayList&lt;String&gt; phases)</code></td>
-<td>Runs the Maven phases given along with the optional parameters passed through the <code>params</code> map. Named parameters include <code>goals</code> (List of Strings), <code>properties</code> (Map with String-String pairs), and <code>profiles</code> (List of Strings).</td>
+<td><code>[dynamic]()</code></td>
+<td>Step name can be any non-reserved word. This library uses <a href="https://jenkinsci.github.io/templating-engine-plugin/2.4/concepts/library-development/step-aliasing/#dynamic-step-aliases">dynamic step aliasing</a> to run the Maven phases, goals, and options defined in the step configuration.</td>
 </tr>
 </tbody>
 </table>
-<h2 id="example-usage">Example Usage<a class="headerlink" href="#example-usage" title="Permanent link">&para;</a></h2>
-<div class="highlight"><pre><span></span><code><span class="n">maven</span><span class="o">.</span><span class="na">run</span><span class="o">([</span><span class="s2">&quot;clean&quot;</span><span class="o">,</span> <span class="s2">&quot;install&quot;</span><span class="o">],</span> <span class="nl">profiles:</span> <span class="o">[</span><span class="s2">&quot;integration-test&quot;</span><span class="o">])</span>
-</code></pre></div>
 <h2 id="configuration">Configuration<a class="headerlink" href="#configuration" title="Permanent link">&para;</a></h2>
-<p>The only configuration for the Maven library is the mavenId used to specify the installed version of Maven to use:</p>
-<div class="highlight"><pre><span></span><code><span class="n">libraries</span><span class="o">{</span>
+<div class="highlight"><span class="filename">pipeline_config.groovy</span><pre><span></span><code><span class="n">libraries</span> <span class="o">{</span>
   <span class="n">maven</span> <span class="o">{</span>
-    <span class="n">mavenId</span> <span class="o">=</span> <span class="s2">&quot;maven&quot;</span>
+    <span class="n">myMavenStep</span> <span class="o">{</span>
+      <span class="n">stageName</span> <span class="o">=</span> <span class="s1">&#39;Initial Maven Lifecycle&#39;</span>
+      <span class="n">buildContainer</span> <span class="o">=</span> <span class="s1">&#39;mvn:3.8.5-openjdk-11&#39;</span>
+      <span class="n">phases</span> <span class="o">=</span> <span class="o">[</span><span class="s1">&#39;clean&#39;</span><span class="o">,</span> <span class="s1">&#39;validate&#39;</span><span class="o">]</span>
+      <span class="n">goals</span> <span class="o">=</span> <span class="o">[</span><span class="s1">&#39;compiler:testCompile&#39;</span><span class="o">]</span>
+      <span class="n">options</span> <span class="o">=</span> <span class="o">[</span><span class="s1">&#39;-q&#39;</span><span class="o">]</span>
+      <span class="n">secrets</span> <span class="o">{</span>
+        <span class="n">myToken</span> <span class="o">{</span>
+          <span class="n">type</span> <span class="o">=</span> <span class="s1">&#39;text&#39;</span>
+          <span class="n">name</span> <span class="o">=</span> <span class="s1">&#39;token-name&#39;</span>
+          <span class="n">id</span> <span class="o">=</span> <span class="s1">&#39;my-token-id&#39;</span>
+        <span class="o">}</span>
+        <span class="n">myCredentials</span> <span class="o">{</span>
+          <span class="n">type</span> <span class="o">=</span> <span class="s1">&#39;usernamePassword&#39;</span>
+          <span class="n">usernameVar</span> <span class="o">=</span> <span class="s1">&#39;USER&#39;</span>
+          <span class="n">passwordVar</span> <span class="o">=</span> <span class="s1">&#39;PASS&#39;</span>
+          <span class="n">id</span> <span class="o">=</span> <span class="s1">&#39;my-credentials-id&#39;</span>
+        <span class="o">}</span>
+      <span class="o">}</span>
+    <span class="o">}</span>
+    <span class="n">anotherMavenStep</span> <span class="o">{</span>
+      <span class="n">stageName</span> <span class="o">=</span> <span class="s1">&#39;Maven Build&#39;</span>
+      <span class="n">buildContainer</span> <span class="o">=</span> <span class="s1">&#39;mvn&#39;</span>
+      <span class="n">phases</span> <span class="o">=</span> <span class="o">[</span><span class="s1">&#39;build&#39;</span><span class="o">]</span>
+      <span class="n">artifacts</span> <span class="o">=</span> <span class="o">[</span><span class="s1">&#39;target/*.jar&#39;</span><span class="o">]</span>
+    <span class="o">}</span>
   <span class="o">}</span>
 <span class="o">}</span>
 </code></pre></div>
-<p>Where <code>"maven"</code> is the name of the installed Maven library in Jenkins.</p>
 <h2 id="dependencies">Dependencies<a class="headerlink" href="#dependencies" title="Permanent link">&para;</a></h2>
 <ul>
-<li>Maven installed on Jenkins.</li>
+<li>The <code>sdp</code> library</li>
+<li>Access to an appropriate Maven build agent container via the repository defined in your <code>sdp</code> library configuration</li>
 </ul>
 
               
