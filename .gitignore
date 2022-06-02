@@ -2,8 +2,8 @@
 .gradle
 
 .classpath
-.project
-.settings
+*.iml
+build 
 bin
 
 # Ignore Gradle build output directory
