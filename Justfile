@@ -60,10 +60,10 @@ lint-docs: lint-prose lint-libraries lint-markdown
 
 # use Vale to lint the prose of the documentation
 lint-prose:
-  docker run -v $(pwd):/app -w /app jdkato/vale docs
+  docker run --rm -v $(pwd):/app -w /app jdkato/vale docs
 
 lint-libraries:
-  docker run -v $(pwd):/app -w /app jdkato/vale libraries
+  docker run --rm -v $(pwd):/app -w /app jdkato/vale libraries
 
 # use markdownlit to lint the docs
 lint-markdown: 
