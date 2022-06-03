@@ -12,6 +12,22 @@ void call(app_env = [:]) {
     LinkedHashMap libStepConfig = config?."${stepContext.name}" ?: [:]
     LinkedHashMap appStepConfig = app_env?.maven?."${stepContext.name}" ?: [:]
 
+    def options = appStepConfig?.options ?:
+                  libStepConfig?.options ?:
+                  [] as String[]
+
+    def goals = appStepConfig?.goals ?:
+                libStepConfig?.goals ?:
+                [] as String[]
+
+    def phases = appStepConfig?.phases ?:
+                 libStepConfig?.phases ?:
+                 [] as String[]
+
+    def artifacts = appStepConfig?.artifacts ?:
+                    libStepConfig?.artifacts ?:
+                    [] as String[]
+
     // Gather and set non-secret environment variables
     this.setEnvVars(libStepConfig, appStepConfig)
 
@@ -21,15 +37,13 @@ void call(app_env = [:]) {
 
         // run maven command in specified container
         withCredentials(creds) {
-            inside_sdp_image "${env['buildContainer']}", {
+            inside_sdp_image "${env.buildContainer}", {
                 unstash 'workspace'
 
                 String command = 'mvn '
-                ['options', 'goals', 'phases'].each { field ->
-                    if (env["${field}"]) {
-                        env["${field}"].each { value -> command += "${value} " }
-                    }
-                }
+                options.each { value -> command += "${value} " }
+                goals.each { value -> command += "${value} " }
+                phases.each { value -> command += "${value} " }
 
                 try {
                     sh command
@@ -38,10 +52,8 @@ void call(app_env = [:]) {
                     throw any
                 }
                 finally {
-                    if (env.containsKey('artifacts')) {
-                        env['artifacts'].each { artifact ->
-                            archiveArtifacts artifacts: artifact, allowEmptyArchive: true
-                        }
+                    artifacts.each { artifact ->
+                        archiveArtifacts artifacts: artifact, allowEmptyArchive: true
                     }
                 }
             }
@@ -107,10 +119,10 @@ void setEnvVars(libStepConfig, appStepConfig) {
     }
 
     // Checking to make sure required fields are present (may be redundant once a library_config.groovy is added)
-    ArrayList requiredFields = ['stageName', 'buildContainer', 'phases']
+    ArrayList requiredFields = ['stageName', 'buildContainer']
     String missingRequired = ''
     requiredFields.each { field ->
-        if (!env.containsKey(field)) {
+        if (!envVars.containsKey(field)) {
             missingRequired += "Missing required configuration option: ${field} for step: ${stepContext.name}\n"
         }
     }
