@@ -37,7 +37,7 @@ OWASP Dependency Check Library Configuration Options
 ```groovy
 libraries{
   owasp_dep_check {
-    scan_target = [ "src" ]
+    scan = [ "src" ]
     cvss_threshold = 9 
   }
 }
