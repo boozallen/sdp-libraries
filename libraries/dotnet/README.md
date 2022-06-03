@@ -1,5 +1,5 @@
 ---
-description: This library allows you to perform .NET build and test commands in the sdp `dotnet-sdk:5.0` agent container
+description: This library allows you to perform .NET build and test commands in the SDP `dotnet-sdk:5.0` agent container
 ---
 
 # DotNet
