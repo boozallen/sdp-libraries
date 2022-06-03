@@ -5,6 +5,7 @@ nav:
   - anchore.md
   - docker.md
   - docker_compose.md
+  - dotnet.md
   - git.md
   - google_lighthouse.md
   - kubernetes.md

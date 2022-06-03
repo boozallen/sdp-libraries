@@ -6,7 +6,7 @@
       <meta charset="utf-8">
       <meta name="viewport" content="width=device-width,initial-scale=1">
       
-        <meta name="description" content="This library allows you to perform Maven commands in a defined build agent container">
+        <meta name="description" content="This library allows you to perform .NET build and test commands in the SDP dotnet-sdk:5.0 agent container">
       
       
       
@@ -15,7 +15,7 @@
     
     
       
-        <title>Maven - Solutions Delivery Platform</title>
+        <title>DotNet - Solutions Delivery Platform</title>
       
     
     
@@ -66,7 +66,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#maven" class="md-skip">
+        <a href="#dotnet" class="md-skip">
           Skip to content
         </a>
       
@@ -104,7 +104,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Maven
+              DotNet
             
           </span>
         </div>
@@ -722,11 +722,66 @@
               
   
   
+    
   
-    <li class="md-nav__item">
-      <a href="../dotnet/" class="md-nav__link">
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          DotNet
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
         DotNet
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#steps" class="md-nav__link">
+    Steps
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#configuration" class="md-nav__link">
+    Configuration
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#dependencies" class="md-nav__link">
+    Dependencies
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
     </li>
   
 
@@ -778,66 +833,11 @@
               
   
   
-    
   
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
-      
-      
-        
-      
-      
-        <label class="md-nav__link md-nav__link--active" for="__toc">
-          Maven
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <a href="./" class="md-nav__link md-nav__link--active">
+    <li class="md-nav__item">
+      <a href="../maven/" class="md-nav__link">
         Maven
       </a>
-      
-        
-
-<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
-  
-  
-  
-    
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#steps" class="md-nav__link">
-    Steps
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#configuration" class="md-nav__link">
-    Configuration
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#dependencies" class="md-nav__link">
-    Dependencies
-  </a>
-  
-</li>
-      
-    </ul>
-  
-</nav>
-      
     </li>
   
 
@@ -1160,8 +1160,8 @@
               
                 
 
-<h1 id="maven">Maven<a class="headerlink" href="#maven" title="Permanent link">&para;</a></h1>
-<p>This library allows you to perform Maven commands in a defined build agent container.</p>
+<h1 id="dotnet">DotNet<a class="headerlink" href="#dotnet" title="Permanent link">&para;</a></h1>
+<p>This library allows you to perform .NET build and test commands in the SDP <code>dotnet-sdk:5.0</code> agent container.</p>
 <h2 id="steps">Steps<a class="headerlink" href="#steps" title="Permanent link">&para;</a></h2>
 <table>
 <thead>
@@ -1172,47 +1172,31 @@
 </thead>
 <tbody>
 <tr>
-<td><code>[dynamic]()</code></td>
-<td>Step name can be any non-reserved word. This library uses <a href="https://jenkinsci.github.io/templating-engine-plugin/2.4/concepts/library-development/step-aliasing/#dynamic-step-aliases">dynamic step aliasing</a> to run the Maven phases, goals, and options defined in the step configuration.</td>
+<td><code>source_build</code></td>
+<td>This step leverages the <code>dotnet publish</code> command to build your application and output the results to the specified directory via <code>outDir</code> variable. <code>outDir</code> defaults to a folder named "bin." The specified folder is archived as a Jenkins artifact.</td>
+</tr>
+<tr>
+<td><code>unit_test</code></td>
+<td>This step leverages the <code>dotnet test</code> command to run the unit, integration and functional tests specified in the application repository and outputs the results to a specified directory via <code>resultDir</code> variable. <code>resultDir</code> defaults to a folder named "coverage." The specified folder is archived as a Jenkins artifact.</td>
 </tr>
 </tbody>
 </table>
 <h2 id="configuration">Configuration<a class="headerlink" href="#configuration" title="Permanent link">&para;</a></h2>
 <div class="highlight"><span class="filename">pipeline_config.groovy</span><pre><span></span><code><span class="n">libraries</span> <span class="o">{</span>
-  <span class="n">maven</span> <span class="o">{</span>
-    <span class="n">myMavenStep</span> <span class="o">{</span>
-      <span class="n">stageName</span> <span class="o">=</span> <span class="s1">&#39;Initial Maven Lifecycle&#39;</span>
-      <span class="n">buildContainer</span> <span class="o">=</span> <span class="s1">&#39;mvn:3.8.5-openjdk-11&#39;</span>
-      <span class="n">phases</span> <span class="o">=</span> <span class="o">[</span><span class="s1">&#39;clean&#39;</span><span class="o">,</span> <span class="s1">&#39;validate&#39;</span><span class="o">]</span>
-      <span class="n">goals</span> <span class="o">=</span> <span class="o">[</span><span class="s1">&#39;compiler:testCompile&#39;</span><span class="o">]</span>
-      <span class="n">options</span> <span class="o">=</span> <span class="o">[</span><span class="s1">&#39;-q&#39;</span><span class="o">]</span>
-      <span class="n">secrets</span> <span class="o">{</span>
-        <span class="n">myToken</span> <span class="o">{</span>
-          <span class="n">type</span> <span class="o">=</span> <span class="s1">&#39;text&#39;</span>
-          <span class="n">name</span> <span class="o">=</span> <span class="s1">&#39;token-name&#39;</span>
-          <span class="n">id</span> <span class="o">=</span> <span class="s1">&#39;my-token-id&#39;</span>
-        <span class="o">}</span>
-        <span class="n">myCredentials</span> <span class="o">{</span>
-          <span class="n">type</span> <span class="o">=</span> <span class="s1">&#39;usernamePassword&#39;</span>
-          <span class="n">usernameVar</span> <span class="o">=</span> <span class="s1">&#39;USER&#39;</span>
-          <span class="n">passwordVar</span> <span class="o">=</span> <span class="s1">&#39;PASS&#39;</span>
-          <span class="n">id</span> <span class="o">=</span> <span class="s1">&#39;my-credentials-id&#39;</span>
-        <span class="o">}</span>
-      <span class="o">}</span>
+  <span class="n">dotnet</span> <span class="o">{</span>
+    <span class="n">source_build</span> <span class="o">{</span>
+      <span class="n">outDir</span> <span class="o">=</span> <span class="s2">&quot;applicationOutput&quot;</span>
     <span class="o">}</span>
-    <span class="n">anotherMavenStep</span> <span class="o">{</span>
-      <span class="n">stageName</span> <span class="o">=</span> <span class="s1">&#39;Maven Build&#39;</span>
-      <span class="n">buildContainer</span> <span class="o">=</span> <span class="s1">&#39;mvn&#39;</span>
-      <span class="n">phases</span> <span class="o">=</span> <span class="o">[</span><span class="s1">&#39;build&#39;</span><span class="o">]</span>
-      <span class="n">artifacts</span> <span class="o">=</span> <span class="o">[</span><span class="s1">&#39;target/*.jar&#39;</span><span class="o">]</span>
+    <span class="n">unit_test</span> <span class="o">{</span>
+      <span class="n">resultDir</span> <span class="o">=</span> <span class="s2">&quot;Results&quot;</span>
     <span class="o">}</span>
   <span class="o">}</span>
 <span class="o">}</span>
 </code></pre></div>
 <h2 id="dependencies">Dependencies<a class="headerlink" href="#dependencies" title="Permanent link">&para;</a></h2>
 <ul>
-<li>The <code>sdp</code> library</li>
-<li>Access to an appropriate Maven build agent container via the repository defined in your <code>sdp</code> library configuration</li>
+<li>The SDP library</li>
+<li>Access to the <code>dotnet-sdk:5.0</code> build agent container via the repository defined in your SDP library configuration</li>
 </ul>
 
               
@@ -1232,7 +1216,7 @@
     <nav class="md-footer__inner md-grid" aria-label="Footer">
       
         
-        <a href="../kubernetes/" class="md-footer__link md-footer__link--prev" aria-label="Previous: Kubernetes" rel="prev">
+        <a href="../docker_compose/" class="md-footer__link md-footer__link--prev" aria-label="Previous: Docker Compose" rel="prev">
           <div class="md-footer__button md-icon">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
           </div>
@@ -1241,20 +1225,20 @@
               <span class="md-footer__direction">
                 Previous
               </span>
-              Kubernetes
+              Docker Compose
             </div>
           </div>
         </a>
       
       
         
-        <a href="../npm/" class="md-footer__link md-footer__link--next" aria-label="Next: npm" rel="next">
+        <a href="../git/" class="md-footer__link md-footer__link--next" aria-label="Next: Git" rel="next">
           <div class="md-footer__title">
             <div class="md-ellipsis">
               <span class="md-footer__direction">
                 Next
               </span>
-              npm
+              Git
             </div>
           </div>
           <div class="md-footer__button md-icon">

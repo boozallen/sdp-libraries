@@ -14,11 +14,11 @@ void call() {
     switch(stepContext.name) {
         case "source_build":
             stepName = "DotNet Build"
-            outDir = config.source_build.outDir ?: "bin"
+            outDir = config?.source_build?.outDir ?: "bin"
             break
         case "unit_test":
             stepName = "DotNet Unit Test"
-            resultDir = config.unit_test.resultDir ?: "coverage"
+            resultDir = config?.unit_test?.resultDir ?: "coverage"
             break
         default:
             error("step name must be \"source_build\" or \"unit_test\" got \"${stepContext.name}\"")
