@@ -4,7 +4,7 @@ description: This library allows you to perform .NET build and test commands in 
 
 # DotNet
 
-This library allows you to perform .NET build and test commands in the SDP dotnet-sdk:5.0 agent container.
+This library allows you to perform .NET build and test commands in the SDP `dotnet-sdk:5.0` agent container.
 
 ## Steps
 
