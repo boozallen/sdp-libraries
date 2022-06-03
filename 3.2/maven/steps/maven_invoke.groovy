@@ -107,10 +107,10 @@ void setEnvVars(libStepConfig, appStepConfig) {
     }
 
     // Checking to make sure required fields are present (may be redundant once a library_config.groovy is added)
-    ArrayList requiredFields = ['stageName', 'buildContainer', 'phases']
+    ArrayList requiredFields = ['stageName', 'buildContainer']
     String missingRequired = ''
     requiredFields.each { field ->
-        if (!env.containsKey(field)) {
+        if (!envVars.containsKey(field)) {
             missingRequired += "Missing required configuration option: ${field} for step: ${stepContext.name}\n"
         }
     }
