@@ -156,9 +156,9 @@ void setEnvVars(libStepConfig, appStepConfig, config, app_env) {
                      libStepConfig?.npmInstall ?:
                      "ci"
 
-    if (!["install", "i", "ci", "skip"].contains(env.npmInstall)) {
-        error("npmInstall must be one of \"install\", \"i\", \"ci\" or \"skip\"; got \"$env.npmInstall\"")
-    }
+    // if (!["install", "i", "ci", "skip"].contains(env.npmInstall)) {
+    //     error("npmInstall must be one of \"install\", \"i\", \"ci\" or \"skip\"; got \"$env.npmInstall\"")
+    // }
 
     env.scriptCommand = appStepConfig?.script ?:
                         libStepConfig?.script ?:
