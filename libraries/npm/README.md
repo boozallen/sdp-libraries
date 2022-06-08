@@ -1,20 +1,10 @@
 ---
-description: Run npm `test` and `build` commands in an nvm container with a specified Node version
+description: Run NPM script commands in an NVM container with a specified Node version
 ---
 
 # npm
 
-Run npm `test` and `build` commands in an nvm container with a specified Node version.
-
-## Steps
-
----
-
-| Step | Description |
-| ----------- | ----------- |
-| ``unit_test()`` | Calls npm_invoke to run `npm run test` command |
-| ``npm_build()`` | Calls npm_invoke to run `npm run build` command |
-| ``npm_invoke(String stepName)`` | Runs npm command in nvm container |
+Run NPM script commands in an NVM container with a specified Node version.
 
 ## Configuration
 
@@ -23,42 +13,61 @@ All configs can be set in either the library config or the Application Environme
 Environment variables and secrets set in the library config are concatenated with those set in the Application Environment.
 Environment variables and secrets with the same key are set to the definition contained in the Application Environment.
 
+## Steps
+
+Steps are configured dynamically in either the library config or the Application Environment.
+
+``` groovy title="pipeline_configuration.groovy"
+libraries {
+  npm {
+    [step_name] {
+      // config fields described below
+    }
+    ...
+  }
+}
+```
+
 ## Example Library Configuration
 
 ---
 
-| Field | Description | Default |
-| ----------- | ----------- | ----------- |
-| `node_version` | node version to run npm within (installed via nvm) | `lts/*` |
-| `unit_test.script` | npm command to run; must be present in package.json scripts block | `test` |
-| `build.script` | npm command to run; must be present in package.json scripts block | `build` |
-| `<step name>.npm_install` | npm install command to run; npm install can be skipped with value "skip" | `ci` |
-| `<step name>.env` | environment variables to make available to npm process; can include key/value pairs and secrets| `[]` |
-| `<step name>.env.secrets` | text or username/password credentials to make available to npm process; must be present and available in Jenkins credential store | `[]` |
+| Field                         | Description                                                                                                                           | Default |
+| ----------------------------- | ------------------------------------------------------------------------------------------------------------------------------------- | ------- |
+| `node_version`                | Node version to run NPM within (installed via NVM)                                                                                    | `lts/*` |
+| `<step name>.stageName`       | stage name displayed in the Jenkins dashboard                                                                                         | N/A     |
+| `<step name>.script`          | NPM script ran by the step                                                                                                            | N/A     |
+| `<step name>.artifacts`       | array of glob patterns for artifacts that should be archived                                                                          |
+| `<step name>.npmInstall`      | NPM install command to run; npm install can be skipped with value "skip"                                                              | `ci`    |
+| `<step name>.env`             | environment variables to make available to the NPM process; can include key/value pairs and secrets                                   | `[]`    |
+| `<step name>.env.secrets`     | text or username/password credentials to make available to the NPM process; must be present and available in Jenkins credential store | `[]`    |
+| `<step name>.useEslintPlugin` | if the Jenkins ESLint Plugin is installed, will run the `recordIssues` step to send lint results to the plugin dashboard              | `false` |
 
 ### Full Configuration Example
 
-Each available method has config options that can be specified in the application environment or within the library configuration.
+Each available method has config options that can be specified in the Application Environment or within the library configuration.
 
 ``` groovy title="pipeline_configuration.groovy"
-application_environments{
+application_environments {
   dev
-  prod{
-    npm{
+  prod {
+    npm {
       node_version = "14.16.1"
-      unit_test{
+      unit_test {
+        stageName = "NPM Unit Tests"
         script = "full-test-suite"
-        npm_install = "ci"
-        env{
+        artifacts = ["coverage/lcov.info"]
+        npmInstall = "ci"
+        env {
           someKey = "prodValue for tests"
           // (1)
           secrets{
-            someTextCredential{
+            someTextCredential {
               type = "text"
               name = "VARIABLE_NAME"
               id = "prod-credential-id"
             }
-            someUsernamePasswordCredential{
+            someUsernamePasswordCredential {
               type = "usernamePassword"
               usernameVar = "USER"
               passwordVar = "PASS"
@@ -68,24 +77,50 @@ application_environments{
           }
         }
       }
-      npm_build{
+      source_build {
+        stageName = "NPM Source Build"
         script = "prod-build"
-        env{
+        env {
           someKey = "prodValue for builds"
-          // (3)
-          secrets{
-            someTextCredential{
+          secrets {
+            someTextCredential {
               type = "text"
               name = "VARIABLE_NAME"
               id = "prod-credential-id"
             }
-            someUsernamePasswordCredential{
+            someUsernamePasswordCredential {
               type = "usernamePassword"
               usernameVar = "USER"
               passwordVar = "PASS"
               id = "prod-credential-id"
             }
-            // (4)
+          }
+        }
+      }
+    }
+    lint_code {
+        stageName = "NPM Lint Code"
+        script = "lint"
+        artifacts = [
+          "eslint-report.json",
+          "eslint-report.html",
+          "eslint-report.xml",
+        ]
+        useEslintPlugin = true
+        env {
+          someKey = "prodValue for linting"
+          secrets {
+            someTextCredential {
+              type = "text"
+              name = "VARIABLE_NAME"
+              id = "prod-credential-id"
+            }
+            someUsernamePasswordCredential {
+              type = "usernamePassword"
+              usernameVar = "USER"
+              passwordVar = "PASS"
+              id = "prod-credential-id"
+            }
           }
         }
       }
@@ -93,50 +128,71 @@ application_environments{
   }
 }
 
-libraries{
-  npm{
+libraries {
+  npm {
     node_version = "lts/*"
-    unit_test{
+    unit_test {
+      stageName = "NPM Unit Tests"
       script = "test"
-      npm_install = "install"
-      env{
+      npmInstall = "install"
+      env {
         someKey = "someValue for tests"
-        // (5)
-        secrets{
-          someTextCredential{
+        // (3)
+        secrets {
+          someTextCredential {
             type = "text"
             name = "VARIABLE_NAME"
             id = "some-credential-id"
           }
-          someUsernamePasswordCredential{
+          someUsernamePasswordCredential {
             type = "usernamePassword"
             usernameVar = "USER"
             passwordVar = "PASS"
             id = "some-credential-id"
           }
-          // (6)
+          // (4)
         }
       }
     }
-    npm_build{
+    source_build {
+      stageName = "NPM Source Build"
       script = "build"
-      npm_install = "skip"
-      env{
+      npmInstall = "skip"
+      env {
         someKey = "someValue for builds"
-        // (7)
-        secrets{
-          someTextCredential{
+        secrets {
+          someTextCredential {
             type = "text"
             name = "VARIABLE_NAME"
             id = "some-credential-id"
           }
-          someUsernamePasswordCredential{
+          someUsernamePasswordCredential {
             type = "usernamePassword"
             usernameVar = "USER"
             passwordVar = "PASS"
             id = "some-credential-id"
           }
-          // (8)
+        }
+      }
+    }
+    lint_code {
+      stageName = "NPM Lint Code"
+      script = "lint"
+      npmInstall = "skip"
+      env {
+        someKey = "someValue for linting"
+        secrets {
+          someTextCredential {
+            type = "text"
+            name = "VARIABLE_NAME"
+            id = "some-credential-id"
+          }
+          someUsernamePasswordCredential {
+            type = "usernamePassword"
+            usernameVar = "USER"
+            passwordVar = "PASS"
+            id = "some-credential-id"
+          }
         }
       }
     }
@@ -148,22 +204,22 @@ libraries{
 2. more secrets as needed
 3. more envVars as needed
 4. more secrets as needed
-5. more envVars as needed
-6. more secrets as needed
-7. more envVars as needed
-8. more secrets as needed
 
 This example shows the prod Application Environment overriding configs set in the library config.
-`npm_build.npm_install` is preserved as set in library config, since it isn't overridden by the Application Environment.
+`source_build.npm_install` is preserved as set in library config, since it isn't overridden by the Application Environment.
 
 ### Minimal Configuration Example
 
 The minimal configuration for this library is:
 
-``` groovy
-//pipeline_configuration.groovy
-libraries{
-  npm
+``` groovy title="pipeline_configuration.groovy"
+libraries {
+  npm {
+    unit_test {
+      stageName = "NPM Unit Tests"
+      script = "test"
+    }
+  }
 }
 ```
 
