@@ -20,7 +20,7 @@ void call() {
       
       //replace below with inside_sdp_image "grype:latest"
       docker.withRegistry("https://registry.uip.sh/", "registry-creds") {
-        docker.image("registry.uip.sh/toolkit/grype:latest").inside() {
+        docker.image("registry.uip.sh/toolkit/grype:0.38.0").inside() {
           tar_files.each{ file ->
           
           // perform the grype scan
