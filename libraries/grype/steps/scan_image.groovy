@@ -11,7 +11,8 @@ void call() {
     images.each { img ->
       docker.withRegistry("https://registry.uip.sh/", "registry-creds") {
         docker.image("registry.uip.sh/toolkit/grype:0.38.0").inside() {
-        
+          unstash "workspace"
+
           // perform the grype scan
           try {
             sh "grype ${img.registry}/${img.repo}:${img.tag} -o json >> ${RAW_RESULTS_FILE}"
@@ -38,6 +39,7 @@ void call() {
 
            // archive the results
             archiveArtifacts artifacts: "${RAW_RESULTS_FILE}, ${TRANSFORMED_RESULSTS_FILE}"
+            stash "workspace"
           }
         }
       }
