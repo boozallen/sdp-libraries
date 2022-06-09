@@ -5,6 +5,9 @@ void call() {
     def TRANSFORMED_RESULSTS_FILE = "grype-scan-results.txt"
     sh "pwd"
     sh "ls -alh"
+    unstash "workspace"
+    sh "pwd"
+    sh "ls -alh"
     if (!fileExists("./${GRYPE_CONFIG}")) { error "no grype config found" }
 
     def images = get_images_to_build()
