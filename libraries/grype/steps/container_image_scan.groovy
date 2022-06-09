@@ -44,9 +44,9 @@ void call() {
             def transform_script = resource("transform-grype-scan-results.sh")
             writeFile file: "transform-results.sh", text: transform_script
 
-            tar_files.each{ file ->
+            tar_files.each{ files ->
               //need to remove .tar from file name
-              String modifiedFileName = file.lastIndexOf('.')
+              String modifiedFileName = files.lastIndexOf('.')
               def transformed_results = sh script: "/bin/bash ./transform-results.sh ${modifiedFileName}+${RAW_RESULTS_FILE} ${GRYPE_CONFIG}", returnStdout: true
               writeFile file: TRANSFORMED_RESULSTS_FILE, text: transformed_results.trim()
 
