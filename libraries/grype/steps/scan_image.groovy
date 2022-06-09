@@ -3,15 +3,14 @@ void call() {
     def String GRYPE_CONFIG = ".grype.yaml"
     def String RAW_RESULTS_FILE = "grype-scan-results.json"
     def String TRANSFORMED_RESULSTS_FILE = "grype-scan-results.txt"
-    
-    //if (!fileExists("./${GRYPE_CONFIG}")) { error "no grype config found" }
-
     def images = get_images_to_build()
         
     images.each { img ->
       docker.withRegistry("https://registry.uip.sh/", "registry-creds") {
         docker.image("registry.uip.sh/toolkit/grype:0.38.0").inside() {
           unstash "workspace"
+          //check for grype config file in workspace
+          if (!fileExists("./${GRYPE_CONFIG}")) { error "no grype config found" }
 
           // perform the grype scan
           try {
