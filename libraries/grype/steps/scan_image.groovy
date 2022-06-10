@@ -18,7 +18,7 @@ void call() {
 
           // perform the grype scan
           try {
-            if (${outputFormat} == "none") {
+            if (severityThreshold == "none") {
               sh "grype ${img.registry}/${img.repo}:${img.tag} -o ${outputFormat} >> ${rawResultsFile}"
             }
 
