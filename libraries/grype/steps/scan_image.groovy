@@ -1,3 +1,5 @@
+package libraries.grype.steps
+
 void call() {
   stage("Grype Image Scan") {
     def String grypeConfig = ".grype.yaml"
