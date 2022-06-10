@@ -39,14 +39,19 @@ void call() {
 
           // display the results in a human-readable format
           finally {
-            def transform_script = resource("transform-grype-scan-results.sh")
-            writeFile file: "transform-results.sh", text: transform_script
-          
-            def transformed_results = sh script: "/bin/bash ./transform-results.sh ${rawResultsFile} ${grypeConfig}", returnStdout: true
-            writeFile file: transformedResultsFile, text: transformed_results.trim()
-
-           // archive the results
-            archiveArtifacts artifacts: "${rawResultsFile}, ${transformedResultsFile}"
+            if (outputFormat == "json") {
+              def transform_script = resource("transform-grype-scan-results.sh")
+              writeFile file: "transform-results.sh", text: transform_script
+            
+              def transformed_results = sh script: "/bin/bash ./transform-results.sh ${rawResultsFile} ${grypeConfig}", returnStdout: true
+              writeFile file: transformedResultsFile, text: transformed_results.trim()
+  
+              // archive the results
+              archiveArtifacts artifacts: "${rawResultsFile}, ${transformedResultsFile}"
+            }
+            else {
+              archiveArtifacts artifacts: "${rawResultsFile}"
+            }
             stash "workspace"
           }
         }
