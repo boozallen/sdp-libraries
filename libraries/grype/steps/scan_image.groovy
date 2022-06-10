@@ -3,8 +3,8 @@ void call() {
     def String grypeConfig = ".grype.yaml"
     def String rawResultsFile = "grype-scan-results.json"
     def String transformedResultsFile = "grype-scan-results.txt"
-    def String outputFormat = config?.reportFormat ?: "json"
-    def String severityThreshold = config?.failOnSeverity ?: "high"
+    def String outputFormat = config?.report_format ?: "json"
+    def String severityThreshold = config?.fail_on_severity ?: "high"
     def images = get_images_to_build()
         
     images.each { img ->
