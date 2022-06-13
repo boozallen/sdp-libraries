@@ -27,11 +27,10 @@ void call() {
                             echo "No CVE's at or above set threshold!"
                         }
                     }
-              
                     // Catch the error on quality gate failure
-                    catch(errors[(img.context)] = Exception) {
-                        //echo "Failed: ${err}"
-                        //echo "Grype Quality Gate Failed. There are one or more CVE's that exceed the maximum allowed severity rating!"
+                    catch(Exception err) {
+                        echo "Failed: ${err}"
+                        echo "Grype Quality Gate Failed. There are one or more CVE's that exceed the maximum allowed severity rating!"
                     }
                     // display the results in a human-readable format
                     finally {
@@ -49,8 +48,7 @@ void call() {
                         else {
                             archiveArtifacts artifacts: "${rawResultsFile}"
                         }
-                        errors.each{ entry -> println "$entry.key" throw entry.value}
-                      stash "workspace"
+                    stash "workspace"
                     }
                 }
             }
