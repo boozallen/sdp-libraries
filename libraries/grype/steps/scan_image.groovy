@@ -49,7 +49,7 @@ void call() {
               writeFile file: transformedResultsFile, text: transformed_results.trim()
   
               // archive the results
-              archiveArtifacts artifacts: "${rawResultsFile}, ${transformedResultsFile}"
+              archiveArtifacts artifacts: "${img.tag} + "-" + ${rawResultsFile}, ${img.tag} + "-" + ${transformedResultsFile}"
             }
             else {
               archiveArtifacts artifacts: "${img.tag} + "-" + ${rawResultsFile}"
