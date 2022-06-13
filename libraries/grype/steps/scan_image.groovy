@@ -49,14 +49,14 @@ void call() {
               writeFile file: transformedResultsFile, text: transformed_results.trim()
 
               // give results a unique name
-              uniqueRawResultsFile = "${imag.tag}-${rawResultsFile}"
+              uniqueRawResultsFile = "${img.tag}-${rawResultsFile}"
               uniqueTransformedResultsFile = "${img.tag}-${uniqueTransformedResultsFile}"
               // archive the results
               archiveArtifacts artifacts: "${uniqueRawResultsFile}, ${uniqueTransformedResultsFile}"
             }
             else {
               uniqueRawResultsFile = "${img.tag}-${rawResultsFile}"
-              
+
               archiveArtifacts artifacts: "${uniqueRawResultsFile}"
             }
             stash "workspace"
