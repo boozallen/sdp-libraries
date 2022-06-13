@@ -47,12 +47,17 @@ void call() {
             
               def transformed_results = sh script: "/bin/bash ./transform-results.sh ${rawResultsFile} ${grypeConfig}", returnStdout: true
               writeFile file: transformedResultsFile, text: transformed_results.trim()
-  
+
+              // give results a unique name
+              uniqueRawResultsFile = "${imag.tag}-${rawResultsFile}"
+              uniqueTransformedResultsFile = "${img.tag}-${uniqueTransformedResultsFile}"
               // archive the results
-              archiveArtifacts artifacts: "${img.tag} + "-" + ${rawResultsFile}, ${img.tag} + "-" + ${transformedResultsFile}"
+              archiveArtifacts artifacts: "${uniqueRawResultsFile}, ${uniqueTransformedResultsFile}"
             }
             else {
-              archiveArtifacts artifacts: "${img.tag} + "-" + ${rawResultsFile}"
+              uniqueRawResultsFile = "${img.tag}-${rawResultsFile}"
+              
+              archiveArtifacts artifacts: "${uniqueRawResultsFile}"
             }
             stash "workspace"
           }
