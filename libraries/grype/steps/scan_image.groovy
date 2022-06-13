@@ -2,11 +2,11 @@ package libraries.grype.steps
 
 void call() {
   stage("Grype Image Scan") {
-    def String grypeConfig = ".grype.yaml"
-    def String rawResultsFile = "grype-scan-results.json"
-    def String transformedResultsFile = "grype-scan-results.txt"
-    def String outputFormat = config?.report_format ?: "json"
-    def String severityThreshold = config?.fail_on_severity ?: "high"
+      String grypeConfig = ".grype.yaml"
+      String rawResultsFile = "grype-scan-results.json"
+      String transformedResultsFile = "grype-scan-results.txt"
+      String outputFormat = config?.report_format ?: "json"
+      String severityThreshold = config?.fail_on_severity ?: "high"
     
         
     
@@ -49,13 +49,13 @@ void call() {
               writeFile file: transformedResultsFile, text: transformed_results.trim()
 
               // give results a unique name
-              uniqueRawResultsFile = "${img.tag}-${rawResultsFile}"
-              uniqueTransformedResultsFile = "${img.tag}-${uniqueTransformedResultsFile}"
+              String uniqueRawResultsFile = "${img.tag}-${rawResultsFile}"
+              String uniqueTransformedResultsFile = "${img.tag}-${uniqueTransformedResultsFile}"
               // archive the results
               archiveArtifacts artifacts: "${uniqueRawResultsFile}, ${uniqueTransformedResultsFile}"
             }
             else {
-              uniqueRawResultsFile = "${img.tag}-${rawResultsFile}"
+              String uniqueRawResultsFile = "${img.tag}-${rawResultsFile}"
 
               archiveArtifacts artifacts: "${uniqueRawResultsFile}"
             }
