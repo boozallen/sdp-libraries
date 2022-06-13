@@ -50,7 +50,7 @@ void call() {
 
               // give results a unique name
               String uniqueRawResultsFile = "${img.tag}-${rawResultsFile}"
-              String uniqueTransformedResultsFile = "${img.tag}-${TransformedResultsFile}"
+              String uniqueTransformedResultsFile = "${img.tag}-${transformedResultsFile}"
               // archive the results
               archiveArtifacts artifacts: "${uniqueRawResultsFile}, ${uniqueTransformedResultsFile}"
             }
