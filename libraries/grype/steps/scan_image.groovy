@@ -18,12 +18,12 @@ void call() {
                     // perform the grype scan
                     try {
                         if (severityThreshold == "none") {
-                          sh "grype ${img.registry}/${img.repo}:${img.tag} -o ${outputFormat} >> ${rawResultsFile}"
+                            sh "grype ${img.registry}/${img.repo}:${img.tag} -o ${outputFormat} >> ${rawResultsFile}"
                         }
                         else {
-                        sh "grype ${img.registry}/${img.repo}:${img.tag} -o ${outputFormat} --fail-on ${severityThreshold} >> ${rawResultsFile}"
+                            sh "grype ${img.registry}/${img.repo}:${img.tag} -o ${outputFormat} --fail-on ${severityThreshold} >> ${rawResultsFile}"
                         
-                        echo "No CVE's at or above set threshold!"
+                            echo "No CVE's at or above set threshold!"
                         }
                     }
               
