@@ -52,7 +52,7 @@ void call() {
               archiveArtifacts artifacts: "${rawResultsFile}, ${transformedResultsFile}"
             }
             else {
-              archiveArtifacts artifacts: "${rawResultsFile}"
+              archiveArtifacts artifacts: "${img.tag} + "-" + ${rawResultsFile}"
             }
             stash "workspace"
           }
