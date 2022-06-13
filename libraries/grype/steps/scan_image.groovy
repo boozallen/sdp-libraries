@@ -31,6 +31,7 @@ void call() {
                     catch(Exception err) {
                         echo "Failed: ${err}"
                         echo "Grype Quality Gate Failed. There are one or more CVE's that exceed the maximum allowed severity rating!"
+                        throw err
                     }
                     // display the results in a human-readable format
                     finally {
