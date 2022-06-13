@@ -7,12 +7,14 @@ void call() {
     def String transformedResultsFile = "grype-scan-results.txt"
     def String outputFormat = config?.report_format ?: "json"
     def String severityThreshold = config?.fail_on_severity ?: "high"
-    def images = get_images_to_build()
+    
         
-    images.each { img ->
+    
       docker.withRegistry("https://registry.uip.sh/", "registry-creds") {
         docker.image("registry.uip.sh/toolkit/grype:0.38.0").inside() {
           unstash "workspace"
+          def images = get_images_to_build()
+          images.each { img ->
           //check for grype config file in workspace
           if (!fileExists("./${grypeConfig}")) { error "no grype config found" }
 
