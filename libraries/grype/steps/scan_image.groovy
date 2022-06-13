@@ -11,7 +11,7 @@ void call() {
                 unstash "workspace"
                 def images = get_images_to_build()
                 images.each { img ->
-                    String rawResultsFile = "${img.tag}-grype-scan-results.json"
+                    String rawResultsFile = "${img.context}-grype-scan-results.json"
                     //check for grype config file in workspace
                     if (!fileExists("./${grypeConfig}")) { error "no grype config found" }
     
@@ -36,7 +36,7 @@ void call() {
                     // display the results in a human-readable format
                     finally {
                         if (outputFormat == "json") {
-                            String transformedResultsFile = "${img.tag}-grype-scan-results.txt"
+                            String transformedResultsFile = "${img.context}-grype-scan-results.txt"
                             def transform_script = resource("transform-grype-scan-results.sh")
                             writeFile file: "transform-results.sh", text: transform_script
                           
