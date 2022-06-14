@@ -5,10 +5,9 @@ void call() {
         String grypeConfig = ".grype.yaml"
         String outputFormat = config?.report_format ?: "json"
         String severityThreshold = config?.fail_on_severity ?: "high"
-        LinkedHashMap errors = [:]
+        List<Exception> errors = []
             
         inside_sdp_image "grype:latest", {
-            sh "grype --version"
             unstash "workspace"
             def images = get_images_to_build()
             images.each { img ->
@@ -29,9 +28,9 @@ void call() {
                 }
                 // Catch the error on quality gate failure
                 catch(Exception err) {
-                    echo "Failed: ${err}"
-                    echo "Grype Quality Gate Failed. There are one or more CVE's that exceed the maximum allowed severity rating!"
-                    throw err
+                    errors.push(err)
+                    //echo "Failed: ${err}"
+                    //echo "Grype Quality Gate Failed. There are one or more CVE's that exceed the maximum allowed severity rating!"
                 }
                 // display the results in a human-readable format
                 finally {
@@ -51,6 +50,11 @@ void call() {
                     }
                 }
                 stash "workspace"
+                if (!(errors?.empty)) {
+                    errors.each -> errs {
+                        throw errs
+                    }
+                }
             }
         }
     }
