@@ -16,12 +16,11 @@ public class ApplicationDependencyScanSpec extends JTEPipelineSpecification {
     ApplicationDependencyScan.getBinding().setVariable("config", [:])
     
     explicitlyMockPipelineStep("inside_sdp_image")
-    explicitlyMockPipelineVariable("out")
   }
 
   def "Prints warning message if the suppression file is not found" () {
     setup:
-      getPipelineMock("fileExists")() >> false
+      getPipelineMock("fileExists")(_) >> { return false }
     when:
       ApplicationDependencyScan()
     then:
@@ -30,7 +29,7 @@ public class ApplicationDependencyScanSpec extends JTEPipelineSpecification {
 
   def "Does not print warning message if the suppression file is found" () {
     setup:
-      getPipelineMock("fileExists")() >> true
+      getPipelineMock("fileExists")(_) >> { return true }
     when:
       ApplicationDependencyScan()
     then:
