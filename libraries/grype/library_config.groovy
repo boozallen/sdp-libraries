@@ -1,6 +1,6 @@
 fields{
     optional{
-        outputFormat = String
-        severityThreshold = String
+        report_format = String
+        fail_on_severity = String
     }
 }
