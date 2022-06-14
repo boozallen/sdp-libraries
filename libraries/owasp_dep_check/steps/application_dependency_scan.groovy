@@ -28,6 +28,22 @@ void call() {
     String image_tag = config.image_tag ?: "latest"
     inside_sdp_image "owasp-dep-check:$image_tag", {
       unstash "workspace"
+
+      // suppress whitelisted vulnerabilities
+      Boolean allowSuppressionFile = config.allow_suppression_file ?: true
+      if (allowSuppressionFile) {
+        String suppressionFile = config.suppression_file ?: "dependency-check-suppression.xml"
+        Boolean suppressionFileExists = fileExists suppressionFile
+
+        if (suppressionFileExists) {
+          args += " --suppression ${suppressionFile}"
+        }
+        else {
+          println "\"${suppressionFile}\" does not exist. Skipping suppression."
+        }
+      }
+
+      // perform the scan
       try {
         sh "mkdir -p ${resultsDir} && mkdir -p owasp-data && /usr/share/dependency-check/bin/dependency-check.sh ${args} -d owasp-data"
       } catch (ex) {
