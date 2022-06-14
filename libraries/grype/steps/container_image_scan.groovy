@@ -51,7 +51,7 @@ void call() {
                 }
                 stash "workspace"
                 if (!(errors?.empty)) {
-                    errors.each -> errs {
+                    errors.each { errs -> 
                         throw errs
                     }
                 }
