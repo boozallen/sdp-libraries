@@ -7,7 +7,8 @@ void call() {
         String severityThreshold = config?.fail_on_severity ?: "high"
         LinkedHashMap errors = [:]
             
-        inside_sdp_image "grype:0.38.0", {
+        inside_sdp_image "grype:latest", {
+            sh "grype --version"
             unstash "workspace"
             def images = get_images_to_build()
             images.each { img ->
