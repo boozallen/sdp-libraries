@@ -6,11 +6,11 @@
 package libraries.owasp_dep_check.steps
 
 void call() {
-  stage('Application Dependency Scan: OWASP Dep Checker'){
+  stage('Application Dependency Scan: OWASP Dep Checker') {
     String resultsDir = "owasp-dependency-check"
-    String args = "--out ${resultsDir} --enableExperimental --format ALL" 
+    String args = "--out ${resultsDir} --enableExperimental --format ALL"
 
-    ArrayList scan = config.scan ?: [ '.' ] 
+    ArrayList scan = config.scan ?: [ '.' ]
     scan.each{ s -> args += " -s ${s}" }
 
     ArrayList exclude = config.exclude ?: []
@@ -18,9 +18,9 @@ void call() {
 
     // vulnerabilities greater than this will fail the build 
     // max value 10 
-    if(config.containsKey("cvss_threshold")){
-      Double threshold = config.cvss_threshold 
-      if(threshold <= 10.0){
+    if (config.containsKey("cvss_threshold")) {
+      Double threshold = config.cvss_threshold
+      if (threshold <= 10.0) {
         args += " --failOnCVSS ${threshold} --junitFailOnCVSS ${threshold}"
       }
     }
@@ -30,9 +30,9 @@ void call() {
       unstash "workspace"
       try {
         sh "mkdir -p ${resultsDir} && mkdir -p owasp-data && /usr/share/dependency-check/bin/dependency-check.sh ${args} -d owasp-data"
-      }catch (ex) {
+      } catch (ex) {
         error "Error occured when running OWASP Dependency Check: ${ex.getMessage()}"
-      }finally {
+      } finally {
         archiveArtifacts allowEmptyArchive: true, artifacts: "${resultsDir}/"
         junit allowEmptyResults: true, healthScaleFactor: 0.0, testResults: "${resultsDir}/dependency-check-junit.xml"
       }
