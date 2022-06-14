@@ -44,10 +44,10 @@ void call() {
                             writeFile file: transformedResultsFile, text: transformed_results.trim()
               
                             // archive the results
-                            archiveArtifacts artifacts: "${rawResultsFile}, ${transformedResultsFile}"
+                            archiveArtifacts artifacts: "${rawResultsFile}, ${transformedResultsFile}", allowEmptyArchive: true
                         }
                         else {
-                            archiveArtifacts artifacts: "${rawResultsFile}"
+                            archiveArtifacts artifacts: "${rawResultsFile}", allowEmptyArchive: true
                         }
                     stash "workspace"
                     }

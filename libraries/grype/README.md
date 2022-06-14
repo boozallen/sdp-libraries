@@ -16,6 +16,7 @@ Uses the [Grype CLI](https://github.com/anchore/grype) to scan container images 
 
 | Library Configuration | Type | Default Value |
 |-----------------------|------|---------------|
-|                       |      |               |
+|  outputFormat | String | json |
+| severityThreshold | String | high|
 
 ## Dependencies
