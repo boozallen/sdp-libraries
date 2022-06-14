@@ -39,7 +39,7 @@ void call() {
           args += " --suppression ${suppressionFile}"
         }
         else {
-          println "\"${suppressionFile}\" does not exist. Skipping suppression."
+          echo "\"${suppressionFile}\" does not exist. Skipping suppression."
         }
       }
 
