@@ -6,25 +6,24 @@ void call() {
         String outputFormat = config?.report_format ?: "json"
         String severityThreshold = config?.fail_on_severity ?: "high"
         List<Exception> errors = []
-            
-        inside_sdp_image "grype:latest", {
-            unstash "workspace"
-            def images = get_images_to_build()
-            images.each { img ->
-                String rawResultsFile = "${img.context}-grype-scan-results.json"
-                //check for grype config file in workspace
-                if (!fileExists("./${grypeConfig}")) { error "no grype config found" }
 
-                //login to container repo
-                login_to_registry{
-                // perform the grype scan
+        //login to container repo
+        login_to_registry{    
+            inside_sdp_image "grype:latest", {
+                unstash "workspace"
+                def images = get_images_to_build()
+                images.each { img ->
+                    String rawResultsFile = "${img.context}-grype-scan-results.json"
+                    //check for grype config file in workspace
+                    if (!fileExists("./${grypeConfig}")) { error "no grype config found" }
+
+                    // perform the grype scan
                     try {
                         if (severityThreshold == "none") {
                             sh "grype ${img.registry}/${img.repo}:${img.tag} -o ${outputFormat} >> ${rawResultsFile}"
                         }
                         else {
                             sh "grype ${img.registry}/${img.repo}:${img.tag} -o ${outputFormat} --fail-on ${severityThreshold} >> ${rawResultsFile}"
-
                             echo "No CVE's at or above set threshold!"
                         }
                     }
@@ -40,10 +39,8 @@ void call() {
                             String transformedResultsFile = "${img.context}-grype-scan-results.txt"
                             def transform_script = resource("transform-grype-scan-results.sh")
                             writeFile file: "transform-results.sh", text: transform_script
-
                             def transformed_results = sh script: "/bin/bash ./transform-results.sh ${rawResultsFile} ${grypeConfig}", returnStdout: true
                             writeFile file: transformedResultsFile, text: transformed_results.trim()
-
                             // archive the results
                             archiveArtifacts artifacts: "${rawResultsFile}, ${transformedResultsFile}", allowEmptyArchive: true
                         }
@@ -51,7 +48,7 @@ void call() {
                             archiveArtifacts artifacts: "${rawResultsFile}", allowEmptyArchive: true
                         }
                     }
-                }
+                }    
                 stash "workspace"
                 if (!(errors?.empty)) {
                     errors.each { errs -> 
