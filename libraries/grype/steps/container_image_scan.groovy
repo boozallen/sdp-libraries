@@ -7,7 +7,7 @@ void call() {
         String severityThreshold = config?.fail_on_severity ?: "high"
         LinkedHashMap errors = [:]
             
-        inside_sdp_image "dotnet-sdk:5.0.214", {
+        inside_sdp_image "grype:0.38.0", {
             unstash "workspace"
             def images = get_images_to_build()
             images.each { img ->
