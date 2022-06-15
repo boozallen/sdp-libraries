@@ -10,12 +10,26 @@ public class ApplicationDependencyScanSpec extends JTEPipelineSpecification {
 
   String fileDoesNotExistWarning = "\"dependency-check-suppression.xml\" does not exist. Skipping suppression."
 
+  String commandBeginning = "mkdir -p owasp-dependency-check && mkdir -p owasp-data && /usr/share/dependency-check/bin/dependency-check.sh"
+  String defaultArgs = "--out owasp-dependency-check --enableExperimental --format ALL -s ."
+  String expectedAdditionalArgs = ""
+  String commandEnd = "-d owasp-data"
+
   def setup() {
     ApplicationDependencyScan = loadPipelineScriptForStep("owasp_dep_check", "application_dependency_scan")
 
     ApplicationDependencyScan.getBinding().setVariable("config", [:])
     
     explicitlyMockPipelineStep("inside_sdp_image")
+  }
+
+  def "Does not print warning message if the suppression file is found" () {
+    setup:
+      getPipelineMock("fileExists")(_) >> { return true }
+    when:
+      ApplicationDependencyScan()
+    then:
+      0 * getPipelineMock("echo")(fileDoesNotExistWarning)
   }
 
   def "Prints warning message if the suppression file is not found" () {
@@ -27,12 +41,23 @@ public class ApplicationDependencyScanSpec extends JTEPipelineSpecification {
       1 * getPipelineMock("echo")(fileDoesNotExistWarning)
   }
 
-  def "Does not print warning message if the suppression file is found" () {
+  def "Uses --suppression flag when using suppression file" () {
     setup:
       getPipelineMock("fileExists")(_) >> { return true }
+      expectedAdditionalArgs = " --suppression dependency-check-suppression.xml"
     when:
       ApplicationDependencyScan()
     then:
-      0 * getPipelineMock("echo")(fileDoesNotExistWarning)
+      1 * getPipelineMock("sh")("${commandBeginning} ${defaultArgs}${expectedAdditionalArgs} ${commandEnd}")
+  }
+
+  def "Does not use --supppression flag when not using suppression file" () {
+    setup:
+      getPipelineMock("fileExists")(_) >> { return false }
+      expectedAdditionalArgs = ""
+    when:
+      ApplicationDependencyScan()
+    then:
+      1 * getPipelineMock("sh")("${commandBeginning} ${defaultArgs}${expectedAdditionalArgs} ${commandEnd}")
   }
 }
