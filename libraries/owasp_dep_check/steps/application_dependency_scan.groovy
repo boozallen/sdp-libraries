@@ -10,29 +10,29 @@ void call() {
     String resultsDir = "owasp-dependency-check"
     String args = "--out ${resultsDir} --enableExperimental --format ALL"
 
-    ArrayList scan = config.scan ?: [ '.' ]
+    ArrayList scan = config?.scan ?: [ '.' ]
     scan.each{ s -> args += " -s ${s}" }
 
-    ArrayList exclude = config.exclude ?: []
+    ArrayList exclude = config?.exclude ?: []
     exclude.each{ e -> args += " --exclude ${e}" }
 
     // vulnerabilities greater than this will fail the build 
     // max value 10 
-    if (config.containsKey("cvss_threshold")) {
-      Double threshold = config.cvss_threshold
+    if (config?.containsKey("cvss_threshold")) {
+      Double threshold = config?.cvss_threshold
       if (threshold <= 10.0) {
         args += " --failOnCVSS ${threshold} --junitFailOnCVSS ${threshold}"
       }
     }
 
-    String image_tag = config.image_tag ?: "latest"
+    String image_tag = config?.image_tag ?: "latest"
     inside_sdp_image "owasp-dep-check:$image_tag", {
       unstash "workspace"
 
       // suppress whitelisted vulnerabilities
-      Boolean allowSuppressionFile = config.allow_suppression_file ?: true
+      Boolean allowSuppressionFile = config?.allow_suppression_file ?: true
       if (allowSuppressionFile) {
-        String suppressionFile = config.suppression_file ?: "dependency-check-suppression.xml"
+        String suppressionFile = config?.suppression_file ?: "dependency-check-suppression.xml"
         Boolean suppressionFileExists = fileExists suppressionFile
 
         if (suppressionFileExists) {
