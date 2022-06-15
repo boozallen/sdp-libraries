@@ -7,7 +7,7 @@ void call() {
         String severityThreshold = config?.fail_on_severity ?: "high"
         List<Exception> errors = []
 
-        inside_sdp_image "grype:latest", {
+        inside_sdp_image "grype:0.38.0", {
             login_to_registry{
                 unstash "workspace"
                 def images = get_images_to_build()
