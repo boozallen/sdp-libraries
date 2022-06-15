@@ -16,7 +16,6 @@ void call() {
                     //check for grype config file in workspace
                     if (!fileExists("./${grypeConfig}")) { error "no grype config found" }
                     // perform the grype scan
-                    sh "docker --version"
                     try {
                         if (severityThreshold == "none") {
                             sh "grype ${img.registry}/${img.repo}:${img.tag} -o ${outputFormat} >> ${rawResultsFile}"
