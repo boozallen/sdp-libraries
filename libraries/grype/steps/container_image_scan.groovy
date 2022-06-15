@@ -28,8 +28,8 @@ void call() {
                     // Catch the error on quality gate failure
                     catch(Exception err) {
                         errors.push(err)
-                        //echo "Failed: ${err}"
-                        //echo "Grype Quality Gate Failed. There are one or more CVE's that exceed the maximum allowed severity rating!"
+                        echo "Failed: ${err}"
+                        echo "Grype Quality Gate Failed. There are one or more CVE's that exceed the maximum allowed severity rating!"
                     }
                     // display the results in a human-readable format
                     finally {
