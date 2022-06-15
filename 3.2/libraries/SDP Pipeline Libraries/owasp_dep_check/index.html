@@ -1238,15 +1238,25 @@
 <td></td>
 </tr>
 <tr>
+<td><code>allow_suppression_file</code></td>
+<td>Allows whitelisting vulnerabilities using a suppression XML file</td>
+<td><code>true</code></td>
+</tr>
+<tr>
+<td><code>suppression_file</code></td>
+<td>Path to the suppression file (see <a href="https://jeremylong.github.io/DependencyCheck/general/suppression.html">here</a> for how to create a suppression file)</td>
+<td><code>dependency-check-suppression.xml</code></td>
+</tr>
+<tr>
 <td><code>image_tag</code></td>
-<td>The tag for the scanner docker image used</td>
+<td>The tag for the scanner Docker image used</td>
 <td><code>latest</code></td>
 </tr>
 </tbody>
 </table>
 <h2 id="example-configuration-snippet">Example Configuration Snippet<a class="headerlink" href="#example-configuration-snippet" title="Permanent link">&para;</a></h2>
 <hr />
-<div class="highlight"><pre><span></span><code><span class="n">libraries</span><span class="o">{</span>
+<div class="highlight"><pre><span></span><code><span class="n">libraries</span> <span class="o">{</span>
   <span class="n">owasp_dep_check</span> <span class="o">{</span>
     <span class="n">scan</span> <span class="o">=</span> <span class="o">[</span> <span class="s2">&quot;src&quot;</span> <span class="o">]</span>
     <span class="n">cvss_threshold</span> <span class="o">=</span> <span class="mi">9</span> 
