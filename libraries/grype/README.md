@@ -20,3 +20,6 @@ Uses the [Grype CLI](https://github.com/anchore/grype) to scan container images 
 | severityThreshold | String | high|
 
 ## Dependencies
+
+---
+* Docker-ce
