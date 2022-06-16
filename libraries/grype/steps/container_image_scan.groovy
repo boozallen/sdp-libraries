@@ -17,8 +17,8 @@ void call() {
                         echo "true"
                     }
                     String rawResultsFile = "${img.repo}-grype-scan-results.json"
-//check for grype config file in workspace
-//remove if (!fileExists("./${grypeConfig}")) { error "no grype config found" }
+                    //check for grype config file in workspace
+                    //remove if (!fileExists("./${grypeConfig}")) { error "no grype config found" }
                     // perform the grype scan
                     try {
                         if (severityThreshold == "none") {
