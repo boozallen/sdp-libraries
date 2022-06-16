@@ -14,7 +14,8 @@ void call() {
                 images.each { img ->
                     // Use $img.repo to help name our results uniquely. Checks to see if a forward slash exists in the string and remove everything to the left if it does.
                     if (img.repo.contains("/")) {
-                        echo "true"
+                        String[] temp = img.repo.split('/')
+                        echo temp[1]
                     }
                     String rawResultsFile = "${img.repo}-grype-scan-results.json"
                     //check for grype config file in workspace
