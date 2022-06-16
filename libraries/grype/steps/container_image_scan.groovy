@@ -22,10 +22,12 @@ void call() {
                         String rawResultsFile = "${img.repo}-grype-scan-results.json"
                         String transformedResultsFile = "${img.repo}-grype-scan-results.txt"
                     }
+                    echo rawResultsFile
                     //check for grype config file in workspace
                     //remove if (!fileExists("./${grypeConfig}")) { error "no grype config found" }
                     // perform the grype scan
                     try {
+                        echo rawResultsFile
                         if (severityThreshold == "none") {
                             sh "grype ${img.registry}/${img.repo}:${img.tag} -o ${outputFormat} >> ${rawResultsFile}"
                         }
