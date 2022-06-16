@@ -16,10 +16,11 @@ Uses the [Grype CLI](https://github.com/anchore/grype) to scan container images 
 
 | Library Configuration | Type | Default Value |
 |-----------------------|------|---------------|
-|  output_format | String | json |
-| fail_on_severity | String | high|
+| grype_container | String | grype:0.38.0 |
+| output_format | String | json |
+| fail_on_severity | String | high |
 
 ## Dependencies
 
 ---
-* Docker-ce
+* docker is required to be installed on your grype container. The packages needed are docker-ce, docker-ce-cli and containerd.io.
