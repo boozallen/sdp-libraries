@@ -15,7 +15,15 @@ void call() {
                 def images = get_images_to_build()
                 images.each { img ->
                     // Use $img.repo to help name our results uniquely. Checks to see if a forward slash exists in the string and remove everything to the left if it does.
-                    
+                    if (img.repo.contains("/")) {
+                        String[] repoImageName = img.repo.split('/')
+                        rawResultsFile = repoImageName[1] + '-grype-scan-results.json'
+                        transformedResultsFile = repoImageName[1] + '-grype-scan-results.txt'
+                    }
+                    else {
+                        rawResultsFile = "${img.repo}-grype-scan-results.json"
+                        transformedResultsFile = "${img.repo}-grype-scan-results.txt"
+                    }
                     //check for grype config file in workspace
                     //remove if (!fileExists("./${grypeConfig}")) { error "no grype config found" }
                     // perform the grype scan
