@@ -5,6 +5,8 @@ void call() {
         String grypeContainer = config?.grype_container ?: "grype:0.38.0"
         String outputFormat = config?.report_format ?: "json"
         String severityThreshold = config?.fail_on_severity ?: "high"
+        String rawResultsFile = ""
+        String transformedResultsFile = ""
         List<Exception> errors = []
 
         inside_sdp_image "${grypeContainer}", {
@@ -15,12 +17,12 @@ void call() {
                     // Use $img.repo to help name our results uniquely. Checks to see if a forward slash exists in the string and remove everything to the left if it does.
                     if (img.repo.contains("/")) {
                         String[] repoImageName = img.repo.split('/')
-                        String rawResultsFile = repoImageName[1] + '-grype-scan-results.json'
-                        String transformedResultsFile = repoImageName[1] + '-grype-scan-results.txt'
+                        rawResultsFile = repoImageName[1] + '-grype-scan-results.json'
+                        transformedResultsFile = repoImageName[1] + '-grype-scan-results.txt'
                     }
                     else {
-                        String rawResultsFile = "${img.repo}-grype-scan-results.json"
-                        String transformedResultsFile = "${img.repo}-grype-scan-results.txt"
+                        rawResultsFile = "${img.repo}-grype-scan-results.json"
+                        transformedResultsFile = "${img.repo}-grype-scan-results.txt"
                     }
                     echo rawResultsFile
                     //check for grype config file in workspace
