@@ -42,4 +42,4 @@ Splunk
 Anchore
 [Pp]arsable
 [Ss]yft
-(SBOM|sbom)
+(SBOM|sbom)s?
