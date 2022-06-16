@@ -46,11 +46,11 @@ void call() {
                             archiveArtifacts artifacts: "${rawResultsFile}", allowEmptyArchive: true
                         }
                     }
-                }  
-            }      
+                }
+            }
             stash "workspace"
             if (!(errors?.empty)) {
-                errors.each { errs -> 
+                errors.each { errs ->
                     throw errs
                 }
             }
