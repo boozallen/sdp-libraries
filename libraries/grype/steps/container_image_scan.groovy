@@ -15,8 +15,8 @@ void call() {
                     // Use $img.repo to help name our results uniquely. Checks to see if a forward slash exists in the string and remove everything to the left if it does.
                     if (img.repo.contains("/")) {
                         String[] repoImageName = img.repo.split('/')
-                        String rawResultsFile = repoImageName[1]"-grype-scan-results.json"
-                        String transformedResultsFile = repoImageName[1]"-grype-scan-results.txt"
+                        String rawResultsFile = repoImageName[1] + "-grype-scan-results.json"
+                        String transformedResultsFile = repoImageName[1] + "-grype-scan-results.txt"
                     }
                     else {
                         String rawResultsFile = "${img.repo}-grype-scan-results.json"
