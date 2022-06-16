@@ -13,7 +13,7 @@ void call() {
                 def images = get_images_to_build()
                 images.each { img ->
                     // Use $img.repo to help name our results uniquely. Checks to see if a forward slash exists in the string and remove everything to the left if it does.
-                    if (${img.repo}.contains("/")) {
+                    if (img.repo.contains("/")) {
                         echo "true"
                     }
                     String rawResultsFile = "${img.repo}-grype-scan-results.json"
