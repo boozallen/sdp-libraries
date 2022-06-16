@@ -16,9 +16,11 @@ void call() {
                     if (img.repo.contains("/")) {
                         String[] repoImageName = img.repo.split('/')
                         String rawResultsFile = repoImageName[1]"-grype-scan-results.json"
+                        String transformedResultsFile = repoImageName[1]"-grype-scan-results.txt"
                     }
                     else {
                         String rawResultsFile = "${img.repo}-grype-scan-results.json"
+                        String transformedResultsFile = "${img.repo}-grype-scan-results.txt"
                     }
                     //check for grype config file in workspace
                     //remove if (!fileExists("./${grypeConfig}")) { error "no grype config found" }
@@ -42,8 +44,7 @@ void call() {
                     finally {
                         //Specific to BASS team. Allows Backstage to ingest JSON but also creates a human readable artifact.
                         if (outputFormat == "json") {
-                            if (fileExists())
-                            String transformedResultsFile = "${img.repo}-grype-scan-results.txt"
+                            //if (fileExists())
                             def transform_script = resource("transform-grype-scan-results.sh")
                             writeFile file: "transform-results.sh", text: transform_script
                             def transformed_results = sh script: "/bin/bash ./transform-results.sh ${rawResultsFile} ${grypeConfig}", returnStdout: true
