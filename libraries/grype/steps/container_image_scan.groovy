@@ -3,18 +3,19 @@ package libraries.grype.steps
 void call() {
     stage("Grype Image Scan") {
         String grypeConfig = ".grype.yaml"
+        String grypeContainer = config?.grype_container ?: "grype:0.38.0"
         String outputFormat = config?.report_format ?: "json"
         String severityThreshold = config?.fail_on_severity ?: "high"
         List<Exception> errors = []
 
-        inside_sdp_image "grype:0.38.0", {
+        inside_sdp_image "${grypeContainer}", {
             login_to_registry{
                 unstash "workspace"
                 def images = get_images_to_build()
                 images.each { img ->
                     String rawResultsFile = "${img.context}-grype-scan-results.json"
-                    //check for grype config file in workspace
-                    if (!fileExists("./${grypeConfig}")) { error "no grype config found" }
+//check for grype config file in workspace
+//remove if (!fileExists("./${grypeConfig}")) { error "no grype config found" }
                     // perform the grype scan
                     try {
                         if (severityThreshold == "none") {
