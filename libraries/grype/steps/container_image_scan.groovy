@@ -2,7 +2,6 @@ package libraries.grype.steps
 
 void call() {
     stage("Grype Image Scan") {
-        String grypeConfig = ".grype.yaml"
         String grypeContainer = config?.grype_container ?: "grype:0.38.0"
         String outputFormat = config?.report_format ?: "json"
         String severityThreshold = config?.fail_on_severity ?: "high"
@@ -13,7 +12,7 @@ void call() {
                 unstash "workspace"
                 def images = get_images_to_build()
                 images.each { img ->
-                    String rawResultsFile = "${img.context}-grype-scan-results.json"
+                    String rawResultsFile = "${img.repo}-grype-scan-results.json"
 //check for grype config file in workspace
 //remove if (!fileExists("./${grypeConfig}")) { error "no grype config found" }
                     // perform the grype scan
@@ -34,8 +33,10 @@ void call() {
                     }
                     // display the results in a human-readable format
                     finally {
+                        //Specific to BASS team. Allows Backstage to ingest JSON but also creates a human readable artifact.
                         if (outputFormat == "json") {
-                            String transformedResultsFile = "${img.context}-grype-scan-results.txt"
+                            if (fileExists())
+                            String transformedResultsFile = "${img.repo}-grype-scan-results.txt"
                             def transform_script = resource("transform-grype-scan-results.sh")
                             writeFile file: "transform-results.sh", text: transform_script
                             def transformed_results = sh script: "/bin/bash ./transform-results.sh ${rawResultsFile} ${grypeConfig}", returnStdout: true
