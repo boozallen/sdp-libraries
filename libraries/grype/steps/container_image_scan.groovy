@@ -25,6 +25,7 @@ void call() {
                 sh "touch test/grype/config.yaml"
                 sh '''
                     export XDG_CONFIG_HOME="/root/workspace/Multi-image-scan_main/test"
+                    echo $XDG_CONFIG_HOME
                     '''
                 sh '''
                     ls -alh 
