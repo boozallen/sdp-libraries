@@ -34,6 +34,7 @@ void call() {
                     '''
                 //sh 'echo "fail-on-severity: critical" >> test/grype/config.yaml'
                 def HOME = sh (script: 'echo $HOME', returnStdout: true).trim()
+                sh 'echo $XDG_CONFIG_HOME'
                 def XDG = sh (script: 'echo $XDG_CONFIG_HOME', returnStdout: true).trim()
                 if (grypeConfig != null) {
                     ARGS += "--config ${grypeConfig}"
