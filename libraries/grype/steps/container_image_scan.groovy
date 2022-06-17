@@ -17,19 +17,19 @@ void call() {
                 if (grypeConfig != null) {
                     ARGS += "--config ${grypeConfig}"
                 }
-                else if (fileExists '.grype.yaml') {
+                else if (fileExists('.grype.yaml')) {
                     grypeConfig = '.grype.yaml'
                     ARGS += "--config ${grypeConfig}"
                 }
-                else if (fileExists '.grype/config.yaml') {
+                else if (fileExists('.grype/config.yaml')) {
                     grypeConfig = '.grype/config.yaml'
                     ARGS += "--config ${grypeConfig}"
                 }
-                else if (fileExists '~/.grype.yaml') {
+                else if (fileExists('~/.grype.yaml')) {
                     grypeConfig = '~/grype.yaml'
                     ARGS += "--config ${grypeConfig}"
                 }
-                else if (fileExists '<XDG_CONFIG_HOME>/grype/config.yaml') {
+                else if (fileExists('<XDG_CONFIG_HOME>/grype/config.yaml')) {
                     grypeConfig = '<XDG_CONFIG_HOME>/grype/config.yaml'
                     ARGS += "--config ${grypeConfig}"
                 }
