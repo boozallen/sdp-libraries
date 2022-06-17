@@ -24,7 +24,7 @@ void call() {
                 sh "mkdir test/grype"
                 sh "touch test/grype/config.yaml"
                 sh '''
-                    export XDG_CONFIG_HOME="/root/workspace/Multi-image-scan_main/test"
+                    set XDG_CONFIG_HOME="/root/workspace/Multi-image-scan_main/test"
                     echo $XDG_CONFIG_HOME
                     '''
                 sh '''
