@@ -5,7 +5,7 @@ void call() {
         String grypeContainer = config?.grype_container ?: "grype:0.38.0"
         String outputFormat = config?.report_format ?: "json"
         String severityThreshold = config?.fail_on_severity ?: "high"
-        String grypeConfig = config?.grype_config ?: ""
+        String grypeConfig = config?.grype_config
         String rawResultsFile = ""
         String transformedResultsFile = ""
         List<Exception> errors = []
