@@ -33,8 +33,8 @@ void call() {
                 //    ls -alh ..
                 //    ls -alh ~
                 //    '''
-                def HOME = sh (script: 'echo $HOME')
-                //echo HOME
+                def HOME = sh (script: 'echo $HOME').trim()
+                echo HOME
                 if (grypeConfig != null) {
                     ARGS += "--config ${grypeConfig}"
                     echo "Grype file explicitly specified in pipeline_config.groovy"
