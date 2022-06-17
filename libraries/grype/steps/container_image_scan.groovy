@@ -26,14 +26,14 @@ void call() {
                 //def newFile = new File('/root/workspace/Multi-image-scan_main/.grype/config.yaml')
                 //newFile.createNewFile()
                 sh '''
-                    $HOME
-                    echo $HOME
+                    echo $XDG_CONFIG_HOME
                     pwd
                     ls -alh
                     ls -alh .
                     ls -alh ..
                     ls -alh ~
                     '''
+                def HOME = sh (script: '$HOME')
                 if (grypeConfig != null) {
                     ARGS += "--config ${grypeConfig}"
                     echo "Grype file explicitly specified in pipeline_config.groovy"
@@ -48,8 +48,8 @@ void call() {
                     ARGS += "--config ${grypeConfig}"
                     echo "Found .grype/config.yaml"
                 }
-                else if (fileExists('~/.grype.yaml')) {
-                    grypeConfig = '~/grype.yaml'
+                else if (fileExists("${HOME}/.grype.yaml")) {
+                    grypeConfig = "${HOME}/.grype.yaml"
                     ARGS += "--config ${grypeConfig}"
                     echo "Found ~/.grype.yaml"
                 }
