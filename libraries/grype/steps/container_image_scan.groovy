@@ -20,23 +20,8 @@ void call() {
         inside_sdp_image "${grypeContainer}", {
             login_to_registry{
                 unstash "workspace"
-                sh "touch /root/.grype.yaml"
-                //def newDir = new File('/root/workspace/Multi-image-scan_main/.grype')
-                //newDir.mkdir()
-                //def newFile = new File('/root/workspace/Multi-image-scan_main/.grype/config.yaml')
-                //newFile.createNewFile()
-                sh '''
-                    yum install -y procps
-                    ps -elf | grep groovy
-                    echo $XDG_CONFIG_HOME
-                    pwd
-                    ls -alh
-                    ls -alh .
-                    ls -alh ..
-                    ls -alh ~
-                    '''
+                sh "touch .grype.yaml"
                 def HOME = sh (script: 'echo $HOME', returnStdout: true).trim()
-                echo HOME
                 if (grypeConfig != null) {
                     ARGS += "--config ${grypeConfig}"
                     echo "Grype file explicitly specified in pipeline_config.groovy"
