@@ -20,22 +20,27 @@ void call() {
         inside_sdp_image "${grypeContainer}", {
             login_to_registry{
                 unstash "workspace"
+                new File(".grype.yaml").text
                 if (grypeConfig != null) {
                     ARGS += "--config ${grypeConfig}"
+                    echo "Grype file explicitly specified in pipeline_config.groovy"
                 }
                 else if (fileExists('.grype.yaml')) {
                     grypeConfig = '.grype.yaml'
                     ARGS += "--config ${grypeConfig}"
+                    echo "Found .grype.yaml"
                 }
                 else if (fileExists('.grype/config.yaml')) {
                     grypeConfig = '.grype/config.yaml'
                     ARGS += "--config ${grypeConfig}"
+                    echo "Found .grype/config.yaml"
                 }
                 else if (fileExists('~/.grype.yaml')) {
                     grypeConfig = '~/grype.yaml'
                     ARGS += "--config ${grypeConfig}"
+                    echo "Found ~/.grype.yaml"
                 }
-                else if (fileExists('<XDG_CONFIG_HOME>/grype/config.yaml')) {
+                else if (fileExists('$XDG_CONFIG_HOME/grype/config.yaml')) {
                     grypeConfig = '<XDG_CONFIG_HOME>/grype/config.yaml'
                     ARGS += "--config ${grypeConfig}"
                 }
