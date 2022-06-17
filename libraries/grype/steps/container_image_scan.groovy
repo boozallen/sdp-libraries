@@ -10,6 +10,10 @@ void call() {
         String transformedResultsFile = ""
         String ARGS = ""
         List<Exception> errors = []
+        ARGS += "-o ${outputFormat} "
+        if (severityThreshold != "none") {
+            ARGS += "--fail-on ${severityThreshold} "
+        }
 
         inside_sdp_image "${grypeContainer}", {
             login_to_registry{
@@ -52,10 +56,11 @@ void call() {
                     // perform the grype scan
                     try {
                         if (severityThreshold == "none") {
-                            sh "grype ${img.registry}/${img.repo}:${img.tag} -o ${outputFormat} ${ARGS} >> ${rawResultsFile}"
+                            sh "grype ${img.registry}/${img.repo}:${img.tag} ${ARGS} >> ${rawResultsFile}"
+                            echo "No Fail on Severity Threshold was set!"
                         }
                         else {
-                            sh "grype ${img.registry}/${img.repo}:${img.tag} -o ${outputFormat} --fail-on ${severityThreshold} ${ARGS} >> ${rawResultsFile}"
+                            sh "grype ${img.registry}/${img.repo}:${img.tag} ${ARGS} >> ${rawResultsFile}"
                             echo "No CVE's at or above set threshold!"
                         }
                     }
