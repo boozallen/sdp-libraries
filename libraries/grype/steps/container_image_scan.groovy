@@ -26,6 +26,8 @@ void call() {
                 //def newFile = new File('/root/workspace/Multi-image-scan_main/.grype/config.yaml')
                 //newFile.createNewFile()
                 sh '''
+                    $HOME
+                    echo $HOME
                     pwd
                     ls -alh
                     ls -alh .
