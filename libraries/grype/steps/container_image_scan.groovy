@@ -13,7 +13,7 @@ void call() {
         if (outputFormat != null) {
             ARGS += "-o ${outputFormat} "
         }
-        if (severityThreshold != "none") {
+        if (severityThreshold != null) {
             ARGS += "--fail-on ${severityThreshold} "
         }
 
@@ -57,7 +57,7 @@ void call() {
                     }
                     // perform the grype scan
                     try {
-                        if (severityThreshold == "none") {
+                        if (severityThreshold == null) {
                             sh "grype ${img.registry}/${img.repo}:${img.tag} ${ARGS} >> ${rawResultsFile}"
                             echo "No Fail on Severity Threshold was set!"
                         }
