@@ -24,6 +24,11 @@ void call() {
                 sh "mkdir test/grype"
                 sh "touch test/grype/config.yaml"
                 sh 'export XDG_CONFIG_HOME="/root/workspace/Multi-image-scan_main/test"'
+                sh '''
+                    ls -alh 
+                    ls -alh test
+                    ls -alh test/grype/
+                    '''
                 //sh 'echo "fail-on-severity: critical" >> test/grype/config.yaml'
                 def HOME = sh (script: 'echo $HOME', returnStdout: true).trim()
                 def XDG = sh (script: 'echo $XDG_CONFIG_HOME', returnStdout: true).trim()
