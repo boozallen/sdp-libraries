@@ -33,7 +33,7 @@ void call() {
                 //    ls -alh ..
                 //    ls -alh ~
                 //    '''
-                def HOME = sh (script: 'echo $HOME').trim()
+                def HOME = sh (script: 'echo $HOME', returnStdout: true).trim()
                 echo HOME
                 if (grypeConfig != null) {
                     ARGS += "--config ${grypeConfig}"
