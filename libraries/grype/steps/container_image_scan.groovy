@@ -20,9 +20,11 @@ void call() {
         inside_sdp_image "${grypeContainer}", {
             login_to_registry{
                 unstash "workspace"
-                sh "mkdir .grype"
-                sh "touch .grype/config.yaml"
-                sh 'echo "fail-on-severity: critical" >> .grype/config.yaml'
+                sh "mkdir test"
+                sh "mkdir test/grype"
+                sh "touch test/grype/config.yaml"
+                sh 'export XDG_CONFIG_HOME="/root/workspace/Multi-image-scan_main/test"'
+                //sh 'echo "fail-on-severity: critical" >> test/grype/config.yaml'
                 def HOME = sh (script: 'echo $HOME', returnStdout: true).trim()
                 if (grypeConfig != null) {
                     ARGS += "--config ${grypeConfig}"
