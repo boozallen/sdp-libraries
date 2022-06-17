@@ -27,7 +27,9 @@ void call() {
                     ls -alh ..
                     ls -alh ~
                     '''
-                def newFile = new File("~/config.yaml")
+                def newDir = new File('./.grype')
+                newDir.mkdir()
+                def newFile = new File("./.grype/config.yaml")
                 newFile.createNewFile()
                 if (grypeConfig != null) {
                     ARGS += "--config ${grypeConfig}"
