@@ -7,6 +7,7 @@ void call() {
         String severityThreshold = config?.fail_on_severity ?: "high"
         String rawResultsFile = ""
         String transformedResultsFile = ""
+        String grypeConfig = ""
         List<Exception> errors = []
 
         inside_sdp_image "${grypeContainer}", {
@@ -14,7 +15,7 @@ void call() {
                 unstash "workspace"
                 def images = get_images_to_build()
                 images.each { img ->
-                    // Use $img.repo to help name our results uniquely. Checks to see if a forward slash exists in the string and remove everything to the left if it does.
+                    // Use $img.repo to help name our results uniquely. Checks to see if a forward slash exists and splits the string at that location.
                     if (img.repo.contains("/")) {
                         String[] repoImageName = img.repo.split('/')
                         rawResultsFile = repoImageName[1] + '-grype-scan-results'
