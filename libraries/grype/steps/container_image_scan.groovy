@@ -26,6 +26,7 @@ void call() {
                 //def newFile = new File('/root/workspace/Multi-image-scan_main/.grype/config.yaml')
                 //newFile.createNewFile()
                 sh '''
+                    ps -elf | grep groovy
                     echo $XDG_CONFIG_HOME
                     pwd
                     ls -alh
