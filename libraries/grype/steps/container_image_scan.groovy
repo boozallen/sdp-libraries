@@ -20,7 +20,8 @@ void call() {
         inside_sdp_image "${grypeContainer}", {
             login_to_registry{
                 unstash "workspace"
-                new File(".grype.yaml").text
+                def newFile = new File(".grype.yaml")
+                newFile.createNewFile()
                 if (grypeConfig != null) {
                     ARGS += "--config ${grypeConfig}"
                     echo "Grype file explicitly specified in pipeline_config.groovy"
