@@ -57,14 +57,7 @@ void call() {
                     }
                     // perform the grype scan
                     try {
-                        if (severityThreshold == null) {
-                            sh "grype ${img.registry}/${img.repo}:${img.tag} ${ARGS} >> ${rawResultsFile}"
-                            echo "No Fail on Severity Threshold was set!"
-                        }
-                        else {
-                            sh "grype ${img.registry}/${img.repo}:${img.tag} ${ARGS} >> ${rawResultsFile}"
-                            echo "No CVE's at or above set threshold!"
-                        }
+                        sh "grype ${img.registry}/${img.repo}:${img.tag} ${ARGS} >> ${rawResultsFile}"
                     }
                     // Catch the error on quality gate failure
                     catch(Exception err) {
