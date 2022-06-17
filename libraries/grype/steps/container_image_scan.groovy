@@ -21,6 +21,7 @@ void call() {
             login_to_registry{
                 unstash "workspace"
                 sh "touch .grype.yaml"
+                sh 'cat "fail-on-severity: critical" >> .grype.yaml'
                 def HOME = sh (script: 'echo $HOME', returnStdout: true).trim()
                 if (grypeConfig != null) {
                     ARGS += "--config ${grypeConfig}"
