@@ -8,16 +8,33 @@ void call() {
         String grypeConfig = config?.grype_config
         String rawResultsFile = ""
         String transformedResultsFile = ""
+        String ARGS = ""
         List<Exception> errors = []
 
         inside_sdp_image "${grypeContainer}", {
             login_to_registry{
                 unstash "workspace"
                 if (grypeConfig != null) {
-                    echo grypeConfig
+                    ARGS += "--config ${grypeConfig}"
+                }
+                else if (fileExists '.grype.yaml') {
+                    grypeConfig = '.grype.yaml'
+                    ARGS += "--config ${grypeConfig}"
+                }
+                else if (fileExists '.grype/config.yaml') {
+                    grypeConfig = '.grype/config.yaml'
+                    ARGS += "--config ${grypeConfig}"
+                }
+                else if (fileExists '~/.grype.yaml') {
+                    grypeConfig = '~/grype.yaml'
+                    ARGS += "--config ${grypeConfig}"
+                }
+                else if (fileExists '<XDG_CONFIG_HOME>/grype/config.yaml') {
+                    grypeConfig = '<XDG_CONFIG_HOME>/grype/config.yaml'
+                    ARGS += "--config ${grypeConfig}"
                 }
                 else {
-                    echo "NULL"
+                    //do nothing
                 }
                 def images = get_images_to_build()
                 images.each { img ->
@@ -31,15 +48,13 @@ void call() {
                         rawResultsFile = "${img.repo}-grype-scan-results"
                         transformedResultsFile = "${img.repo}-grype-scan-results.txt"
                     }
-                    //check for grype config file in workspace
-                    //remove if (!fileExists("./${grypeConfig}")) { error "no grype config found" }
                     // perform the grype scan
                     try {
                         if (severityThreshold == "none") {
-                            sh "grype ${img.registry}/${img.repo}:${img.tag} -o ${outputFormat} >> ${rawResultsFile}"
+                            sh "grype ${img.registry}/${img.repo}:${img.tag} -o ${outputFormat} ${ARGS} >> ${rawResultsFile}"
                         }
                         else {
-                            sh "grype ${img.registry}/${img.repo}:${img.tag} -o ${outputFormat} --fail-on ${severityThreshold} >> ${rawResultsFile}"
+                            sh "grype ${img.registry}/${img.repo}:${img.tag} -o ${outputFormat} --fail-on ${severityThreshold} ${ARGS} >> ${rawResultsFile}"
                             echo "No CVE's at or above set threshold!"
                         }
                     }
