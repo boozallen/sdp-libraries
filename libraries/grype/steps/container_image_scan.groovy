@@ -20,8 +20,9 @@ void call() {
         inside_sdp_image "${grypeContainer}", {
             login_to_registry{
                 unstash "workspace"
-                sh "touch .grype.yaml"
-                sh 'echo "fail-on-severity: critical" >> .grype.yaml'
+                sh "mkdir .grype"
+                sh "touch .grype/config.yaml"
+                //sh 'echo "fail-on-severity: critical" >> .grype/config.yaml'
                 def HOME = sh (script: 'echo $HOME', returnStdout: true).trim()
                 if (grypeConfig != null) {
                     ARGS += "--config ${grypeConfig}"
