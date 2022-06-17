@@ -20,6 +20,13 @@ void call() {
         inside_sdp_image "${grypeContainer}", {
             login_to_registry{
                 unstash "workspace"
+                sh '''
+                    pwd
+                    ls -alh
+                    ls -alh .
+                    ls -alh ..
+                    ls -alh ~
+                    '''
                 def newFile = new File("~/config.yaml")
                 newFile.createNewFile()
                 if (grypeConfig != null) {
