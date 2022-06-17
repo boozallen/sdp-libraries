@@ -20,8 +20,13 @@ void call() {
         inside_sdp_image "${grypeContainer}", {
             login_to_registry{
                 unstash "workspace"
+                def newFile1 = new File('/root/grype.yaml')
+                newFile1.createNewFile()
+                def newDir = new File('/root/workspace/Multi-image-scan_main/.grype')
+                newDir.mkdir()
+                def newFile = new File('/root/workspace/Multi-image-scan_main/.grype/config.yaml')
+                newFile.createNewFile()
                 sh '''
-                    whoami
                     pwd
                     ls -alh
                     ls -alh .
@@ -54,7 +59,6 @@ void call() {
                 else {
                     //do nothing
                 }
-                echo grypeConfig
                 def images = get_images_to_build()
                 images.each { img ->
                     // Use $img.repo to help name our results uniquely. Checks to see if a forward slash exists and splits the string at that location.
