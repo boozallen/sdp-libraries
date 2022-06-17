@@ -5,14 +5,20 @@ void call() {
         String grypeContainer = config?.grype_container ?: "grype:0.38.0"
         String outputFormat = config?.report_format ?: "json"
         String severityThreshold = config?.fail_on_severity ?: "high"
+        String grypeConfig = config?.grype_config ?: ""
         String rawResultsFile = ""
         String transformedResultsFile = ""
-        String grypeConfig = ""
         List<Exception> errors = []
 
         inside_sdp_image "${grypeContainer}", {
             login_to_registry{
                 unstash "workspace"
+                if (grypeConfig == !null) {
+                    echo grypeConfig
+                }
+                else {
+                    echo "NULL"
+                }
                 def images = get_images_to_build()
                 images.each { img ->
                     // Use $img.repo to help name our results uniquely. Checks to see if a forward slash exists and splits the string at that location.
