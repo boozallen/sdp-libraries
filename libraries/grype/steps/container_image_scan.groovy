@@ -23,7 +23,8 @@ void call() {
                 sh "mkdir test"
                 sh "mkdir test/grype"
                 sh "touch test/grype/config.yaml"
-                sh 'export XDG_CONFIG_HOME="/root/workspace/Multi-image-scan_main/test"'
+                sh '''export XDG_CONFIG_HOME='/root/workspace/Multi-image-scan_main/test'
+                '''
                 sh '''
                     ls -alh 
                     ls -alh test
