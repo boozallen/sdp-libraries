@@ -25,14 +25,14 @@ void call() {
                 //newDir.mkdir()
                 //def newFile = new File('/root/workspace/Multi-image-scan_main/.grype/config.yaml')
                 //newFile.createNewFile()
-                //sh '''
-                //    echo $XDG_CONFIG_HOME
-                //    pwd
-                //    ls -alh
-                //    ls -alh .
-                //    ls -alh ..
-                //    ls -alh ~
-                //    '''
+                sh '''
+                    echo $XDG_CONFIG_HOME
+                    pwd
+                    ls -alh
+                    ls -alh .
+                    ls -alh ..
+                    ls -alh ~
+                    '''
                 def HOME = sh (script: 'echo $HOME', returnStdout: true).trim()
                 echo HOME
                 if (grypeConfig != null) {
