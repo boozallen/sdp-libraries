@@ -3,14 +3,16 @@ package libraries.grype.steps
 void call() {
     stage("Grype Image Scan") {
         String grypeContainer = config?.grype_container ?: "grype:0.38.0"
-        String outputFormat = config?.report_format ?: "json"
-        String severityThreshold = config?.fail_on_severity ?: "high"
+        String outputFormat = config?.report_format
+        String severityThreshold = config?.fail_on_severity
         String grypeConfig = config?.grype_config
         String rawResultsFile = ""
         String transformedResultsFile = ""
         String ARGS = ""
         List<Exception> errors = []
-        ARGS += "-o ${outputFormat} "
+        if (outputFormat != null) {
+            ARGS += "-o ${outputFormat} "
+        }
         if (severityThreshold != "none") {
             ARGS += "--fail-on ${severityThreshold} "
         }
