@@ -13,7 +13,7 @@ void call() {
         inside_sdp_image "${grypeContainer}", {
             login_to_registry{
                 unstash "workspace"
-                if (grypeConfig == !null) {
+                if (grypeConfig != null) {
                     echo grypeConfig
                 }
                 else {
