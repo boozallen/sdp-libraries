@@ -20,9 +20,11 @@ void call() {
         inside_sdp_image "${grypeContainer}", {
             login_to_registry{
                 unstash "workspace"
-                def newDir = new File('.grype')
+                def newFile = new File('/root/workspace/Multi-image-scan_main/config.yaml')
+                newFile.createNewFile()
+                def newDir = new File('/root/workspace/Multi-image-scan_main/.grype')
                 newDir.mkdir()
-                def newFile = new File('.grype/config.yaml')
+                def newFile = new File('/root/workspace/Multi-image-scan_main/.grype/config.yaml')
                 newFile.createNewFile()
                 sh '''
                     pwd
