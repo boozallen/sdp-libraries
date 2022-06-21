@@ -59,7 +59,6 @@ void call() {
 
                 def images = get_images_to_build()
                 images.each { img ->
-
                     // Use $img.repo to help name our results uniquely. Checks to see if a forward slash exists and splits the string at that location.
                     if (img.repo.contains("/")) {
                         String[] repoImageName = img.repo.split('/')
@@ -83,7 +82,6 @@ void call() {
                     }
                     // display the results in a human-readable format
                     finally {
-
                         //Specific to BASS team. Allows Backstage to ingest JSON but also creates a human readable artifact.
                         if (outputFormat == "json" && grypeConfig != null) {
                             def transform_script = resource("transform-grype-scan-results.sh")
@@ -100,7 +98,7 @@ void call() {
                 }
             }
             stash "workspace"
-            
+
             if (!(errors?.empty)) {
                 errors.each { errs ->
                     throw errs
