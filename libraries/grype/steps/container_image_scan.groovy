@@ -10,9 +10,11 @@ void call() {
         String transformedResultsFile = ""
         String ARGS = ""
         List<Exception> errors = []
+
         if (outputFormat != null) {
             ARGS += "-o ${outputFormat} "
         }
+
         if (severityThreshold != null) {
             ARGS += "--fail-on ${severityThreshold} "
         }
@@ -20,11 +22,14 @@ void call() {
         inside_sdp_image "${grypeContainer}", {
             login_to_registry{
                 unstash "workspace"
+
                 // Gets environment variable and sets it to a groovy var
                 def HOME = sh (script: 'echo $HOME', returnStdout: true).trim()
                 sh 'echo $XDG_CONFIG_HOME'
+
                 // Gets environment variable and sets it to a groovy var
                 def XDG = sh (script: 'echo $XDG_CONFIG_HOME', returnStdout: true).trim()
+
                 if (grypeConfig != null) {
                     ARGS += "--config ${grypeConfig}"
                     echo "Grype file explicitly specified in pipeline_config.groovy"
@@ -51,8 +56,10 @@ void call() {
                 else {
                     //do nothing
                 }
+
                 def images = get_images_to_build()
                 images.each { img ->
+
                     // Use $img.repo to help name our results uniquely. Checks to see if a forward slash exists and splits the string at that location.
                     if (img.repo.contains("/")) {
                         String[] repoImageName = img.repo.split('/')
@@ -63,6 +70,7 @@ void call() {
                         rawResultsFile = "${img.repo}-grype-scan-results"
                         transformedResultsFile = "${img.repo}-grype-scan-results.txt"
                     }
+
                     // perform the grype scan
                     try {
                         sh "grype ${img.registry}/${img.repo}:${img.tag} ${ARGS} >> ${rawResultsFile}"
@@ -75,6 +83,7 @@ void call() {
                     }
                     // display the results in a human-readable format
                     finally {
+
                         //Specific to BASS team. Allows Backstage to ingest JSON but also creates a human readable artifact.
                         if (outputFormat == "json" && grypeConfig != null) {
                             def transform_script = resource("transform-grype-scan-results.sh")
@@ -91,6 +100,7 @@ void call() {
                 }
             }
             stash "workspace"
+            
             if (!(errors?.empty)) {
                 errors.each { errs ->
                     throw errs
