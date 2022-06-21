@@ -6,7 +6,7 @@
       <meta charset="utf-8">
       <meta name="viewport" content="width=device-width,initial-scale=1">
       
-        <meta name="description" content="This library allows you to perform .NET build and test commands in the SDP dotnet-sdk:5.0 agent container">
+        <meta name="description" content="This library allows you to perform .NET build and test commands in the SDP dotnet-sdk agent container">
       
       
       
@@ -1161,7 +1161,7 @@
                 
 
 <h1 id="dotnet">DotNet<a class="headerlink" href="#dotnet" title="Permanent link">&para;</a></h1>
-<p>This library allows you to perform .NET build and test commands in the SDP <code>dotnet-sdk:5.0</code> agent container.</p>
+<p>This library allows you to perform .NET build and test commands in the SDP <code>dotnet-sdk</code> agent container.</p>
 <h2 id="steps">Steps<a class="headerlink" href="#steps" title="Permanent link">&para;</a></h2>
 <table>
 <thead>
@@ -1184,6 +1184,7 @@
 <h2 id="configuration">Configuration<a class="headerlink" href="#configuration" title="Permanent link">&para;</a></h2>
 <div class="highlight"><span class="filename">pipeline_config.groovy</span><pre><span></span><code><span class="n">libraries</span> <span class="o">{</span>
   <span class="n">dotnet</span> <span class="o">{</span>
+    <span class="n">sdk_image</span> <span class="o">=</span> <span class="s1">&#39;dotnet-sdk:6.0.106&#39;</span>
     <span class="n">source_build</span> <span class="o">{</span>
       <span class="n">outDir</span> <span class="o">=</span> <span class="s2">&quot;applicationOutput&quot;</span>
     <span class="o">}</span>
@@ -1196,7 +1197,7 @@
 <h2 id="dependencies">Dependencies<a class="headerlink" href="#dependencies" title="Permanent link">&para;</a></h2>
 <ul>
 <li>The SDP library</li>
-<li>Access to the <code>dotnet-sdk:5.0</code> build agent container via the repository defined in your SDP library configuration</li>
+<li>Access to a <code>dotnet-sdk</code> build agent container via the repository defined in your SDP library configuration</li>
 </ul>
 
               
