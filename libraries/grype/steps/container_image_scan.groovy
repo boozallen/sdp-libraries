@@ -74,7 +74,7 @@ void call() {
                     // display the results in a human-readable format
                     finally {
                         //Specific to BASS team. Allows Backstage to ingest JSON but also creates a human readable artifact.
-                        if (outputFormat == "json") {
+                        if (outputFormat == "json" && grypeConfig != null) {
                             def transform_script = resource("transform-grype-scan-results.sh")
                             writeFile file: "transform-results.sh", text: transform_script
                             def transformed_results = sh script: "/bin/bash ./transform-results.sh ${rawResultsFile} ${grypeConfig}", returnStdout: true
