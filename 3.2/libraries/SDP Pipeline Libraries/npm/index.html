@@ -882,6 +882,13 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#migrating-from-sdp-32-to-40" class="md-nav__link">
+    Migrating from SDP 3.2 to 4.0
+  </a>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -1215,6 +1222,13 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#migrating-from-sdp-32-to-40" class="md-nav__link">
+    Migrating from SDP 3.2 to 4.0
+  </a>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -1479,6 +1493,22 @@ It's just a key, used to supersede library config with Application Environment c
 <ul>
 <li>The <a href="../sdp/">SDP library</a> must be loaded inside the <code>pipeline_config.groovy</code> file.</li>
 </ul>
+<h2 id="migrating-from-sdp-32-to-40">Migrating from SDP 3.2 to 4.0<a class="headerlink" href="#migrating-from-sdp-32-to-40" title="Permanent link">&para;</a></h2>
+<p>SDP <code>4.0</code> reworked this library to use dynamic step aliasing.</p>
+<p>To recreate the previous <code>source_build()</code> and <code>unit_test()</code> functionality of version <code>3.2</code>, the below minimal pipeline configuration can be used:</p>
+<div class="highlight"><span class="filename">pipeline_configuration.groovy</span><pre><span></span><code><span class="n">libraries</span> <span class="o">{</span>
+  <span class="n">npm</span> <span class="o">{</span>
+    <span class="n">source_build</span> <span class="o">{</span>
+      <span class="n">stageName</span> <span class="o">=</span> <span class="s2">&quot;NPM Source Build&quot;</span>
+      <span class="n">script</span> <span class="o">=</span> <span class="s2">&quot;build&quot;</span>
+    <span class="o">}</span>
+    <span class="n">unit_test</span> <span class="o">{</span>
+      <span class="n">stageName</span> <span class="o">=</span> <span class="s2">&quot;NPM Unit Tests&quot;</span>
+      <span class="n">script</span> <span class="o">=</span> <span class="s2">&quot;test&quot;</span>
+    <span class="o">}</span>
+  <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div>
 
               
             </article>
