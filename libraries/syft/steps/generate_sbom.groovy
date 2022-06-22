@@ -15,6 +15,7 @@ void call() {
 
     stage('Generate SBOM using Syft') {
         inside_sdp_image "${sbomContainer}", {
+            unstash "workspace"
             images.each { img ->
                 // perform the syft scan
                 sh "syft ${img.registry}/${img.repo}:${img.tag} -o json=${img.repo}-${img.tag}-${rawResultsFile}"
@@ -22,6 +23,7 @@ void call() {
                 // archive the results
                 archiveArtifacts artifacts: "${img.repo}-${img.tag}-${rawResultsFile}"
             }
+            stash "workspace"
         }
     }
 }
