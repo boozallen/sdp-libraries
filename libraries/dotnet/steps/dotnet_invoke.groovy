@@ -11,6 +11,8 @@ void call() {
     String outDir = ""
     String resultDir = ""
 
+    String sdkImage = config?.sdk_image ?: "dotnet-sdk:latest"
+
     switch(stepContext.name) {
         case "source_build":
             stepName = "DotNet Build"
@@ -25,7 +27,7 @@ void call() {
     }
 
     stage(stepName) {
-        inside_sdp_image "dotnet-sdk:5.0.214", {
+        inside_sdp_image "${sdkImage}", {
             unstash "workspace"
 
             if (stepName == "DotNet Build") {
