@@ -109,6 +109,33 @@ public class ContainerImageScanTestSpec extends JTEPipelineSpecification {
             1 * getPipelineMock("sh")("grype test_registry/image3_repo/qwerty:4321dcbc  >> qwerty-grype-scan-results")
     }
 
+    // test different inputs json, table, cyclonedx. low, high, critical, negligible, medium. grype no grype
+    def "Test different inputs run as expected" () {
+        given:
+            ContainerImageScan.getBinding().setVariable("config", [report_format: "json", fail_on_severity: "low"])
+        when:
+            ContainerImageScan()
+        then:
+            (1.._) * getPipelineMock("sh")({it =~ /^grype .* -o json --fail-on low  >> .*/})
+    }
+    // test archive artifacts
+    // test error handling
+    // test stash workplace
+
+    //def "Check images are scanned properly with pipeline_config.groovy vars set" () {
+    //    expect:
+    //        ContainerImageScan().getBinding().setVariable("config", [report_format: ${a}, fail_on_severity: ${b}, grype_config: ${c}])                       
+    //        getPipelineMock("sh")({it =~ /^grype  \${a}\${b}\${c} >> .*/})
+    //    where:
+    //    //outputFormat|severityThreshold|grypeConfig
+    //        a           | b             | c
+    //        "json"      | "low"         | ".grype.yaml"
+    //        "table"     | "medium"      | "config/.grype.yaml"
+    //        "cyclonedx" | "high"        | "grype/config.yaml"
+    //        "json"      | "negligible"  | null
+    //        "table"     | "critical"    | null
+    //}
+
 
 }
 
