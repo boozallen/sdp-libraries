@@ -24,11 +24,10 @@ void call() {
                 unstash "workspace"
 
                 // Gets environment variable and sets it to a groovy var
-                def HOME = sh (script: 'echo $HOME', returnStdout: true).trim()
-                sh 'echo $XDG_CONFIG_HOME'
+                String HOME = sh (script: 'echo $HOME', returnStdout: true).trim()
 
                 // Gets environment variable and sets it to a groovy var
-                def XDG = sh (script: 'echo $XDG_CONFIG_HOME', returnStdout: true).trim()
+                String XDG = sh (script: 'echo $XDG_CONFIG_HOME', returnStdout: true).trim()
 
                 if (grypeConfig != null) {
                     ARGS += "--config ${grypeConfig}"
@@ -49,9 +48,10 @@ void call() {
                     ARGS += "--config ${grypeConfig}"
                     echo "Found ~/.grype.yaml"
                 }
-                else if (fileExists("{$XDG}/grype/config.yaml")) {
+                else if (fileExists("${XDG}/grype/config.yaml")) {
                     grypeConfig = "${XDG}/grype/config.yaml"
                     ARGS += "--config ${grypeConfig}"
+                    echo "Found <XDG_CONFIG_HOME>/grype/config.yaml"
                 }
                 else {
                     //do nothing
