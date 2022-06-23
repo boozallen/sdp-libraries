@@ -31,12 +31,21 @@ public class ContainerImageScanTestSpec extends JTEPipelineSpecification {
     
     }
 
-    def "Unstash workspace Before Scanning Images" () {
+    def "Unstash workspace before scanning images" () {
 
         when:
             ContainerImageScan()
         then:
             1 * getPipelineMock("unstash")("workspace")
+        then:
+            (1.._) * getPipelineMock("sh")({it =~ /^grype */})
+    }
+
+    def "Login to registry to scan images" () {
+        when:
+            ContainerImageScan()
+        then:
+            1 * getPipelineMock("login_to_registry")(_)
         then:
             (1.._) * getPipelineMock("sh")({it =~ /^grype */})
     }
@@ -79,6 +88,25 @@ public class ContainerImageScanTestSpec extends JTEPipelineSpecification {
             1 * getPipelineMock("echo")("Found ~/.grype.yaml")
         then:
             (1.._) * getPipelineMock("sh")({it =~ /^grype .* --config \/home\/.grype.yaml >> .*/})
+    }
+
+    def "Grype config found at <XDG_CONFIG_HOME>/grype/config.yaml" () {
+        when:
+            ContainerImageScan()
+        then:
+            1 * getPipelineMock("fileExists")("/xdg/grype/config.yaml") >> true
+            1 * getPipelineMock("echo")("Found <XDG_CONFIG_HOME>/grype/config.yaml")
+        then:
+            (1.._) * getPipelineMock("sh")({it =~ /^grype .* --config \/xdg\/grype\/config.yaml >> .*/})
+    }
+
+    def "Check each image is scanned as expected when no extra config is present" () {
+        when:
+            ContainerImageScan()
+        then:
+            1 * getPipelineMock("sh")("grype test_registry/image1_repo:4321dcba  >> image1_repo-grype-scan-results")
+            1 * getPipelineMock("sh")("grype test_registry/image2_repo:4321dcbb  >> image2_repo-grype-scan-results")
+            1 * getPipelineMock("sh")("grype test_registry/image3_repo/qwerty:4321dcbc  >> qwerty-grype-scan-results")
     }
 
 
