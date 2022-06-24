@@ -109,31 +109,95 @@ public class ContainerImageScanTestSpec extends JTEPipelineSpecification {
             1 * getPipelineMock("sh")("grype test_registry/image3_repo/qwerty:4321dcbc  >> qwerty-grype-scan-results")
     }
 
-    // test different inputs json, table, cyclonedx. low, high, critical, negligible, medium. grype no grype
-    def "Test different inputs run as expected" () {
+    def "Test json format and negligible severity" () {
         given:
-            ContainerImageScan.getBinding().setVariable("config", [report_format: "json", fail_on_severity: "low"])
+            ContainerImageScan.getBinding().setVariable("config", [report_format: "json", fail_on_severity: "negligible"])
         when:
             ContainerImageScan()
         then:
-            (1.._) * getPipelineMock("sh")({it =~ /^grype .* -o json --fail-on low  >> .*/})
+            (1.._) * getPipelineMock("sh")({it =~ /^grype .* -o json --fail-on negligible  >> .*/})
     }
-    // test archive artifacts
+
+    def "Test table format and low severity" () {
+        given:
+            ContainerImageScan.getBinding().setVariable("config", [report_format: "table", fail_on_severity: "low"])
+        when:
+            ContainerImageScan()
+        then:
+            (1.._ ) * getPipelineMock("sh")({it =~ /^grype .* -o table --fail-on low  >> .*/})
+    }
+
+    def "Test cyclonedx format and medium severity" () {
+        given:
+            ContainerImageScan.getBinding().setVariable("config", [report_format: "cyclonedx", fail_on_severity: "medium"])
+        when:
+            ContainerImageScan()
+        then:
+            (1.._) * getPipelineMock("sh")({it =~ /^grype .* -o cyclonedx --fail-on medium  >> .*/})
+    }
+
+    def "Test table format and high severity" () {
+        given:
+            ContainerImageScan.getBinding().setVariable("config", [report_format: "table", fail_on_severity: "high"])
+        when:
+            ContainerImageScan()
+        then:
+            (1.._) * getPipelineMock("sh")({it =~ /^grype .* -o table --fail-on high  >> .*/})
+    }
+
+    def "Test cyclonedx format and critical severity" () {
+        given:
+            ContainerImageScan.getBinding().setVariable("config", [report_format: "cyclonedx", fail_on_severity: "critical"])
+        when:
+            ContainerImageScan()
+        then:
+            (1.._) * getPipelineMock("sh")({it =~ /^grype .* -o cyclonedx --fail-on critical  >> .*/})
+    }
+
+    def "Test Archive artifacts works as expected for json format and not null grype config" () {
+        given: 
+            ContainerImageScan.getBinding().setVariable("config", [report_format: "json", grype_config: ".grype.yaml"])
+            explicitlyMockPipelineStep("resource")
+            getPipelineMock("sh")([script:"/bin/bash ./transform-results.sh image1_repo-grype-scan-results .grype.yaml", returnStdout:true]) >> "test.txt "
+            getPipelineMock("sh")([script: "/bin/bash ./transform-results.sh image2_repo-grype-scan-results .grype.yaml", returnStdout: true ]) >> "test.txt "
+            getPipelineMock("sh")([script: "/bin/bash ./transform-results.sh qwerty-grype-scan-results .grype.yaml", returnStdout: true ]) >> "test.txt "
+        when:
+            ContainerImageScan()
+        then:
+            1 * getPipelineMock("archiveArtifacts.call")([artifacts: "image1_repo-grype-scan-results, image1_repo-grype-scan-results.txt", allowEmptyArchive: true ])
+            1 * getPipelineMock("archiveArtifacts.call")([artifacts:"image2_repo-grype-scan-results, image2_repo-grype-scan-results.txt", allowEmptyArchive:true])
+            1 * getPipelineMock("archiveArtifacts.call")([artifacts:"qwerty-grype-scan-results, qwerty-grype-scan-results.txt", allowEmptyArchive:true])
+
+    }
+
+    def "Test that error handling works as expected" () {
+        given:
+            getPipelineMock("sh")("grype test_registry/image1_repo:4321dcba  >> image1_repo-grype-scan-results") >> (throw new Exception)
+        when:
+            ContainerImageScan()
+        then:
+            1 * getPipelineMock("echo")("Failed: err")
+            1 * getPipelineMock("echo")("Grype Quality Gate Failed. There are one or more CVE's that exceed the maximum allowed severity rating!")
+    }
+    
     // test error handling
     // test stash workplace
 
     //def "Check images are scanned properly with pipeline_config.groovy vars set" () {
-    //    expect:
-    //        ContainerImageScan().getBinding().setVariable("config", [report_format: ${a}, fail_on_severity: ${b}, grype_config: ${c}])                       
-    //        getPipelineMock("sh")({it =~ /^grype  \${a}\${b}\${c} >> .*/})
+    //    given:
+    //        ContainerImageScan.getBinding().setVariable("config", [report_format: a, fail_on_severity: b, grype_config: c])
+    //    when:
+    //        ContainerImageScan()
+    //    then:
+    //        getPipelineMock("sh")({it =~ /^grype .* -o a --fail-on \b --config \c >> .*/})
     //    where:
     //    //outputFormat|severityThreshold|grypeConfig
     //        a           | b             | c
     //        "json"      | "low"         | ".grype.yaml"
     //        "table"     | "medium"      | "config/.grype.yaml"
     //        "cyclonedx" | "high"        | "grype/config.yaml"
-    //        "json"      | "negligible"  | null
-    //        "table"     | "critical"    | null
+    //        "json"      | "negligible"  | ".grype.yaml"
+    //        "table"     | "critical"    | ".grype.yaml"
     //}
 
 
