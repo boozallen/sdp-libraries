@@ -172,35 +172,17 @@ public class ContainerImageScanTestSpec extends JTEPipelineSpecification {
 
     def "Test that error handling works as expected" () {
         given:
-            getPipelineMock("sh")("grype test_registry/image1_repo:4321dcba  >> image1_repo-grype-scan-results") >> (throw new Exception)
+            explicitlyMockPipelineStep("Exception")//("Failed: java.lang.Exception: test")
+            getPipelineMock("sh")("grype test_registry/image1_repo:4321dcba  >> image1_repo-grype-scan-results") >> {throw new Exception("test")}
         when:
             ContainerImageScan()
         then:
-            1 * getPipelineMock("echo")("Failed: err")
+            1 * getPipelineMock("echo")("Failed: java.lang.Exception: test")
             1 * getPipelineMock("echo")("Grype Quality Gate Failed. There are one or more CVE's that exceed the maximum allowed severity rating!")
+            1 * getPipelineMock("stash")("workspace")
+            thrown java.lang.Exception            
     }
-    
-    // test error handling
-    // test stash workplace
-
-    //def "Check images are scanned properly with pipeline_config.groovy vars set" () {
-    //    given:
-    //        ContainerImageScan.getBinding().setVariable("config", [report_format: a, fail_on_severity: b, grype_config: c])
-    //    when:
-    //        ContainerImageScan()
-    //    then:
-    //        getPipelineMock("sh")({it =~ /^grype .* -o a --fail-on \b --config \c >> .*/})
-    //    where:
-    //    //outputFormat|severityThreshold|grypeConfig
-    //        a           | b             | c
-    //        "json"      | "low"         | ".grype.yaml"
-    //        "table"     | "medium"      | "config/.grype.yaml"
-    //        "cyclonedx" | "high"        | "grype/config.yaml"
-    //        "json"      | "negligible"  | ".grype.yaml"
-    //        "table"     | "critical"    | ".grype.yaml"
-    //}
-
-
 }
+
 
 
