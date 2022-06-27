@@ -53,9 +53,6 @@ void call() {
                     ARGS += "--config ${grypeConfig}"
                     echo "Found <XDG_CONFIG_HOME>/grype/config.yaml"
                 }
-                else {
-                    //do nothing
-                }
 
                 def images = get_images_to_build()
                 images.each { img ->
