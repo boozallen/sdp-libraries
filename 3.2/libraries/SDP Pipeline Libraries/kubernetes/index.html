@@ -1418,8 +1418,8 @@ Promoting images also speeds up the CI/CD pipeline, as building a container imag
 which is when the most recent code change was a <strong>merge</strong> into the given code branch.
 The image would be expected to be built from an earlier commit, or while there was an open PR.</p>
 <p>You can override this default for the entire pipeline by setting the <code>promote_previous_image</code> config setting to <strong>false</strong>.
-You can also choose whether to promote images for each application environment individually through the <code>promote_previous_image</code> application_environment setting.
-This application_environment setting takes priority over the config setting.</p>
+You can also choose whether to promote images for each application environment individually through the <code>promote_previous_image</code> <code>application_environment</code> setting.
+This <code>application_environment</code> setting takes priority over the config setting.</p>
 <p>An example of these settings' usage:</p>
 <div class="highlight"><pre><span></span><code><span class="n">application_environments</span><span class="o">{</span>
   <span class="n">dev</span><span class="o">{</span>
