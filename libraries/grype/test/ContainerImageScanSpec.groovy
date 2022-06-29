@@ -7,7 +7,7 @@ package libraries.grype
 import JTEPipelineSpecification
 
 
-public class ContainerImageScanTestSpec extends JTEPipelineSpecification {
+public class ContainerImageScanSpec extends JTEPipelineSpecification {
 
     def ContainerImageScan = null
 
@@ -180,7 +180,7 @@ public class ContainerImageScanTestSpec extends JTEPipelineSpecification {
             1 * getPipelineMock("echo")("Failed: java.lang.Exception: test")
             1 * getPipelineMock("echo")("Grype Quality Gate Failed. There are one or more CVE's that exceed the maximum allowed severity rating!")
             1 * getPipelineMock("stash")("workspace")
-            thrown java.lang.Exception            
+            1 * getPipelineMock("error")(_)          
     }
 }
 

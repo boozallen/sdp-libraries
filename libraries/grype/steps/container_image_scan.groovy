@@ -6,10 +6,9 @@ void call() {
         String outputFormat = config?.report_format
         String severityThreshold = config?.fail_on_severity
         String grypeConfig = config?.grype_config
-        String rawResultsFile = ""
-        String transformedResultsFile = ""
         String ARGS = ""
-        List<Exception> errors = []
+        // is flipped to True if an image scan fails
+        Boolean shouldFail = false 
 
         if (outputFormat != null) {
             ARGS += "-o ${outputFormat} "
@@ -19,7 +18,7 @@ void call() {
             ARGS += "--fail-on ${severityThreshold} "
         }
 
-        inside_sdp_image "${grypeContainer}", {
+        inside_sdp_image(grypeContainer){
             login_to_registry{
                 unstash "workspace"
 
@@ -57,6 +56,7 @@ void call() {
                 def images = get_images_to_build()
                 images.each { img ->
                     // Use $img.repo to help name our results uniquely. Checks to see if a forward slash exists and splits the string at that location.
+                    String rawResultsFile, transformedResultsFile
                     if (img.repo.contains("/")) {
                         String[] repoImageName = img.repo.split('/')
                         rawResultsFile = repoImageName[1] + '-grype-scan-results'
@@ -73,7 +73,7 @@ void call() {
                     }
                     // Catch the error on quality gate failure
                     catch(Exception err) {
-                        errors.push(err)
+                        shouldFail = true
                         echo "Failed: ${err}"
                         echo "Grype Quality Gate Failed. There are one or more CVE's that exceed the maximum allowed severity rating!"
                     }
@@ -96,10 +96,8 @@ void call() {
             }
             stash "workspace"
 
-            if (!(errors?.empty)) {
-                errors.each { errs ->
-                    throw errs
-                }
+            if(shouldFail){
+                error "One or more image scans with Grype failed"
             }
         }
     }
