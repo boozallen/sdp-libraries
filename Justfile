@@ -56,14 +56,11 @@ serve: buildImage
   docker run --rm -p 8000:8000 -v $(pwd):/docs {{image}} serve -a 0.0.0.0:8000 --watch-theme
 
 # Lint the documentation
-lint-docs: lint-prose lint-libraries lint-markdown
+lint-docs: lint-prose lint-markdown
 
 # use Vale to lint the prose of the documentation
 lint-prose:
-  docker run --rm -v $(pwd):/app -w /app jdkato/vale docs
-
-lint-libraries:
-  docker run --rm -v $(pwd):/app -w /app jdkato/vale libraries
+  docker run --rm -v $(pwd):/app -w /app jdkato/vale docs libraries
 
 # use markdownlit to lint the docs
 lint-markdown: 

@@ -7,3 +7,9 @@ config:
   no-inline-html: false
 
 fix: true
+
+globs:
+  - "**.md"
+ignores:
+  - docs/styles
+  - LICENSE.md

@@ -41,3 +41,4 @@ Splunk
 [Dd]ockerfiles?
 Anchore
 [Pp]arsable
+snake_case

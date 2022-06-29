@@ -56,7 +56,7 @@ The `application_dependency_scan` step archives artifacts in multiple formats: H
 ---
 
 From the [Wikipedia article](https://en.wikipedia.org/wiki/Common_Vulnerability_Scoring_System),
->The Common Vulnerability Scoring System (CVSS) is a free and open industry standard for assessing the severity of computer system security vulnerabilities [...] Scores range from 0 to 10, with 10 being the most severe
+> The Common Vulnerability Scoring System (CVSS) is a free and open industry standard for assessing the severity of computer system security vulnerabilities. Scores range from 0 to 10, with 10 being the most severe.
 
 The pipeline can fail if a vulnerability is detected at or above a given threshold.
 This threshold is set with the `cvss_threshold` configuration option.
