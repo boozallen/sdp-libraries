@@ -114,7 +114,7 @@ on_merge_request from: /^[Ff]eature-.*/, to: develop, {
 }
 ```
 
-### Example using on_change
+### Example using `on_change`
 
 ```groovy
 on_change{

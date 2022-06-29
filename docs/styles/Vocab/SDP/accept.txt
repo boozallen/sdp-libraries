@@ -44,3 +44,4 @@ Anchore
 [gG]rype
 (json|JSON)
 (cli|CLI)
+snake_case
