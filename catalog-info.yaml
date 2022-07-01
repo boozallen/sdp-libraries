@@ -1,0 +1,21 @@
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: sdp-libraries
+  title: SDP Libraries
+  description: "This repository contains Booz Allen's pipeline libraries that integrate with the Jenkins Templating Engine."
+  annotations:
+    github.com/project-slug: boozallen/sdp-libraries
+  tags:
+    - pipeline
+    - sdp
+    - solutions-delivery-platform
+    - jenkins
+    - sonarqube
+  links:
+    - url: https://boozallen.github.io/sdp-docs/sdp-libraries/
+      title: Documentation Website
+spec:
+  type: docs
+  lifecycle: experimental
+  owner: uip/uip-studio
