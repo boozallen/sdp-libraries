@@ -8,6 +8,7 @@ nav:
   - dotnet.md
   - git.md
   - google_lighthouse.md
+  - grype.md
   - kubernetes.md
   - maven.md
   - npm.md

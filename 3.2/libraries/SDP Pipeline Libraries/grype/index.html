@@ -6,7 +6,7 @@
       <meta charset="utf-8">
       <meta name="viewport" content="width=device-width,initial-scale=1">
       
-        <meta name="description" content="A customizable linting tool that helps you improve your site's accessibility, speed, cross-browser compatibility, and more by checking your code for best practices and common errors">
+        <meta name="description" content="Uses the Grype CLI to scan container images for vulnerabilities.">
       
       
       
@@ -15,7 +15,7 @@
     
     
       
-        <title>webhint - Solutions Delivery Platform</title>
+        <title>Grype - Solutions Delivery Platform</title>
       
     
     
@@ -66,7 +66,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#webhint" class="md-skip">
+        <a href="#grype" class="md-skip">
           Skip to content
         </a>
       
@@ -104,7 +104,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              webhint
+              Grype
             
           </span>
         </div>
@@ -764,11 +764,73 @@
               
   
   
+    
   
-    <li class="md-nav__item">
-      <a href="../grype/" class="md-nav__link">
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          Grype
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
         Grype
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#steps" class="md-nav__link">
+    Steps
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#configuration" class="md-nav__link">
+    Configuration
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#grype-configuration-file" class="md-nav__link">
+    Grype Configuration File
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#dependencies" class="md-nav__link">
+    Dependencies
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
     </li>
   
 
@@ -974,80 +1036,11 @@
               
   
   
-    
   
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
-      
-      
-        
-      
-      
-        <label class="md-nav__link md-nav__link--active" for="__toc">
-          webhint
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <a href="./" class="md-nav__link md-nav__link--active">
+    <li class="md-nav__item">
+      <a href="../webhint/" class="md-nav__link">
         webhint
       </a>
-      
-        
-
-<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
-  
-  
-  
-    
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#steps" class="md-nav__link">
-    Steps
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#library-configuration-options" class="md-nav__link">
-    Library Configuration Options
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#results" class="md-nav__link">
-    Results
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#external-dependencies" class="md-nav__link">
-    External Dependencies
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#troubleshooting" class="md-nav__link">
-    Troubleshooting
-  </a>
-  
-</li>
-      
-    </ul>
-  
-</nav>
-      
     </li>
   
 
@@ -1162,29 +1155,22 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#library-configuration-options" class="md-nav__link">
-    Library Configuration Options
+  <a href="#configuration" class="md-nav__link">
+    Configuration
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#results" class="md-nav__link">
-    Results
+  <a href="#grype-configuration-file" class="md-nav__link">
+    Grype Configuration File
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#external-dependencies" class="md-nav__link">
-    External Dependencies
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#troubleshooting" class="md-nav__link">
-    Troubleshooting
+  <a href="#dependencies" class="md-nav__link">
+    Dependencies
   </a>
   
 </li>
@@ -1202,11 +1188,9 @@
               
                 
 
-<h1 id="webhint">webhint<a class="headerlink" href="#webhint" title="Permanent link">&para;</a></h1>
-<p><a href="https://webhint.io">webhint</a> is a customizable linting tool that helps you improve your site's accessibility,
-speed, cross-browser compatibility, and more by checking your code for best practices and common errors.</p>
+<h1 id="grype">Grype<a class="headerlink" href="#grype" title="Permanent link">&para;</a></h1>
+<p>Uses the <a href="https://github.com/anchore/grype">Grype CLI</a> to scan container images for vulnerabilities.</p>
 <h2 id="steps">Steps<a class="headerlink" href="#steps" title="Permanent link">&para;</a></h2>
-<hr />
 <table>
 <thead>
 <tr>
@@ -1216,62 +1200,65 @@ speed, cross-browser compatibility, and more by checking your code for best prac
 </thead>
 <tbody>
 <tr>
-<td><code>accessibility_compliance_scan()</code></td>
-<td>generates website developer hints from the given web address</td>
+<td>container_image_scan()</td>
+<td>Performs the Grype scan against your scaffold build image.</td>
 </tr>
 </tbody>
 </table>
-<h2 id="library-configuration-options">Library Configuration Options<a class="headerlink" href="#library-configuration-options" title="Permanent link">&para;</a></h2>
-<hr />
-<p>Configuration Options</p>
+<h2 id="configuration">Configuration<a class="headerlink" href="#configuration" title="Permanent link">&para;</a></h2>
 <table>
 <thead>
 <tr>
-<th>Field</th>
+<th>Library Configuration</th>
 <th>Description</th>
+<th>Type</th>
 <th>Default Value</th>
+<th>Options</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td><code>url</code></td>
-<td>web address to analyze</td>
+<td><code>grype_container</code></td>
+<td>The container image to execute the scan within</td>
+<td>String</td>
+<td>grype:0.38.0</td>
 <td></td>
 </tr>
 <tr>
-<td><code>extender</code></td>
-<td>Array - Optional - Hint types. See <a href="https://webhint.io/docs/user-guide/configurations/configuration-development/">the documentation</a> for more information.</td>
-<td><code>["accessibility"]</code></td>
+<td><code>report_format</code></td>
+<td>The output format of the generated report</td>
+<td>String</td>
+<td>json</td>
+<td><code>json</code>, <code>table</code>, <code>cyclonedx</code>, <code>template</code></td>
 </tr>
 <tr>
-<td><code>failThreshold</code></td>
-<td>Optional - Hint limit at which the jenkins build will fail</td>
-<td>25</td>
+<td><code>fail_on_severity</code></td>
+<td>The severity level threshold that will fail the pipeline</td>
+<td>String</td>
+<td>high</td>
+<td><code>negligible</code>, <code>low</code>, <code>medium</code>, <code>high</code>, <code>critical</code></td>
 </tr>
 <tr>
-<td><code>warnThreshold</code></td>
-<td>Optional - Hint limit at which the jenkins build will issue a warning</td>
-<td>10</td>
+<td><code>grype_config</code></td>
+<td>A custom path to a grype configuration file</td>
+<td>String</td>
+<td><code>null</code></td>
+<td></td>
 </tr>
 </tbody>
 </table>
-<div class="highlight"><pre><span></span><code><span class="n">libraries</span><span class="o">{</span>
-  <span class="n">url</span> <span class="o">=</span> <span class="s2">&quot;your_url_here&quot;</span>
-  <span class="n">extender</span> <span class="o">=</span> <span class="o">[</span><span class="s2">&quot;progressive-web-apps&quot;</span><span class="o">]</span>
-  <span class="n">failThreshold</span> <span class="o">=</span> <span class="mi">35</span>
-  <span class="n">warnThreshold</span> <span class="o">=</span> <span class="mi">25</span>
-<span class="o">}</span>
-</code></pre></div>
-<h2 id="results">Results<a class="headerlink" href="#results" title="Permanent link">&para;</a></h2>
-<hr />
-<p><a href="../../../assets/attachments/webhint/webhint_mockaroo.pdf">View an example HTML report, saved to PDF</a>.</p>
-<h2 id="external-dependencies">External Dependencies<a class="headerlink" href="#external-dependencies" title="Permanent link">&para;</a></h2>
+<h2 id="grype-configuration-file">Grype Configuration File<a class="headerlink" href="#grype-configuration-file" title="Permanent link">&para;</a></h2>
+<p>If <code>grype_config</code> isn't provided, the default locations for an application are <code>.grype.yaml</code>, <code>.grype/config.yaml</code>.</p>
+<div class="admonition note">
+<p class="admonition-title">Learn More About Grype Configuration</p>
+<p>Read <a href="https://github.com/anchore/grype#configuration">the grype docs</a> to learn more about the Grype configuration file</p>
+</div>
+<h2 id="dependencies">Dependencies<a class="headerlink" href="#dependencies" title="Permanent link">&para;</a></h2>
 <hr />
 <ul>
-<li>none</li>
+<li>This library requires that the <code>docker</code> library also be loaded and <code>build()</code> be invoked before <code>container_image_scan()</code></li>
+<li>If the default <code>grype_container</code> is replaced, it must be able to run docker containers (packages: docker-ce, docker-ce-cli and containerd.io).</li>
 </ul>
-<h2 id="troubleshooting">Troubleshooting<a class="headerlink" href="#troubleshooting" title="Permanent link">&para;</a></h2>
-<hr />
 
               
             </article>
@@ -1290,7 +1277,7 @@ speed, cross-browser compatibility, and more by checking your code for best prac
     <nav class="md-footer__inner md-grid" aria-label="Footer">
       
         
-        <a href="../twistlock/" class="md-footer__link md-footer__link--prev" aria-label="Previous: Twistlock" rel="prev">
+        <a href="../google_lighthouse/" class="md-footer__link md-footer__link--prev" aria-label="Previous: Google Lighthouse" rel="prev">
           <div class="md-footer__button md-icon">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
           </div>
@@ -1299,20 +1286,20 @@ speed, cross-browser compatibility, and more by checking your code for best prac
               <span class="md-footer__direction">
                 Previous
               </span>
-              Twistlock
+              Google Lighthouse
             </div>
           </div>
         </a>
       
       
         
-        <a href="../../../contributing/" class="md-footer__link md-footer__link--next" aria-label="Next: Contributing Guide" rel="next">
+        <a href="../kubernetes/" class="md-footer__link md-footer__link--next" aria-label="Next: Kubernetes" rel="next">
           <div class="md-footer__title">
             <div class="md-ellipsis">
               <span class="md-footer__direction">
                 Next
               </span>
-              Contributing Guide
+              Kubernetes
             </div>
           </div>
           <div class="md-footer__button md-icon">
