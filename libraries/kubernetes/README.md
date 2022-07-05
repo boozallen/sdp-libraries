@@ -146,8 +146,8 @@ which is when the most recent code change was a **merge** into the given code br
 The image would be expected to be built from an earlier commit, or while there was an open PR.
 
 You can override this default for the entire pipeline by setting the `promote_previous_image` config setting to **false**.
-You can also choose whether to promote images for each application environment individually through the `promote_previous_image` application_environment setting.
-This application_environment setting takes priority over the config setting.
+You can also choose whether to promote images for each application environment individually through the `promote_previous_image` `application_environment` setting.
+This `application_environment` setting takes priority over the config setting.
 
 An example of these settings' usage:
 

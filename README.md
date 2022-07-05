@@ -2,13 +2,13 @@
 
 This repository contains [Booz Allen's](https://boozallen.com) pipeline libraries that integrate with the [Jenkins Templating Engine](https://plugins.jenkins.io/templating-engine/).
 
-If you want to learn more, the best place to get started is the [documentation](https://boozallen.github.io/sdp-docs/sdp-libraries/). 
+If you want to learn more, the best place to get started is the [documentation](https://boozallen.github.io/sdp-docs/sdp-libraries/).
 
 ## Usage
 
-In order to use the different libraries in this repository, you can configure this repository as a library source, for a detailed example of how to do this you may refer to [this lab](https://boozallen.github.io/sdp-docs/learning-labs/1/jte-the-basics/3-first-libraries.html#_configure_the_library_source). 
+In order to use the different libraries in this repository, you can configure this repository as a library source, for a detailed example of how to do this you may refer to [this lab](https://boozallen.github.io/sdp-docs/learning-labs/1/jte-the-basics/3-first-libraries.html#_configure_the_library_source).
 
-It is recommended that rather than using the master branch you pin your library source to a particular github release such as: https://github.com/boozallen/sdp-libraries/tree/release/2.0/libraries [like 2.0].  This helps to ensure that you have greater control in version management. 
+It is recommended that rather than using the master branch you pin your library source to a particular github release such as: <https://github.com/boozallen/sdp-libraries/tree/release/2.0/libraries> [like 2.0].  This helps to ensure that you have greater control in version management.
 
 Also ensure that in addition to whichever library you wish to use you include the `sdp` library. This helps to resolve a number of dependency errors you may otherwise face.
 

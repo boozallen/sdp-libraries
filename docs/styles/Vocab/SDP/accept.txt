@@ -43,3 +43,7 @@ Anchore
 [Pp]arsable
 [Ss]yft
 (SBOM|sbom)s?
+[gG]rype
+(json|JSON)
+(cli|CLI)
+snake_case
