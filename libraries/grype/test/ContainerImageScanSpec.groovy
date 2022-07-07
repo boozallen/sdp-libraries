@@ -53,6 +53,10 @@ public class ContainerImageScanSpec extends JTEPipelineSpecification {
     def "Grype config is given in pipeline_config.groovy" () {
         given:
             ContainerImageScan.getBinding().setVariable("config", [grype_config: "/testPath/grype.yaml"])
+            explicitlyMockPipelineStep('resource')
+            getPipelineMock("sh")([script: "/bin/bash ./transform-results.sh image1_repo-grype-scan-results.json /testPath/grype.yaml", returnStdout:true]) >> "test.txt "
+            getPipelineMock("sh")([script: "/bin/bash ./transform-results.sh image2_repo-grype-scan-results.json /testPath/grype.yaml", returnStdout: true ]) >> "test.txt "
+            getPipelineMock("sh")([script: "/bin/bash ./transform-results.sh qwerty-grype-scan-results.json /testPath/grype.yaml", returnStdout: true ]) >> "test.txt "
         when:
             ContainerImageScan()
         then:
@@ -61,6 +65,11 @@ public class ContainerImageScanSpec extends JTEPipelineSpecification {
     }
 
     def "Grype config is found at current dir .grype.yaml" () {
+        given:
+            explicitlyMockPipelineStep('resource')
+            getPipelineMock("sh")([script: "/bin/bash ./transform-results.sh image1_repo-grype-scan-results.json .grype.yaml", returnStdout:true]) >> "test.txt "
+            getPipelineMock("sh")([script: "/bin/bash ./transform-results.sh image2_repo-grype-scan-results.json .grype.yaml", returnStdout: true ]) >> "test.txt "
+            getPipelineMock("sh")([script: "/bin/bash ./transform-results.sh qwerty-grype-scan-results.json .grype.yaml", returnStdout: true ]) >> "test.txt "
         when:
             ContainerImageScan()
         then:
@@ -71,6 +80,11 @@ public class ContainerImageScanSpec extends JTEPipelineSpecification {
     }
 
     def "Grype config is found at .grype/config.yaml" () {
+        given:
+            explicitlyMockPipelineStep('resource')
+            getPipelineMock("sh")([script: "/bin/bash ./transform-results.sh image1_repo-grype-scan-results.json .grype/config.yaml", returnStdout:true]) >> "test.txt "
+            getPipelineMock("sh")([script: "/bin/bash ./transform-results.sh image2_repo-grype-scan-results.json .grype/config.yaml", returnStdout: true ]) >> "test.txt "
+            getPipelineMock("sh")([script: "/bin/bash ./transform-results.sh qwerty-grype-scan-results.json .grype/config.yaml", returnStdout: true ]) >> "test.txt "
         when:
             ContainerImageScan()
         then:
@@ -81,6 +95,11 @@ public class ContainerImageScanSpec extends JTEPipelineSpecification {
     }
 
     def "Grype config is found at user Home path/.grype.yaml" () {
+        given:
+            explicitlyMockPipelineStep('resource')
+            getPipelineMock("sh")([script: "/bin/bash ./transform-results.sh image1_repo-grype-scan-results.json /home/.grype.yaml", returnStdout:true]) >> "test.txt "
+            getPipelineMock("sh")([script: "/bin/bash ./transform-results.sh image2_repo-grype-scan-results.json /home/.grype.yaml", returnStdout: true ]) >> "test.txt "
+            getPipelineMock("sh")([script: "/bin/bash ./transform-results.sh qwerty-grype-scan-results.json /home/.grype.yaml", returnStdout: true ]) >> "test.txt "
         when:
             ContainerImageScan()
         then:
@@ -91,6 +110,11 @@ public class ContainerImageScanSpec extends JTEPipelineSpecification {
     }
 
     def "Grype config found at <XDG_CONFIG_HOME>/grype/config.yaml" () {
+        given:
+            explicitlyMockPipelineStep('resource')
+            getPipelineMock("sh")([script: "/bin/bash ./transform-results.sh image1_repo-grype-scan-results.json /xdg/grype/config.yaml", returnStdout:true]) >> "test.txt "
+            getPipelineMock("sh")([script: "/bin/bash ./transform-results.sh image2_repo-grype-scan-results.json /xdg/grype/config.yaml", returnStdout: true ]) >> "test.txt "
+            getPipelineMock("sh")([script: "/bin/bash ./transform-results.sh qwerty-grype-scan-results.json /xdg/grype/config.yaml", returnStdout: true ]) >> "test.txt "
         when:
             ContainerImageScan()
         then:
@@ -104,9 +128,9 @@ public class ContainerImageScanSpec extends JTEPipelineSpecification {
         when:
             ContainerImageScan()
         then:
-            1 * getPipelineMock("sh")("grype test_registry/image1_repo:4321dcba  >> image1_repo-grype-scan-results")
-            1 * getPipelineMock("sh")("grype test_registry/image2_repo:4321dcbb  >> image2_repo-grype-scan-results")
-            1 * getPipelineMock("sh")("grype test_registry/image3_repo/qwerty:4321dcbc  >> qwerty-grype-scan-results")
+            1 * getPipelineMock("sh")("grype test_registry/image1_repo:4321dcba -o json --fail-on high  >> image1_repo-grype-scan-results.json")
+            1 * getPipelineMock("sh")("grype test_registry/image2_repo:4321dcbb -o json --fail-on high  >> image2_repo-grype-scan-results.json")
+            1 * getPipelineMock("sh")("grype test_registry/image3_repo/qwerty:4321dcbc -o json --fail-on high  >> qwerty-grype-scan-results.json")
     }
 
     def "Test json format and negligible severity" () {
@@ -158,22 +182,22 @@ public class ContainerImageScanSpec extends JTEPipelineSpecification {
         given: 
             ContainerImageScan.getBinding().setVariable("config", [report_format: "json", grype_config: ".grype.yaml"])
             explicitlyMockPipelineStep("resource")
-            getPipelineMock("sh")([script:"/bin/bash ./transform-results.sh image1_repo-grype-scan-results .grype.yaml", returnStdout:true]) >> "test.txt "
-            getPipelineMock("sh")([script: "/bin/bash ./transform-results.sh image2_repo-grype-scan-results .grype.yaml", returnStdout: true ]) >> "test.txt "
-            getPipelineMock("sh")([script: "/bin/bash ./transform-results.sh qwerty-grype-scan-results .grype.yaml", returnStdout: true ]) >> "test.txt "
+            getPipelineMock("sh")([script:"/bin/bash ./transform-results.sh image1_repo-grype-scan-results.json .grype.yaml", returnStdout:true]) >> "test.txt "
+            getPipelineMock("sh")([script: "/bin/bash ./transform-results.sh image2_repo-grype-scan-results.json .grype.yaml", returnStdout: true ]) >> "test.txt "
+            getPipelineMock("sh")([script: "/bin/bash ./transform-results.sh qwerty-grype-scan-results.json .grype.yaml", returnStdout: true ]) >> "test.txt "
         when:
             ContainerImageScan()
         then:
-            1 * getPipelineMock("archiveArtifacts.call")([artifacts: "image1_repo-grype-scan-results, image1_repo-grype-scan-results.txt", allowEmptyArchive: true ])
-            1 * getPipelineMock("archiveArtifacts.call")([artifacts:"image2_repo-grype-scan-results, image2_repo-grype-scan-results.txt", allowEmptyArchive:true])
-            1 * getPipelineMock("archiveArtifacts.call")([artifacts:"qwerty-grype-scan-results, qwerty-grype-scan-results.txt", allowEmptyArchive:true])
+            1 * getPipelineMock("archiveArtifacts.call")([artifacts: "image1_repo-grype-scan-results.json, image1_repo-grype-scan-results.txt", allowEmptyArchive: true ])
+            1 * getPipelineMock("archiveArtifacts.call")([artifacts:"image2_repo-grype-scan-results.json, image2_repo-grype-scan-results.txt", allowEmptyArchive:true])
+            1 * getPipelineMock("archiveArtifacts.call")([artifacts:"qwerty-grype-scan-results.json, qwerty-grype-scan-results.txt", allowEmptyArchive:true])
 
     }
 
     def "Test that error handling works as expected" () {
         given:
             explicitlyMockPipelineStep("Exception")//("Failed: java.lang.Exception: test")
-            getPipelineMock("sh")("grype test_registry/image1_repo:4321dcba  >> image1_repo-grype-scan-results") >> {throw new Exception("test")}
+            getPipelineMock("sh")("grype test_registry/image1_repo:4321dcba -o json --fail-on high  >> image1_repo-grype-scan-results.json") >> {throw new Exception("test")}
         when:
             ContainerImageScan()
         then:
