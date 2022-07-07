@@ -11,21 +11,23 @@ void call() {
     String outDir = ""
     String resultDir = ""
 
+    String sdkImage = config?.sdk_image ?: "dotnet-sdk:latest"
+
     switch(stepContext.name) {
         case "source_build":
             stepName = "DotNet Build"
-            outDir = config.source_build.outDir ?: "bin"
+            outDir = config?.source_build?.outDir ?: "bin"
             break
         case "unit_test":
             stepName = "DotNet Unit Test"
-            resultDir = config.unit_test.resultDir ?: "coverage"
+            resultDir = config?.unit_test?.resultDir ?: "coverage"
             break
         default:
             error("step name must be \"source_build\" or \"unit_test\" got \"${stepContext.name}\"")
     }
 
     stage(stepName) {
-        inside_sdp_image "dotnet-sdk:5.0.214", {
+        inside_sdp_image "${sdkImage}", {
             unstash "workspace"
 
             if (stepName == "DotNet Build") {

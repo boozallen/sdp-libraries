@@ -234,3 +234,24 @@ It's just a key, used to supersede library config with Application Environment c
 ## Dependencies
 
 * The [SDP library](../sdp/) must be loaded inside the `pipeline_config.groovy` file.
+
+## Migrating from SDP 3.2 to 4.0
+
+SDP `4.0` reworked this library to use dynamic step aliasing.
+
+To recreate the previous `source_build()` and `unit_test()` functionality of version `3.2`, the below minimal pipeline configuration can be used:
+
+``` groovy title="pipeline_configuration.groovy"
+libraries {
+  npm {
+    source_build {
+      stageName = "NPM Source Build"
+      script = "build"
+    }
+    unit_test {
+      stageName = "NPM Unit Tests"
+      script = "test"
+    }
+  }
+}
+```

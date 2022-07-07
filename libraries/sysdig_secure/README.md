@@ -4,7 +4,7 @@ description: Performs container image scanning with Sysdig Secure's inline scann
 
 # Sysdig Secure
 
-This library leverages Sysdig Secure's [inline scanning script](https://github.com/sysdiglabs/secure-inline-scan) to scan container images,
+This library leverages a script from Sysdig Secure ([inline scanning script](https://github.com/sysdiglabs/secure-inline-scan)) to scan container images,
 report the information to the Sysdig Secure server, and download a PDF report of the findings.
 
 ## Steps
