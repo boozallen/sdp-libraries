@@ -6,7 +6,7 @@
       <meta charset="utf-8">
       <meta name="viewport" content="width=device-width,initial-scale=1">
       
-        <meta name="description" content="Performs container image scanning with TwistLock">
+        <meta name="description" content="This library allows you to generate a Software Bill of Materials (SBOM) for each container built in your project">
       
       
       
@@ -15,7 +15,7 @@
     
     
       
-        <title>Twistlock - Solutions Delivery Platform</title>
+        <title>Syft - Solutions Delivery Platform</title>
       
     
     
@@ -66,7 +66,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#twistlock" class="md-skip">
+        <a href="#syft" class="md-skip">
           Skip to content
         </a>
       
@@ -104,7 +104,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Twistlock
+              Syft
             
           </span>
         </div>
@@ -932,11 +932,66 @@
               
   
   
+    
   
-    <li class="md-nav__item">
-      <a href="../syft/" class="md-nav__link">
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          Syft
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
         Syft
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#steps" class="md-nav__link">
+    Steps
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#configuration" class="md-nav__link">
+    Configuration
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#dependencies" class="md-nav__link">
+    Dependencies
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
     </li>
   
 
@@ -974,86 +1029,11 @@
               
   
   
-    
   
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
-      
-      
-        
-      
-      
-        <label class="md-nav__link md-nav__link--active" for="__toc">
-          Twistlock
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <a href="./" class="md-nav__link md-nav__link--active">
+    <li class="md-nav__item">
+      <a href="../twistlock/" class="md-nav__link">
         Twistlock
       </a>
-      
-        
-
-<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
-  
-  
-  
-    
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#steps" class="md-nav__link">
-    Steps
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#configuration" class="md-nav__link">
-    Configuration
-  </a>
-  
-    <nav class="md-nav" aria-label="Configuration">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#example-configuration-snippet" class="md-nav__link">
-    Example Configuration Snippet
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#dependencies" class="md-nav__link">
-    Dependencies
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#twistlock-scan-results" class="md-nav__link">
-    Twistlock Scan Results
-  </a>
-  
-</li>
-      
-    </ul>
-  
-</nav>
-      
     </li>
   
 
@@ -1186,31 +1166,11 @@
     Configuration
   </a>
   
-    <nav class="md-nav" aria-label="Configuration">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#example-configuration-snippet" class="md-nav__link">
-    Example Configuration Snippet
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
 </li>
       
         <li class="md-nav__item">
   <a href="#dependencies" class="md-nav__link">
     Dependencies
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#twistlock-scan-results" class="md-nav__link">
-    Twistlock Scan Results
   </a>
   
 </li>
@@ -1228,13 +1188,9 @@
               
                 
 
-<h1 id="twistlock">Twistlock<a class="headerlink" href="#twistlock" title="Permanent link">&para;</a></h1>
-<p>Twistlock is an automated and scalable container cyber-security platform.
-Twistlock manages a full-lifecycle vulnerability and compliance management to application-tailored runtime defense and cloud native firewalls.
-Twistlock helps secure your containers and modern applications against threats across the entire application lifecycle.</p>
-<p>SDP can integrate with Twistlock to perform <strong>container image scanning</strong>.</p>
+<h1 id="syft">Syft<a class="headerlink" href="#syft" title="Permanent link">&para;</a></h1>
+<p>This library allows you to generate a Software Bill of Materials (SBOM) for each container built in your project using the <a href="https://github.com/anchore/syft">Syft tool</a>.</p>
 <h2 id="steps">Steps<a class="headerlink" href="#steps" title="Permanent link">&para;</a></h2>
-<hr />
 <table>
 <thead>
 <tr>
@@ -1244,68 +1200,45 @@ Twistlock helps secure your containers and modern applications against threats a
 </thead>
 <tbody>
 <tr>
-<td><code>scan_container_image()</code></td>
-<td>Downloads the Twistlock CLI from the Twistlock Console and performs container image scanning</td>
+<td><code>generate_sbom()</code></td>
+<td>Generates and archives SBOM files in JSON format</td>
 </tr>
 </tbody>
 </table>
 <h2 id="configuration">Configuration<a class="headerlink" href="#configuration" title="Permanent link">&para;</a></h2>
-<hr />
-<p>Twistlock Library Configuration Options</p>
 <table>
 <thead>
 <tr>
-<th>Field</th>
-<th>Description</th>
+<th>Library Configuration</th>
+<th>Type</th>
 <th>Default Value</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td><code>url</code></td>
-<td>The Twistlock Console address</td>
-<td></td>
+<td><code>raw_results_file</code></td>
+<td>String</td>
+<td><code>syft-sbom-results.json</code></td>
 </tr>
 <tr>
-<td><code>credential</code></td>
-<td>The Jenkins credential ID to access Twistlock Console</td>
-<td></td>
+<td><code>sbom_container</code></td>
+<td>String</td>
+<td><code>syft:latest</code></td>
 </tr>
 </tbody>
 </table>
-<h3 id="example-configuration-snippet">Example Configuration Snippet<a class="headerlink" href="#example-configuration-snippet" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code><span class="n">libraries</span><span class="o">{</span>
-  <span class="n">twistlock</span><span class="o">{</span>
-    <span class="n">url</span> <span class="o">=</span> <span class="s2">&quot;https://twistlock.apps.ocp.microcaas.net&quot;</span>
-    <span class="n">credential</span> <span class="o">=</span> <span class="s2">&quot;twistlock&quot;</span>
+<div class="highlight"><span class="filename">pipeline_config.groovy</span><pre><span></span><code><span class="n">libraries</span> <span class="o">{</span>
+  <span class="n">syft</span> <span class="o">{</span>
+    <span class="n">raw_results_file</span> <span class="o">=</span> <span class="s2">&quot;syft-scan.json&quot;</span>
+    <span class="n">sbom_container</span> <span class="o">=</span> <span class="s2">&quot;syft:v0.47.0&quot;</span>
   <span class="o">}</span>
 <span class="o">}</span>
 </code></pre></div>
 <h2 id="dependencies">Dependencies<a class="headerlink" href="#dependencies" title="Permanent link">&para;</a></h2>
-<hr />
 <ul>
-<li>Twistlock is deployed and accessible from Jenkins</li>
-<li>A credential has been placed in the Jenkins credential store to access the console</li>
-<li>A separate container building library that implements <code>get_images_to_build()</code></li>
+<li>Base SDP library</li>
+<li>Docker SDP library</li>
 </ul>
-<h2 id="twistlock-scan-results">Twistlock Scan Results<a class="headerlink" href="#twistlock-scan-results" title="Permanent link">&para;</a></h2>
-<hr />
-<p>Jenkins will output a text based table of the scan results.
-A more descriptive JSON file is archived that contains details of CVE and compliance vulnerabilities found during the scan.</p>
-<div class="highlight"><pre><span></span><code>CVE Results:
------------------------------------------
-Low:      [0-9]*  Number of Low vulnerabilities
-Medium:   [0-9]*  Number of Medium vulnerabilities
-High:     [0-9]*  Number of High vulnerabilities
-Critical: [0-9]*  Number of Critical vulnerabilities
-
-Compliance Results:
------------------------------------------
-Low:      [0-9]*  Number of Low compliance violations
-Medium:   [0-9]*  Number of Medium compliance violations
-High:     [0-9]*  Number of High compliance violations
-Critical: [0-9]*  Number of Critical compliance violations
-</code></pre></div>
 
               
             </article>
@@ -1324,7 +1257,7 @@ Critical: [0-9]*  Number of Critical compliance violations
     <nav class="md-footer__inner md-grid" aria-label="Footer">
       
         
-        <a href="../terraform/" class="md-footer__link md-footer__link--prev" aria-label="Previous: Terraform" rel="prev">
+        <a href="../sonarqube/" class="md-footer__link md-footer__link--prev" aria-label="Previous: SonarQube" rel="prev">
           <div class="md-footer__button md-icon">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
           </div>
@@ -1333,20 +1266,20 @@ Critical: [0-9]*  Number of Critical compliance violations
               <span class="md-footer__direction">
                 Previous
               </span>
-              Terraform
+              SonarQube
             </div>
           </div>
         </a>
       
       
         
-        <a href="../webhint/" class="md-footer__link md-footer__link--next" aria-label="Next: webhint" rel="next">
+        <a href="../sysdig_secure/" class="md-footer__link md-footer__link--next" aria-label="Next: Sysdig Secure" rel="next">
           <div class="md-footer__title">
             <div class="md-ellipsis">
               <span class="md-footer__direction">
                 Next
               </span>
-              webhint
+              Sysdig Secure
             </div>
           </div>
           <div class="md-footer__button md-icon">

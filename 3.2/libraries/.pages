@@ -20,6 +20,7 @@ nav:
   - sdp.md
   - slack.md
   - sonarqube.md
+  - syft.md
   - sysdig_secure.md
   - terraform.md
   - twistlock.md
