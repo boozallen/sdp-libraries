@@ -8,21 +8,21 @@ package libraries.syft.steps
 void call() {
     node {
         //Import settings from config
-        String rawResultsFile = config?.rawResultsFile ?: 'syft-sbom-results.json'
-        String sbomContainer = config?.sbomContainer ?: 'syft:latest'
+        String raw_results_file = config?.raw_results_file ?: 'syft-sbom-results.json'
+        String sbom_container = config?.sbom_container ?: 'syft:latest'
 
         //Get list of images to scan (assuming same set built by Docker)
         def images = get_images_to_build()
 
         stage('Generate SBOM using Syft') {
-            inside_sdp_image "${sbomContainer}", {
+            inside_sdp_image "${sbom_container}", {
                 unstash "workspace"
                 images.each { img ->
                     // perform the syft scan
-                    sh "syft ${img.registry}/${img.repo}:${img.tag} -o json=${img.repo}-${img.tag}-${rawResultsFile}"
+                    sh "syft ${img.registry}/${img.repo}:${img.tag} -o json=${img.repo}-${img.tag}-${raw_results_file}"
 
                     // archive the results
-                    archiveArtifacts artifacts: "${img.repo}-${img.tag}-${rawResultsFile}"
+                    archiveArtifacts artifacts: "${img.repo}-${img.tag}-${raw_results_file}"
                 }
                 stash "workspace"
             }

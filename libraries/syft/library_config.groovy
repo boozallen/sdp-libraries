@@ -2,7 +2,7 @@ fields {
     required {
     }
     optional {
-        rawResultsFile = String
-        sbomContainer = String
+        raw_results_file = String
+        sbom_container = String
     }
 }

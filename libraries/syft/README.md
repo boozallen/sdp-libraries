@@ -16,14 +16,14 @@ This library allows you to generate a Software Bill of Materials (SBOM) for each
 
 | Library Configuration | Type   | Default Value            |
 |-----------------------|--------|--------------------------|
-| `rawResultsFile`      | String | `syft-sbom-results.json` |
-| `sbomContainer`       | String | `syft:latest`            |
+| `raw_results_file`    | String | `syft-sbom-results.json` |
+| `sbom_container`      | String | `syft:latest`            |
 
 ``` groovy title='pipeline_config.groovy'
 libraries {
   syft {
-    rawResultsFile = "syft-scan.json"
-    sbomContainer = "syft:v0.47.0"
+    raw_results_file = "syft-scan.json"
+    sbom_container = "syft:v0.47.0"
   }
 }
 ```
