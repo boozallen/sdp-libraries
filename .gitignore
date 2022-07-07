@@ -1,9 +1,7 @@
 # Ignore Gradle project-specific cache directory
 .gradle
 
-.classpath
-*.iml
-build 
+.classpath 
 bin
 
 # Ignore Gradle build output directory
