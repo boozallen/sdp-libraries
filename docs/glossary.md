@@ -15,3 +15,4 @@
 *[JSON]: JavaScript Object Notation
 *[CVE]: Common Vulnerabilities and Exposures
 *[CLI]: Command Line Interface
+*[SBOM]: Software Bill of Materials
