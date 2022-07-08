@@ -3,15 +3,26 @@ package libraries.grype.steps
 void call() {
     stage("Grype Image Scan") {
         String grypeContainer = config?.grype_container ?: "grype:0.38.0"
-        String outputFormat = config?.report_format
-        String severityThreshold = config?.fail_on_severity
+        String outputFormat = config?.report_format ?: 'json'
+        String severityThreshold = config?.fail_on_severity ?: 'high'
         String grypeConfig = config?.grype_config
+        String resultsFileFormat = ".txt"
         String ARGS = ""
         // is flipped to True if an image scan fails
         Boolean shouldFail = false 
 
         if (outputFormat != null) {
             ARGS += "-o ${outputFormat} "
+            if (outputFormat == 'json') {
+                resultsFileFormat = '.json'
+            }
+            else if (outputFormat == 'cyclonedx') {
+                resultsFileFormat = '.xml'
+            }
+            else if (outputFormat == 'template') {
+                //placeholder for custom template format
+                resultsFileFormat = '.template'
+            }
         }
 
         if (severityThreshold != null) {
@@ -59,11 +70,11 @@ void call() {
                     String rawResultsFile, transformedResultsFile
                     if (img.repo.contains("/")) {
                         String[] repoImageName = img.repo.split('/')
-                        rawResultsFile = repoImageName[1] + '-grype-scan-results'
+                        rawResultsFile = repoImageName[1] + '-grype-scan-results' + resultsFileFormat
                         transformedResultsFile = repoImageName[1] + '-grype-scan-results.txt'
                     }
                     else {
-                        rawResultsFile = "${img.repo}-grype-scan-results"
+                        rawResultsFile = "${img.repo}-grype-scan-results" + resultsFileFormat
                         transformedResultsFile = "${img.repo}-grype-scan-results.txt"
                     }
 
