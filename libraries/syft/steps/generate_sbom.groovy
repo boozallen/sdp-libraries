@@ -14,12 +14,17 @@ void call() {
         //Get list of images to scan (assuming same set built by Docker)
         def images = get_images_to_build()
 
+        images.each { img ->
+            // pull and save images as tarballs
+            sh "docker save ${img.registry}/${img.repo}:${img.tag} > ${img.registry}-${img.repo}-${img.tag}.tar"
+        }
+
         stage('Generate SBOM using Syft') {
             inside_sdp_image "${sbom_container}", {
                 unstash "workspace"
                 images.each { img ->
                     // perform the syft scan
-                    sh "syft ${img.registry}/${img.repo}:${img.tag} -o json=${img.repo}-${img.tag}-${raw_results_file}"
+                    sh "syft ${img.registry}-${img.repo}-${img.tag}.tar -o json=${img.repo}-${img.tag}-${raw_results_file}"
 
                     // archive the results
                     archiveArtifacts artifacts: "${img.repo}-${img.tag}-${raw_results_file}"
