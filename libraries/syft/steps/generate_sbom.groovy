@@ -26,10 +26,11 @@ void call() {
                 images.each { img ->
                     // perform the syft scan
                     String archive_name = "${img.registry}-${img.repo}-${img.tag}.tar".replaceAll("/","-")
-                    sh "syft ${archive_name} -o json=${img.repo}-${img.tag}-${raw_results_file}"
+                    String results_name = "${img.repo}-${img.tag}-${raw_results_file}".replaceAll("/","-")
+                    sh "syft ${archive_name} -o json=${results_name}"
 
                     // archive the results
-                    archiveArtifacts artifacts: "${img.repo}-${img.tag}-${raw_results_file}"
+                    archiveArtifacts artifacts: "${results_name}"
                 }
                 stash "workspace"
             }
