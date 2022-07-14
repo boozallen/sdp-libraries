@@ -16,7 +16,8 @@ void call() {
 
         images.each { img ->
             // pull and save images as tarballs
-            sh "docker save ${img.registry}/${img.repo}:${img.tag} > ${img.registry}-${img.repo}-${img.tag}.tar"
+            String archive_name = "${img.registry}-${img.repo}-${img.tag}.tar".replaceAll("/","-")
+            sh "docker save ${img.registry}/${img.repo}:${img.tag} > ${archive_name}"
         }
 
         stage('Generate SBOM using Syft') {
@@ -24,7 +25,8 @@ void call() {
                 unstash "workspace"
                 images.each { img ->
                     // perform the syft scan
-                    sh "syft ${img.registry}-${img.repo}-${img.tag}.tar -o json=${img.repo}-${img.tag}-${raw_results_file}"
+                    String archive_name = "${img.registry}-${img.repo}-${img.tag}.tar".replaceAll("/","-")
+                    sh "syft ${archive_name} -o json=${img.repo}-${img.tag}-${raw_results_file}"
 
                     // archive the results
                     archiveArtifacts artifacts: "${img.repo}-${img.tag}-${raw_results_file}"
