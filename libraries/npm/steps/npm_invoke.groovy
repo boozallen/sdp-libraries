@@ -27,13 +27,13 @@ void call(app_env = [:]) {
         // Gather, validate and format secrets to pull from credential store
         ArrayList creds = this.formatSecrets(libStepConfig, appStepConfig)
 
-        // Gather and set non-secret environment variables
-        this.setEnvVars(libStepConfig, appStepConfig, config, app_env)
-
         // run npm command in nvm container
         withCredentials(creds) {
             inside_sdp_image "nvm:1.0.0", {
                 unstash "workspace"
+
+                // Gather and set non-secret environment variables
+                this.setEnvVars(libStepConfig, appStepConfig, config, app_env)
 
                 // verify package.json script block has command to run
                 def packageJson = readJSON(file: "package.json")
