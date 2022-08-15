@@ -1,8 +1,8 @@
 apiVersion: backstage.io/v1alpha1
 kind: Component
 metadata:
-  name: Solutions Delivery Platform (SDP) Libraries
-  title: SDP Libraries
+  name: sdp-libraries
+  title: Solutions Delivery Platform (SDP) Libraries
   description: "The Solutions Delivery Platform Pipeline Libraries for the Jenkins Templating Engine (JTE)"
   annotations:
     github.com/project-slug: boozallen/sdp-libraries
