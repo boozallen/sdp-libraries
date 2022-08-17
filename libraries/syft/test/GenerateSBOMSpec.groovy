@@ -14,6 +14,7 @@ public class GenerateSBOMSpec extends JTEPipelineSpecification {
 
     GenerateSBOM.getBinding().setVariable("config", [:])
 
+    explicitlyMockPipelineStep("login_to_registry")
     explicitlyMockPipelineStep("inside_sdp_image")
     explicitlyMockPipelineVariable("get_images_to_build")
 
