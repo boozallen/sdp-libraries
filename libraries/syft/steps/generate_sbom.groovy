@@ -20,21 +20,21 @@ void call() {
                 String archive_name = "${img.registry}-${img.repo}-${img.tag}.tar".replaceAll("/","-")
                 sh "docker save ${img.registry}/${img.repo}:${img.tag} > ${archive_name}"
             }
+        }
 
-            stage('Generate SBOM using Syft') {
-                inside_sdp_image "${sbom_container}", {
-                    unstash "workspace"
-                    images.each { img ->
-                        // perform the syft scan
-                        String archive_name = "${img.registry}-${img.repo}-${img.tag}.tar".replaceAll("/","-")
-                        String results_name = "${img.repo}-${img.tag}-${raw_results_file}".replaceAll("/","-")
-                        sh "syft ${archive_name} -o json > ${results_name}"
-
-                        // archive the results
-                        archiveArtifacts artifacts: "${results_name}"
-                    }
-                    stash "workspace"
+        stage('Generate SBOM using Syft') {
+            inside_sdp_image "${sbom_container}", {
+                unstash "workspace"
+                images.each { img ->
+                    // perform the syft scan
+                    String archive_name = "${img.registry}-${img.repo}-${img.tag}.tar".replaceAll("/","-")
+                    String results_name = "${img.repo}-${img.tag}-${raw_results_file}".replaceAll("/","-")
+                    sh "syft ${archive_name} -o json > ${results_name}"
+                    
+                    // archive the results
+                    archiveArtifacts artifacts: "${results_name}"
                 }
+                stash "workspace"
             }
         }
     }
