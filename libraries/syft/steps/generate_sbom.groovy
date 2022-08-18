@@ -30,7 +30,6 @@ void call() {
                     String archive_name = "${img.registry}-${img.repo}-${img.tag}.tar".replaceAll("/","-")
                     String results_name = "${img.repo}-${img.tag}-${raw_results_file}".replaceAll("/","-")
                     sh "syft ${archive_name} -o json > ${results_name}"
-                    
                     // archive the results
                     archiveArtifacts artifacts: "${results_name}"
                 }
