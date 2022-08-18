@@ -14,10 +14,12 @@ void call() {
         //Get list of images to scan (assuming same set built by Docker)
         def images = get_images_to_build()
 
-        images.each { img ->
-            // pull and save images as tarballs
-            String archive_name = "${img.registry}-${img.repo}-${img.tag}.tar".replaceAll("/","-")
-            sh "docker save ${img.registry}/${img.repo}:${img.tag} > ${archive_name}"
+        login_to_registry {
+            images.each { img ->
+                // pull and save images as tarballs
+                String archive_name = "${img.registry}-${img.repo}-${img.tag}.tar".replaceAll("/","-")
+                sh "docker save ${img.registry}/${img.repo}:${img.tag} > ${archive_name}"
+            }
         }
 
         stage('Generate SBOM using Syft') {
