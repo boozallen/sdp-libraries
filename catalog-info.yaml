@@ -18,8 +18,6 @@ metadata:
   links:
     - url: https://boozallen.github.io/sdp-docs/sdp-libraries/
       title: Documentation Website
-    - url: https://sdp.bah.com
-      title: SDP Marketing Site
 spec:
   type: docs
   lifecycle: production
