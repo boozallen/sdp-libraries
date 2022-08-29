@@ -17,12 +17,9 @@ void call() {
             login_to_registry {
                 unstash "workspace"
                 images.each { img ->
-                    // pull and save images as tarballs
-                    String archive_name = "${img.registry}-${img.repo}-${img.tag}.tar".replaceAll("/","-")
-                    sh "docker save ${img.registry}/${img.repo}:${img.tag} > ${archive_name}"
                     // perform the syft scan
                     String results_name = "${img.repo}-${img.tag}-${raw_results_file}".replaceAll("/","-")
-                    sh "syft ${archive_name} -o json > ${results_name}"
+                    sh "syft  ${img.registry}/${img.repo}:${img.tag} -o json > ${results_name}"
 
                     // archive the results
                     archiveArtifacts artifacts: "${results_name}"
