@@ -9,7 +9,7 @@ void call() {
     stage('Generate SBOM using Syft') {
         //Import settings from config
         String raw_results_file = config?.raw_results_file ?: 'syft-sbom-results.json'
-        String sbom_container = config?.sbom_container ?: 'syft:latest'
+        String sbom_container = config?.sbom_container ?: 'syft:0.47.0'
 
         //Get list of images to scan (assuming same set built by Docker)
         def images = get_images_to_build()
