@@ -19,7 +19,7 @@ void call() {
                 images.each { img ->
                     // perform the syft scan
                     String results_name = "${img.repo}-${img.tag}-${raw_results_file}".replaceAll("/","-")
-                    sh "syft  ${img.registry}/${img.repo}:${img.tag} -o json > ${results_name}"
+                    sh "syft ${img.registry}/${img.repo}:${img.tag} -o json > ${results_name}"
 
                     // archive the results
                     archiveArtifacts artifacts: "${results_name}"
