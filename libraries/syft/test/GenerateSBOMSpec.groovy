@@ -30,8 +30,8 @@ public class GenerateSBOMSpec extends JTEPipelineSpecification {
     when:
       GenerateSBOM()
     then:
-      1 * getPipelineMock('sh').call('syft ghcr.io-boozallen-sdp-images-syft-latest.tar -o json > syft-latest-syft-sbom-results.json')
-      1 * getPipelineMock('sh').call('syft ghcr.io-boozallen-sdp-images-grype-latest.tar -o json > grype-latest-syft-sbom-results.json')
+      1 * getPipelineMock('sh').call('syft ghcr.io/boozallen/sdp-images/syft:latest -o json > syft-latest-syft-sbom-results.json')
+      1 * getPipelineMock('sh').call('syft ghcr.io/boozallen/sdp-images/grype:latest -o json > grype-latest-syft-sbom-results.json')
   }
 
   def "Archives SBOM file as expected" () {
