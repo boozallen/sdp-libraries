@@ -18,7 +18,7 @@ Uses the [Grype CLI](https://github.com/anchore/grype) to scan container images 
 |-----------------------|----------------------------------------------------------|--------|---------------|---------------------------------------------------|
 | `grype_container`     | The container image to execute the scan within           | String | grype:0.38.0  |                                                   |
 | `report_format`       | The output format of the generated report                | String | json          | `json`, `table`, `cyclonedx`, `template`          |
-| `fail_on_severity`    | The severity level threshold that will fail the pipeline | String | high          | `negligible`, `low`, `medium`, `high`, `critical` |
+| `fail_on_severity`    | The severity level threshold that will fail the pipeline | String | high          | `none`, `negligible`, `low`, `medium`, `high`, `critical` |
 | `grype_config`        | A custom path to a grype configuration file              | String | `null`        |                                                   |
 
 ## Grype Configuration File
