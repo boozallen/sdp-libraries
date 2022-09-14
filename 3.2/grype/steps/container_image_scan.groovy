@@ -25,7 +25,7 @@ void call() {
             }
         }
 
-        if (severityThreshold != null) {
+        if (severityThreshold != "none") {
             ARGS += "--fail-on ${severityThreshold} "
         }
 
