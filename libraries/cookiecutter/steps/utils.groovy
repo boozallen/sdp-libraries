@@ -8,7 +8,7 @@ package libraries.cookiecutter.steps
 
 void call() {
     stage("Utilities") {
-        inside_sdp_image(cookiecutter:2.1.1) {
+        inside_sdp_image('cookiecutter:2.1.1') {
             sh "ls -alh"
             unstash 'workspace'
             sh "ls -alh"
