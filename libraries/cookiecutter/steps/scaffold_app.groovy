@@ -27,6 +27,7 @@ void call() {
         inside_sdp_image(cookiecutterImage) {
           unstash 'workspace'
           sh '''
+            cp -f cookiecutter/docker_cookiecutter.json ./cookiecutter.json
             cookiecutter --no-input -o test ./
             ls -alh
             '''
