@@ -29,6 +29,7 @@ void call() {
           sh '''
             whoami
             echo $PATH
+            cookiecutter -V
             '''
 
           
