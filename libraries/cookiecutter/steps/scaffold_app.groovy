@@ -29,8 +29,9 @@ void call() {
           sh '''
             cp -f cookiecutter/docker_cookiecutter.json ./cookiecutter.json
             cookiecutter --no-input -o test ./
-            ls -alh
+            cd test
             '''
+          stash name: 'workspace', allowEmpty: true, useDefaultExcludes: false
 
           
         }
