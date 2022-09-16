@@ -32,8 +32,9 @@ void call() {
             cd app-name-here
             ls -alh
             '''
-          stash name: 'test', allowEmpty: true, useDefaultExcludes: false, includes: 'app-name-here/**/*'
-          unstash 'test'
+          dir("app-name-here")
+          stash name: 'workspace', allowEmpty: true, useDefaultExcludes: false
+          unstash 'workspace'
           sh "ls -alh"
           
 
