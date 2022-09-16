@@ -24,7 +24,9 @@ void call() {
         Boolean showVer = config?.show_version ?: false
         Boolean debugOn = config?.verbose ?: false
 
-        if ()
+        inside_sdp_image(cookiecutterImage) {
+          
+        }
 
     }
 }
