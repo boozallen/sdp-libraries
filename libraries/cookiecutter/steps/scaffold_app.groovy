@@ -9,7 +9,7 @@ package libraries.cookiecutter.steps
 void call() {
     stage("Cookiecutter") {
         String cookiecutterImage = config?.cookiecutter_image ?: "cookiecutter:1.7.3"
-        String templatePath = config?.template_path ?: "./cookiecutter.json"
+        String templatePath = config?.template_path ?: "./"
         String checkout = config?.checkout ?: null
         String directory = config?.cookiecutter_json_dir ?: null
         String outDir = config?.output_directory ?: null
@@ -25,6 +25,13 @@ void call() {
         Boolean debugOn = config?.verbose ?: false
 
         inside_sdp_image(cookiecutterImage) {
+          
+          sh '''
+            ls -alh
+            cookiecutter --no-input -o test ./
+            ls -alh
+            '''
+
           
         }
 
