@@ -8,7 +8,7 @@ package libraries.cookiecutter.steps
 
 void call() {
     stage("Cookiecutter") {
-        String cookiecutterImage = config?.cookiecutter_image ?: "cookiecutter:1.7.3"
+        String cookiecutterImage = config?.cookiecutter_image ?: "cookiecutter:2.1.1"
         String templatePath = config?.template_path ?: "./"
         String checkout = config?.checkout ?: null
         String directory = config?.cookiecutter_json_dir ?: null
