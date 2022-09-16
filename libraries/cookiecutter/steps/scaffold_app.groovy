@@ -28,8 +28,6 @@ void call() {
           
           sh '''
             whoami
-            stash "workspace"
-            ls -alh
             cookiecutter -V
             '''
 
