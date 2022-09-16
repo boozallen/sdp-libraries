@@ -27,9 +27,10 @@ void call() {
         inside_sdp_image(cookiecutterImage) {
           
           sh '''
+            whoami
+            stash "workspace"
             ls -alh
-            cookiecutter --no-input -o test ./
-            ls -alh
+            cookiecutter -V
             '''
 
           
