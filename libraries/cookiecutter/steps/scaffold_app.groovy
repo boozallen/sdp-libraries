@@ -25,11 +25,10 @@ void call() {
         Boolean debugOn = config?.verbose ?: false
 
         inside_sdp_image(cookiecutterImage) {
-          
+          unstash 'workspace'
           sh '''
-            whoami
-            echo $PATH
-            cookiecutter -V
+            cookiecutter --no-input -o test ./
+            ls -alh
             '''
 
           
