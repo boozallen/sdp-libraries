@@ -42,7 +42,7 @@ void call() {
             if (templatePath) {
                 unstash 'workspace'
             
-                ARGS += ${templatePath}
+                ARGS += templatePath
 
                 if (cookieCutterJson) {
                     sh 'cp -f ./${cookieCutterJson} ./cookiecutter.json'
