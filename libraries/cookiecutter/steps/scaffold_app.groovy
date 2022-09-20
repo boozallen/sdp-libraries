@@ -85,6 +85,7 @@ void call() {
             }
           }
         }
+        sh 'ls -alh'
       } 
     }
   }
