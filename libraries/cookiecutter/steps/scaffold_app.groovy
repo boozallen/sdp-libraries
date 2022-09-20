@@ -45,6 +45,7 @@ void call() {
 
                 if (cookieCutterJson) {
                     sh 'cp -f ./${cookieCutterJson} ./cookiecutter.json'
+                    sh 'ls -alh' //remove
                 }
 
                 try {
