@@ -10,14 +10,11 @@ void call() {
     stage("Cookiecutter") {
         String cookiecutterImage = config?.cookiecutter_image ?: "cookiecutter:2.1.1"
         String templatePath = config?.template_path ?: null //TEMPLATE
-        //String checkout = config?.checkout ?: null
-        String scmURL = config?.scm_pull ?: null //TEMPLATE
+        String checkout = config?.checkout ?: null //OPTION
+        String scmPull = config?.scm_url ?: null //TEMPLATE
         String outDir = config?.output_directory ?: null //OPTION
         String cookieCutterJson = config?.cookie_cutter_json ?: null //Overwrite cookiecutter.json with this file
         String cookieCutterFolder = config?.cookie_cutter_folder ?: null
-        //String configFile = config?.config_file ?: null
-        //String defaultConf = config?.default_config ?: null
-        //String debugFile = config?.debug_file ?: null
         String ARGS = "" //Final Command
         Boolean noInput = config?.no_input ?: false //OPTION
         Boolean debugOn = config?.verbose ?: false //OPTION
@@ -40,8 +37,9 @@ void call() {
         //cookiecutter [OPTIONS] [TEMPLATE] [EXTRA_CONTEXT]...
         inside_sdp_image(cookiecutterImage) {
             if (templatePath) {
+                sh 'ls-alh' //remove
                 unstash 'workspace'
-                sh 'ls -alh'
+                sh 'ls -alh' //remove
             
                 ARGS += templatePath
 
@@ -58,7 +56,7 @@ void call() {
                 }
                 finally {
                     if (overwriteWorkspace) {
-                        dir("app-name-here") {
+                        dir("scaffold_pipeline") {
                         stash name: 'workspace', allowEmpty: true, useDefaultExcludes: false
                         }
                     }

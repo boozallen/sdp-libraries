@@ -2,7 +2,8 @@ fields{
     optional{
         cookiecutter_image = String
         template_path = String
-        scm_pull = String
+        scm_url = String
+        checkout = String
         output_directory = String
         cookie_cutter_json = String
         cookie_cutter_folder = String
