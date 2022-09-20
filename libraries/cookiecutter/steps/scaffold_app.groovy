@@ -24,7 +24,7 @@ void call() {
         Boolean overwriteWorkspace = config?.overwrite_workspace ?: false
         Boolean shouldFail = false
         
-        if (!outDir) {
+        if (outDir) {
           ARGS += "--output-dir ${outDir} "
         }
 
@@ -41,6 +41,7 @@ void call() {
         inside_sdp_image(cookiecutterImage) {
             if (templatePath) {
                 unstash 'workspace'
+                sh 'ls -alh'
             
                 ARGS += templatePath
 
