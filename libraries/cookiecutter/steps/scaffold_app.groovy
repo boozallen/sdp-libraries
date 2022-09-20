@@ -37,7 +37,7 @@ void call() {
         //cookiecutter [OPTIONS] [TEMPLATE] [EXTRA_CONTEXT]...
         inside_sdp_image(cookiecutterImage) {
             if (templatePath) {
-                sh 'ls-alh' //remove
+                sh 'ls -alh' //remove
                 unstash 'workspace'
                 sh 'ls -alh' //remove
             
