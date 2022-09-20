@@ -53,7 +53,6 @@ void call() {
 
         if (cookieCutterJson) {
           sh "cp -f ${cookieCutterJson} ./cookiecutter.json"
-          sh 'ls -alh' //remove
         }
       }
       else if (scmPull) {
@@ -66,23 +65,23 @@ void call() {
         else {
           ARGS += scmPull
         }
+      }
       
-        try {
-          sh "cookiecutter ${ARGS}"
-        }
-        catch (Exception err) {
-          shouldFail = true
-          echo "Failed: {$err}"
-        }
-        finally {
-          if (overwriteWorkspace) {
-            if (outDir) {
-              dir(${outDir} + ${projectFolder})
-            }
-            else {
-              dir(${projectFolder}) {
-                stash name: 'workspace', allowEmpty: true, useDefaultExcludes: false
-              }
+      try {
+        sh "cookiecutter ${ARGS}"
+      }
+      catch (Exception err) {
+        shouldFail = true
+        echo "Failed: {$err}"
+      }
+      finally {
+        if (overwriteWorkspace) {
+          if (outDir) {
+            dir(${outDir} + ${projectFolder})
+          }
+          else {
+            dir(${projectFolder}) {
+              stash name: 'workspace', allowEmpty: true, useDefaultExcludes: false
             }
           }
         }
