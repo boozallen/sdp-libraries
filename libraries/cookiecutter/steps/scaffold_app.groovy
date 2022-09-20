@@ -75,12 +75,18 @@ void call() {
         echo "Failed: {$err}"
       }
       finally {
+        echo "executing finally block"
         if (overwriteWorkspace) {
+          echo " overwriting WS"
           if (outDir) {
-            dir("${outDir}" + "${projectFolder}")
+            dir("${outDir}" + "${projectFolder}"){
+              echo "in if"
+              stash name: 'workspace', allowEmpty: true, useDefaultExcludes: false
+            }
           }
           else {
             dir("${projectFolder}") {
+              echo "in else"
               stash name: 'workspace', allowEmpty: true, useDefaultExcludes: false
             }
           }
