@@ -3,10 +3,12 @@ fields{
         cookiecutter_image = String
         template_path = String
         scm_url = String
+        scm_cred = String
         checkout = String
+        cookiecutterDirectory = String
         output_directory = String
         cookie_cutter_json = String
-        cookie_cutter_folder = String
+        project_folder = String
         no_input = Boolean
         verbose = Boolean
         overwrite_workspace = Boolean
