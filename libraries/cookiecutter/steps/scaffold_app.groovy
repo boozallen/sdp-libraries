@@ -49,7 +49,7 @@ void call() {
                 }
 
                 try {
-                    sh 'cookiecutter ${ARGS}'
+                    sh "cookiecutter ${ARGS}"
                 }
                 catch (Exception err) {
                     shouldFail = true
