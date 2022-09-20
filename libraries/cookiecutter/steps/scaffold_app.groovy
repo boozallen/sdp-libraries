@@ -19,21 +19,21 @@ void call() {
         //String defaultConf = config?.default_config ?: null
         //String debugFile = config?.debug_file ?: null
         String ARGS = "" //Final Command
-        Boolean noInput = config?.no_input = false //OPTION
-        Boolean debugOn = config?.verbose = false //OPTION
-        Boolean overwriteWorkspace = config?.overwrite_workspace = false
+        Boolean noInput = config?.no_input ?: false //OPTION
+        Boolean debugOn = config?.verbose ?: false //OPTION
+        Boolean overwriteWorkspace = config?.overwrite_workspace ?: false
         Boolean shouldFail = false
         
         if (!outDir) {
-          ARGS += " --output-dir ${outDir}"
+          ARGS += "--output-dir ${outDir} "
         }
 
         if (noInput) {
-          ARGS += " --no-input"
+          ARGS += "--no-input "
         }
         
         if (debugOn) {
-          ARGS += " --verbose " //last option will need a space before and after input
+          ARGS += "--verbose "
         }
 
         
