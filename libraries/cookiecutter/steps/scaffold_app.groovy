@@ -57,7 +57,7 @@ void call() {
       }
       else if (scmPull) {
         if (scmCred) {
-          withCredentials([string(credentialsId: ${scmCred}, variable: 'PAT')]) {
+          withCredentials([string(credentialsId: "${scmCred}", variable: 'PAT')]) {
             scmPull.replaceFirst("://","://${PAT}@")
             ARGS += scmPull
           }
@@ -77,10 +77,10 @@ void call() {
       finally {
         if (overwriteWorkspace) {
           if (outDir) {
-            dir(${outDir} + ${projectFolder})
+            dir("${outDir}" + "${projectFolder}")
           }
           else {
-            dir(${projectFolder}) {
+            dir("${projectFolder}") {
               stash name: 'workspace', allowEmpty: true, useDefaultExcludes: false
             }
           }
