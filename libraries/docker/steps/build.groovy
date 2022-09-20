@@ -21,6 +21,7 @@ void call(){
 
     node{
       unstash "workspace"
+      sh 'ls -alh' //remove
 
       login_to_registry{
         def images = get_images_to_build()
