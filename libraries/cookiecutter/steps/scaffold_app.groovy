@@ -58,7 +58,7 @@ void call() {
           sh "cookiecutter ${ARGS}"
         }
         else if (scmPull) {
-          if (scmCred) { // might need to move this into try block.
+          if (scmCred) { 
             withCredentials([string(credentialsId: "${scmCred}", variable: 'PAT')]) {
               scmPull = scmPull.replaceFirst("://","://${PAT}@")
               echo "${scmPull}"
