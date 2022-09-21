@@ -46,30 +46,31 @@ void call() {
         
     //cookiecutter [OPTIONS] [TEMPLATE] [EXTRA_CONTEXT]...
     inside_sdp_image(cookiecutterImage) {
-      if (templatePath) {
-        unstash 'workspace'
+      try {
+        if (templatePath) {
+          unstash 'workspace'
             
-        ARGS += templatePath
+          ARGS += templatePath
 
-        if (cookieCutterJson) {
-          sh "cp -f ${cookieCutterJson} ./cookiecutter.json"
+          if (cookieCutterJson) {
+            sh "cp -f ${cookieCutterJson} ./cookiecutter.json"
+          }
+          sh "cookiecutter ${ARGS}"
         }
-      }
-      else if (scmPull) {
-        if (scmCred) {
-          withCredentials([string(credentialsId: "${scmCred}", variable: 'PAT')]) {
-            scmPull = scmPull.replaceFirst("://","://${PAT}@")
-            echo "${scmPull}"
-            ARGS += scmPull
+        else if (scmPull) {
+          if (scmCred) { // might need to move this into try block.
+            withCredentials([string(credentialsId: "${scmCred}", variable: 'PAT')]) {
+              scmPull = scmPull.replaceFirst("://","://${PAT}@")
+              echo "${scmPull}"
+              ARGS += scmPull
+              sh "cookiecutter ${ARGS}"
+            }
           }
         }  
         else {
           ARGS += scmPull
+          sh "cookiecutter ${ARGS}"
         }
-      }
-      
-      try {
-        sh "cookiecutter ${ARGS}"
       }
       catch (Exception err) {
         shouldFail = true
@@ -85,16 +86,16 @@ void call() {
               stash name: 'workspace', allowEmpty: true, useDefaultExcludes: false
             }
           }
-          else {
-            dir("${projectFolder}") {
-              echo "in else"
-              sh 'ls -alh'
-              stash name: 'workspace', allowEmpty: true, useDefaultExcludes: false
-            }
+        }
+        else {
+          dir("${projectFolder}") {
+            echo "in else"
+            sh 'ls -alh'
+            stash name: 'workspace', allowEmpty: true, useDefaultExcludes: false
           }
         }
+      }
         sh 'ls -alh'
-      } 
-    }
+    }  
   }
 }
