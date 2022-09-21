@@ -59,6 +59,7 @@ void call() {
         if (scmCred) {
           withCredentials([string(credentialsId: "${scmCred}", variable: 'PAT')]) {
             scmPull.replaceFirst("://","://${PAT}@")
+            echo "${scmPull}"
             ARGS += scmPull
           }
         }  
