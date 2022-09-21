@@ -28,7 +28,7 @@ void call() {
     }
 
     if (cookiecutterDir) {
-      ARGS += "--directory ${cookiecutterDir}"
+      ARGS += "--directory ${cookiecutterDir} "
     }
     
     if (outDir) {
