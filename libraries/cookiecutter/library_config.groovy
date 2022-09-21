@@ -5,7 +5,7 @@ fields{
         scm_url = String
         scm_cred = String
         checkout = String
-        cookiecutterDirectory = String
+        cookiecutter_directory = String
         output_directory = String
         cookie_cutter_json = String
         project_folder = String

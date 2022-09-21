@@ -13,7 +13,7 @@ void call() {
     String scmPull = config?.scm_url ?: null //TEMPLATE
     String scmCred = config?.scm_cred ?: null //creds to pull cc template from scm
     String checkout = config?.checkout ?: null //OPTION
-    String cookiecutterDir = config?.cookiecutterDirectory ?: null //OPTION
+    String cookiecutterDir = config?.cookiecutter_directory ?: null //OPTION
     String outDir = config?.output_directory ?: null //OPTION
     String cookieCutterJson = config?.cookie_cutter_json ?: null //Overwrite cookiecutter.json with this file
     String projectFolder = config?.project_folder ?: null
