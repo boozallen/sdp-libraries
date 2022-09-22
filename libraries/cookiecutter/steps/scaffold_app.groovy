@@ -22,9 +22,9 @@ void call() {
     Boolean debugOn = config?.verbose ?: false //OPTION
     Boolean overwriteWorkspace = config?.overwrite_workspace ?: false
     Boolean shouldFail = false
-    LinkedHashMap extraContext = config?.extra_context ?: [:] //EXTRA_CONTEXT
+    LinkedHashMap extraContext = config?.extra_context ?: [] //EXTRA_CONTEXT
     
-    extarContext.each { println "$it.key=$it.value" }
+    extraContext.each { val -> println "${val}" }
     if (checkout) {
         ARGS += "--checkout ${checkout} "
     }
