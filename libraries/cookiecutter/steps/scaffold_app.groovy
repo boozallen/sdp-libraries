@@ -48,7 +48,7 @@ void call() {
 
     if (!extraContext.isEmpty()) {
       extraContext.each {
-        val -> extraContextARGS += "${val} + ' '"
+        val -> extraContextARGS += "${val}" + ' '
       }
     }
 
@@ -66,7 +66,7 @@ void call() {
           }
 
           if (!extraContext.isEmpty()) {
-            sh "cookiecutter ${ARGS} + ' ' + ${extraContextARGS}"
+            sh "cookiecutter ${ARGS}" + ' ' + "${extraContextARGS}"
           }
           else {
             sh "cookiecutter ${ARGS}"
@@ -79,7 +79,7 @@ void call() {
               echo "${scmPull}"
               ARGS += scmPull
               if (!extraContext.isEmpty()) {
-                sh "cookiecutter ${ARGS} + ' ' + ${extraContextARGS}"
+                sh "cookiecutter ${ARGS}" + ' ' + "${extraContextARGS}"
               }
               else {
                 sh "cookiecutter ${ARGS}"
@@ -90,7 +90,7 @@ void call() {
         else {
           ARGS += scmPull
           if (!extraContext.isEmpty()) {
-            sh "cookiecutter ${ARGS} + ' ' + ${extraContextARGS}"
+            sh "cookiecutter ${ARGS}" + ' ' + "${extraContextARGS}"
           }
           else {
             sh "cookiecutter ${ARGS}"
