@@ -86,12 +86,12 @@ void call() {
               stash name: 'workspace', allowEmpty: true, useDefaultExcludes: false
             }
           }
-        }
-        else {
-          echo "in else"
-          dir("${projectFolder}") {
-            sh 'ls -alh'
-            stash name: 'workspace', allowEmpty: true, useDefaultExcludes: false
+          else {
+            echo "in else"
+            dir("${projectFolder}") {
+              sh 'ls -alh'
+              stash name: 'workspace', allowEmpty: true, useDefaultExcludes: false
+            }
           }
         }
       }
