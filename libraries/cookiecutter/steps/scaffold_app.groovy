@@ -22,7 +22,7 @@ void call() {
     Boolean debugOn = config?.verbose ?: false //OPTION
     Boolean overwriteWorkspace = config?.overwrite_workspace ?: false
     Boolean shouldFail = false
-    LinkedHashMap extraContext = config?.extra_context ?: [] //EXTRA_CONTEXT
+    ArrayList extraContext = config?.extra_context ?: [] //EXTRA_CONTEXT
     
     extraContext.each { val -> println "${val}" }
     if (checkout) {
