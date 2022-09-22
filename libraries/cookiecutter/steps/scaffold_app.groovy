@@ -78,13 +78,23 @@ void call() {
               scmPull = scmPull.replaceFirst("://","://${PAT}@")
               echo "${scmPull}"
               ARGS += scmPull
-              sh "cookiecutter ${ARGS}"
+              if (!extraContext.isEmpty()) {
+                sh "cookiecutter ${ARGS} + ' ' + ${extraContextARGS}"
+              }
+              else {
+                sh "cookiecutter ${ARGS}"
+              }
             }
           }
         }  
         else {
           ARGS += scmPull
-          sh "cookiecutter ${ARGS}"
+          if (!extraContext.isEmpty()) {
+            sh "cookiecutter ${ARGS} + ' ' + ${extraContextARGS}"
+          }
+          else {
+            sh "cookiecutter ${ARGS}"
+          }
         }
       }
       catch (Exception err) {
