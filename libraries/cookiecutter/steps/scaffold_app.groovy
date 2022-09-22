@@ -104,8 +104,6 @@ void call() {
       finally {
         echo "executing finally block"
         if (overwriteWorkspace) {
-          unstash 'workspace'
-          cleanWs()
           echo " overwriting WS"
           if (outDir) {
             dir("${outDir}" + "${projectFolder}"){
