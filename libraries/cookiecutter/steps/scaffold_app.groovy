@@ -48,7 +48,7 @@ void call() {
     inside_sdp_image(cookiecutterImage) {
       unstash 'workspace'
       cleanWs()
-      stash 'workspace'
+      stash 'workspace', allowEmpty: true, useDefaultExcludes: false
       try {
         if (templatePath) {
           unstash 'workspace'
