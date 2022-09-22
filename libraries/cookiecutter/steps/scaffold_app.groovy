@@ -103,6 +103,7 @@ void call() {
       }
       finally {
         echo "executing finally block"
+        sh 'ls -alh'
         if (overwriteWorkspace) {
           echo " overwriting WS"
           if (outDir) {
