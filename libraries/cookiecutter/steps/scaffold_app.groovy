@@ -46,6 +46,9 @@ void call() {
         
     //cookiecutter [OPTIONS] [TEMPLATE] [EXTRA_CONTEXT]...
     inside_sdp_image(cookiecutterImage) {
+      unstash 'workspace'
+      cleanWs()
+      stash 'workspace'
       try {
         if (templatePath) {
           unstash 'workspace'
