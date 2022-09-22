@@ -12,5 +12,6 @@ fields{
         no_input = Boolean
         verbose = Boolean
         overwrite_workspace = Boolean
+        extra_context = LinkedHashMap
     }
 }
