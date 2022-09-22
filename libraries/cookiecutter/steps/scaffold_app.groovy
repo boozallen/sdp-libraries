@@ -18,6 +18,7 @@ void call() {
     String cookieCutterJson = config?.cookie_cutter_json ?: null //Overwrite cookiecutter.json with this file
     String projectFolder = config?.project_folder ?: null
     String ARGS = "" //Final Command
+    String extraContextARGS = ""
     Boolean noInput = config?.no_input ?: true //OPTION
     Boolean debugOn = config?.verbose ?: false //OPTION
     Boolean overwriteWorkspace = config?.overwrite_workspace ?: false
@@ -45,6 +46,12 @@ void call() {
       ARGS += "--verbose "
     }
 
+    if (!extraContext.isEmpty()) {
+      extraContext.each {
+        val -> extraContextARGS += "${val} + ' '"
+      }
+    }
+
         
     //cookiecutter [OPTIONS] [TEMPLATE] [EXTRA_CONTEXT]...
     inside_sdp_image(cookiecutterImage) {
@@ -57,7 +64,13 @@ void call() {
           if (cookieCutterJson) {
             sh "cp -f ${cookieCutterJson} ./cookiecutter.json"
           }
-          sh "cookiecutter ${ARGS}"
+
+          if (!extraContext.isEmpty()) {
+            sh "cookiecutter ${ARGS} + ' ' + ${extraContextARGS}"
+          }
+          else {
+            sh "cookiecutter ${ARGS}"
+          }
         }
         else if (scmPull) {
           if (scmCred) { 
