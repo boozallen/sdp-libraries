@@ -88,8 +88,8 @@ void call() {
           }
         }
         else {
+          echo "in else"
           dir("${projectFolder}") {
-            echo "in else"
             sh 'ls -alh'
             stash name: 'workspace', allowEmpty: true, useDefaultExcludes: false
           }
