@@ -91,7 +91,7 @@ public class YarnInvokeSpec extends JTEPipelineSpecification {
       YarnInvoke()
     then:
       YarnInvoke.getBinding().variables.env.node_version == 'lts/*'
-      YarnInvoke.getBinding().variables.env.yarn_version === 'latest'
+      YarnInvoke.getBinding().variables.env.yarn_version == 'latest'
       YarnInvoke.getBinding().variables.env.yarnInstall == "frozen-lockfile"
   }
 
