@@ -15,7 +15,6 @@ public class YarnInvokeSpec extends JTEPipelineSpecification {
                             nvm version
 
                             npm i -g yarn@latest
-                            yarn --version
 
                             echo 'Running with Yarn install'
                             yarn $yarnInstall
@@ -29,7 +28,6 @@ public class YarnInvokeSpec extends JTEPipelineSpecification {
                             nvm version
 
                             npm i -g yarn@latest
-                            yarn --version
 
                             echo 'Running without Yarn install'
                             yarn $scriptCommand

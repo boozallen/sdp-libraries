@@ -53,7 +53,6 @@ void call(app_env = [:]) {
                             nvm version
 
                             npm install -g yarn@$yarn_version
-                            yarn --version
 
                             echo 'Running with Yarn install'
                             yarn $yarnInstall
@@ -69,7 +68,6 @@ void call(app_env = [:]) {
                             nvm version
 
                             npm install -g yarn@$yarn_version
-                            yarn --version
 
                             echo 'Running without Yarn install'
                             yarn $scriptCommand
