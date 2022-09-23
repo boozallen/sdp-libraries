@@ -206,7 +206,7 @@ libraries {
 4. more secrets as needed
 
 This example shows the prod Application Environment overriding configs set in the library config.
-`source_build.npm_install` is preserved as set in library config, since it isn't overridden by the Application Environment.
+`source_build.npmInstall` is preserved as set in library config, since it isn't overridden by the Application Environment.
 
 ### Minimal Configuration Example
 
