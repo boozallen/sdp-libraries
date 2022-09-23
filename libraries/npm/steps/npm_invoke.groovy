@@ -11,6 +11,8 @@ void call(app_env = [:]) {
     LinkedHashMap libStepConfig = config?."${stepContext.name}" ?: [:]
     LinkedHashMap appStepConfig = app_env?.npm?."${stepContext.name}" ?: [:]
 
+    String nvmContainer = config?.nvm_container ?: "nvm:1.0.0"
+
     String stageName = appStepConfig?.stageName ?:
                        libStepConfig?.stageName ?:
                        null
@@ -32,7 +34,7 @@ void call(app_env = [:]) {
 
         // run npm command in nvm container
         withCredentials(creds) {
-            inside_sdp_image "nvm:1.0.0", {
+            inside_sdp_image(nvmContainer) {
                 unstash "workspace"
 
                 // verify package.json script block has command to run
