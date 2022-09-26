@@ -14,7 +14,7 @@ public class YarnInvokeSpec extends JTEPipelineSpecification {
                             nvm install $node_version
                             nvm version
 
-                            npm i -g yarn@latest
+                            npm install -g yarn@$yarn_version
 
                             echo 'Running with Yarn install'
                             yarn $yarnInstall
@@ -27,7 +27,7 @@ public class YarnInvokeSpec extends JTEPipelineSpecification {
                             nvm install $node_version
                             nvm version
 
-                            npm i -g yarn@latest
+                            npm install -g yarn@$yarn_version
 
                             echo 'Running without Yarn install'
                             yarn $scriptCommand
@@ -92,7 +92,7 @@ public class YarnInvokeSpec extends JTEPipelineSpecification {
     then:
       YarnInvoke.getBinding().variables.env.node_version == 'lts/*'
       YarnInvoke.getBinding().variables.env.yarn_version == 'latest'
-      YarnInvoke.getBinding().variables.env.yarnInstall == "frozen-lockfile"
+      YarnInvoke.getBinding().variables.env.yarnInstall == "install --frozen-lockfile"
   }
 
   def "Library sets config for node_version, yarn_version, yarnInstall, scriptCommand, and environment variables when specified and App Env does not" () {
