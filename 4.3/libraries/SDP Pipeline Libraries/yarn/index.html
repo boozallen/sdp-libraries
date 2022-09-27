@@ -6,7 +6,7 @@
       <meta charset="utf-8">
       <meta name="viewport" content="width=device-width,initial-scale=1">
       
-        <meta name="description" content="Uses docker to build and publish container images, tagging them with the Git SHA">
+        <meta name="description" content="Run Yarn script commands in an NVM container with a specified Node version">
       
       
       
@@ -15,7 +15,7 @@
     
     
       
-        <title>Docker - Solutions Delivery Platform</title>
+        <title>Yarn - Solutions Delivery Platform</title>
       
     
     
@@ -66,7 +66,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#docker" class="md-skip">
+        <a href="#yarn" class="md-skip">
           Skip to content
         </a>
       
@@ -104,7 +104,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Docker
+              Yarn
             
           </span>
         </div>
@@ -694,154 +694,11 @@
               
   
   
-    
   
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
-      
-      
-        
-      
-      
-        <label class="md-nav__link md-nav__link--active" for="__toc">
-          Docker
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <a href="./" class="md-nav__link md-nav__link--active">
+    <li class="md-nav__item">
+      <a href="../docker/" class="md-nav__link">
         Docker
       </a>
-      
-        
-
-<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
-  
-  
-  
-    
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#steps" class="md-nav__link">
-    Steps
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#example-configuration-snippet" class="md-nav__link">
-    Example Configuration Snippet
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#configuration" class="md-nav__link">
-    Configuration
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#build-arguments" class="md-nav__link">
-    Build Arguments
-  </a>
-  
-    <nav class="md-nav" aria-label="Build Arguments">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#static-inline-build-arguments" class="md-nav__link">
-    Static Inline Build Arguments
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#secret-text-credentials" class="md-nav__link">
-    Secret Text Credentials
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#buildx-configuration" class="md-nav__link">
-    Buildx Configuration
-  </a>
-  
-    <nav class="md-nav" aria-label="Buildx Configuration">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#buildx-overview" class="md-nav__link">
-    Buildx Overview
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#use-cases" class="md-nav__link">
-    Use Cases
-  </a>
-  
-    <nav class="md-nav" aria-label="Use Cases">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#1-single-docker-image-name-with-one-tag" class="md-nav__link">
-    1. Single docker image name with one tag
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#2-single-docker-image-name-with-multiple-tags" class="md-nav__link">
-    2. Single docker image name with multiple tags
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#3-multiple-docker-image-names-with-multiple-tags" class="md-nav__link">
-    3. Multiple docker image names with multiple tags
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#dependencies" class="md-nav__link">
-    Dependencies
-  </a>
-  
-</li>
-      
-    </ul>
-  
-</nav>
-      
     </li>
   
 
@@ -1145,11 +1002,100 @@
               
   
   
+    
   
-    <li class="md-nav__item">
-      <a href="../yarn/" class="md-nav__link">
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          Yarn
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
         Yarn
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#configuration" class="md-nav__link">
+    Configuration
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#steps" class="md-nav__link">
+    Steps
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#example-library-configuration" class="md-nav__link">
+    Example Library Configuration
+  </a>
+  
+    <nav class="md-nav" aria-label="Example Library Configuration">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#full-configuration-example" class="md-nav__link">
+    Full Configuration Example
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#minimal-configuration-example" class="md-nav__link">
+    Minimal Configuration Example
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#secrets" class="md-nav__link">
+    Secrets
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#dependencies" class="md-nav__link">
+    Dependencies
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
     </li>
   
 
@@ -1257,20 +1203,6 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#steps" class="md-nav__link">
-    Steps
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#example-configuration-snippet" class="md-nav__link">
-    Example Configuration Snippet
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
   <a href="#configuration" class="md-nav__link">
     Configuration
   </a>
@@ -1278,78 +1210,38 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#build-arguments" class="md-nav__link">
-    Build Arguments
+  <a href="#steps" class="md-nav__link">
+    Steps
   </a>
-  
-    <nav class="md-nav" aria-label="Build Arguments">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#static-inline-build-arguments" class="md-nav__link">
-    Static Inline Build Arguments
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#secret-text-credentials" class="md-nav__link">
-    Secret Text Credentials
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#buildx-configuration" class="md-nav__link">
-    Buildx Configuration
+  <a href="#example-library-configuration" class="md-nav__link">
+    Example Library Configuration
   </a>
   
-    <nav class="md-nav" aria-label="Buildx Configuration">
+    <nav class="md-nav" aria-label="Example Library Configuration">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#buildx-overview" class="md-nav__link">
-    Buildx Overview
+  <a href="#full-configuration-example" class="md-nav__link">
+    Full Configuration Example
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#use-cases" class="md-nav__link">
-    Use Cases
-  </a>
-  
-    <nav class="md-nav" aria-label="Use Cases">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#1-single-docker-image-name-with-one-tag" class="md-nav__link">
-    1. Single docker image name with one tag
+  <a href="#minimal-configuration-example" class="md-nav__link">
+    Minimal Configuration Example
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#2-single-docker-image-name-with-multiple-tags" class="md-nav__link">
-    2. Single docker image name with multiple tags
+  <a href="#secrets" class="md-nav__link">
+    Secrets
   </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#3-multiple-docker-image-names-with-multiple-tags" class="md-nav__link">
-    3. Multiple docker image names with multiple tags
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
   
 </li>
         
@@ -1378,327 +1270,268 @@
               
                 
 
-<h1 id="docker">Docker<a class="headerlink" href="#docker" title="Permanent link">&para;</a></h1>
-<p>The Docker library will build Docker images and push them into a Docker repository.</p>
+<h1 id="yarn">Yarn<a class="headerlink" href="#yarn" title="Permanent link">&para;</a></h1>
+<p>Run Yarn script commands in an NVM container with a specified Node version.</p>
+<h2 id="configuration">Configuration<a class="headerlink" href="#configuration" title="Permanent link">&para;</a></h2>
+<p>All configs can be set in either the library config or the Application Environment. All configs set in Application Environment take precedence.</p>
+<p>Environment variables and secrets set in the library config are concatenated with those set in the Application Environment.
+Environment variables and secrets with the same key are set to the definition contained in the Application Environment.</p>
 <h2 id="steps">Steps<a class="headerlink" href="#steps" title="Permanent link">&para;</a></h2>
-<hr />
-<table>
-<thead>
-<tr>
-<th>Step</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>build()</code></td>
-<td>builds a container image, tagging it with the Git SHA, and pushes the image to the defined registry</td>
-</tr>
-<tr>
-<td><code>buildx()</code></td>
-<td>builds a multi-architecture image using Buildx emulation, and pushes the image or images to the defined registry</td>
-</tr>
-<tr>
-<td><code>get_images_to_build()</code></td>
-<td>inspects the source code repository based upon the configured <code>build_strategy</code> to determine which container images to build</td>
-</tr>
-<tr>
-<td><code>login_to_registry()</code></td>
-<td>logs in to the configured container registry</td>
-</tr>
-<tr>
-<td><code>retag()</code></td>
-<td>retags the container images determined by <code>get_images_to_build()</code></td>
-</tr>
-</tbody>
-</table>
-<h2 id="example-configuration-snippet">Example Configuration Snippet<a class="headerlink" href="#example-configuration-snippet" title="Permanent link">&para;</a></h2>
-<hr />
-<div class="highlight"><pre><span></span><code><span class="n">libraries</span><span class="o">{</span>
-  <span class="n">docker</span> <span class="o">{</span>
-    <span class="n">build_strategy</span> <span class="o">=</span> <span class="s2">&quot;dockerfile&quot;</span>
-    <span class="n">registry</span> <span class="o">=</span> <span class="s2">&quot;docker-registry.default.svc:5000&quot;</span>
-    <span class="n">cred</span> <span class="o">=</span> <span class="s2">&quot;openshift-docker-registry&quot;</span>
-    <span class="n">repo_path_prefix</span> <span class="o">=</span> <span class="s2">&quot;proj-images&quot;</span>
-    <span class="n">image_name</span> <span class="o">=</span> <span class="s2">&quot;my-container-image&quot;</span>
-    <span class="n">remove_local_image</span> <span class="o">=</span> <span class="kc">true</span>
-    <span class="n">build_args</span><span class="o">{</span>
-      <span class="n">GITHUB_TOKEN</span><span class="o">{</span>
-        <span class="n">type</span> <span class="o">=</span> <span class="s2">&quot;credential&quot;</span>
-        <span class="n">id</span> <span class="o">=</span> <span class="s2">&quot;github_token&quot;</span>
-      <span class="o">}</span>
-      <span class="n">SOME_VALUE</span> <span class="o">=</span> <span class="s2">&quot;some-inline-value-here&quot;</span>
+<p>Steps are configured dynamically in either the library config or the Application Environment.</p>
+<div class="highlight"><span class="filename">pipeline_configuration.groovy</span><pre><span></span><code><span class="n">libraries</span> <span class="o">{</span>
+  <span class="n">yarn</span> <span class="o">{</span>
+    <span class="o">[</span><span class="n">step_name</span><span class="o">]</span> <span class="o">{</span>
+      <span class="c1">// config fields described below</span>
     <span class="o">}</span>
+    <span class="o">...</span>
   <span class="o">}</span>
 <span class="o">}</span>
 </code></pre></div>
-<h2 id="configuration">Configuration<a class="headerlink" href="#configuration" title="Permanent link">&para;</a></h2>
+<h2 id="example-library-configuration">Example Library Configuration<a class="headerlink" href="#example-library-configuration" title="Permanent link">&para;</a></h2>
 <hr />
 <table>
 <thead>
 <tr>
 <th>Field</th>
 <th>Description</th>
-<th>Default Value</th>
-<th>Required</th>
+<th>Default</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td><code>build_strategy</code></td>
-<td>Sets how the library will build the container image(s); must be <code>dockerfile</code>, <code>docker-compose</code>, or <code>modules</code></td>
-<td><code>dockerfile</code></td>
-<td>No</td>
+<td><code>nvm_container</code></td>
+<td>The container image to use</td>
+<td>nvm:1.0.0</td>
 </tr>
 <tr>
-<td><code>registry</code></td>
-<td>Where the container images produced during the pipeline builds are going to be pushed to</td>
+<td><code>node_version</code></td>
+<td>Node version to run Yarn within (installed via NVM)</td>
+<td><code>lts/*</code></td>
+</tr>
+<tr>
+<td><code>yarn_version</code></td>
+<td>Yarn version to use</td>
+<td><code>latest</code></td>
+</tr>
+<tr>
+<td><code>&lt;step name&gt;.stageName</code></td>
+<td>stage name displayed in the Jenkins dashboard</td>
+<td>N/A</td>
+</tr>
+<tr>
+<td><code>&lt;step name&gt;.script</code></td>
+<td>Yarn script ran by the step</td>
+<td>N/A</td>
+</tr>
+<tr>
+<td><code>&lt;step name&gt;.artifacts</code></td>
+<td>array of glob patterns for artifacts that should be archived</td>
 <td></td>
-<td>Yes</td>
 </tr>
 <tr>
-<td><code>registry_protocol</code></td>
-<td>the protocol to prepend to the <code>registry</code> when authenticating to the container registry</td>
-<td><code>"https://"</code></td>
-<td>No</td>
+<td><code>&lt;step name&gt;.yarnInstall</code></td>
+<td>Yarn install command to run; Yarn install can be skipped with value "skip"</td>
+<td><code>frozen-lockfile</code></td>
 </tr>
 <tr>
-<td><code>cred</code></td>
-<td>Credentials used for the repository where different docker pipeline tools are stored</td>
-<td></td>
-<td>Yes</td>
+<td><code>&lt;step name&gt;.env</code></td>
+<td>environment variables to make available to the Yarn process; can include key/value pairs and secrets</td>
+<td><code>[]</code></td>
 </tr>
 <tr>
-<td><code>repo_path_prefix</code></td>
-<td>The part of the repository name between the registry name and the last forward-slash</td>
-<td>""</td>
-<td>No</td>
+<td><code>&lt;step name&gt;.env.secrets</code></td>
+<td>text or username/password credentials to make available to the Yarn process; must be present and available in Jenkins credential store</td>
+<td><code>[]</code></td>
 </tr>
 <tr>
-<td><code>image_name</code></td>
-<td>Name of the container image being built</td>
-<td><code>env.REPO_NAME</code></td>
-<td>No</td>
-</tr>
-<tr>
-<td><code>remove_local_image</code></td>
-<td>Determines if the pipeline should remove the local image after building or retagging</td>
+<td><code>&lt;step name&gt;.useEslintPlugin</code></td>
+<td>if the Jenkins ESLint Plugin is installed, will run the <code>recordIssues</code> step to send lint results to the plugin dashboard</td>
 <td><code>false</code></td>
-<td>No</td>
-</tr>
-<tr>
-<td><code>build_args</code></td>
-<td>A block of build arguments to pass to <code>docker build</code> (for more information, see below)</td>
-<td></td>
-<td>No</td>
-</tr>
-<tr>
-<td><code>setExperimentalFlag</code></td>
-<td>If the docker version only has buildx as an experimental feature then this allows that flag to be set</td>
-<td><code>false</code></td>
-<td>No</td>
-</tr>
-<tr>
-<td><code>same_repo_different_tags</code></td>
-<td>When building multiple images don't change the repository name but append the key name to the tag</td>
-<td><code>false</code></td>
-<td>No</td>
-</tr>
-<tr>
-<td><code>buildx[].name { }</code></td>
-<td>the key name to the map of the specific element of the buildx array</td>
-<td></td>
-<td>Yes</td>
-</tr>
-<tr>
-<td><code>buildx[].useLatestTag</code></td>
-<td>Add an additional latest tag to the image being built on top of the other tag</td>
-<td><code>false</code></td>
-<td>No</td>
-</tr>
-<tr>
-<td><code>buildx[].tag</code></td>
-<td>Override the tag with a string</td>
-<td>Git SHA from commit</td>
-<td>No</td>
-</tr>
-<tr>
-<td><code>buildx[].context</code></td>
-<td>Dockerfile context for that image</td>
-<td><code>"."</code></td>
-<td>No</td>
-</tr>
-<tr>
-<td><code>buildx[].dockerfile_path</code></td>
-<td>Dockerfile location and name for that image</td>
-<td><code>"Dockerfile"</code></td>
-<td>No</td>
-</tr>
-<tr>
-<td><code>buildx[].platforms</code></td>
-<td>array of platforms to be built for that image</td>
-<td><code>linux/amd64</code></td>
-<td>No</td>
-</tr>
-<tr>
-<td><code>buildx[].build_args</code></td>
-<td>A block of build arguments to pass for that element to <code>docker buildx</code> (for more information, see below)</td>
-<td></td>
-<td></td>
 </tr>
 </tbody>
 </table>
-<h2 id="build-arguments">Build Arguments<a class="headerlink" href="#build-arguments" title="Permanent link">&para;</a></h2>
-<hr />
-<h3 id="static-inline-build-arguments">Static Inline Build Arguments<a class="headerlink" href="#static-inline-build-arguments" title="Permanent link">&para;</a></h3>
-<p>To pass static values as build arguments, set a field within the configuration block where the key is the build argument name and the value is the build argument value.</p>
-<p>For example,</p>
-<div class="highlight"><pre><span></span><code><span class="n">libraries</span><span class="o">{</span>
-  <span class="n">docker</span><span class="o">{</span>
-    <span class="n">build_args</span><span class="o">{</span>
-      <span class="n">BUILD_ARG_NAME</span> <span class="o">=</span> <span class="s2">&quot;some-inline-argument&quot;</span> <span class="c1">// (1)</span>
+<h3 id="full-configuration-example">Full Configuration Example<a class="headerlink" href="#full-configuration-example" title="Permanent link">&para;</a></h3>
+<p>Each available method has config options that can be specified in the Application Environment or within the library configuration.</p>
+<div class="highlight"><span class="filename">pipeline_configuration.groovy</span><pre><span></span><code><span class="n">application_environments</span> <span class="o">{</span>
+  <span class="n">dev</span>
+  <span class="n">prod</span> <span class="o">{</span>
+    <span class="n">yarn</span> <span class="o">{</span>
+      <span class="n">node_version</span> <span class="o">=</span> <span class="s2">&quot;14.16.1&quot;</span>
+      <span class="n">yarn_version</span> <span class="o">=</span> <span class="s2">&quot;1.22.17&quot;</span>
+      <span class="n">unit_test</span> <span class="o">{</span>
+        <span class="n">stageName</span> <span class="o">=</span> <span class="s2">&quot;Yarn Unit Tests&quot;</span>
+        <span class="n">script</span> <span class="o">=</span> <span class="s2">&quot;full-test-suite&quot;</span>
+        <span class="n">artifacts</span> <span class="o">=</span> <span class="o">[</span><span class="s2">&quot;coverage/lcov.info&quot;</span><span class="o">]</span>
+        <span class="n">yarnInstall</span> <span class="o">=</span> <span class="s2">&quot;frozen-lockfile&quot;</span>
+        <span class="n">env</span> <span class="o">{</span>
+          <span class="n">someKey</span> <span class="o">=</span> <span class="s2">&quot;prodValue for tests&quot;</span>
+          <span class="c1">// (1)</span>
+          <span class="n">secrets</span><span class="o">{</span>
+            <span class="n">someTextCredential</span> <span class="o">{</span>
+              <span class="n">type</span> <span class="o">=</span> <span class="s2">&quot;text&quot;</span>
+              <span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;VARIABLE_NAME&quot;</span>
+              <span class="n">id</span> <span class="o">=</span> <span class="s2">&quot;prod-credential-id&quot;</span>
+            <span class="o">}</span>
+            <span class="n">someUsernamePasswordCredential</span> <span class="o">{</span>
+              <span class="n">type</span> <span class="o">=</span> <span class="s2">&quot;usernamePassword&quot;</span>
+              <span class="n">usernameVar</span> <span class="o">=</span> <span class="s2">&quot;USER&quot;</span>
+              <span class="n">passwordVar</span> <span class="o">=</span> <span class="s2">&quot;PASS&quot;</span>
+              <span class="n">id</span> <span class="o">=</span> <span class="s2">&quot;prod-credential-id&quot;</span>
+            <span class="o">}</span>
+            <span class="c1">// (2)</span>
+          <span class="o">}</span>
+        <span class="o">}</span>
+      <span class="o">}</span>
+      <span class="n">source_build</span> <span class="o">{</span>
+        <span class="n">stageName</span> <span class="o">=</span> <span class="s2">&quot;Yarn Source Build&quot;</span>
+        <span class="n">script</span> <span class="o">=</span> <span class="s2">&quot;prod-build&quot;</span>
+        <span class="n">env</span> <span class="o">{</span>
+          <span class="n">someKey</span> <span class="o">=</span> <span class="s2">&quot;prodValue for builds&quot;</span>
+          <span class="n">secrets</span> <span class="o">{</span>
+            <span class="n">someTextCredential</span> <span class="o">{</span>
+              <span class="n">type</span> <span class="o">=</span> <span class="s2">&quot;text&quot;</span>
+              <span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;VARIABLE_NAME&quot;</span>
+              <span class="n">id</span> <span class="o">=</span> <span class="s2">&quot;prod-credential-id&quot;</span>
+            <span class="o">}</span>
+            <span class="n">someUsernamePasswordCredential</span> <span class="o">{</span>
+              <span class="n">type</span> <span class="o">=</span> <span class="s2">&quot;usernamePassword&quot;</span>
+              <span class="n">usernameVar</span> <span class="o">=</span> <span class="s2">&quot;USER&quot;</span>
+              <span class="n">passwordVar</span> <span class="o">=</span> <span class="s2">&quot;PASS&quot;</span>
+              <span class="n">id</span> <span class="o">=</span> <span class="s2">&quot;prod-credential-id&quot;</span>
+            <span class="o">}</span>
+          <span class="o">}</span>
+        <span class="o">}</span>
+      <span class="o">}</span>
+    <span class="o">}</span>
+    <span class="n">lint_code</span> <span class="o">{</span>
+        <span class="n">stageName</span> <span class="o">=</span> <span class="s2">&quot;Yarn Lint Code&quot;</span>
+        <span class="n">script</span> <span class="o">=</span> <span class="s2">&quot;lint&quot;</span>
+        <span class="n">artifacts</span> <span class="o">=</span> <span class="o">[</span>
+          <span class="s2">&quot;eslint-report.json&quot;</span><span class="o">,</span>
+          <span class="s2">&quot;eslint-report.html&quot;</span><span class="o">,</span>
+          <span class="s2">&quot;eslint-report.xml&quot;</span><span class="o">,</span>
+        <span class="o">]</span>
+        <span class="n">useEslintPlugin</span> <span class="o">=</span> <span class="kc">true</span>
+        <span class="n">env</span> <span class="o">{</span>
+          <span class="n">someKey</span> <span class="o">=</span> <span class="s2">&quot;prodValue for linting&quot;</span>
+          <span class="n">secrets</span> <span class="o">{</span>
+            <span class="n">someTextCredential</span> <span class="o">{</span>
+              <span class="n">type</span> <span class="o">=</span> <span class="s2">&quot;text&quot;</span>
+              <span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;VARIABLE_NAME&quot;</span>
+              <span class="n">id</span> <span class="o">=</span> <span class="s2">&quot;prod-credential-id&quot;</span>
+            <span class="o">}</span>
+            <span class="n">someUsernamePasswordCredential</span> <span class="o">{</span>
+              <span class="n">type</span> <span class="o">=</span> <span class="s2">&quot;usernamePassword&quot;</span>
+              <span class="n">usernameVar</span> <span class="o">=</span> <span class="s2">&quot;USER&quot;</span>
+              <span class="n">passwordVar</span> <span class="o">=</span> <span class="s2">&quot;PASS&quot;</span>
+              <span class="n">id</span> <span class="o">=</span> <span class="s2">&quot;prod-credential-id&quot;</span>
+            <span class="o">}</span>
+          <span class="o">}</span>
+        <span class="o">}</span>
+      <span class="o">}</span>
     <span class="o">}</span>
   <span class="o">}</span>
 <span class="o">}</span>
-</code></pre></div>
-<ol>
-<li>This configuration would result in <code>--build-arg BUILD_ARG_NAME='some-inline-argument'</code> being passed to <code>docker build</code></li>
-</ol>
-<h3 id="secret-text-credentials">Secret Text Credentials<a class="headerlink" href="#secret-text-credentials" title="Permanent link">&para;</a></h3>
-<p>To pass a secret value, ensure that a Secret Text credential type has been created and fetch the credential id from the Jenkins credential store.</p>
-<div class="highlight"><pre><span></span><code><span class="n">libraries</span><span class="o">{</span>
-  <span class="n">docker</span><span class="o">{</span>
-    <span class="n">build_args</span><span class="o">{</span>
-      <span class="n">GITHUB_TOKEN</span><span class="o">{</span> <span class="c1">// (1)</span>
-        <span class="n">type</span> <span class="o">=</span> <span class="s2">&quot;credential&quot;</span> <span class="c1">// (2)</span>
-        <span class="n">id</span> <span class="o">=</span> <span class="s2">&quot;theCredentialId&quot;</span> <span class="c1">// (3) </span>
+
+<span class="n">libraries</span> <span class="o">{</span>
+  <span class="n">yarn</span> <span class="o">{</span>
+    <span class="n">node_version</span> <span class="o">=</span> <span class="s2">&quot;lts/*&quot;</span>
+    <span class="n">yarn_version</span> <span class="o">=</span> <span class="s2">&quot;latest&quot;</span>
+    <span class="n">unit_test</span> <span class="o">{</span>
+      <span class="n">stageName</span> <span class="o">=</span> <span class="s2">&quot;Yarn Unit Tests&quot;</span>
+      <span class="n">script</span> <span class="o">=</span> <span class="s2">&quot;test&quot;</span>
+      <span class="n">yarnInstall</span> <span class="o">=</span> <span class="s2">&quot;install&quot;</span>
+      <span class="n">env</span> <span class="o">{</span>
+        <span class="n">someKey</span> <span class="o">=</span> <span class="s2">&quot;someValue for tests&quot;</span>
+        <span class="c1">// (3)</span>
+        <span class="n">secrets</span> <span class="o">{</span>
+          <span class="n">someTextCredential</span> <span class="o">{</span>
+            <span class="n">type</span> <span class="o">=</span> <span class="s2">&quot;text&quot;</span>
+            <span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;VARIABLE_NAME&quot;</span>
+            <span class="n">id</span> <span class="o">=</span> <span class="s2">&quot;some-credential-id&quot;</span>
+          <span class="o">}</span>
+          <span class="n">someUsernamePasswordCredential</span> <span class="o">{</span>
+            <span class="n">type</span> <span class="o">=</span> <span class="s2">&quot;usernamePassword&quot;</span>
+            <span class="n">usernameVar</span> <span class="o">=</span> <span class="s2">&quot;USER&quot;</span>
+            <span class="n">passwordVar</span> <span class="o">=</span> <span class="s2">&quot;PASS&quot;</span>
+            <span class="n">id</span> <span class="o">=</span> <span class="s2">&quot;some-credential-id&quot;</span>
+          <span class="o">}</span>
+          <span class="c1">// (4)</span>
+        <span class="o">}</span>
+      <span class="o">}</span>
+    <span class="o">}</span>
+    <span class="n">source_build</span> <span class="o">{</span>
+      <span class="n">stageName</span> <span class="o">=</span> <span class="s2">&quot;Yarn Source Build&quot;</span>
+      <span class="n">script</span> <span class="o">=</span> <span class="s2">&quot;build&quot;</span>
+      <span class="n">yarnInstall</span> <span class="o">=</span> <span class="s2">&quot;skip&quot;</span>
+      <span class="n">env</span> <span class="o">{</span>
+        <span class="n">someKey</span> <span class="o">=</span> <span class="s2">&quot;someValue for builds&quot;</span>
+        <span class="n">secrets</span> <span class="o">{</span>
+          <span class="n">someTextCredential</span> <span class="o">{</span>
+            <span class="n">type</span> <span class="o">=</span> <span class="s2">&quot;text&quot;</span>
+            <span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;VARIABLE_NAME&quot;</span>
+            <span class="n">id</span> <span class="o">=</span> <span class="s2">&quot;some-credential-id&quot;</span>
+          <span class="o">}</span>
+          <span class="n">someUsernamePasswordCredential</span> <span class="o">{</span>
+            <span class="n">type</span> <span class="o">=</span> <span class="s2">&quot;usernamePassword&quot;</span>
+            <span class="n">usernameVar</span> <span class="o">=</span> <span class="s2">&quot;USER&quot;</span>
+            <span class="n">passwordVar</span> <span class="o">=</span> <span class="s2">&quot;PASS&quot;</span>
+            <span class="n">id</span> <span class="o">=</span> <span class="s2">&quot;some-credential-id&quot;</span>
+          <span class="o">}</span>
+        <span class="o">}</span>
+      <span class="o">}</span>
+    <span class="o">}</span>
+    <span class="n">lint_code</span> <span class="o">{</span>
+      <span class="n">stageName</span> <span class="o">=</span> <span class="s2">&quot;Yarn Lint Code&quot;</span>
+      <span class="n">script</span> <span class="o">=</span> <span class="s2">&quot;lint&quot;</span>
+      <span class="n">yarnInstall</span> <span class="o">=</span> <span class="s2">&quot;skip&quot;</span>
+      <span class="n">env</span> <span class="o">{</span>
+        <span class="n">someKey</span> <span class="o">=</span> <span class="s2">&quot;someValue for linting&quot;</span>
+        <span class="n">secrets</span> <span class="o">{</span>
+          <span class="n">someTextCredential</span> <span class="o">{</span>
+            <span class="n">type</span> <span class="o">=</span> <span class="s2">&quot;text&quot;</span>
+            <span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;VARIABLE_NAME&quot;</span>
+            <span class="n">id</span> <span class="o">=</span> <span class="s2">&quot;some-credential-id&quot;</span>
+          <span class="o">}</span>
+          <span class="n">someUsernamePasswordCredential</span> <span class="o">{</span>
+            <span class="n">type</span> <span class="o">=</span> <span class="s2">&quot;usernamePassword&quot;</span>
+            <span class="n">usernameVar</span> <span class="o">=</span> <span class="s2">&quot;USER&quot;</span>
+            <span class="n">passwordVar</span> <span class="o">=</span> <span class="s2">&quot;PASS&quot;</span>
+            <span class="n">id</span> <span class="o">=</span> <span class="s2">&quot;some-credential-id&quot;</span>
+          <span class="o">}</span>
+        <span class="o">}</span>
       <span class="o">}</span>
     <span class="o">}</span>
   <span class="o">}</span>
 <span class="o">}</span>
 </code></pre></div>
 <ol>
-<li>This will result in the build argument <code>--build-arg GITHUB_TOKEN=&lt;secret text&gt;</code> being passed to <code>docker build</code>. The library will mask the value of the secret from the build log.</li>
-<li>The <code>type</code> of <code>credential</code> must be set. This gives the library flexibility in the future to support other build argument types.</li>
-<li>This credential must exist and be a <em>Secret Text credential</em> in the Jenkins credential store. The library could be extended in the future to support other types of credentials, when necessary.</li>
+<li>more envVars as needed</li>
+<li>more secrets as needed</li>
+<li>more envVars as needed</li>
+<li>more secrets as needed</li>
 </ol>
-<h2 id="buildx-configuration">Buildx Configuration<a class="headerlink" href="#buildx-configuration" title="Permanent link">&para;</a></h2>
-<h3 id="buildx-overview">Buildx Overview<a class="headerlink" href="#buildx-overview" title="Permanent link">&para;</a></h3>
-<p>Go to <a href="https://docs.docker.com/buildx/working-with-buildx/">Docker Buildx</a> to learn more about Buildx and the requirements for it.</p>
-<p>The build strategy must be set to <code>'buildx'</code> to use the <code>buildx()</code> step.</p>
-<h3 id="use-cases">Use Cases<a class="headerlink" href="#use-cases" title="Permanent link">&para;</a></h3>
-<p>This step provides covers three use cases for building multi-architecture.</p>
-<h4 id="1-single-docker-image-name-with-one-tag">1. Single docker image name with one tag<a class="headerlink" href="#1-single-docker-image-name-with-one-tag" title="Permanent link">&para;</a></h4>
-<p>Example: <code>repo/example:1.0</code> which supports <code>amd64</code>, <code>arm64</code>, <code>armv7</code></p>
-<ul>
-<li>Use this when the pipeline can build multiple architectures into a single docker image manifest.</li>
-<li>This method of building the image requires that the base image also supports all the architectures that the pipeline is building for.</li>
-</ul>
-<p>Example Configuration Snippet for buildx Single docker image name with one tag:</p>
-<div class="highlight"><pre><span></span><code><span class="n">libraries</span><span class="o">{</span>
-  <span class="n">docker</span> <span class="o">{</span>
-        <span class="n">build_strategy</span> <span class="o">=</span> <span class="s2">&quot;buildx&quot;</span>
-        <span class="n">registry</span> <span class="o">=</span> <span class="s2">&quot;docker-registry.default.svc:5000&quot;</span>
-        <span class="n">cred</span> <span class="o">=</span> <span class="s2">&quot;docker_creds&quot;</span>
-        <span class="n">repo_path_prefix</span> <span class="o">=</span> <span class="s2">&quot;java&quot;</span>
-        <span class="n">buildx</span> <span class="o">{</span>
-            <span class="n">name</span> <span class="o">{</span>
-                <span class="n">build_args</span> <span class="o">{</span>
-                    <span class="n">BASE_IMAGE</span> <span class="o">=</span> <span class="s2">&quot;alpine:3.12&quot;</span>
-                <span class="o">}</span>
-                <span class="n">platforms</span> <span class="o">=</span> <span class="o">[</span><span class="s2">&quot;linux/amd64&quot;</span><span class="o">,</span><span class="s2">&quot;linux/arm64&quot;</span><span class="o">,</span><span class="s2">&quot;linux/arm/v7&quot;</span><span class="o">]</span>
-                <span class="n">useLatestTag</span> <span class="o">=</span> <span class="kc">true</span>          
-            <span class="o">}</span>
-        <span class="o">}</span>
+<p>This example shows the prod Application Environment overriding configs set in the library config.
+<code>source_build.yarnInstall</code> is preserved as set in library config, since it isn't overridden by the Application Environment.</p>
+<h3 id="minimal-configuration-example">Minimal Configuration Example<a class="headerlink" href="#minimal-configuration-example" title="Permanent link">&para;</a></h3>
+<p>The minimal configuration for this library is:</p>
+<div class="highlight"><span class="filename">pipeline_configuration.groovy</span><pre><span></span><code><span class="n">libraries</span> <span class="o">{</span>
+  <span class="n">yarn</span> <span class="o">{</span>
+    <span class="n">unit_test</span> <span class="o">{</span>
+      <span class="n">stageName</span> <span class="o">=</span> <span class="s2">&quot;Yarn Unit Tests&quot;</span>
+      <span class="n">script</span> <span class="o">=</span> <span class="s2">&quot;test&quot;</span>
     <span class="o">}</span>
+  <span class="o">}</span>
 <span class="o">}</span>
 </code></pre></div>
-<p>Generated buildx command from above:</p>
-<div class="highlight"><pre><span></span><code>docker buildx build . -t docker-registry.default.svc:5000/java/example:&lt;insert git sha&gt; -t docker-registry.default.svc:5000/java/example:latest --platform linux/amd64,linux/arm64,linux/arm/v7 --build-arg<span class="o">=</span><span class="nv">BASE_IMAGE</span><span class="o">=</span>alpine:3.12 --push
-</code></pre></div>
-<h4 id="2-single-docker-image-name-with-multiple-tags">2. Single docker image name with multiple tags<a class="headerlink" href="#2-single-docker-image-name-with-multiple-tags" title="Permanent link">&para;</a></h4>
-<p>Example: <code>repo/example:1.0-amd64</code> <code>repo/example:1.0-arm64</code> where each image supports a different architecture</p>
-<ul>
-<li>Use this when there is no multi-architecture base image that can be used to build a single image manifest.</li>
-<li>Buildx is an array of maps that are separated by unique keys. This allows the pipeline to use the same Dockerfile with a parameterized base image or multiple Dockerfiles.</li>
-<li>This method requires that the <code>same_repo_different_tags</code> flag is set to <code>true</code> and for each element key in buildx to be unique.</li>
-<li>There can only be one element that can use the <code>useLatestTag</code> as it will throw an error due to the pipeline attempting to overwrite another image being built.</li>
-</ul>
-<p>Example Configuration Snippet for buildx Single docker image name with one tag:</p>
-<div class="highlight"><pre><span></span><code><span class="n">libraries</span><span class="o">{</span>
-  <span class="n">docker</span> <span class="o">{</span>
-        <span class="n">build_strategy</span> <span class="o">=</span> <span class="s2">&quot;buildx&quot;</span>
-        <span class="n">registry</span> <span class="o">=</span> <span class="s2">&quot;docker-registry.default.svc:5000&quot;</span>
-        <span class="n">cred</span> <span class="o">=</span> <span class="s2">&quot;docker_creds&quot;</span>
-        <span class="n">repo_path_prefix</span> <span class="o">=</span> <span class="s2">&quot;java&quot;</span>
-        <span class="n">same_repo_different_tags</span> <span class="o">=</span> <span class="kc">true</span>
-        <span class="n">buildx</span> <span class="o">{</span>
-            <span class="n">amd64</span> <span class="o">{</span>
-                <span class="n">build_args</span> <span class="o">{</span>
-                    <span class="n">BASE_IMAGE</span> <span class="o">=</span> <span class="s2">&quot;alpine:3.12&quot;</span>
-                <span class="o">}</span>
-                <span class="n">platforms</span> <span class="o">=</span> <span class="o">[</span><span class="s2">&quot;linux/amd64&quot;</span><span class="o">]</span>
-                <span class="n">useLatestTag</span> <span class="o">=</span> <span class="kc">true</span>
-                <span class="n">tag</span> <span class="o">=</span> <span class="s2">&quot;1.0&quot;</span>         
-            <span class="o">}</span>
-            <span class="n">arm64</span> <span class="o">{</span>
-                <span class="n">build_args</span> <span class="o">{</span>
-                    <span class="n">BASE_IMAGE</span> <span class="o">=</span> <span class="s2">&quot;alpine:3.12&quot;</span>
-                <span class="o">}</span>
-                <span class="n">platforms</span> <span class="o">=</span> <span class="o">[</span><span class="s2">&quot;linux/arm64&quot;</span><span class="o">]</span>
-                <span class="n">tag</span> <span class="o">=</span> <span class="s2">&quot;1.0&quot;</span>
-            <span class="o">}</span>
-        <span class="o">}</span>
-    <span class="o">}</span>
-<span class="o">}</span>
-</code></pre></div>
-<p>Generated buildx command from above:</p>
-<div class="highlight"><pre><span></span><code>docker buildx build . -t docker-registry.default.svc:5000/java/example:1.0-amd64 -t docker-registry.default.svc:5000/java/example:latest --platform<span class="o">=</span>linux/amd64 --build-arg<span class="o">=</span><span class="nv">BASE_IMAGE</span><span class="o">=</span>alpine:3.12 --push
-docker buildx build . -t docker-registry.default.svc:5000/java/example:1.0-arm64 --platform<span class="o">=</span>linux/arm64 --build-arg<span class="o">=</span><span class="nv">BASE_IMAGE</span><span class="o">=</span>alpine:3.12 --push
-</code></pre></div>
-<h4 id="3-multiple-docker-image-names-with-multiple-tags">3. Multiple docker image names with multiple tags<a class="headerlink" href="#3-multiple-docker-image-names-with-multiple-tags" title="Permanent link">&para;</a></h4>
-<p>Example: <code>example-big:1.0</code> and <code>example-small:1.0</code> where each image has its own list of architectures</p>
-<ul>
-<li>Use this when there is a single repository with multiple images that need to be built for multiple architectures.</li>
-<li>Each element's key must be unique for this to build or else it will override previous images and fail.</li>
-</ul>
-<p>Example Configuration Snippet for buildx Single docker image name with one tag:</p>
-<div class="highlight"><pre><span></span><code><span class="n">libraries</span><span class="o">{</span>
-  <span class="n">docker</span> <span class="o">{</span>
-        <span class="n">build_strategy</span> <span class="o">=</span> <span class="s2">&quot;buildx&quot;</span>
-        <span class="n">registry</span> <span class="o">=</span> <span class="s2">&quot;docker-registry.default.svc:5000&quot;</span>
-        <span class="n">cred</span> <span class="o">=</span> <span class="s2">&quot;docker_creds&quot;</span>
-        <span class="n">repo_path_prefix</span> <span class="o">=</span> <span class="s2">&quot;java&quot;</span>
-        <span class="n">buildx</span> <span class="o">{</span>
-            <span class="n">jre</span> <span class="o">{</span>
-                <span class="n">build_args</span> <span class="o">{</span>
-                    <span class="n">BASE_IMAGE</span> <span class="o">=</span> <span class="s2">&quot;alpine:3.12&quot;</span>
-                <span class="o">}</span>
-                <span class="n">platforms</span> <span class="o">=</span> <span class="o">[</span><span class="s2">&quot;linux/amd64&quot;</span><span class="o">,</span><span class="s2">&quot;linux/arm64&quot;</span><span class="o">,</span><span class="s2">&quot;linux/arm/v7&quot;</span><span class="o">]</span>
-                <span class="n">tag</span> <span class="o">=</span> <span class="s2">&quot;1.0&quot;</span>         
-            <span class="o">}</span>
-            <span class="n">jdk</span> <span class="o">{</span>
-                <span class="n">build_args</span> <span class="o">{</span>
-                    <span class="n">BASE_IMAGE</span> <span class="o">=</span> <span class="s2">&quot;alpine:3.12&quot;</span>
-                <span class="o">}</span>
-                <span class="n">platforms</span> <span class="o">=</span> <span class="o">[</span><span class="s2">&quot;linux/amd64&quot;</span><span class="o">,</span><span class="s2">&quot;linux/arm64&quot;</span><span class="o">,</span><span class="s2">&quot;linux/arm/v7&quot;</span><span class="o">]</span>
-                <span class="n">tag</span> <span class="o">=</span> <span class="s2">&quot;1.0&quot;</span>
-            <span class="o">}</span>
-        <span class="o">}</span>
-    <span class="o">}</span>
-<span class="o">}</span>
-</code></pre></div>
-<p>Generated buildx commands from above:</p>
-<div class="highlight"><pre><span></span><code>docker buildx build ./jdk -t docker-registry.default.svc:5000/java/example-jdk:1.0 --platform linux/amd64,linux/arm64,linux/arm/v7 --build-arg<span class="o">=</span><span class="nv">BASE_IMAGE</span><span class="o">=</span>alpine:3.12 --push
-docker buildx build ./jre -t docker-registry.default.svc:5000/java/example-jre:1.0 --platform linux/amd64,linux/arm64,linux/arm/v7 --build-arg<span class="o">=</span><span class="nv">BASE_IMAGE</span><span class="o">=</span>alpine:3.12 --push
-</code></pre></div>
+<h3 id="secrets">Secrets<a class="headerlink" href="#secrets" title="Permanent link">&para;</a></h3>
+<p>There are two types of secrets currently supported: secret text and username/password credentials.
+These credentials must be stored in the Jenkins credential store and be available to the pipeline.</p>
+<p>The name of each credential block (such as <code>someTextCredential</code>) is arbitrary.
+It's just a key, used to supersede library config with Application Environment configs, and when describing configuration errors found by the step.</p>
 <h2 id="dependencies">Dependencies<a class="headerlink" href="#dependencies" title="Permanent link">&para;</a></h2>
-<hr />
 <ul>
-<li>A Docker registry must be set up and configured. Credentials to the repository are also needed.</li>
-<li>Either the <code>github</code> or <code>github_enterprise</code> library needs to be loaded as a library inside your <code>pipeline_config.groovy</code> file.</li>
-<li>Pipelines that use the <strong>buildx</strong> step need to be built on a node that has the correct Docker version with buildx support and the required emulator set up. See <a href="https://docs.docker.com/buildx/working-with-buildx/">Docker Buildx</a> for how to set up a node with the right configurations.</li>
-<li>Buildx enabled nodes need to be set up with BuildKit builders that support the architectures required for the step to work.</li>
+<li>The <a href="../sdp/">SDP library</a> must be loaded inside the <code>pipeline_config.groovy</code> file.</li>
 </ul>
 
               
@@ -1718,7 +1551,7 @@ docker buildx build ./jre -t docker-registry.default.svc:5000/java/example-jre:1
     <nav class="md-footer__inner md-grid" aria-label="Footer">
       
         
-        <a href="../anchore/" class="md-footer__link md-footer__link--prev" aria-label="Previous: Anchore" rel="prev">
+        <a href="../webhint/" class="md-footer__link md-footer__link--prev" aria-label="Previous: webhint" rel="prev">
           <div class="md-footer__button md-icon">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
           </div>
@@ -1727,20 +1560,20 @@ docker buildx build ./jre -t docker-registry.default.svc:5000/java/example-jre:1
               <span class="md-footer__direction">
                 Previous
               </span>
-              Anchore
+              webhint
             </div>
           </div>
         </a>
       
       
         
-        <a href="../docker_compose/" class="md-footer__link md-footer__link--next" aria-label="Next: Docker Compose" rel="next">
+        <a href="../../../contributing/" class="md-footer__link md-footer__link--next" aria-label="Next: Contributing Guide" rel="next">
           <div class="md-footer__title">
             <div class="md-ellipsis">
               <span class="md-footer__direction">
                 Next
               </span>
-              Docker Compose
+              Contributing Guide
             </div>
           </div>
           <div class="md-footer__button md-icon">

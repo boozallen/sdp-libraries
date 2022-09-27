@@ -25,4 +25,5 @@ nav:
   - terraform.md
   - twistlock.md
   - webhint.md
+  - yarn.md
 
