@@ -1299,6 +1299,11 @@ Environment variables and secrets with the same key are set to the definition co
 </thead>
 <tbody>
 <tr>
+<td><code>nvm_container</code></td>
+<td>The container image to use</td>
+<td>nvm:1.0.0</td>
+</tr>
+<tr>
 <td><code>node_version</code></td>
 <td>Node version to run NPM within (installed via NVM)</td>
 <td><code>lts/*</code></td>
@@ -1500,7 +1505,7 @@ Environment variables and secrets with the same key are set to the definition co
 <li>more secrets as needed</li>
 </ol>
 <p>This example shows the prod Application Environment overriding configs set in the library config.
-<code>source_build.npm_install</code> is preserved as set in library config, since it isn't overridden by the Application Environment.</p>
+<code>source_build.npmInstall</code> is preserved as set in library config, since it isn't overridden by the Application Environment.</p>
 <h3 id="minimal-configuration-example">Minimal Configuration Example<a class="headerlink" href="#minimal-configuration-example" title="Permanent link">&para;</a></h3>
 <p>The minimal configuration for this library is:</p>
 <div class="highlight"><span class="filename">pipeline_configuration.groovy</span><pre><span></span><code><span class="n">libraries</span> <span class="o">{</span>
