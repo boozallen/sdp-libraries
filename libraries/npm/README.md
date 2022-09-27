@@ -32,16 +32,17 @@ libraries {
 
 ---
 
-| Field                         | Description                                                                                                                           | Default |
-| ----------------------------- | ------------------------------------------------------------------------------------------------------------------------------------- | ------- |
-| `node_version`                | Node version to run NPM within (installed via NVM)                                                                                    | `lts/*` |
-| `<step name>.stageName`       | stage name displayed in the Jenkins dashboard                                                                                         | N/A     |
-| `<step name>.script`          | NPM script ran by the step                                                                                                            | N/A     |
+| Field                         | Description                                                                                                                           | Default   |
+| ----------------------------- | ------------------------------------------------------------------------------------------------------------------------------------- | --------- |
+| `nvm_container`               | The container image to use                                                                                                            | nvm:1.0.0 |
+| `node_version`                | Node version to run NPM within (installed via NVM)                                                                                    | `lts/*`   |
+| `<step name>.stageName`       | stage name displayed in the Jenkins dashboard                                                                                         | N/A       |
+| `<step name>.script`          | NPM script ran by the step                                                                                                            | N/A       |
 | `<step name>.artifacts`       | array of glob patterns for artifacts that should be archived                                                                          |
-| `<step name>.npmInstall`      | NPM install command to run; npm install can be skipped with value "skip"                                                              | `ci`    |
-| `<step name>.env`             | environment variables to make available to the NPM process; can include key/value pairs and secrets                                   | `[]`    |
-| `<step name>.env.secrets`     | text or username/password credentials to make available to the NPM process; must be present and available in Jenkins credential store | `[]`    |
-| `<step name>.useEslintPlugin` | if the Jenkins ESLint Plugin is installed, will run the `recordIssues` step to send lint results to the plugin dashboard              | `false` |
+| `<step name>.npmInstall`      | NPM install command to run; npm install can be skipped with value "skip"                                                              | `ci`      |
+| `<step name>.env`             | environment variables to make available to the NPM process; can include key/value pairs and secrets                                   | `[]`      |
+| `<step name>.env.secrets`     | text or username/password credentials to make available to the NPM process; must be present and available in Jenkins credential store | `[]`      |
+| `<step name>.useEslintPlugin` | if the Jenkins ESLint Plugin is installed, will run the `recordIssues` step to send lint results to the plugin dashboard              | `false`   |
 
 ### Full Configuration Example
 
@@ -206,7 +207,7 @@ libraries {
 4. more secrets as needed
 
 This example shows the prod Application Environment overriding configs set in the library config.
-`source_build.npm_install` is preserved as set in library config, since it isn't overridden by the Application Environment.
+`source_build.npmInstall` is preserved as set in library config, since it isn't overridden by the Application Environment.
 
 ### Minimal Configuration Example
 
