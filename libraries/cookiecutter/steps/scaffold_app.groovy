@@ -25,7 +25,6 @@ void call() {
     Boolean shouldFail = false
     ArrayList extraContext = config?.extra_context ?: [] //EXTRA_CONTEXT
     
-    extraContext.each { val -> println "${val}" }
     if (checkout) {
         ARGS += "--checkout ${checkout} "
     }
