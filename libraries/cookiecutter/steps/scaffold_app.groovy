@@ -7,7 +7,7 @@
 package libraries.cookiecutter.steps
 
 void call() {
-  stage("Cookiecutter") {
+  stage("Scaffold App (cookiecutter)") {
     String cookiecutterImage = config?.cookiecutter_image ?: "cookiecutter:2.1.1"
     String templatePath = config?.template_path ?: null //TEMPLATE
     String scmPull = config?.scm_url ?: null //TEMPLATE
@@ -24,81 +24,71 @@ void call() {
     Boolean overwriteWorkspace = config?.overwrite_workspace ?: false
     Boolean shouldFail = false
     ArrayList extraContext = config?.extra_context ?: [] //EXTRA_CONTEXT
-    
+
     if (checkout) {
-        ARGS += "--checkout ${checkout} "
+      ARGS += "--checkout ${checkout} "
     }
 
     if (cookiecutterDir) {
       ARGS += "--directory ${cookiecutterDir} "
     }
-    
+
     if (outDir) {
-        ARGS += "--output-dir ${outDir} "
+      ARGS += "--output-dir ${outDir} "
     }
 
     if (noInput) {
       ARGS += "--no-input "
     }
-        
+
     if (debugOn) {
       ARGS += "--verbose "
     }
 
     if (!extraContext.isEmpty()) {
       extraContext.each {
-        val -> extraContextARGS += "${val}" + ' '
+        val -> extraContextARGS += "${val} "
       }
     }
 
-        
+
     //cookiecutter [OPTIONS] [TEMPLATE] [EXTRA_CONTEXT]...
     inside_sdp_image(cookiecutterImage) {
       try {
         if (templatePath) {
           unstash 'workspace'
-          cleanWs()  
+          cleanWs()
           ARGS += templatePath
 
           if (cookieCutterJson) {
             sh "cp -f ${cookieCutterJson} ./cookiecutter.json"
           }
 
-          if (!extraContext.isEmpty()) {
-            sh "cookiecutter ${ARGS}" + ' ' + "${extraContextARGS}"
-          }
-          else {
-            sh "cookiecutter ${ARGS}"
-          }
+          sh "cookiecutter ${ARGS} ${extraContextARGS}"
         }
         else if (scmPull) {
-          if (scmCred) { 
+          if (scmCred) {
             withCredentials([string(credentialsId: "${scmCred}", variable: 'PAT')]) {
               scmPull = scmPull.replaceFirst("://","://${PAT}@")
               echo "${scmPull}"
               ARGS += scmPull
-              if (!extraContext.isEmpty()) {
-                sh "cookiecutter ${ARGS}" + ' ' + "${extraContextARGS}"
-              }
-              else {
-                sh "cookiecutter ${ARGS}"
-              }
+
+              sh "cookiecutter ${ARGS} ${extraContextARGS}"
             }
           }
-        }  
-        else {
-          ARGS += scmPull
-          if (!extraContext.isEmpty()) {
-            sh "cookiecutter ${ARGS}" + ' ' + "${extraContextARGS}"
-          }
           else {
-            sh "cookiecutter ${ARGS}"
+            ARGS += scmPull
+
+            sh "cookiecutter ${ARGS} ${extraContextARGS}"
           }
+        }
+        else {
+          sh "cookiecutter ${ARGS} ${extraContextARGS}"
         }
       }
       catch (Exception err) {
         shouldFail = true
-        echo "Failed: {$err}"
+        echo "Scaffold App Stage Failed: {$err}"
       }
       finally {
         echo "executing finally block"
@@ -106,7 +96,7 @@ void call() {
         if (overwriteWorkspace) {
           echo " overwriting WS"
           if (outDir) {
-            dir("${outDir}" + "${projectFolder}"){
+            dir("${outDir}" + "${projectFolder}") {
               echo "in if"
               stash name: 'workspace', allowEmpty: true, useDefaultExcludes: false
             }
@@ -120,7 +110,7 @@ void call() {
           }
         }
       }
-        sh 'ls -alh'
-    }  
+      sh 'ls -alh'
+    }
   }
 }
