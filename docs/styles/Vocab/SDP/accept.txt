@@ -47,3 +47,4 @@ Anchore
 (json|JSON)
 (cli|CLI)
 snake_case
+[Cc]ookiecutter
