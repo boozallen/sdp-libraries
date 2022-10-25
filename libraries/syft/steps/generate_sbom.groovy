@@ -11,7 +11,7 @@ void call() {
         String raw_results_file = config?.raw_results_file ?: 'syft-sbom-results' // leave off file extension so that it can be added based off off selected formats
         String sbom_container = config?.sbom_container ?: 'syft:0.47.0'
         ArrayList sbom_format = config?.sbom_format ?: ['json']
-        String ARGS = ''
+        String ARGS = '-q'
         String artifacts = ''
 
         //Get list of images to scan (assuming same set built by Docker)
@@ -24,7 +24,7 @@ void call() {
                     String results_name = "${img.repo}-${img.tag}-${raw_results_file}".replaceAll("/","-")
                     
                     for(int i = 0;i < sbom_format.size;i ++) {
-                        ARGS += "-o ${sbom_format[i]}=${results_name}.${sbom_format[i]}"
+                        ARGS += " -o ${sbom_format[i]}=${results_name}.${sbom_format[i]}"
                     }
                     sh "syft ${img.registry}/${img.repo}:${img.tag} ${ARGS}"
 
