@@ -27,6 +27,7 @@ void call() {
                         ARGS += " -o ${sbom_format[i]}=${results_name}.${sbom_format[i]}"
                     }
                     sh "syft ${img.registry}/${img.repo}:${img.tag} ${ARGS}"
+                    sh "ls -alh"
 
                     // archive the results
                     for(int i = 0;i < sbom_format.size;i++) {
