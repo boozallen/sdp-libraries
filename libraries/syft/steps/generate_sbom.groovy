@@ -8,8 +8,11 @@ package libraries.syft.steps
 void call() {
     stage('Generate SBOM using Syft') {
         //Import settings from config
-        String raw_results_file = config?.raw_results_file ?: 'syft-sbom-results.json'
+        String raw_results_file = config?.raw_results_file ?: 'syft-sbom-results' // leave off file extension so that it can be added based off off selected formats
         String sbom_container = config?.sbom_container ?: 'syft:0.47.0'
+        ArrayList sbom_format = config?.sbom_format ?: ['json']
+        String ARGS = ''
+        String artifacts = ''
 
         //Get list of images to scan (assuming same set built by Docker)
         def images = get_images_to_build()
@@ -19,10 +22,17 @@ void call() {
                 images.each { img ->
                     // perform the syft scan
                     String results_name = "${img.repo}-${img.tag}-${raw_results_file}".replaceAll("/","-")
-                    sh "syft ${img.registry}/${img.repo}:${img.tag} -o json > ${results_name}"
+                    
+                    for(int i = 1;i < sbom_format.size;i ++) {
+                        ARGS += "-o ${sbom_format[i]}=${results_name}.${sbom_format[i]}"
+                    }
+                    sh "syft ${img.registry}/${img.repo}:${img.tag} ${ARGS}"
 
                     // archive the results
-                    archiveArtifacts artifacts: "${results_name}"
+                    for(int i = 0;i < sbom_format.size;i++) {
+                        artifacts += "${results_name}.${sbom_format[i]}"
+                    }
+                    archiveArtifacts artifacts: "${artifacts}"
                 }
                 stash "workspace"
             }
