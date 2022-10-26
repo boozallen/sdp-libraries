@@ -22,12 +22,9 @@ void call() {
                 images.each { img ->
                     // perform the syft scan
                     String results_name = "${img.repo}-${img.tag}-${raw_results_file}".replaceAll("/","-")
-                    //remove before merge
-                    println(config.sbom_format)
-                    //end
                     for(int i = 0;i < sbom_format.size();i++) {
-                        println sbom_format[i]
-                        ARGS =+ " -o " + sbom_format[i].toString() + "=" + results_name + "." + sbom_format[i].toString()
+                        println sbom_format[i].toString()
+                        //ARGS =+ " -o " + sbom_format[i].toString() + "=" + results_name + "." + sbom_format[i].toString()
                     }
                     
                     //println(ARGS)
