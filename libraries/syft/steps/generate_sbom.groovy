@@ -26,7 +26,7 @@ void call() {
                     for(int i = 0;i < sbom_format.size();i++) {
                         ARGS =+ " -o ${sbom_format[i]}=${results_name}.${sbom_format[i]}"
                         echo "we have entered the loop"
-                        if(i = 1){
+                        if(i == 1){
                             echo "we have incremented"
                         }
                     }
