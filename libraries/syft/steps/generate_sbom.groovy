@@ -24,14 +24,14 @@ void call() {
                     String results_name = "${img.repo}-${img.tag}-${raw_results_file}".replaceAll("/","-")
                     
                     for(int i = 0;i < sbom_format.size();i++) {
-                        ARGS += " -o ${sbom_format[i]}=${results_name}.${sbom_format[i]}"
+                        ARGS =+ " -o ${sbom_format[i]}=${results_name}.${sbom_format[i]}"
                     }
                     sh "syft ${img.registry}/${img.repo}:${img.tag} ${ARGS}"
                     sh "ls -alh"
 
                     // archive the results
                     for(int i = 0;i < sbom_format.size();i++) {
-                        artifacts += "${results_name}.${sbom_format[i]}"
+                        artifacts =+ "${results_name}.${sbom_format[i]}"
                     }
                     archiveArtifacts artifacts: "${artifacts}"
                 }
