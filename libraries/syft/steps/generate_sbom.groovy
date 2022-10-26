@@ -24,7 +24,7 @@ void call() {
                     String results_name = "${img.repo}-${img.tag}-${raw_results_file}".replaceAll("/","-")
                     for(int i = 0;i < sbom_format.size();i++) {
                         println sbom_format[i].toString()
-                        ARGS =+ " -o ${sbom_format[i].toString()}=${results_name}.${sbom_format[i].toString()}"
+                        ARGS += " -o ${sbom_format[i].toString()}=${results_name}.${sbom_format[i].toString()}"
                     }
                     
                     //println(ARGS)
