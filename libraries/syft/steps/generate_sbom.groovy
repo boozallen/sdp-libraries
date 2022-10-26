@@ -25,22 +25,22 @@ void call() {
                     //remove before merge
                     println(config.sbom_format)
                     //end
-                    for(int i = 0;i < 2;i++) {
-                        ARGS =+ " -o ${sbom_format[i]}=${results_name}.${sbom_format[i]}"
-                        echo "we have entered the loop"
-                        if(i == 1){
-                            echo "we have incremented"
-                        }
-                    }
+                    //for(int i = 0;i < 2;i++) {
+                    //    ARGS =+ " -o ${sbom_format[i]}=${results_name}.${sbom_format[i]}"
+                    //    echo "we have entered the loop"
+                    //    if(i == 1){
+                    //        echo "we have incremented"
+                    //    }
+                    //}
                    // println(ARGS)
                     sh "syft ${img.registry}/${img.repo}:${img.tag} ${ARGS}"
                     sh "ls -alh"
 
                     // archive the results
-                    for(int i = 0;i < 2;i++) {
-                        artifacts =+ "${results_name}.${sbom_format[i]}"
-                    }
-                    archiveArtifacts artifacts: "${artifacts}"
+                    //for(int i = 0;i < 2;i++) {
+                    //    artifacts =+ "${results_name}.${sbom_format[i]}"
+                    //}
+                    //archiveArtifacts artifacts: "${artifacts}"
                 }
                 stash "workspace"
             }
