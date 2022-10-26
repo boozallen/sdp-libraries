@@ -10,7 +10,7 @@ void call() {
         //Import settings from config
         String raw_results_file = config?.raw_results_file ?: 'syft-sbom-results' // leave off file extension so that it can be added based off off selected formats
         String sbom_container = config?.sbom_container ?: 'syft:0.47.0'
-        List sbom_format = config?.sbom_format ?: ['json']
+        ArrayList sbom_format = config?.sbom_format ?: ['json']
         String ARGS = '-q'
         String artifacts = ''
 
