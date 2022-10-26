@@ -25,7 +25,9 @@ void call() {
                     //remove before merge
                     println(config.sbom_format)
                     //end
-                    //for(int i = 0;i < 2;i++) {
+                    for(int i = 0;i < sbom_format.size();i++) {
+                        println sbom_format[i]
+                    }
                     //    ARGS =+ " -o ${sbom_format[i]}=${results_name}.${sbom_format[i]}"
                     //    echo "we have entered the loop"
                     //    if(i == 1){
