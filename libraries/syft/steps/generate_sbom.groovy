@@ -25,7 +25,7 @@ void call() {
                     //remove before merge
                     println(config.sbom_format)
                     //end
-                    for(int i = 0;i < sbom_format.size();i++) {
+                    for(int i = 0;i < sbom_format.size;i++) {
                         ARGS =+ " -o ${sbom_format[i]}=${results_name}.${sbom_format[i]}"
                         echo "we have entered the loop"
                         if(i == 1){
@@ -37,7 +37,7 @@ void call() {
                     sh "ls -alh"
 
                     // archive the results
-                    for(int i = 0;i < sbom_format.size();i++) {
+                    for(int i = 0;i < sbom_format.size;i++) {
                         artifacts =+ "${results_name}.${sbom_format[i]}"
                     }
                     archiveArtifacts artifacts: "${artifacts}"
