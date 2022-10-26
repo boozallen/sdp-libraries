@@ -23,7 +23,7 @@ void call() {
                     // perform the syft scan
                     String results_name = "${img.repo}-${img.tag}-${raw_results_file}".replaceAll("/","-")
                     //remove before merge
-                    
+                    println(ARGS)
                     //end
                     for(int i = 0;i < sbom_format.size();i++) {
                         ARGS =+ " -o ${sbom_format[i]}=${results_name}.${sbom_format[i]}"
@@ -32,6 +32,7 @@ void call() {
                             echo "we have incremented"
                         }
                     }
+                    println(ARGS)
                     sh "syft ${img.registry}/${img.repo}:${img.tag} ${ARGS}"
                     sh "ls -alh"
 
