@@ -32,10 +32,11 @@ void call() {
                     sh "ls -alh"
 
                     // archive the results
-                    //for(int i = 0;i < 2;i++) {
-                    //    artifacts =+ "${results_name}.${sbom_format[i]}"
-                    //}
-                    //archiveArtifacts artifacts: "${artifacts}"
+                    for(int i = 0;i < 2;i++) {
+                        artifacts += "${results_name}.${sbom_format[i]}"
+                        artifacts += ", "
+                    }
+                    archiveArtifacts artifacts: "${artifacts}"
                 }
                 stash "workspace"
             }
