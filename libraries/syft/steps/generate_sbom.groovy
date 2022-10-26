@@ -32,7 +32,7 @@ void call() {
                             echo "we have incremented"
                         }
                     }
-                    println(ARGS)
+                   // println(ARGS)
                     sh "syft ${img.registry}/${img.repo}:${img.tag} ${ARGS}"
                     sh "ls -alh"
 
