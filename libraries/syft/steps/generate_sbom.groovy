@@ -10,7 +10,7 @@ void call() {
         //Import settings from config
         String raw_results_file = config?.raw_results_file ?: 'syft-sbom-results' // leave off file extension so that it can be added based off off selected formats
         String sbom_container = config?.sbom_container ?: 'syft:0.47.0'
-        ArrayList sbom_format = config?.sbom_format ?: []
+        List sbom_format = config?.sbom_format ?: ['json']
         String ARGS = '-q'
         String artifacts = ''
 
@@ -22,7 +22,9 @@ void call() {
                 images.each { img ->
                     // perform the syft scan
                     String results_name = "${img.repo}-${img.tag}-${raw_results_file}".replaceAll("/","-")
+                    //remove before merge
                     
+                    //end
                     for(int i = 0;i < sbom_format.size();i++) {
                         ARGS =+ " -o ${sbom_format[i]}=${results_name}.${sbom_format[i]}"
                         echo "we have entered the loop"
