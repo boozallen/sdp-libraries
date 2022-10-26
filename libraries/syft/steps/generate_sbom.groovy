@@ -23,7 +23,7 @@ void call() {
                     // perform the syft scan
                     String results_name = "${img.repo}-${img.tag}-${raw_results_file}".replaceAll("/","-")
                     
-                    for(int i = 0;i < sbom_format.size;i ++) {
+                    for(int i = 0;i < sbom_format.size;i++) {
                         ARGS += " -o ${sbom_format[i]}=${results_name}.${sbom_format[i]}"
                     }
                     sh "syft ${img.registry}/${img.repo}:${img.tag} ${ARGS}"
