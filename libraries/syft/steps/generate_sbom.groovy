@@ -27,7 +27,7 @@ void call() {
                     //end
                     for(int i = 0;i < sbom_format.size();i++) {
                         println sbom_format[i]
-                        ARGS =+ " -o " + ${sbom_format[i].toString} + "=" + ${results_name} + "." + ${sbom_format[i]}
+                        ARGS =+ " -o " + sbom_format[i].toString() + "=" + results_name + "." + sbom_format[i].toString()
                     }
                     
                     //println(ARGS)
