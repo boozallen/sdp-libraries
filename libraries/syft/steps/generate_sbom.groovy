@@ -27,10 +27,10 @@ void call() {
                     //end
                     for(int i = 0;i < sbom_format.size();i++) {
                         println sbom_format[i]
-                        ARGS =+ " -o " + ${sbom_format[i]} + "=" + ${results_name} + "." + ${sbom_format[i]}
+                        ARGS =+ " -o " + ${sbom_format[i].toString} + "=" + ${results_name} + "." + ${sbom_format[i]}
                     }
                     
-                    println(ARGS)
+                    //println(ARGS)
                     sh "syft ${img.registry}/${img.repo}:${img.tag} ${ARGS}"
                     sh "ls -alh"
 
