@@ -25,10 +25,10 @@ void call() {
                     //for(int i = 0;i < sbom_format.size();i++) {
                       sbom_format.each { format ->
                         String formatter = ""
-                        if(format == ("json" || "cyclonedx-json" || "spdx-json" || "github")) {
+                        if(format == "json" || "cyclonedx-json" || "spdx-json" || "github") {
                           formatter += "${results_name}-${format}.json"
                         }
-                        else if(format == ("text" || "sdpx-tag-value" || "table")) {
+                        else if(format == "text" || "sdpx-tag-value" || "table") {
                           formatter += "${results_name}-${format}.txt"
                         }
                         else if (format == "cyclonedx-xml") {
