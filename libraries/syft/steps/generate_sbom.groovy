@@ -26,6 +26,7 @@ void call() {
                     //    println sbom_format[i].toString()
                     //    ARGS += " -o ${sbom_format[i]}=${results_name}.${sbom_format[i]}"
                     //}
+                    println(sbom_format)
                     sbom_format.each { format ->
                       ARGS += " -o ${format.key}=${results_name}-${format.key}.${format.value}"
                     }
