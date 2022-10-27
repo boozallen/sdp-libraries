@@ -10,7 +10,7 @@ void call() {
         //Import settings from config
         String raw_results_file = config?.raw_results_file ?: 'syft-sbom-results' // leave off file extension so that it can be added based off off selected formats
         String sbom_container = config?.sbom_container ?: 'syft:0.47.0'
-        ArrayList sbom_format = config?.sbom_format ?: ['json']
+        LinkedHashMap sbom_format = config?.sbom_format ?: [json: "json"]
         String ARGS = '-q'
         String artifacts = ''
 
@@ -22,19 +22,24 @@ void call() {
                 images.each { img ->
                     // perform the syft scan
                     String results_name = "${img.repo}-${img.tag}-${raw_results_file}".replaceAll("/","-")
-                    for(int i = 0;i < sbom_format.size();i++) {
-                        println sbom_format[i].toString()
-                        ARGS += " -o ${sbom_format[i]}=${results_name}.${sbom_format[i]}"
+                    //for(int i = 0;i < sbom_format.size();i++) {
+                    //    println sbom_format[i].toString()
+                    //    ARGS += " -o ${sbom_format[i]}=${results_name}.${sbom_format[i]}"
+                    //}
+                    sbom_format.each { format ->
+                      ARGS += " -o ${format.key}=${results_name}-${format.key}.${format.value}"
                     }
-                    
                     //println(ARGS)
                     sh "syft ${img.registry}/${img.repo}:${img.tag} ${ARGS}"
                     sh "ls -alh"
 
                     // archive the results
-                    for(int i = 0;i < 2;i++) {
-                        artifacts += "${results_name}.${sbom_format[i]}"
-                        artifacts += ", "
+                    //for(int i = 0;i < 2;i++) {
+                    //    artifacts += "${results_name}.${sbom_format[i]}"
+                    //    artifacts += ", "
+                    //}
+                    sbom_format.each { format ->
+                      artifacts += "${results_name}-${format.key}.${format.value}"
                     }
                     archiveArtifacts artifacts: "${artifacts}"
                 }
