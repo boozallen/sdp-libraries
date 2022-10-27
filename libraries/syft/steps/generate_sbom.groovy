@@ -25,7 +25,7 @@ void call() {
                     //for(int i = 0;i < sbom_format.size();i++) {
                       sbom_format.each { format ->
                         String formatter = ""
-                        if(sbom_format[!] == ("json" || "cyclonedx-json" || "spdx-json" || "github")) {
+                        if(sbom_format[i] == ("json" || "cyclonedx-json" || "spdx-json" || "github")) {
                           formatter += "${results_name}-${format}.json"
                           artifacts += "${formatter} "
                         }
@@ -47,7 +47,7 @@ void call() {
                     //println(ARGS)
                     sh "syft ${img.registry}/${img.repo}:${img.tag} ${ARGS}"
                     sh "ls -alh"
-                    
+
                     archiveArtifacts artifacts: "${artifacts}"
                 }
                 stash "workspace"
