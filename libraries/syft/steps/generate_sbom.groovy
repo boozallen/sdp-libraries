@@ -10,7 +10,7 @@ void call() {
         //Import settings from config
         String raw_results_file = config?.raw_results_file ?: 'syft-sbom-results' // leave off file extension so that it can be added based off off selected formats
         String sbom_container = config?.sbom_container ?: 'syft:0.47.0'
-        LinkedHashMap sbom_format = config?.sbom_format ?: [json: "json"]
+        ArrayList sbom_format = config?.sbom_format ?: ["json"]
         String ARGS = '-q'
         String artifacts = ''
 
@@ -23,25 +23,31 @@ void call() {
                     // perform the syft scan
                     String results_name = "${img.repo}-${img.tag}-${raw_results_file}".replaceAll("/","-")
                     //for(int i = 0;i < sbom_format.size();i++) {
-                    //    println sbom_format[i].toString()
-                    //    ARGS += " -o ${sbom_format[i]}=${results_name}.${sbom_format[i]}"
-                    //}
-                    println(sbom_format)
-                    sbom_format.each { format ->
-                      ARGS += " -o ${format.key}=${results_name}-${format.key}.${format.value}"
+                      sbom_format.each { format ->
+                        String formatter = ""
+                        if(sbom_format[!] == ("json" || "cyclonedx-json" || "spdx-json" || "github")) {
+                          formatter += "${results_name}-${format}.json"
+                          artifacts += "${formatter} "
+                        }
+                        else if(sbom_format[i] == ("text" || "sdpx-tag-value" || "table")) {
+                          formatter += "${results_name}-${format}.txt"
+                          artifacts += "${formatter} "
+                        }
+                        else if (sbom_format[i] == "cyclonedx-xml") {
+                          formatter += "${results_name}-${format}.xml"
+                          artifacts += "${formatter} "
+                        }
+                        else {
+                          //throw exception not a supported format
+                          echo " Bad Format"
+                        }
+                        ARGS += " -o ${sbom_format[i]}=${formatter}"
                     }
+                    
                     //println(ARGS)
                     sh "syft ${img.registry}/${img.repo}:${img.tag} ${ARGS}"
                     sh "ls -alh"
-
-                    // archive the results
-                    //for(int i = 0;i < 2;i++) {
-                    //    artifacts += "${results_name}.${sbom_format[i]}"
-                    //    artifacts += ", "
-                    //}
-                    sbom_format.each { format ->
-                      artifacts += "${results_name}-${format.key}.${format.value}"
-                    }
+                    
                     archiveArtifacts artifacts: "${artifacts}"
                 }
                 stash "workspace"
