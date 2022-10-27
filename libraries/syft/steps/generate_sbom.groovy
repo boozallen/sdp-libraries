@@ -25,23 +25,21 @@ void call() {
                     //for(int i = 0;i < sbom_format.size();i++) {
                       sbom_format.each { format ->
                         String formatter = ""
-                        if(sbom_format[i] == ("json" || "cyclonedx-json" || "spdx-json" || "github")) {
+                        if(format == ("json" || "cyclonedx-json" || "spdx-json" || "github")) {
                           formatter += "${results_name}-${format}.json"
-                          artifacts += "${formatter} "
                         }
-                        else if(sbom_format[i] == ("text" || "sdpx-tag-value" || "table")) {
+                        else if(format == ("text" || "sdpx-tag-value" || "table")) {
                           formatter += "${results_name}-${format}.txt"
-                          artifacts += "${formatter} "
                         }
-                        else if (sbom_format[i] == "cyclonedx-xml") {
+                        else if (format == "cyclonedx-xml") {
                           formatter += "${results_name}-${format}.xml"
-                          artifacts += "${formatter} "
                         }
                         else {
                           //throw exception not a supported format
                           echo " Bad Format"
                         }
-                        ARGS += " -o ${sbom_format[i]}=${formatter}"
+                        ARGS += " -o ${format}=${formatter}"
+                        artifacts += "${formatter} "
                     }
                     
                     //println(ARGS)
