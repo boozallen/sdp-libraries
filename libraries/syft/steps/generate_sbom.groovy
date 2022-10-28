@@ -48,7 +48,7 @@ void call() {
                     }
                     finally {
                       if(shouldFail){
-                        error("${err}")
+                        error("SBOM Stage Failed")
                       }
                       else {
                         artifacts.replaceAll("/+\$", "")
