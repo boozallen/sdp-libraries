@@ -44,6 +44,8 @@ void call() {
                     }
                     catch(Exception err) {
                       shouldFail = true
+                      println(err.class)
+                      echo "${err}"
                       exception += ${err}
                     }
                     finally {
