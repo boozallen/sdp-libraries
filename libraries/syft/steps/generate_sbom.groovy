@@ -42,11 +42,16 @@ void call() {
                       sh "syft ${img.registry}/${img.repo}:${img.tag} ${ARGS}"
                     }
                     catch(Exception err) {
-                      //echo "Failed: ${err}"
+                      shouldFail = true
                     }
                     finally {
-                      artifacts.replaceAll("/+\$", "")
-                      archiveArtifacts artifacts: "${artifacts}"
+                      if(shouldFail){
+                        echo "SBOM generation Failed: ${err}"
+                      }
+                      else {
+                        artifacts.replaceAll("/+\$", "")
+                        archiveArtifacts artifacts: "${artifacts}"
+                      }
                     }
                 }
                 stash "workspace"
