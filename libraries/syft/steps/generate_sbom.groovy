@@ -11,8 +11,8 @@ void call() {
         String raw_results_file = config?.raw_results_file ?: 'syft-sbom-results' // leave off file extension so that it can be added based off off selected formats
         String sbom_container = config?.sbom_container ?: 'syft:0.47.0'
         ArrayList sbom_format = config?.sbom_format ?: ["json"]
-        String ARGS = '-q'
-        String artifacts = ''
+        String ARGS = "-q"
+        String artifacts = ""
 
         //Get list of images to scan (assuming same set built by Docker)
         def images = get_images_to_build()
@@ -43,14 +43,11 @@ void call() {
                     }
                     
                     //println(ARGS)
-                    //sh "syft ${img.registry}/${img.repo}:${img.tag} ${ARGS}"
-                    sh "syft ${img.registry}/${img.repo}:${img.tag} -o json=test.json"
+                    sh "syft ${img.registry}/${img.repo}:${img.tag} ${ARGS}"
+                    //sh "syft ${img.registry}/${img.repo}:${img.tag} -o json=test.json"
                     sh "ls -alh"
-                    ARGS.getClass()
-                    println(ARGS)
 
                     archiveArtifacts artifacts: "${artifacts}"
-                    archiveArtifacts artifacts: "test.json"
                 }
                 stash "workspace"
             }
