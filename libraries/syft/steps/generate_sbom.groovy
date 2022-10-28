@@ -32,19 +32,22 @@ void call() {
                         else if (format == "cyclonedx-xml") {
                           formatter += "${results_name}-${format}.xml"
                         }
-                        else {
-                          //throw exception not a supported format
-                          echo " Bad Format"
-                        }
+
                         ARGS += " -o ${format}=${formatter} "
                         artifacts += "${formatter},"
-                    }
-                    // perform the syft scan
-                    sh "syft ${img.registry}/${img.repo}:${img.tag} ${ARGS}"
-                    sh "ls -alh"
+                      }
 
-                    artifacts.replaceAll("/+\$", "")
-                    archiveArtifacts artifacts: "${artifacts}"
+                    // perform the syft scan
+                    try {
+                      sh "syft ${img.registry}/${img.repo}:${img.tag} ${ARGS}"
+                    }
+                    catch(Exception err) {
+                      echo "Failed: ${err}"
+                    }
+                    finally {
+                      artifacts.replaceAll("/+\$", "")
+                      archiveArtifacts artifacts: "${artifacts}"
+                    }
                 }
                 stash "workspace"
             }
