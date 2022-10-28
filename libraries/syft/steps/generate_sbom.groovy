@@ -44,7 +44,7 @@ void call() {
                     }
                     catch(Exception err) {
                       shouldFail = true
-                      exception = ${err}
+                      exception += ${err}
                     }
                     finally {
                       if(shouldFail){
