@@ -27,11 +27,13 @@ public class GenerateSBOMSpec extends JTEPipelineSpecification {
   }
 
   def "Generates Software Bill of Materials file" () {
+    given:
+      GenerateSBOM.getBinding().setVariable("config", [sbom_format: ["json"]])
     when:
       GenerateSBOM()
     then:
-      1 * getPipelineMock('sh').call('syft ghcr.io/boozallen/sdp-images/syft:latest -o json > syft-latest-syft-sbom-results.json')
-      1 * getPipelineMock('sh').call('syft ghcr.io/boozallen/sdp-images/grype:latest -o json > grype-latest-syft-sbom-results.json')
+      1 * getPipelineMock('sh').call('syft ghcr.io/boozallen/sdp-images/syft:latest -q -o json=syft-latest-syft-sbom-results-json.json')
+      1 * getPipelineMock('sh').call('syft ghcr.io/boozallen/sdp-images/grype:latest -q -o json=grype-latest-syft-sbom-results-json.json')
   }
 
   def "Archives SBOM file as expected" () {
