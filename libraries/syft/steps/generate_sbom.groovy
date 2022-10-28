@@ -52,7 +52,6 @@ void call() {
                 }
                 stash "workspace"
             }
-            syft registry.uip.sh/toolkit/ajm-angular-general:8e607c6ec657e3f8171dae44f2ac64082bcc60e9 -q -o json=toolkit-ajm-angular-general-8e607c6ec657e3f8171dae44f2ac64082bcc60e9-syft-sbom-results-json.json
         }
     }
 }
