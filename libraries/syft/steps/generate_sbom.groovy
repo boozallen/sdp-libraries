@@ -42,7 +42,7 @@ void call() {
                       sh "syft ${img.registry}/${img.repo}:${img.tag} ${ARGS}"
                     }
                     catch(Exception err) {
-                      echo "Failed: ${err}"
+                      //echo "Failed: ${err}"
                     }
                     finally {
                       artifacts.replaceAll("/+\$", "")
