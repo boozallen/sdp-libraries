@@ -13,6 +13,7 @@ void call() {
         ArrayList sbom_format = config?.sbom_format ?: ["json"]
         String ARGS = "-q"
         String artifacts = ""
+        String formatter
 
         //Get list of images to scan (assuming same set built by Docker)
         def images = get_images_to_build()
@@ -39,12 +40,11 @@ void call() {
                           echo " Bad Format"
                         }
                         ARGS += "-o ${format}=${formatter}"
-                        artifacts += "${formatter} "
+                        artifacts += "${formatter}"
                     }
                     
                     //println(ARGS)
                     sh "syft ${img.registry}/${img.repo}:${img.tag} ${ARGS}"
-                    //sh "syft ${img.registry}/${img.repo}:${img.tag} -o json=test.json"
                     sh "ls -alh"
 
                     archiveArtifacts artifacts: "${artifacts}"
