@@ -12,7 +12,8 @@ void call() {
         String sbom_container = config?.sbom_container ?: 'syft:0.47.0'
         ArrayList sbom_format = config?.sbom_format ?: ["json"]
         String ARGS = "-q"
-        String artifacts = ""
+        String artifacts
+        String exception
 
         //Get list of images to scan (assuming same set built by Docker)
         def images = get_images_to_build()
@@ -43,10 +44,11 @@ void call() {
                     }
                     catch(Exception err) {
                       shouldFail = true
+                      exception = ${err}
                     }
                     finally {
                       if(shouldFail){
-                        echo "SBOM generation Failed: ${err}"
+                        echo "SBOM generation Failed: ${exception}"
                       }
                       else {
                         artifacts.replaceAll("/+\$", "")
