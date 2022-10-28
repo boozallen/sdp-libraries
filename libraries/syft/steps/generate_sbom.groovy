@@ -37,7 +37,7 @@ void call() {
                           echo " Bad Format"
                         }
                         ARGS += " -o ${format}=${formatter} "
-                        artifacts += "${formatter}"
+                        artifacts += "${formatter} "
                     }
                     // perform the syft scan
                     sh "syft ${img.registry}/${img.repo}:${img.tag} ${ARGS}"
