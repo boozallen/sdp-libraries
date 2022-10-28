@@ -23,7 +23,6 @@ void call() {
                     String results_name = "${img.repo}-${img.tag}-${raw_results_file}".replaceAll("/","-")
                       sbom_format.each { format ->
                         String formatter = ""
-                        formatter += " "
                         if(format == "json" || "cyclonedx-json" || "spdx-json" || "github") {
                           formatter += "${results_name}-${format}.json"
                         }
@@ -37,7 +36,7 @@ void call() {
                           //throw exception not a supported format
                           echo " Bad Format"
                         }
-                        ARGS += " -o ${format}=${formatter}"
+                        ARGS += " -o ${format}=${formatter} "
                         artifacts += "${formatter}"
                     }
                     // perform the syft scan
