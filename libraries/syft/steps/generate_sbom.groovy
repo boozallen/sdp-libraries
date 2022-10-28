@@ -14,6 +14,7 @@ void call() {
         String ARGS = "-q"
         String artifacts
         String exception
+        boolean shouldFail = false
 
         //Get list of images to scan (assuming same set built by Docker)
         def images = get_images_to_build()
