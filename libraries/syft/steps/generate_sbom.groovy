@@ -26,10 +26,10 @@ void call() {
                         if(format == "json" || format == "cyclonedx-json" || format == "spdx-json" || format == "github") {
                           formatter += "${results_name}-${format}.json"
                         }
-                        else if(format == "text" || format == "sdpx-tag-value" || format == "table") {
+                        else if(format == "text" || format == "spdx-tag-value" || format == "table") {
                           formatter += "${results_name}-${format}.txt"
                         }
-                        else if (format == format == "cyclonedx-xml") {
+                        else if (format == "cyclonedx-xml") {
                           formatter += "${results_name}-${format}.xml"
                         }
                         else {
