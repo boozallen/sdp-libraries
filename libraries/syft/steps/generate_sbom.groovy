@@ -20,9 +20,7 @@ void call() {
             login_to_registry {
                 unstash "workspace"
                 images.each { img ->
-                    // perform the syft scan
                     String results_name = "${img.repo}-${img.tag}-${raw_results_file}".replaceAll("/","-")
-                    //for(int i = 0;i < sbom_format.size();i++) {
                       sbom_format.each { format ->
                         String formatter = ""
                         formatter += " "
@@ -39,11 +37,10 @@ void call() {
                           //throw exception not a supported format
                           echo " Bad Format"
                         }
-                        ARGS += "-o ${format}=${formatter}"
+                        ARGS += " -o ${format}=${formatter}"
                         artifacts += "${formatter}"
                     }
-                    
-                    //println(ARGS)
+                    // perform the syft scan
                     sh "syft ${img.registry}/${img.repo}:${img.tag} ${ARGS}"
                     sh "ls -alh"
 
