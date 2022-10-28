@@ -23,13 +23,13 @@ void call() {
                     String results_name = "${img.repo}-${img.tag}-${raw_results_file}".replaceAll("/","-")
                       sbom_format.each { format ->
                         String formatter = ""
-                        if(format == "json" || "cyclonedx-json" || "spdx-json" || "github") {
+                        if(format == "json" || format == "cyclonedx-json" || format == "spdx-json" || format == "github") {
                           formatter += "${results_name}-${format}.json"
                         }
-                        else if(format == "text" || "sdpx-tag-value" || "table") {
+                        else if(format == "text" || format == "sdpx-tag-value" || format == "table") {
                           formatter += "${results_name}-${format}.txt"
                         }
-                        else if (format == "cyclonedx-xml") {
+                        else if (format == format == "cyclonedx-xml") {
                           formatter += "${results_name}-${format}.xml"
                         }
                         else {
