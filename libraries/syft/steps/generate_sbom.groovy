@@ -44,7 +44,7 @@ void call() {
                     
                     //println(ARGS)
                     //sh "syft ${img.registry}/${img.repo}:${img.tag} ${ARGS}"
-                    sh "syft ${img.registry}/${img.repo}:${img.tag} -o json=test.json
+                    sh "syft ${img.registry}/${img.repo}:${img.tag} -o json=test.json"
                     sh "ls -alh"
 
                     archiveArtifacts artifacts: "${artifacts}"
