@@ -38,7 +38,7 @@ void call() {
                           //throw exception not a supported format
                           echo " Bad Format"
                         }
-                        ARGS += " -o ${format}=${formatter}"
+                        ARGS += " --output ${format}=${formatter}"
                         artifacts += "${formatter} "
                     }
                     
