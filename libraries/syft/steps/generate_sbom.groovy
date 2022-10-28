@@ -43,7 +43,7 @@ void call() {
                     sh "syft ${img.registry}/${img.repo}:${img.tag} ${ARGS}"
                     sh "ls -alh"
 
-                    artifacts.stripEnd()
+                    artifacts.replaceAll("/+$", "")
                     archiveArtifacts artifacts: "${artifacts}"
                 }
                 stash "workspace"
