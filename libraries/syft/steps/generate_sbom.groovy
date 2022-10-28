@@ -46,6 +46,8 @@ void call() {
                     //sh "syft ${img.registry}/${img.repo}:${img.tag} ${ARGS}"
                     sh "syft ${img.registry}/${img.repo}:${img.tag} -o json=test.json"
                     sh "ls -alh"
+                    ARGS.getClass()
+                    println(ARGS)
 
                     archiveArtifacts artifacts: "${artifacts}"
                     archiveArtifacts artifacts: "test.json"
