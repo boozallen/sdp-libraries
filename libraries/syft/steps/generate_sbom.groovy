@@ -13,7 +13,6 @@ void call() {
         ArrayList sbom_format = config?.sbom_format ?: ["json"]
         String ARGS = "-q"
         String artifacts = ""
-        String formatter
 
         //Get list of images to scan (assuming same set built by Docker)
         def images = get_images_to_build()
@@ -25,6 +24,7 @@ void call() {
                     String results_name = "${img.repo}-${img.tag}-${raw_results_file}".replaceAll("/","-")
                     //for(int i = 0;i < sbom_format.size();i++) {
                       sbom_format.each { format ->
+                        String formatter = ""
                         formatter += " "
                         if(format == "json" || "cyclonedx-json" || "spdx-json" || "github") {
                           formatter += "${results_name}-${format}.json"
