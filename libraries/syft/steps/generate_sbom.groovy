@@ -45,7 +45,7 @@ void call() {
                     catch(Exception err) {
                       shouldFail = true
                       echo "SBOM generation Failed: ${err}" 
-                      throw err
+                      error("${err}") 
                     }
                     finally {
                       if(shouldFail){
