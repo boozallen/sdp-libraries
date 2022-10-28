@@ -24,7 +24,7 @@ void call() {
                     String results_name = "${img.repo}-${img.tag}-${raw_results_file}".replaceAll("/","-")
                     //for(int i = 0;i < sbom_format.size();i++) {
                       sbom_format.each { format ->
-                        String formatter = ""
+                        formatter += " "
                         if(format == "json" || "cyclonedx-json" || "spdx-json" || "github") {
                           formatter += "${results_name}-${format}.json"
                         }
@@ -38,7 +38,7 @@ void call() {
                           //throw exception not a supported format
                           echo " Bad Format"
                         }
-                        ARGS += " --output ${format}=${formatter}"
+                        ARGS += "-o ${format}=${formatter}"
                         artifacts += "${formatter} "
                     }
                     
