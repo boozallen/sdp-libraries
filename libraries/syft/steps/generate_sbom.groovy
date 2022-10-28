@@ -44,12 +44,11 @@ void call() {
                     }
                     catch(Exception err) {
                       shouldFail = true
-                      echo "SBOM generation Failed: ${err}" 
-                      error("${err}") 
+                      echo "SBOM generation Failed: ${err}"  
                     }
                     finally {
                       if(shouldFail){
-                        echo "SBOM generation Failed"
+                        error("${err}")
                       }
                       else {
                         artifacts.replaceAll("/+\$", "")
