@@ -42,12 +42,13 @@ void call() {
                     try {
                       sh "syft ${img.registry}/${img.repo}:${img.tag} ${ARGS}"
                     }
-                    catch(Error err) {
+                    catch(Exception err) {
                       shouldFail = true
+                      echo "SBOM generation Failed: ${err}" 
                     }
                     finally {
                       if(shouldFail){
-                        echo "SBOM generation Failed: ${err}"
+                        echo "SBOM generation Failed"
                       }
                       else {
                         artifacts.replaceAll("/+\$", "")
