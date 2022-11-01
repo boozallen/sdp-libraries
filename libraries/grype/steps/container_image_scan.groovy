@@ -6,7 +6,7 @@ void call() {
         String outputFormat = config?.report_format ?: 'json'
         String severityThreshold = config?.fail_on_severity ?: 'high'
         String grypeConfig = config?.grype_config
-        Boolean scanSbom = config?.grype.scan_sbom ?: false
+        Boolean scanSbom = config?.scan_sbom ?: false
         String baseDir = "./"
         String resultsFileFormat = ".txt"
         String ARGS = ""
