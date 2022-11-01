@@ -12,7 +12,7 @@ void call() {
         // is flipped to True if an image scan fails
         Boolean shouldFail = false 
 
-        if (scan_sbom) {
+        if (scanSbom) {
             def files = findFiles(glob: '*json.json')
             ARGS += "sbom:"
             files.each { file ->
