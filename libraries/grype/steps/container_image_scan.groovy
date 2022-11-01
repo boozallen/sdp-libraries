@@ -11,7 +11,11 @@ void call() {
         String ARGS = ""
         // is flipped to True if an image scan fails
         Boolean shouldFail = false 
-
+        //test
+        baseDir.eachFileMatch FILES, ~*json.json/, { names << it.name } 
+        names.each { name ->
+        println(name)}
+        //end
         if (outputFormat != null) {
             ARGS += "-o ${outputFormat} "
             if (outputFormat == 'json') {
