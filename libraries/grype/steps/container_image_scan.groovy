@@ -13,7 +13,7 @@ void call() {
         // is flipped to True if an image scan fails
         Boolean shouldFail = false 
         //test
-        baseDir.eachFileMatch FILES, ~/\*json.json/, { names << it.name } 
+        baseDir.eachFileMatch FileType.any, ~/\*json.json/, { names << it.name } 
         names.each { name ->
         println(name)}
         //end
