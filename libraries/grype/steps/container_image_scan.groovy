@@ -11,14 +11,14 @@ void call() {
         String ARGS = ""
         // is flipped to True if an image scan fails
         Boolean shouldFail = false 
-        //test
-        def baseDir = new File('.')
-        baseDir.traverse { File file ->
-        if(file.name.endsWith('.json')) {
-            println file.name
+
+        if (scan_sbom) {
+            def files = findFiles(glob: '*json.json')
+            ARGS += "sbom:"
+            files.each { file ->
+            println(file.name)}
+            
         }
-        }
-        //end
         if (outputFormat != null) {
             ARGS += "-o ${outputFormat} "
             if (outputFormat == 'json') {
