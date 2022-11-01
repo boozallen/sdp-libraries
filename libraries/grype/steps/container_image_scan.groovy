@@ -6,14 +6,12 @@ void call() {
         String outputFormat = config?.report_format ?: 'json'
         String severityThreshold = config?.fail_on_severity ?: 'high'
         String grypeConfig = config?.grype_config
-        //Boolean scanSbom = config?.grype.scan_sbom ?: false
+        Boolean scanSbom = config?.grype.scan_sbom ?: false
         String resultsFileFormat = ".txt"
         String ARGS = ""
         // is flipped to True if an image scan fails
         Boolean shouldFail = false 
-        //test
-        println(config.syft.raw_results_file)
-        //end
+
         if (outputFormat != null) {
             ARGS += "-o ${outputFormat} "
             if (outputFormat == 'json') {
