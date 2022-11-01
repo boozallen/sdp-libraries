@@ -14,12 +14,25 @@ Uses the [Grype CLI](https://github.com/anchore/grype) to scan container images 
 
 ## Configuration
 
-| Library Configuration | Description                                              | Type   | Default Value | Options                                           |
-|-----------------------|----------------------------------------------------------|--------|---------------|---------------------------------------------------|
-| `grype_container`     | The container image to execute the scan within           | String | grype:0.38.0  |                                                   |
-| `report_format`       | The output format of the generated report                | String | json          | `json`, `table`, `cyclonedx`, `template`          |
-| `fail_on_severity`    | The severity level threshold that will fail the pipeline | String | high          | `none`, `negligible`, `low`, `medium`, `high`, `critical` |
-| `grype_config`        | A custom path to a grype configuration file              | String | `null`        |                                                   |
+| Library Configuration | Description                                              | Type    | Default Value | Options                                                   |
+|-----------------------|----------------------------------------------------------|---------|---------------|-----------------------------------------------------------|
+| `grype_container`     | The container image to execute the scan within           | String  | grype:0.38.0  |                                                           |
+| `report_format`       | The output format of the generated report                | String  | json          | `json`, `table`, `cyclonedx`, `template`                  |
+| `fail_on_severity`    | The severity level threshold that will fail the pipeline | String  | high          | `none`, `negligible`, `low`, `medium`, `high`, `critical` |
+| `grype_config`        | A custom path to a grype configuration file              | String  | `null`        |                                                           |
+| `scan_sbom`           | Boolean to turn on SBOM scanning                         | Boolean | false         | true, false                                               |
+
+``` groovy title='pipeline_config.groovy'
+libraries {
+  grype {
+    grype_container = "grype:0.38.0"
+    report_format = "json"
+    fail_on_severity = "high"
+    grype_config = "Path/to/Grype.yaml"
+    scan_sbom = false
+  }
+}
+```
 
 ## Grype Configuration File
 
