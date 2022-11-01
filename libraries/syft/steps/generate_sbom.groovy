@@ -52,7 +52,7 @@ void call() {
                         error("SBOM Stage Failed")
                       }
                       else {
-                        artifacts.replaceAll(",$", "")
+                        artifacts.replaceAll(",\$", "")
                         println(artifacts)
                         archiveArtifacts artifacts: "${artifacts}"
                       }
