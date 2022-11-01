@@ -11,7 +11,7 @@ void call() {
         String raw_results_file = config?.raw_results_file ?: 'syft-sbom-results' // leave off file extension so that it can be added based off off selected formats
         String sbom_container = config?.sbom_container ?: 'syft:0.47.0'
         ArrayList sbom_format = config?.sbom_format ?: ["json"]
-        String artifacts
+        String artifacts = ""
         String exception
         boolean shouldFail = false
 
@@ -52,8 +52,7 @@ void call() {
                         error("SBOM Stage Failed")
                       }
                       else {
-                        artifacts.replaceAll("/+\$", "")
-                        archiveArtifacts artifacts: "${artifacts}"
+                        archiveArtifacts artifacts: "${artifacts.replaceAll(',$', "")}"
                       }
                     }
                 }
