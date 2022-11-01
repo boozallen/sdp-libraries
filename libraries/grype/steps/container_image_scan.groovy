@@ -7,7 +7,6 @@ void call() {
         String severityThreshold = config?.fail_on_severity ?: 'high'
         String grypeConfig = config?.grype_config
         Boolean scanSbom = config?.scan_sbom ?: false
-        String baseDir = "./"
         String resultsFileFormat = ".txt"
         String ARGS = ""
         // is flipped to True if an image scan fails
