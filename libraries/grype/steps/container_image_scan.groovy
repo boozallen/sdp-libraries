@@ -13,7 +13,7 @@ void call() {
         Boolean shouldFail = false 
 
         if (scanSbom) {
-            def files = findFiles(glob: './*json.json')
+            def files = findFiles(glob: '**/*json.json')
             ARGS += "sbom:"
             files.each { file ->
             println(file.name)}
