@@ -12,13 +12,6 @@ void call() {
         // is flipped to True if an image scan fails
         Boolean shouldFail = false 
 
-        if (scanSbom) {
-            def files = findFiles(glob: '**/*json.json')
-            ARGS += "sbom:"
-            files.each { file ->
-            println(file.name)}
-            
-        }
         if (outputFormat != null) {
             ARGS += "-o ${outputFormat} "
             if (outputFormat == 'json') {
@@ -40,6 +33,13 @@ void call() {
         inside_sdp_image(grypeContainer){
             login_to_registry{
                 unstash "workspace"
+                if (scanSbom) {
+                    def files = findFiles(glob: '**/*json.json')
+                    ARGS += "sbom:"
+                    files.each { file ->
+                    println(file.name)}
+                    
+                }
 
                 // Gets environment variable and sets it to a groovy var
                 String HOME = sh (script: 'echo $HOME', returnStdout: true).trim()
