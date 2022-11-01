@@ -14,17 +14,18 @@ This library allows you to generate a Software Bill of Materials (SBOM) for each
 
 ## Configuration
 
-| Library Configuration | Description                                                   | Type        | Default Value       | Options                                                                                               |
-|-----------------------|---------------------------------------------------------------|-------------|---------------------|-------------------------------------------------------------------------------------------------------|
-| `raw_results_file`    | The base name of the report file generated. Omit Extension.   | String      | `syft-sbom-results` |                                                                                                       |
-| `sbom_container`      | Name of the container image containing the syfr=t executable. | String      | `syft:latest`       |                                                                                                       |
-| `sbom_format`         | The valid formats a report can be generated in.               | ArrayList   | ['json']            | ['json', 'text', 'cyclonedx-xml', 'cyclonedx-json', 'spdx-tag-value', 'spdx-json', 'github', 'table'] |
+| Library Configuration | Description                                                   | Type        | Default Value       | Options                                                                                                 |
+|-----------------------|---------------------------------------------------------------|-------------|---------------------|---------------------------------------------------------------------------------------------------------|
+| `raw_results_file`    | The base name of the report file generated. Omit Extension.   | String      | `syft-sbom-results` |                                                                                                         |
+| `sbom_container`      | Name of the container image containing the syfr=t executable. | String      | `syft:0.47.0`       |                                                                                                         |
+| `sbom_format`         | The valid formats a report can be generated in.               | ArrayList   | `['json']`          | `['json', 'text', 'cyclonedx-xml', 'cyclonedx-json', 'spdx-tag-value', 'spdx-json', 'github', 'table']` |
 
 ``` groovy title='pipeline_config.groovy'
 libraries {
   syft {
     raw_results_file = "syft-scan"
     sbom_container = "syft:v0.47.0"
+    sbom_format = ['json', 'spdx-json', 'table']
   }
 }
 ```
