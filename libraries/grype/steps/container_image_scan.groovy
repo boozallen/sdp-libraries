@@ -34,11 +34,13 @@ void call() {
             login_to_registry{
                 unstash "workspace"
                 if (scanSbom) {
-                    def files = findFiles(glob: '**/*json.json')
+                    def syftJsonSbom = findFiles(glob: './*json.json', excludes: './spdx-json.json')
                     ARGS += "sbom:"
                     files.each { file ->
                     println(file.name)}
+
                     
+
                 }
 
                 // Gets environment variable and sets it to a groovy var
