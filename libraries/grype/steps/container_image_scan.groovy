@@ -7,6 +7,7 @@ void call() {
         String severityThreshold = config?.fail_on_severity ?: 'high'
         String grypeConfig = config?.grype_config
         Boolean scanSbom = config?.scan_sbom ?: false
+        ArrayList syftSbom = []
         String resultsFileFormat = ".txt"
         String ARGS = ""
         // is flipped to True if an image scan fails
@@ -69,7 +70,7 @@ void call() {
                 images.each { img ->
                     if (scanSbom) {
                         String reportBase = "${img.repo}-${img.tag}".replaceAll("/","-")
-                        def syftSbom = findFiles(glob: "${reportBase}-*-json.json", excludes: "${reportBase}-*-spdx.json")
+                        syftSbom = findFiles(glob: "${reportBase}-*-json.json", excludes: "${reportBase}-*-spdx-json.json")
                         if (syftSbom.size() == 0) {
                             syftSbom = findFiles(glob: "${reportBase}-*-cyclonedx*")
                             if (syftSbom.size() == 0) {
