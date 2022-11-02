@@ -68,7 +68,8 @@ void call() {
                 def images = get_images_to_build()
                 images.each { img ->
                     if (scanSbom) {
-                        def syftJsonSbom = findFiles(glob: "${img.repo}-${img.tag}-*-json.json").replaceAll("/","-")
+                        def syftJsonSbom = findFiles(glob: "${img.repo}-${img.tag}-*-json.json")
+                        println(${img.repo}-${img.tag})
                         println(syftJsonSbom.size())
                         syftJsonSbom.each { file ->
                         println(file.name)}
