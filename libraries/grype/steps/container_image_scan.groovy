@@ -69,7 +69,8 @@ void call() {
                 images.each { img ->
                     if (scanSbom) {
                         def syftJsonSbom = findFiles(glob: "${img.repo}-${img.tag}-*-json.json")
-                        println(${img.repo}-${img.tag})
+                        println(img.repo)
+                        println(img.tag)
                         println(syftJsonSbom.size())
                         syftJsonSbom.each { file ->
                         println(file.name)}
