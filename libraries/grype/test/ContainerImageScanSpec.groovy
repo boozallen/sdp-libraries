@@ -206,6 +206,14 @@ public class ContainerImageScanSpec extends JTEPipelineSpecification {
             1 * getPipelineMock("stash")("workspace")
             1 * getPipelineMock("error")(_)          
     }
+
+    def "Test scanning syft JSON SBOM artifact" () {
+        given:
+            ContainerImageScan.getBinding().setVariable("config", [scan_sbom: true])
+            ContainerImageScan.getBinding().setVariable("syftSbom", [])
+            
+
+    }
 }
 
 
