@@ -12,7 +12,6 @@ void call() {
         String sbom_container = config?.sbom_container ?: 'syft:0.47.0'
         ArrayList sbom_format = config?.sbom_format ?: ["json"]
         String artifacts = ""
-        String exception
         boolean shouldFail = false
 
         //Get list of images to scan (assuming same set built by Docker)
