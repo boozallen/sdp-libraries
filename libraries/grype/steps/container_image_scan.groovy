@@ -69,9 +69,15 @@ void call() {
                 images.each { img ->
                     if (scanSbom) {
                         String reportBase = "${img.repo}-${img.tag}".replaceAll("/","-")
-                        def syftJsonSbom = findFiles(glob: "${reportBase}-*-json.json")
-                        println(syftJsonSbom.size())
-                        syftJsonSbom.each { file ->
+                        def syftSbom = findFiles(glob: "${reportBase}-*-json.json", excludes: "${reportBase}-*-spdx.json")
+                        if (syftSbom.size() == 0) {
+                            syftSbom = findFiles(glob: "${reportBase}-*-cyclonedx*")
+                            if (syftSbom.size() == 0) {
+                                syftSbom = findFiles(glob: "${reportBase}-*-spdx*")
+                            }
+                        }
+                        println(syftSbom.size())
+                        syftSbom.each { file ->
                         println(file.name)}
                     }
                     // Use $img.repo to help name our results uniquely. Checks to see if a forward slash exists and splits the string at that location.
@@ -88,7 +94,12 @@ void call() {
 
                     // perform the grype scan
                     try {
-                        sh "grype ${img.registry}/${img.repo}:${img.tag} ${ARGS} >> ${rawResultsFile}"
+                        if (scanSbom) {
+                            sh "grype sbom:${syftSbom[0]} ${ARGS} >> ${rawResultsFile}"
+                        }
+                        else {
+                            sh "grype ${img.registry}/${img.repo}:${img.tag} ${ARGS} >> ${rawResultsFile}"
+                        }
                     }
                     // Catch the error on quality gate failure
                     catch(Exception err) {
