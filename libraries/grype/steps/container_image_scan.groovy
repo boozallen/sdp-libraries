@@ -34,7 +34,7 @@ void call() {
             login_to_registry{
                 unstash "workspace"
                 if (scanSbom) {
-                    def syftJsonSbom = findFiles(glob: '*json.json')
+                    def syftJsonSbom = findFiles(glob: '*json.json', excludes: '*spdx-json.json')
                     ARGS += "sbom:"
                     syftJsonSbom.each { file ->
                     println(file.name)}
