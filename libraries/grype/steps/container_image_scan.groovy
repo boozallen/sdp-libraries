@@ -33,16 +33,6 @@ void call() {
         inside_sdp_image(grypeContainer){
             login_to_registry{
                 unstash "workspace"
-                if (scanSbom) {
-                    def syftJsonSbom = findFiles(glob: '*json.json', excludes: '*spdx-json.json')
-                    ARGS += "sbom:"
-                    println(syftJsonSbom.size())
-                    syftJsonSbom.each { file ->
-                    println(file.name)}
-
-                    
-
-                }
 
                 // Gets environment variable and sets it to a groovy var
                 String HOME = sh (script: 'echo $HOME', returnStdout: true).trim()
@@ -78,6 +68,13 @@ void call() {
                 def images = get_images_to_build()
                 images.each { img ->
                     // Use $img.repo to help name our results uniquely. Checks to see if a forward slash exists and splits the string at that location.
+                    if (scanSbom) {
+                        def syftJsonSbom = findFiles(glob: "${img.repo}-${img.tag}-${raw_results_file}-json.json")
+                        println(syftJsonSbom.size())
+                        syftJsonSbom.each { file ->
+                        println(file.name)}
+                    }
+                    
                     String rawResultsFile, transformedResultsFile
                     if (img.repo.contains("/")) {
                         String[] repoImageName = img.repo.split('/')
