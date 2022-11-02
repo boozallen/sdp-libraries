@@ -36,7 +36,7 @@ void call() {
                 if (scanSbom) {
                     def syftJsonSbom = findFiles(glob: './*json.json', excludes: './*spdx-json.json')
                     ARGS += "sbom:"
-                    files.each { file ->
+                    syftJsonSbom.each { file ->
                     println(file.name)}
 
                     
