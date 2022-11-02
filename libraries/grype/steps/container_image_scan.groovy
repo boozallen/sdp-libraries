@@ -67,14 +67,13 @@ void call() {
 
                 def images = get_images_to_build()
                 images.each { img ->
-                    // Use $img.repo to help name our results uniquely. Checks to see if a forward slash exists and splits the string at that location.
                     if (scanSbom) {
-                        def syftJsonSbom = findFiles(glob: "${img.repo}-${img.tag}-${raw_results_file}-json.json")
+                        def syftJsonSbom = findFiles(glob: "${img.repo}-${img.tag}-*-json.json")
                         println(syftJsonSbom.size())
                         syftJsonSbom.each { file ->
                         println(file.name)}
                     }
-                    
+                    // Use $img.repo to help name our results uniquely. Checks to see if a forward slash exists and splits the string at that location.
                     String rawResultsFile, transformedResultsFile
                     if (img.repo.contains("/")) {
                         String[] repoImageName = img.repo.split('/')
