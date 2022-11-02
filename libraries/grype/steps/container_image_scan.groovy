@@ -77,9 +77,6 @@ void call() {
                                 syftSbom = findFiles(glob: "${reportBase}-*-spdx*")
                             }
                         }
-                        println(syftSbom.size())
-                        syftSbom.each { file ->
-                        println(file.name)}
                     }
                     // Use $img.repo to help name our results uniquely. Checks to see if a forward slash exists and splits the string at that location.
                     String rawResultsFile, transformedResultsFile
@@ -95,7 +92,7 @@ void call() {
 
                     // perform the grype scan
                     try {
-                        if (scanSbom) {
+                        if (scanSbom && syftSbom) {
                             echo "Scanning provided SBOM artifact"
                             sh "grype sbom:${syftSbom[0]} ${ARGS} >> ${rawResultsFile}"
                         }
