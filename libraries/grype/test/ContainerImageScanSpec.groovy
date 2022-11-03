@@ -14,12 +14,16 @@ public class ContainerImageScanSpec extends JTEPipelineSpecification {
     def setup() {
         ContainerImageScan = loadPipelineScriptForStep("grype", "container_image_scan")
         ContainerImageScan.getBinding().setVariable("config", [:])
+        //ContainerImageScan.getBinding().setVariable("syftSbom", ["image1_repo-4321dcba-anything-json.json"])
         String grypeConfig = ""
         explicitlyMockPipelineStep("inside_sdp_image")
         explicitlyMockPipelineStep("login_to_registry")
         explicitlyMockPipelineStep("get_images_to_build")
         getPipelineMock("sh")([script: 'echo $HOME', returnStdout: true]) >> "/home"
         getPipelineMock("sh")([script: 'echo $XDG_CONFIG_HOME', returnStdout: true]) >> "/xdg"
+        //getPipelineMock("sh")([script: 'touch image1_repo-4321dcba-anything-json.json'])
+        getPipelineMock("sh")([script: 'touch image1_repo-4321dcba-anything-cyclonedx.xml'])
+        getPipelineMock("sh")([script: 'touch image1_repo-4321dcba-anything-spdx.json'])
 
         getPipelineMock("get_images_to_build")() >> {
             def images = []
@@ -206,11 +210,30 @@ public class ContainerImageScanSpec extends JTEPipelineSpecification {
             1 * getPipelineMock("stash")("workspace")
             1 * getPipelineMock("error")(_)          
     }
+/*
+repo: "image1_repo", context: "image1", tag: "4321dcba"]
+            images << [registry: "test_registry", repo: "image2_repo", context: "image2", tag: "4321dcbb"]
+            images << [registry: "test_registry", repo: "image3_repo/qwerty", context: "image3", tag: "4321dcbc"]
+*/
 
     def "Test scanning syft JSON SBOM artifact" () {
         given:
             ContainerImageScan.getBinding().setVariable("config", [scan_sbom: true])
-            ContainerImageScan.getBinding().setVariable("syftSbom", [])
+            //getPipelineMock("findFiles")([glob: '${reportBase}-*-cyclonedx*']) >> ['1']
+            //getPipelineMock("findFiles")([glob: '${reportBase}-*-spdx*']) >> ['2']
+            ContainerImageScan.getBinding().setVariable("syftSbom",[[path: 'image1_repo-4321dcba-*-json.json']])
+            //explicitlyMockPipelineVariable("syftSbom")
+            //getPipelineMock("findFiles")([glob:"image1_repo-4321dcba-*-json.json", excludes:"image1_repo-4321dcba-*-spdx-json.json"]) >> [[path: 'image1_repo-4321dcba-*-json.json']]
+            
+        when:
+            //ArrayList syftSbom = ['image1_repo-4321dcba-anything-json.json']
+            ContainerImageScan()
+            //getPipelineMock("findFiles")([glob:"image1_repo-4321dcba-*-json.json", excludes:"image1_repo-4321dcba-*-spdx-json.json"]) >> [[path: 'image1_repo-4321dcba-*-json.json']]
+            //getPipelineMock('syftSbom.size')(1)
+            //getPipelineMock("findFiles")(_) >> ['image1_repo-4321dcbb-anything-json.json','image2_repo-4321dcba-anything-json.json']
+
+        then:
+            3 * getPipelineMock("sh")({it =~ /^grype */})
             
 
     }
