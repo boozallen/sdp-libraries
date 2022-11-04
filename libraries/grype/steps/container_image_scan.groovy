@@ -70,11 +70,9 @@ void call() {
                 images.each { img ->
                     if (scanSbom) {
                         String reportBase = "${img.repo}-${img.tag}".replaceAll("/","-")
-                        if(findFiles(glob: "${reportBase}-*-json.json", excludes: "${reportBase}-*-spdx-json.json").findResult != null) {
-                            findFiles(glob: "${reportBase}-*-json.json", excludes: "${reportBase}-*-spdx-json.json").eachWithIndex {key, value, index ->
-                            println(index)
-                            println(key)
-                            println(value) }
+                        def files = findFiles(glob: "${reportBase}-*-json.json", excludes: "${reportBase}-*-spdx-json.json") echo """${files[0].name} ${files[0].path} ${files[0].directory} ${files[0].length} ${files[0].lastModified}"""
+                        println files
+                        
                         }
 
                         //String reportBase = "${img.repo}-${img.tag}".replaceAll("/","-")
