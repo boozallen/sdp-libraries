@@ -135,9 +135,9 @@ void call() {
             if(shouldFail){
                 error "One or more image scans with Grype failed"
             }
-        }
     }
 }
+
 
 void findSbom() {
     def sbomPattern = ~'json|cyclonedx|json'
