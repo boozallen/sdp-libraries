@@ -70,10 +70,8 @@ void call() {
                 images.each { img ->
                     if (scanSbom) {
                         String reportBase = "${img.repo}-${img.tag}".replaceAll("/","-")
-                        def files = findFiles(glob: "${reportBase}-*-json.json", excludes: "${reportBase}-*-spdx-json.json") 
-                        echo """${files[0].name} ${files[0].path} ${files[0].directory} ${files[0].length} ${files[0].lastModified}"""
-                        
-                        }
+                        def syftSbom = findFiles(glob: "${reportBase}-*-json.json", excludes: "${reportBase}-*-spdx-json.json")
+                        echo """${syftSbom[0].name} ${syftSbom[0].path} ${syftSbom[0].directory} ${syftSbom[0].length} ${syftSbom[0].lastModified}"""
 
                         //String reportBase = "${img.repo}-${img.tag}".replaceAll("/","-")
                         //def syftSbom = findFiles(glob: "${reportBase}-*-json.json", excludes: "${reportBase}-*-spdx-json.json")
@@ -135,9 +133,9 @@ void call() {
             if(shouldFail){
                 error "One or more image scans with Grype failed"
             }
+        }
     }
 }
-
 
 void findSbom() {
     def sbomPattern = ~'json|cyclonedx|json'
