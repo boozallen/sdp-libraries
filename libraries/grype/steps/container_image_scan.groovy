@@ -72,7 +72,9 @@ void call() {
                         String reportBase = "${img.repo}-${img.tag}".replaceAll("/","-")
                         if(findFiles(glob: "${reportBase}-*-json.json", excludes: "${reportBase}-*-spdx-json.json").findResult != null) {
                             findFiles(glob: "${reportBase}-*-json.json", excludes: "${reportBase}-*-spdx-json.json").eachWithIndex {key, value, index ->
-                            println(index key value)}
+                            println(index)
+                            println(key)
+                            println(value) }
                         }
 
                         //String reportBase = "${img.repo}-${img.tag}".replaceAll("/","-")
