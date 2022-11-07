@@ -219,23 +219,12 @@ repo: "image1_repo", context: "image1", tag: "4321dcba"]
     def "Test scanning syft JSON SBOM artifact" () {
         given:
             ContainerImageScan.getBinding().setVariable("config", [scan_sbom: true])
-            //explicitlyMockPipelineVariable("syftSbom")
             getPipelineMock("findFiles")([glob:'image1_repo-4321dcba-*-json.json', excludes:'image1_repo-4321dcba-*-spdx-json.json']) >> ['image1_repo-4321dcba-this is a test-json.json']
-            //getPipelineMock("syftSbom")() >> {
-            //    def syftSbom = findFiles([glob:'image1_repo-4321dcba-*-json.json', excludes:'image1_repo-4321dcba-*-spdx-json.json'])
-            //    return syftSbom
-            //}
-            
+                
         when:
-            ContainerImageScan()
-            //ContainerImageScan.getBinding().setVariable("syftSbom", ['image1_repo-4321dcba-anything-json.json'])
-            
+            ContainerImageScan()            
 
         then:
-            //1 * getPipelineMock("sh")({it =~ /^grype sbom:image1*/})
-            //1 * getPipelineMock("sh")({it =~ /^grype sbom:image2*/})
-            //1 * getPipelineMock("sh")({it =~ /^grype sbom:image3*/})
-
             1 * getPipelineMock("echo")(['image1_repo-4321dcba-this is a test-json.json'])
             
 
@@ -255,3 +244,10 @@ repo: "image1_repo", context: "image1", tag: "4321dcba"]
             //getPipelineMock("findFiles")([glob:"image1_repo-4321dcba-*-json.json", excludes:"image1_repo-4321dcba-*-spdx-json.json"]) >> [[path: 'image1_repo-4321dcba-*-json.json']]
             //getPipelineMock('syftSbom.size')(1)
             //getPipelineMock("findFiles")(_) >> ['image1_repo-4321dcbb-anything-json.json','image2_repo-4321dcba-anything-json.json']
+
+            //getPipelineMock("syftSbom")() >> {
+            //    def syftSbom = findFiles([glob:'image1_repo-4321dcba-*-json.json', excludes:'image1_repo-4321dcba-*-spdx-json.json'])
+            //    return syftSbom
+            //}
+
+            //explicitlyMockPipelineVariable("syftSbom")
