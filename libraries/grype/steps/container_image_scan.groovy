@@ -7,7 +7,7 @@ void call() {
         String severityThreshold = config?.fail_on_severity ?: 'high'
         String grypeConfig = config?.grype_config
         Boolean scanSbom = config?.scan_sbom ?: false
-       //Map syftSbom = [:]
+        //ArrayList syftSbom = []
         String resultsFileFormat = ".txt"
         String ARGS = ""
         // is flipped to True if an image scan fails
@@ -71,15 +71,15 @@ void call() {
                     if (scanSbom) {
                         String reportBase = "${img.repo}-${img.tag}".replaceAll("/","-")
                         def syftSbom = findFiles(glob: "${reportBase}-*-json.json", excludes: "${reportBase}-*-spdx-json.json")
-                        echo """${syftSbom[0].name} ${syftSbom[0].path} ${syftSbom[0].directory} ${syftSbom[0].length} ${syftSbom[0].lastModified}"""
+                        echo syftSbom
+                        
 
-                        //String reportBase = "${img.repo}-${img.tag}".replaceAll("/","-")
-                        //def syftSbom = findFiles(glob: "${reportBase}-*-json.json", excludes: "${reportBase}-*-spdx-json.json")
                         //if (syftSbom.size() == 0) {
-                        //    syftSbom = findFiles(glob: "${reportBase}-*-cyclonedx*")
+                        //    syftSbom += findFiles(glob: "${reportBase}-*-cyclonedx*")
+                            
                         //    if (syftSbom.size() == 0) {
-                        //        syftSbom = findFiles(glob: "${reportBase}-*-spdx*")
-                        //    }
+                        //        syftSbom += findFiles(glob: "${reportBase}-*-spdx*")
+                        //  }
                         //}
                     }
                     // Use $img.repo to help name our results uniquely. Checks to see if a forward slash exists and splits the string at that location.
@@ -135,9 +135,4 @@ void call() {
             }
         }
     }
-}
-
-void findSbom() {
-    def sbomPattern = ~'json|cyclonedx|json'
-
 }

@@ -22,8 +22,8 @@ public class ContainerImageScanSpec extends JTEPipelineSpecification {
         getPipelineMock("sh")([script: 'echo $HOME', returnStdout: true]) >> "/home"
         getPipelineMock("sh")([script: 'echo $XDG_CONFIG_HOME', returnStdout: true]) >> "/xdg"
         //getPipelineMock("sh")([script: 'touch image1_repo-4321dcba-anything-json.json'])
-        getPipelineMock("sh")([script: 'touch image1_repo-4321dcba-anything-cyclonedx.xml'])
-        getPipelineMock("sh")([script: 'touch image1_repo-4321dcba-anything-spdx.json'])
+        //getPipelineMock("sh")([script: 'touch image1_repo-4321dcba-anything-cyclonedx.xml'])
+        //getPipelineMock("sh")([script: 'touch image1_repo-4321dcba-anything-spdx.json'])
 
         getPipelineMock("get_images_to_build")() >> {
             def images = []
@@ -219,21 +219,24 @@ repo: "image1_repo", context: "image1", tag: "4321dcba"]
     def "Test scanning syft JSON SBOM artifact" () {
         given:
             ContainerImageScan.getBinding().setVariable("config", [scan_sbom: true])
-            //getPipelineMock("findFiles")([glob: '${reportBase}-*-cyclonedx*']) >> ['1']
-            //getPipelineMock("findFiles")([glob: '${reportBase}-*-spdx*']) >> ['2']
-            ContainerImageScan.getBinding().setVariable("syftSbom",[[path: 'image1_repo-4321dcba-*-json.json']])
             //explicitlyMockPipelineVariable("syftSbom")
-            //getPipelineMock("findFiles")([glob:"image1_repo-4321dcba-*-json.json", excludes:"image1_repo-4321dcba-*-spdx-json.json"]) >> [[path: 'image1_repo-4321dcba-*-json.json']]
+            getPipelineMock("findFiles")([glob:'image1_repo-4321dcba-*-json.json', excludes:'image1_repo-4321dcba-*-spdx-json.json']) >> ['image1_repo-4321dcba-this is a test-json.json']
+            //getPipelineMock("syftSbom")() >> {
+            //    def syftSbom = findFiles([glob:'image1_repo-4321dcba-*-json.json', excludes:'image1_repo-4321dcba-*-spdx-json.json'])
+            //    return syftSbom
+            //}
             
         when:
-            //ArrayList syftSbom = ['image1_repo-4321dcba-anything-json.json']
             ContainerImageScan()
-            //getPipelineMock("findFiles")([glob:"image1_repo-4321dcba-*-json.json", excludes:"image1_repo-4321dcba-*-spdx-json.json"]) >> [[path: 'image1_repo-4321dcba-*-json.json']]
-            //getPipelineMock('syftSbom.size')(1)
-            //getPipelineMock("findFiles")(_) >> ['image1_repo-4321dcbb-anything-json.json','image2_repo-4321dcba-anything-json.json']
+            //ContainerImageScan.getBinding().setVariable("syftSbom", ['image1_repo-4321dcba-anything-json.json'])
+            
 
         then:
-            3 * getPipelineMock("sh")({it =~ /^grype */})
+            //1 * getPipelineMock("sh")({it =~ /^grype sbom:image1*/})
+            //1 * getPipelineMock("sh")({it =~ /^grype sbom:image2*/})
+            //1 * getPipelineMock("sh")({it =~ /^grype sbom:image3*/})
+
+            1 * getPipelineMock("echo")(['image1_repo-4321dcba-this is a test-json.json'])
             
 
     }
@@ -241,3 +244,14 @@ repo: "image1_repo", context: "image1", tag: "4321dcba"]
 
 
 
+//getPipelineMock("findFiles")([glob: '${reportBase}-*-cyclonedx*']) >> ['1']
+            //getPipelineMock("findFiles")([glob: '${reportBase}-*-spdx*']) >> ['2']
+            //ContainerImageScan.getBinding().setVariable("syftSbom",[[path: 'image1_repo-4321dcba-*-json.json']])
+            //getPipelineMock("syftSbom").call("findFiles", ([glob:"${reportBase}-*-json.json", excludes: "${reportBase}-*-spdx-json.json"])) >> [path: 'image1_repo-4321dcba-*-json.json']
+            //explicitlyMockPipelineVariable("syftSbom")
+            //getPipelineMock("findFiles")([glob:"image1_repo-4321dcba-*-json.json", excludes:"image1_repo-4321dcba-*-spdx-json.json"]) >> [[path: 'image1_repo-4321dcba-*-json.json']]
+
+
+            //getPipelineMock("findFiles")([glob:"image1_repo-4321dcba-*-json.json", excludes:"image1_repo-4321dcba-*-spdx-json.json"]) >> [[path: 'image1_repo-4321dcba-*-json.json']]
+            //getPipelineMock('syftSbom.size')(1)
+            //getPipelineMock("findFiles")(_) >> ['image1_repo-4321dcbb-anything-json.json','image2_repo-4321dcba-anything-json.json']
