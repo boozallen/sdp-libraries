@@ -7,7 +7,7 @@ void call() {
         String severityThreshold = config?.fail_on_severity ?: 'high'
         String grypeConfig = config?.grype_config
         Boolean scanSbom = config?.scan_sbom ?: false
-        //ArrayList syftSbom = []
+        ArrayList syftSbom = []
         String resultsFileFormat = ".txt"
         String ARGS = ""
         // is flipped to True if an image scan fails
@@ -70,17 +70,13 @@ void call() {
                 images.each { img ->
                     if (scanSbom) {
                         String reportBase = "${img.repo}-${img.tag}".replaceAll("/","-")
-                        def syftSbom = findFiles(glob: "${reportBase}-*-json.json", excludes: "${reportBase}-*-spdx-json.json")
-                        echo syftSbom
-                        
-
-                        //if (syftSbom.size() == 0) {
-                        //    syftSbom += findFiles(glob: "${reportBase}-*-cyclonedx*")
-                            
-                        //    if (syftSbom.size() == 0) {
-                        //        syftSbom += findFiles(glob: "${reportBase}-*-spdx*")
-                        //  }
-                        //}
+                        syftSbom = findFiles(glob: "${reportBase}-*-json.json", excludes: "${reportBase}-*-*dx-json.json")
+                        if (syftSbom.size() == 0) {
+                            syftSbom += findFiles(glob: "${reportBase}-*-cyclonedx*")
+                            if (syftSbom.size() == 0) {
+                                syftSbom += findFiles(glob: "${reportBase}-*-spdx*")
+                            }
+                        }
                     }
                     // Use $img.repo to help name our results uniquely. Checks to see if a forward slash exists and splits the string at that location.
                     String rawResultsFile, transformedResultsFile
