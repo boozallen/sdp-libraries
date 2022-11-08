@@ -1224,41 +1224,27 @@
 <thead>
 <tr>
 <th>Library Configuration</th>
-<th>Description</th>
 <th>Type</th>
 <th>Default Value</th>
-<th>Options</th>
 </tr>
 </thead>
 <tbody>
 <tr>
 <td><code>raw_results_file</code></td>
-<td>The base name of the report file generated. Omit Extension.</td>
 <td>String</td>
-<td><code>syft-sbom-results</code></td>
-<td></td>
+<td><code>syft-sbom-results.json</code></td>
 </tr>
 <tr>
 <td><code>sbom_container</code></td>
-<td>Name of the container image containing the syft executable.</td>
 <td>String</td>
-<td><code>syft:0.47.0</code></td>
-<td></td>
-</tr>
-<tr>
-<td><code>sbom_format</code></td>
-<td>The valid formats a report can be generated in.</td>
-<td>ArrayList</td>
-<td><code>['json']</code></td>
-<td><code>['json', 'text', 'cyclonedx-xml', 'cyclonedx-json', 'spdx-tag-value', 'spdx-json', 'github', 'table']</code></td>
+<td><code>syft:latest</code></td>
 </tr>
 </tbody>
 </table>
 <div class="highlight"><span class="filename">pipeline_config.groovy</span><pre><span></span><code><span class="n">libraries</span> <span class="o">{</span>
   <span class="n">syft</span> <span class="o">{</span>
-    <span class="n">raw_results_file</span> <span class="o">=</span> <span class="s2">&quot;syft-scan&quot;</span>
+    <span class="n">raw_results_file</span> <span class="o">=</span> <span class="s2">&quot;syft-scan.json&quot;</span>
     <span class="n">sbom_container</span> <span class="o">=</span> <span class="s2">&quot;syft:v0.47.0&quot;</span>
-    <span class="n">sbom_format</span> <span class="o">=</span> <span class="o">[</span><span class="s1">&#39;json&#39;</span><span class="o">,</span> <span class="s1">&#39;spdx-json&#39;</span><span class="o">,</span> <span class="s1">&#39;table&#39;</span><span class="o">]</span>
   <span class="o">}</span>
 <span class="o">}</span>
 </code></pre></div>
