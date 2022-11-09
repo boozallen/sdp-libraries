@@ -94,11 +94,11 @@ void call() {
                     try {
                         if (scanSbom && syftSbom) {
                             echo "Scanning provided SBOM artifact"
-                            sh "grype sbom:${syftSbom[0]} ${ARGS} >> ${rawResultsFile}"
+                            sh "grype sbom:${syftSbom[0]} ${ARGS} > ${rawResultsFile}"
                         }
                         else {
                             echo "An SBOM artifact was not provided. Scanning registry image."
-                            sh "grype ${img.registry}/${img.repo}:${img.tag} ${ARGS} >> ${rawResultsFile}"
+                            sh "grype ${img.registry}/${img.repo}:${img.tag} ${ARGS} > ${rawResultsFile}"
                         }
                     }
                     // Catch the error on quality gate failure
