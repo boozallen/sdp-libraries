@@ -72,9 +72,9 @@ void call() {
                         String reportBase = "${img.repo}-${img.tag}".replaceAll("/","-")
                         syftSbom = findFiles(glob: "${reportBase}-*-json.json", excludes: "${reportBase}-*-*dx-json.json")
                         if (syftSbom.size() == 0) {
-                            syftSbom += findFiles(glob: "${reportBase}-*-cyclonedx*")
+                            syftSbom = findFiles(glob: "${reportBase}-*-cyclonedx*")
                             if (syftSbom.size() == 0) {
-                                syftSbom += findFiles(glob: "${reportBase}-*-spdx*")
+                                syftSbom = findFiles(glob: "${reportBase}-*-spdx*")
                             }
                         }
                     }
