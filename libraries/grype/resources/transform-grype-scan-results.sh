@@ -36,7 +36,7 @@ cat "$RAW_RESULTS" \
 # get the CVE count
 CVE_COUNT=$(cat transformed-results.json | jq -r 'length')
 
-if [ "$CVE_COUNT" -eq 0 ]
+if [ "$CVE_COUNT" -eq "0" ]
 then
   echo "No CVEs detected! :)"
 else
