@@ -223,7 +223,7 @@ repo: "image1_repo", context: "image1", tag: "4321dcba"]
             ContainerImageScan()            
 
         then:
-            (1.._) * getPipelineMock("sh")({it =~ /^grype sbom:.*/})
+            (1..3) * getPipelineMock("sh")({it =~ /^grype sbom:image.*/})
     }
 
         def "Test scanning syft Cyclonedx SBOM artifact" () {
@@ -241,10 +241,10 @@ repo: "image1_repo", context: "image1", tag: "4321dcba"]
             ContainerImageScan()            
 
         then:
-            (1.._) * getPipelineMock("sh")({it =~ /^grype sbom:.*/})
+            (1..3) * getPipelineMock("sh")({it =~ /^grype sbom:.*cyclonedx*/})
     }
 
-    def "Test scanning syft Cyclonedx SBOM artifact" () {
+    def "Test scanning syft SPDX SBOM artifact" () {
         given:
             ContainerImageScan.getBinding().setVariable("config", [scan_sbom: true])
             getPipelineMock("findFiles")([glob:'image1_repo-4321dcba-*-json.json', excludes:'image1_repo-4321dcba-*-*dx-json.json']) >> []
@@ -262,6 +262,6 @@ repo: "image1_repo", context: "image1", tag: "4321dcba"]
             ContainerImageScan()            
 
         then:
-            (1.._) * getPipelineMock("sh")({it =~ /^grype sbom:.*/})
+            (1..3) * getPipelineMock("sh")({it =~ /^grype sbom:.*spdx*/})
     }
 }

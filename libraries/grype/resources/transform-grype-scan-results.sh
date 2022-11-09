@@ -18,6 +18,7 @@ cat "$RAW_RESULTS" \
         "Medium": 2,
         "Low": 3,
         "None": 4,
+        "Unknown": 4,
       }[.];
 
     .matches
