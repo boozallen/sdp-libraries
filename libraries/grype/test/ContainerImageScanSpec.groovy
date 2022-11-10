@@ -196,7 +196,7 @@ public class ContainerImageScanSpec extends JTEPipelineSpecification {
     def "Test that error handling works as expected" () {
         given:
             explicitlyMockPipelineStep("Exception")//("Failed: java.lang.Exception: test")
-            getPipelineMock("sh")("grype test_registry/image1_repo:4321dcba -o json --fail-on high  >> image1_repo-grype-scan-results.json") >> {throw new Exception("test")}
+            getPipelineMock("sh")("grype test_registry/image1_repo:4321dcba -o json --fail-on high  > image1_repo-grype-scan-results.json") >> {throw new Exception("test")}
         when:
             ContainerImageScan()
         then:
