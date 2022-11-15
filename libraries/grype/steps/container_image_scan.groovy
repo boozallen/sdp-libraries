@@ -6,6 +6,8 @@ void call() {
         String outputFormat = config?.report_format ?: 'json'
         String severityThreshold = config?.fail_on_severity ?: 'high'
         String grypeConfig = config?.grype_config
+        Boolean scanSbom = config?.scan_sbom ?: false
+        ArrayList syftSbom = []
         String resultsFileFormat = ".txt"
         String ARGS = ""
         // is flipped to True if an image scan fails
@@ -66,6 +68,16 @@ void call() {
 
                 def images = get_images_to_build()
                 images.each { img ->
+                    if (scanSbom) {
+                        String reportBase = "${img.repo}-${img.tag}".replaceAll("/","-")
+                        syftSbom = findFiles(glob: "${reportBase}-*-json.json", excludes: "${reportBase}-*-*dx-json.json")
+                        if (syftSbom.size() == 0) {
+                            syftSbom = findFiles(glob: "${reportBase}-*-cyclonedx*")
+                            if (syftSbom.size() == 0) {
+                                syftSbom = findFiles(glob: "${reportBase}-*-spdx*")
+                            }
+                        }
+                    }
                     // Use $img.repo to help name our results uniquely. Checks to see if a forward slash exists and splits the string at that location.
                     String rawResultsFile, transformedResultsFile
                     if (img.repo.contains("/")) {
@@ -80,7 +92,14 @@ void call() {
 
                     // perform the grype scan
                     try {
-                        sh "grype ${img.registry}/${img.repo}:${img.tag} ${ARGS} >> ${rawResultsFile}"
+                        if (scanSbom && syftSbom) {
+                            echo "Scanning provided SBOM artifact"
+                            sh "grype sbom:${syftSbom[0]} ${ARGS} > ${rawResultsFile}"
+                        }
+                        else {
+                            echo "An SBOM artifact was not provided. Scanning registry image."
+                            sh "grype ${img.registry}/${img.repo}:${img.tag} ${ARGS} > ${rawResultsFile}"
+                        }
                     }
                     // Catch the error on quality gate failure
                     catch(Exception err) {
