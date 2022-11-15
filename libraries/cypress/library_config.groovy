@@ -1,6 +1,5 @@
 fields {
   required {
-    target_apps = ArrayList
     npm_script = String
     report_path = String
   }

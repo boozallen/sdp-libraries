@@ -17,8 +17,7 @@ This library allows you to
 ``` groovy title='pipeline_config.groovy'
 libraries {
   cypress {
-    target_apps = ['https://my-app.hosting.tld','https://another-app.hosting.tld']
-    npm_script = 'npm run cy:run:beEndpoints'
+    npm_script = 'npm run cy:run:myTestSuite'
     report_path = './test/cypress/my_reports/**'
     test_repo = '.'
     branch = 'main'

@@ -10,12 +10,11 @@ void call() {
 
   stage("Frontend Testing (Cypress)") {
     // Required parameters
-    ArrayList targetApps = config?.target_apps ?: null
     String npmScript = config?.npm_script ?: null
     String reportPath = config?.report_path ?: null
 
-    if (null in [targetApps, npmScript, reportPath]) {
-      error "Missing required parameter(s) (target_apps, npm_script, report_path)"
+    if (null in [npmScript, reportPath]) {
+      error "Missing required parameter(s) (npm_script, report_path)"
     }
     
     // Optional parameters
