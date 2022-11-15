@@ -38,9 +38,8 @@ libraries {
 
 If `grype_config` isn't provided, the default locations for an application are `.grype.yaml`, `.grype/config.yaml`.
 
-**NOTE:** Learn More About Grype Configuration
 
-   Read [the grype docs](https://github.com/anchore/grype#configuration) to learn more about the Grype configuration file
+Read [the grype docs](https://github.com/anchore/grype#configuration) to learn more about the Grype configuration file
 
 ## Dependencies
 
