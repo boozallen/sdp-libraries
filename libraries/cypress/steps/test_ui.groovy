@@ -39,7 +39,7 @@ void call() {
     docker.image("${containerImage}").inside {
       sh """
         npm ci
-        $(npm bin)/cypress verify
+        \$(npm bin)/cypress verify
         ${npmScript}
       """
     }
