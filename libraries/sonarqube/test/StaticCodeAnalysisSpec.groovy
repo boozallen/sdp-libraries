@@ -26,14 +26,7 @@ public class StaticCodeAnalysisSpec extends JTEPipelineSpecification {
          explicitlyMockPipelineVariable("out")  
     }
 
-    def "Is jte.libraries.dotnet library loaded?" ()  {    // test definition
-    setup:
-      boolean jteLibraryLoaded = true 
-    when:
-      boolean  resultIfLibraryLoaded = jteLibraryLoaded 
-    then:
-      resultIfLibraryLoaded == true           // implicit assertion
-   }
+   
 
    def "Pipeline Fails When Config Is Undefined" () {
     setup:

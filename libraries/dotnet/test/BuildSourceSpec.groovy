@@ -54,6 +54,15 @@ public class BuildSourceSpec extends JTEPipelineSpecification {
             "test"  |  "foo" || true 
     }   */
 
+     def "Is jte.libraries.dotnet library loaded?" ()  {    // test definition
+    setup:
+      boolean jteLibraryLoaded = true 
+    when:
+      boolean  resultIfLibraryLoaded = jteLibraryLoaded 
+    then:
+      resultIfLibraryLoaded == true           // implicit assertion
+   }
+
     def "Unit tests run successfully" () {
         setup:
             BuildSource.getBinding().setVariable("config", [unit_test: [resultDir: "test"]]) 
