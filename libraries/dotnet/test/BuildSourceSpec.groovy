@@ -63,6 +63,17 @@ public class BuildSourceSpec extends JTEPipelineSpecification {
       resultIfLibraryLoaded == true           // implicit assertion
    }
 
+
+       def "Skip step if SonarQube library is loaded" () {
+        setup:
+            BuildSource.getBinding().setVariable(<need to figure this part out>) 
+        when:
+            BuildSource()
+        then:
+            0 * getPipelineMock("build_dotnet").toString()
+            0 * getPipelineMock("build_dotnet").call()
+    }
+
     def "Unit tests run successfully" () {
         setup:
             BuildSource.getBinding().setVariable("config", [unit_test: [resultDir: "test"]]) 

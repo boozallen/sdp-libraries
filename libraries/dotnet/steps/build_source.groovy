@@ -19,19 +19,17 @@ void call() {
     unity_app = config.unity_app
   }
 
-  try {
-    // if sonarqube library is loaded then skip, else run appropriate builds
-    if (jte.libraries.sonarqube) {
-      println "Skipping this step, build occurs during static code analysis."
-    }
-  }
-  catch (any) {
-    // if static code analysis is not configured in this, run build commands
-    if (unity_app == true) {
+ if (jte.libraries.sonarqube) {
+  println "Skipping this step, build occurs during static code analysis."
+}
+else {
+  if (unity_app) {
       build_unity()
-      build_dotnet()
-    }
-    else
-      build_dotnet()
   }
+
+  build_dotnet()
+}
+
+
+
 }
