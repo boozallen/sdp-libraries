@@ -35,6 +35,8 @@ void call() {
       // run dotnet build on sln
       sh dotnet_build_command.flatten().join(" ")
 
+      
+   
       // stash build results
       stash "workspace" 
     }
