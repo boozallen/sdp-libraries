@@ -22,6 +22,8 @@ void call() {
     String branch = config?.branch ?: 'main'
     String containerImage = config?.container_image ?: 'cypress/browsers:node14.17.0-chrome91-ff89'
     
+    unstash "workspace"
+
     // if test_repo isn't default ('.')
     if (testRepo != '.') {
       // make temp test directory
