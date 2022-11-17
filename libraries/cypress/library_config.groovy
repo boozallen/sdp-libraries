@@ -7,6 +7,7 @@ fields {
     test_repo = String
     branch = String
     container_image = String
+    container_registry = String
     container_registry_creds = String
   }
 }

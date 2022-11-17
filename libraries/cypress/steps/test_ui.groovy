@@ -21,6 +21,8 @@ void call() {
     String testRepo = config?.test_repo ?: '.'
     String branch = config?.branch ?: 'main'
     String containerImage = config?.container_image ?: 'cypress/browsers:node14.17.0-chrome91-ff89'
+    String containerRegistry = config?.container_registry ?: 'https://index.docker.io/v1/'
+    String containerRegistryCreds = config?.container_registry_creds ?: ''
     
     unstash "workspace"
 
@@ -38,12 +40,14 @@ void call() {
     }
 
     // run tests inside container
-    docker.image("${containerImage}").inside {
-      sh """
-        npm ci
-        \$(npm bin)/cypress verify
-        ${npmScript}
-      """
+    docker.withRegistry("${containerRegistry}", "${containerRegistryCreds}") {
+      docker.image("${containerImage}").inside {
+        sh """
+          npm ci
+          \$(npm bin)/cypress verify
+          ${npmScript}
+        """
+      }
     }
 
     // archive report(s)
