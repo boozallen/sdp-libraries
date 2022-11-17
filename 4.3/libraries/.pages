@@ -3,6 +3,7 @@ nav:
   SDP Pipeline Libraries:
   - a11y.md
   - anchore.md
+  - cypress.md
   - docker.md
   - docker_compose.md
   - dotnet.md
