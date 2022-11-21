@@ -74,6 +74,18 @@ public class BuildSourceSpec extends JTEPipelineSpecification {
             0 * getPipelineMock("build_dotnet").call()
     }
 
+    def "Build dotnet" () {
+        setup:
+            BuildSource.getBinding().setVariable("config", [unit_test: [resultDir: "test"]]) 
+            BuildSource.getBinding().setVariable("unity_app", "false")
+        when:
+            BuildSource()
+        then:
+            noExceptionThrown()
+            1 * getPipelineMock("build_dotnet").toString()
+            1 * getPipelineMock("build_dotnet").call()
+    } 
+
     def "Unit tests run successfully" () {
         setup:
             BuildSource.getBinding().setVariable("config", [unit_test: [resultDir: "test"]]) 
