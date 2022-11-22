@@ -64,7 +64,7 @@ public class BuildSourceSpec extends JTEPipelineSpecification {
    }
 
 
-       def "Skip step if SonarQube library is loaded" () {
+    /*   def "Skip step if SonarQube library is loaded" () {
         setup:
             BuildSource.getBinding().setVariable(<need to figure this part out>) 
         when:
@@ -72,7 +72,7 @@ public class BuildSourceSpec extends JTEPipelineSpecification {
         then:
             0 * getPipelineMock("build_dotnet").toString()
             0 * getPipelineMock("build_dotnet").call()
-    }
+    } */
 
     def "Build dotnet" () {
         setup:
