@@ -20,6 +20,7 @@ This library allows you to generate a Software Bill of Materials (SBOM) for each
 | `sbom_container`      | Name of the container image containing the syft executable.   | String      | `syft:0.47.0`       |                                                                                                           |
 | `sbom_format`         | The valid formats a report can be generated in.               | ArrayList   | `['json']`          | `['json', 'text', 'cyclonedx-xml', 'cyclonedx-json', 'spdx-tag-value', 'spdx-json', 'github', 'table']`   |
 | `remove_syft_config`  | Removes .syft.yaml from the workspace if needed.              | Boolean     | `True`              | `True, False`                                                                                             |
+| `config_name`         | Name of config to remove.                                     | String      | `.syft.yaml`        |                                                                                                           |
 
 ``` groovy title='pipeline_config.groovy'
 libraries {
@@ -28,6 +29,7 @@ libraries {
     sbom_container = "syft:v0.47.0"
     sbom_format = ['json', 'spdx-json', 'table']
     remove_syft_config = true
+    config_name = ".syft.yaml"
   }
 }
 ```

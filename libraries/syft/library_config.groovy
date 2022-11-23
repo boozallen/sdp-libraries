@@ -6,5 +6,6 @@ fields {
         sbom_container = String
         sbom_format = ArrayList
         remove_syft_config = Boolean
+        config_name = String
     }
 }

@@ -10,6 +10,7 @@ void call() {
     //Import settings from config
     String raw_results_file = config?.raw_results_file ?: 'syft-sbom-results' // leave off file extension so that it can be added based off off selected formats
     String sbom_container = config?.sbom_container ?: 'syft:0.47.0'
+    String config_name = config?.config_name ?: '.syft.yaml'
     ArrayList sbom_format = config?.sbom_format ?: ["json"]
     String artifacts = ""
     boolean remove_syft_config = config?.remove_syft_config ?: true
@@ -20,8 +21,8 @@ void call() {
     inside_sdp_image "${sbom_container}", {
       login_to_registry {
         unstash "workspace"
-        if(fileExists('.syft.yaml')) {
-          sh 'rm .syft.yaml'
+        if(fileExists(config_name)) {
+          sh "rm ${config_name}"
         }
         images.each { img ->
           String ARGS = "-q"
