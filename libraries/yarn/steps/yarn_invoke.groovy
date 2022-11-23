@@ -1,15 +1,15 @@
 /*
-  Copyright © 2018 Booz Allen Hamilton. All Rights Reserved.
+  Copyright © 2022 Booz Allen Hamilton. All Rights Reserved.
   This software package is licensed under the Booz Allen Public License. The license can be found in the License file or at http://boozallen.github.io/licenses/bapl
 */
 
-package libraries.npm.steps
+package libraries.yarn.steps
 
 @StepAlias(dynamic = { return config.keySet() })
 void call(app_env = [:]) {
     // Get config for step
     LinkedHashMap libStepConfig = config?."${stepContext.name}" ?: [:]
-    LinkedHashMap appStepConfig = app_env?.npm?."${stepContext.name}" ?: [:]
+    LinkedHashMap appStepConfig = app_env?.yarn?."${stepContext.name}" ?: [:]
 
     String nvmContainer = config?.nvm_container ?: "nvm:1.0.0"
 
@@ -32,7 +32,7 @@ void call(app_env = [:]) {
         // Gather and set non-secret environment variables
         this.setEnvVars(libStepConfig, appStepConfig, config, app_env)
 
-        // run npm command in nvm container
+        // run Yarn command in nvm container
         withCredentials(creds) {
             inside_sdp_image(nvmContainer) {
                 unstash "workspace"
@@ -44,7 +44,7 @@ void call(app_env = [:]) {
                 }
                 
                 try {
-                    if (env.npmInstall != "skip") {
+                    if (env.yarnInstall != "skip") {
                         // run script command after installing dependencies
                         sh '''
                             set +x
@@ -52,9 +52,11 @@ void call(app_env = [:]) {
                             nvm install $node_version
                             nvm version
 
-                            echo 'Running with NPM install'
-                            npm $npmInstall
-                            npm run $scriptCommand
+                            npm install -g yarn@$yarn_version
+
+                            echo 'Running with Yarn install'
+                            yarn $yarnInstall
+                            yarn $scriptCommand
                         '''
                     }
                     else {
@@ -65,8 +67,10 @@ void call(app_env = [:]) {
                             nvm install $node_version
                             nvm version
 
-                            echo 'Running without NPM install'
-                            npm run $scriptCommand
+                            npm install -g yarn@$yarn_version
+
+                            echo 'Running without Yarn install'
+                            yarn $scriptCommand
                         '''
                     }
                 }
@@ -115,7 +119,7 @@ void validateSecrets(secrets) {
     }
 
     if (errors) {
-        error (["NPM Library Validation Errors: "] + errors.collect{ "- ${it}"})?.join("\n")
+        error (["Yarn Library Validation Errors: "] + errors.collect{ "- ${it}"})?.join("\n")
     }
 }
 
@@ -150,17 +154,25 @@ void setEnvVars(libStepConfig, appStepConfig, config, app_env) {
         env[it.key] = it.value
     }
 
-    env.node_version = app_env?.npm?.node_version ?: 
+    env.node_version = app_env?.yarn?.node_version ?: 
                        config?.node_version ?:
                        'lts/*'
     
-    env.npmInstall = appStepConfig?.npmInstall ?:
-                     libStepConfig?.npmInstall ?:
-                     "ci"
+    env.yarn_version = app_env?.yarn?.yarn_version ?: 
+                       config?.yarn_version ?:
+                       'latest'
+    
+    String yarnInstall = appStepConfig?.yarnInstall ?:
+                         libStepConfig?.yarnInstall ?:
+                         "frozen-lockfile"
 
-    // if (!["install", "i", "ci", "skip"].contains(env.npmInstall)) {
-    //     error("npmInstall must be one of \"install\", \"i\", \"ci\" or \"skip\"; got \"$env.npmInstall\"")
-    // }
+    if (!["install", "frozen-lockfile", "skip"].contains(yarnInstall)) {
+        error("yarnInstall must be one of \"install\", \"frozen-lockfile\" or \"skip\"; got \"$yarnInstall\"")
+    }
+
+    env.yarnInstall = (yarnInstall == "frozen-lockfile")
+                      ? "install --frozen-lockfile"
+                      : yarnInstall
 
     env.scriptCommand = appStepConfig?.script ?:
                         libStepConfig?.script ?:

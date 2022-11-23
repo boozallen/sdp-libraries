@@ -1,10 +1,10 @@
 ---
-description: Run NPM script commands in an NVM container with a specified Node version
+description: Run Yarn script commands in an NVM container with a specified Node version
 ---
 
-# npm
+# Yarn
 
-Run NPM script commands in an NVM container with a specified Node version.
+Run Yarn script commands in an NVM container with a specified Node version.
 
 ## Configuration
 
@@ -19,7 +19,7 @@ Steps are configured dynamically in either the library config or the Application
 
 ``` groovy title="pipeline_configuration.groovy"
 libraries {
-  npm {
+  yarn {
     [step_name] {
       // config fields described below
     }
@@ -32,17 +32,18 @@ libraries {
 
 ---
 
-| Field                         | Description                                                                                                                           | Default   |
-| ----------------------------- | ------------------------------------------------------------------------------------------------------------------------------------- | --------- |
-| `nvm_container`               | The container image to use                                                                                                            | nvm:1.0.0 |
-| `node_version`                | Node version to run NPM within (installed via NVM)                                                                                    | `lts/*`   |
-| `<step name>.stageName`       | stage name displayed in the Jenkins dashboard                                                                                         | N/A       |
-| `<step name>.script`          | NPM script ran by the step                                                                                                            | N/A       |
-| `<step name>.artifacts`       | array of glob patterns for artifacts that should be archived                                                                          |
-| `<step name>.npmInstall`      | NPM install command to run; npm install can be skipped with value "skip"                                                              | `ci`      |
-| `<step name>.env`             | environment variables to make available to the NPM process; can include key/value pairs and secrets                                   | `[]`      |
-| `<step name>.env.secrets`     | text or username/password credentials to make available to the NPM process; must be present and available in Jenkins credential store | `[]`      |
-| `<step name>.useEslintPlugin` | if the Jenkins ESLint Plugin is installed, will run the `recordIssues` step to send lint results to the plugin dashboard              | `false`   |
+| Field                         | Description                                                                                                                            | Default           |
+| ----------------------------- | -------------------------------------------------------------------------------------------------------------------------------------- | ----------------- |
+| `nvm_container`               | The container image to use                                                                                                             | nvm:1.0.0         |
+| `node_version`                | Node version to run Yarn within (installed via NVM)                                                                                    | `lts/*`           |
+| `yarn_version`                | Yarn version to use                                                                                                                    | `latest`          |
+| `<step name>.stageName`       | stage name displayed in the Jenkins dashboard                                                                                          | N/A               |
+| `<step name>.script`          | Yarn script ran by the step                                                                                                            | N/A               |
+| `<step name>.artifacts`       | array of glob patterns for artifacts that should be archived                                                                           |
+| `<step name>.yarnInstall`     | Yarn install command to run; Yarn install can be skipped with value "skip"                                                             | `frozen-lockfile` |
+| `<step name>.env`             | environment variables to make available to the Yarn process; can include key/value pairs and secrets                                   | `[]`              |
+| `<step name>.env.secrets`     | text or username/password credentials to make available to the Yarn process; must be present and available in Jenkins credential store | `[]`              |
+| `<step name>.useEslintPlugin` | if the Jenkins ESLint Plugin is installed, will run the `recordIssues` step to send lint results to the plugin dashboard               | `false`           |
 
 ### Full Configuration Example
 
@@ -52,13 +53,14 @@ Each available method has config options that can be specified in the Applicatio
 application_environments {
   dev
   prod {
-    npm {
+    yarn {
       node_version = "14.16.1"
+      yarn_version = "1.22.17"
       unit_test {
-        stageName = "NPM Unit Tests"
+        stageName = "Yarn Unit Tests"
         script = "full-test-suite"
         artifacts = ["coverage/lcov.info"]
-        npmInstall = "ci"
+        yarnInstall = "frozen-lockfile"
         env {
           someKey = "prodValue for tests"
           // (1)
@@ -79,7 +81,7 @@ application_environments {
         }
       }
       source_build {
-        stageName = "NPM Source Build"
+        stageName = "Yarn Source Build"
         script = "prod-build"
         env {
           someKey = "prodValue for builds"
@@ -100,7 +102,7 @@ application_environments {
       }
     }
     lint_code {
-        stageName = "NPM Lint Code"
+        stageName = "Yarn Lint Code"
         script = "lint"
         artifacts = [
           "eslint-report.json",
@@ -130,12 +132,13 @@ application_environments {
 }
 
 libraries {
-  npm {
+  yarn {
     node_version = "lts/*"
+    yarn_version = "latest"
     unit_test {
-      stageName = "NPM Unit Tests"
+      stageName = "Yarn Unit Tests"
       script = "test"
-      npmInstall = "install"
+      yarnInstall = "install"
       env {
         someKey = "someValue for tests"
         // (3)
@@ -156,9 +159,9 @@ libraries {
       }
     }
     source_build {
-      stageName = "NPM Source Build"
+      stageName = "Yarn Source Build"
       script = "build"
-      npmInstall = "skip"
+      yarnInstall = "skip"
       env {
         someKey = "someValue for builds"
         secrets {
@@ -177,9 +180,9 @@ libraries {
       }
     }
     lint_code {
-      stageName = "NPM Lint Code"
+      stageName = "Yarn Lint Code"
       script = "lint"
-      npmInstall = "skip"
+      yarnInstall = "skip"
       env {
         someKey = "someValue for linting"
         secrets {
@@ -207,7 +210,7 @@ libraries {
 4. more secrets as needed
 
 This example shows the prod Application Environment overriding configs set in the library config.
-`source_build.npmInstall` is preserved as set in library config, since it isn't overridden by the Application Environment.
+`source_build.yarnInstall` is preserved as set in library config, since it isn't overridden by the Application Environment.
 
 ### Minimal Configuration Example
 
@@ -215,9 +218,9 @@ The minimal configuration for this library is:
 
 ``` groovy title="pipeline_configuration.groovy"
 libraries {
-  npm {
+  yarn {
     unit_test {
-      stageName = "NPM Unit Tests"
+      stageName = "Yarn Unit Tests"
       script = "test"
     }
   }
@@ -235,24 +238,3 @@ It's just a key, used to supersede library config with Application Environment c
 ## Dependencies
 
 * The [SDP library](../sdp/) must be loaded inside the `pipeline_config.groovy` file.
-
-## Migrating from SDP 3.2 to 4.0
-
-SDP `4.0` reworked this library to use dynamic step aliasing.
-
-To recreate the previous `source_build()` and `unit_test()` functionality of version `3.2`, the below minimal pipeline configuration can be used:
-
-``` groovy title="pipeline_configuration.groovy"
-libraries {
-  npm {
-    source_build {
-      stageName = "NPM Source Build"
-      script = "build"
-    }
-    unit_test {
-      stageName = "NPM Unit Tests"
-      script = "test"
-    }
-  }
-}
-```

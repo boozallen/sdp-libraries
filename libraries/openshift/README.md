@@ -12,16 +12,16 @@ This library allows you to perform deployments to static or ephemeral applicatio
 
 ---
 
-| Step | Description |
-| ----------- | ----------- |
-| ``deploy_to()`` | Performs a deployment using Helm  |
+| Step                                                | Description                                               |
+|-----------------------------------------------------|-----------------------------------------------------------|
+| ``deploy_to()``                                     | Performs a deployment using Helm                          |
 | ``ephemeral(Closure body, ApplicationEnvironment)`` | Creates a short-lived application environment for testing |
 
 ## Overview
 
 ---
 
-![OpenShift deploy_to diagram](../../assets/images/openshift/Openshift_deploy_to_diagram.png)
+![OpenShift deployment diagram](../../assets/images/openshift/Openshift_deploy_to_diagram.png)
 
 ## Configuration
 
@@ -163,8 +163,8 @@ which is when the most recent code change was a **merge** into the given code br
 The image would be expected to be built from an earlier commit, or while there was an open PR.
 
 You can override this default for the entire pipeline by setting the `promote_previous_image` config setting to **false**.
-You can also choose whether to promote images for each application environment individually through the `promote_previous_image` application_environment setting.
-This application_environment setting takes priority over the config setting.
+You can also choose whether to promote images for each application environment individually through the `promote_previous_image` `application_environment` setting.
+This `application_environment` setting takes priority over the config setting.
 
 An example of these settings' usage:
 
@@ -197,18 +197,18 @@ libraries{
 
 OpenShift Library Configuration Options
 
-| Field | Description | Default Value | Defined On | Required |
-| ----------- | ----------- | ----------- | ----------- | ----------- |
-| `openshift_url` | The OpenShift Console address when specified per application environment |  | `[app_env]` | if `url` isn't defined |
-| `url` | The OpenShift Console address when specified globally |  | library spec | if `openshift_url` isn't defined |
-| `helm_configuration_repository` | The GitHub Repository containing the helm chart(s) for this application |  | both | Yes |
-| `helm_configuration_repository_credential` | The Jenkins credential ID to access the helm configuration GitHub repository |  | both | Yes |
-| `tiller_namespace` | The tiller namespace for this application |  | both | Yes |
-| `tiller_credential` | The Jenkins credential ID referencing an OpenShift credential |  | both | Yes |
-| `tiller_release_name` | The name of the release to deploy |  | application environment | if `[app_env].short_name` isn't defined |
-| `chart_values_file` | The values file to use for the release |  | `[app_env]` | if `[app_env].short_name` isn't defined |
-| `helm_chart_branch` | The branch of helm_configuration_repository to use | `master` | `[app_env]` | No |
-| `promote_previous_image` | Whether to promote a previously built image | (Boolean) `true` | both | No |
+| Field                                      | Description                                                                  | Default Value    | Defined On              | Required                                |
+|--------------------------------------------|------------------------------------------------------------------------------|------------------|-------------------------|-----------------------------------------|
+| `openshift_url`                            | The OpenShift Console address when specified per application environment     |                  | `[app_env]`             | if `url` isn't defined                  |
+| `url`                                      | The OpenShift Console address when specified globally                        |                  | library spec            | if `openshift_url` isn't defined        |
+| `helm_configuration_repository`            | The GitHub Repository containing the helm chart(s) for this application      |                  | both                    | Yes                                     |
+| `helm_configuration_repository_credential` | The Jenkins credential ID to access the helm configuration GitHub repository |                  | both                    | Yes                                     |
+| `tiller_namespace`                         | The tiller namespace for this application                                    |                  | both                    | Yes                                     |
+| `tiller_credential`                        | The Jenkins credential ID referencing an OpenShift credential                |                  | both                    | Yes                                     |
+| `tiller_release_name`                      | The name of the release to deploy                                            |                  | application environment | if `[app_env].short_name` isn't defined |
+| `chart_values_file`                        | The values file to use for the release                                       |                  | `[app_env]`             | if `[app_env].short_name` isn't defined |
+| `helm_chart_branch`                        | The branch of helm_configuration_repository to use                           | `master`         | `[app_env]`             | No                                      |
+| `promote_previous_image`                   | Whether to promote a previously built image                                  | (Boolean) `true` | both                    | No                                      |
 
 ```groovy
 application_environments{
