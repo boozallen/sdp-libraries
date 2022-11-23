@@ -86,7 +86,7 @@ public class BuildSourceSpec extends JTEPipelineSpecification {
             1 * getPipelineMock("build_dotnet").call()
     } */
 
-    def "Unit tests run successfully" () {
+   /*  def "Unit tests run successfully" () {
         setup:
             BuildSource.getBinding().setVariable("config", [unit_test: [resultDir: "test"]]) 
         when:
@@ -95,6 +95,6 @@ public class BuildSourceSpec extends JTEPipelineSpecification {
             noExceptionThrown()
            1 * getPipelineMock("build_dotnet").toString()
            1 * getPipelineMock("build_dotnet").call()
-    }
+    } . */
 
 }
