@@ -1266,6 +1266,20 @@
 <td><code>['json']</code></td>
 <td><code>['json', 'text', 'cyclonedx-xml', 'cyclonedx-json', 'spdx-tag-value', 'spdx-json', 'github', 'table']</code></td>
 </tr>
+<tr>
+<td><code>remove_syft_config</code></td>
+<td>Removes .syft.yaml from the workspace if needed.</td>
+<td>Boolean</td>
+<td><code>True</code></td>
+<td><code>True, False</code></td>
+</tr>
+<tr>
+<td><code>config_name</code></td>
+<td>Name of config to remove.</td>
+<td>String</td>
+<td><code>.syft.yaml</code></td>
+<td></td>
+</tr>
 </tbody>
 </table>
 <div class="highlight"><span class="filename">pipeline_config.groovy</span><pre><span></span><code><span class="n">libraries</span> <span class="o">{</span>
@@ -1273,6 +1287,8 @@
     <span class="n">raw_results_file</span> <span class="o">=</span> <span class="s2">&quot;syft-scan&quot;</span>
     <span class="n">sbom_container</span> <span class="o">=</span> <span class="s2">&quot;syft:v0.47.0&quot;</span>
     <span class="n">sbom_format</span> <span class="o">=</span> <span class="o">[</span><span class="s1">&#39;json&#39;</span><span class="o">,</span> <span class="s1">&#39;spdx-json&#39;</span><span class="o">,</span> <span class="s1">&#39;table&#39;</span><span class="o">]</span>
+    <span class="n">remove_syft_config</span> <span class="o">=</span> <span class="kc">true</span>
+    <span class="n">config_name</span> <span class="o">=</span> <span class="s2">&quot;.syft.yaml&quot;</span>
   <span class="o">}</span>
 <span class="o">}</span>
 </code></pre></div>
