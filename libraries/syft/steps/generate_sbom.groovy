@@ -21,8 +21,10 @@ void call() {
     inside_sdp_image "${sbom_container}", {
       login_to_registry {
         unstash "workspace"
-        if(fileExists(config_name)) {
-          sh "rm ${config_name}"
+        if(remove_syft_config) {
+          if(fileExists(config_name)) {
+            sh "rm ${config_name}"
+          }
         }
         images.each { img ->
           String ARGS = "-q"
