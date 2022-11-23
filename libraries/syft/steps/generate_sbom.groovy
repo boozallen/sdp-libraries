@@ -12,6 +12,7 @@ void call() {
     String sbom_container = config?.sbom_container ?: 'syft:0.47.0'
     ArrayList sbom_format = config?.sbom_format ?: ["json"]
     String artifacts = ""
+    boolean remove_syft_config = config?.remove_syft_config ?: true
     boolean shouldFail = false
 
     //Get list of images to scan (assuming same set built by Docker)
@@ -19,6 +20,9 @@ void call() {
     inside_sdp_image "${sbom_container}", {
       login_to_registry {
         unstash "workspace"
+        if(fileExists('.syft.yaml')) {
+          sh 'rm .syft.yaml'
+        }
         images.each { img ->
           String ARGS = "-q"
           String results_name = "${img.repo}-${img.tag}-${raw_results_file}".replaceAll("/","-")
