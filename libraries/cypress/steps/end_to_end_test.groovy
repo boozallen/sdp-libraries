@@ -8,7 +8,7 @@ package libraries.cypress.steps
 
 void call() {
 
-  stage("Frontend Testing (Cypress)") {
+  stage("End-to-End Testing (Cypress)") {
     // Required parameters
     String npmScript = config?.npm_script ?: null
     String reportPath = config?.report_path ?: null

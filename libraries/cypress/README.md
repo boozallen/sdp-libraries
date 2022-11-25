@@ -1,16 +1,16 @@
 ---
-description: This library allows you to run end-to-end UI tests with Cypress
+description: This library allows you to run end-to-end tests with Cypress
 ---
 
 # Cypress
 
-This library allows you to run end-to-end UI tests with [Cypress](https://www.cypress.io/).
+This library allows you to run end-to-end tests with [Cypress](https://www.cypress.io/).
 
 ## Steps
 
-| Step        | Description                                                                           |
-| ----------- | ------------------------------------------------------------------------------------- |
-| `test_ui()` | Runs tests defined in the configured `npm_script` in your project `package.json` file |
+| Step                | Description                                                                           |
+| ------------------- | ------------------------------------------------------------------------------------- |
+| `end_to_end_test()` | Runs tests defined in the configured `npm_script` in your project `package.json` file |
 
 ## Configuration
 
