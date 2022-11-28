@@ -6,8 +6,8 @@
 
 package libraries.cypress
 
-public class TestUISpec extends JTEPipelineSpecification {
-  def TestUI = null
+public class EndToEndTestSpec extends JTEPipelineSpecification {
+  def EndToEndTest = null
 
   static class DummyException extends RuntimeException {
     DummyException(String _message) { super( _message ) }
@@ -17,19 +17,19 @@ public class TestUISpec extends JTEPipelineSpecification {
     LinkedHashMap env = [:]
     LinkedHashMap config = [:]
 
-    TestUI = loadPipelineScriptForStep("cypress", "test_ui")
+    EndToEndTest = loadPipelineScriptForStep("cypress", "end_to_end_test")
 
-    TestUI.getBinding().setVariable("env", env)
-    TestUI.getBinding().setProperty("config", config)
+    EndToEndTest.getBinding().setVariable("env", env)
+    EndToEndTest.getBinding().setProperty("config", config)
   }
 
   def "Fails when npm_script is missing" () {
     setup:
-      TestUI.getBinding().setVariable("config", [report_path: "cypress/report/path"])
+      EndToEndTest.getBinding().setVariable("config", [report_path: "cypress/report/path"])
       getPipelineMock("docker.image")(_) >> explicitlyMockPipelineVariable("Image")
     when:
       try {
-        TestUI()
+        EndToEndTest()
       } catch(DummyException e) {}
     then:
       1 * getPipelineMock("error")("Missing required parameter(s) (npm_script, report_path)")
@@ -37,11 +37,11 @@ public class TestUISpec extends JTEPipelineSpecification {
 
   def "Fails when report_path is missing" () {
     setup:
-      TestUI.getBinding().setVariable("config", [npm_script: "npm run something"])
+      EndToEndTest.getBinding().setVariable("config", [npm_script: "npm run something"])
       getPipelineMock("docker.image")(_) >> explicitlyMockPipelineVariable("Image")
     when:
       try {
-        TestUI()
+        EndToEndTest()
       } catch(DummyException e) {}
     then:
       1 * getPipelineMock("error")("Missing required parameter(s) (npm_script, report_path)")
@@ -49,11 +49,11 @@ public class TestUISpec extends JTEPipelineSpecification {
 
   def "External test repository steps work" () {
     setup:
-      TestUI.getBinding().setVariable("config", [npm_script: "npm run something", report_path: "cypress/report/path", test_repo: "https://github.com/boozallen/sdp-libraries", branch: "develop"])
+      EndToEndTest.getBinding().setVariable("config", [npm_script: "npm run something", report_path: "cypress/report/path", test_repo: "https://github.com/boozallen/sdp-libraries", branch: "develop"])
       getPipelineMock("docker.image")(_) >> explicitlyMockPipelineVariable("Image")
     when:
       try {
-        TestUI()
+        EndToEndTest()
       } catch(DummyException e) {}
     then:
       1 * getPipelineMock("sh")({it =~ / git clone https:\/\/github.com\/boozallen\/sdp-libraries /})
@@ -61,9 +61,9 @@ public class TestUISpec extends JTEPipelineSpecification {
 
   def "Cypress test step runs" () {
     setup:
-      TestUI.getBinding().setVariable("config", [npm_script: "npm run something", report_path: "cypress/report/path"])
+      EndToEndTest.getBinding().setVariable("config", [npm_script: "npm run something", report_path: "cypress/report/path"])
     when:
-      TestUI()
+      EndToEndTest()
     then:
       1 * getPipelineMock("docker.image")(_) >> explicitlyMockPipelineVariable("Image")
       1 * getPipelineMock("Image.inside")(_ as Closure)
@@ -72,11 +72,11 @@ public class TestUISpec extends JTEPipelineSpecification {
 
   def "Test artifacts are archived in Jenkins" () {
     setup:
-      TestUI.getBinding().setVariable("config", [npm_script: "npm run something", report_path: "cypress/report/path"])
+      EndToEndTest.getBinding().setVariable("config", [npm_script: "npm run something", report_path: "cypress/report/path"])
       getPipelineMock("docker.image")(_) >> explicitlyMockPipelineVariable("Image")
     when:
       try {
-        TestUI()
+        EndToEndTest()
       } catch(DummyException e) {}
     then:
       1 * getPipelineMock("archiveArtifacts.call")([artifacts: "cypress/report/path", allowEmptyArchive: true ])

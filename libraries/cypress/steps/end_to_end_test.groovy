@@ -8,7 +8,7 @@ package libraries.cypress.steps
 
 void call() {
 
-  stage("Frontend Testing (Cypress)") {
+  stage("End-to-End Testing (Cypress)") {
     // Required parameters
     String npmScript = config?.npm_script ?: null
     String reportPath = config?.report_path ?: null
@@ -19,6 +19,7 @@ void call() {
     
     // Optional parameters
     String testRepo = config?.test_repo ?: '.'
+    String testRepoCreds = config?.test_repo_creds ?: ''
     String branch = config?.branch ?: 'main'
     String containerImage = config?.container_image ?: 'cypress/browsers:node14.17.0-chrome91-ff89'
     String containerRegistry = config?.container_registry ?: 'https://index.docker.io/v1/'
@@ -31,12 +32,20 @@ void call() {
       // make temp test directory
       // cd into new directory
       // pull down test repository
-      sh """
+      String prepTestRepo = """
         mkdir test_repo_dir
         cd test_repo_dir
         git clone ${testRepo} .
         git checkout ${branch}
       """
+      if (testRepoCreds != '') {
+        withCredentials([usernamePassword(credentialsId: testRepoCreds, passwordVariable: 'PASS', usernameVariable: 'USER')]) {
+          sh prepTestRepo.replaceFirst("://","://${USER}:${PASS}@")
+        }
+      }
+      else {
+        sh prepTestRepo
+      }
     }
 
     // run tests inside container
