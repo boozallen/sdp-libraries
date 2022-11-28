@@ -51,11 +51,19 @@ void call() {
     // run tests inside container
     docker.withRegistry("${containerRegistry}", "${containerRegistryCreds}") {
       docker.image("${containerImage}").inside {
-        sh """
+        String runTests = """
           npm ci
           \$(npm bin)/cypress verify
           ${npmScript}
         """
+        if (testRepoCreds != '') {
+          dir('test_repo_dir') {
+            sh runTests
+          }
+        }
+        else {
+          sh runTests
+        }
       }
     }
 
