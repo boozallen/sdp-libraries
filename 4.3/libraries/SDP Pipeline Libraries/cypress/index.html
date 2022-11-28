@@ -6,7 +6,7 @@
       <meta charset="utf-8">
       <meta name="viewport" content="width=device-width,initial-scale=1">
       
-        <meta name="description" content="This library allows you to run end-to-end UI tests with Cypress">
+        <meta name="description" content="This library allows you to run end-to-end tests with Cypress">
       
       
       
@@ -1231,7 +1231,7 @@
                 
 
 <h1 id="cypress">Cypress<a class="headerlink" href="#cypress" title="Permanent link">&para;</a></h1>
-<p>This library allows you to run end-to-end UI tests with <a href="https://www.cypress.io/">Cypress</a>.</p>
+<p>This library allows you to run end-to-end tests with <a href="https://www.cypress.io/">Cypress</a>.</p>
 <h2 id="steps">Steps<a class="headerlink" href="#steps" title="Permanent link">&para;</a></h2>
 <table>
 <thead>
@@ -1242,7 +1242,7 @@
 </thead>
 <tbody>
 <tr>
-<td><code>test_ui()</code></td>
+<td><code>end_to_end_test()</code></td>
 <td>Runs tests defined in the configured <code>npm_script</code> in your project <code>package.json</code> file</td>
 </tr>
 </tbody>
@@ -1273,6 +1273,11 @@
 <td><code>.</code></td>
 </tr>
 <tr>
+<td><code>test_repo_creds</code></td>
+<td>Test code repository credentials</td>
+<td><code>''</code></td>
+</tr>
+<tr>
 <td><code>branch</code></td>
 <td>If using a separate <code>test_repo</code> for Cypress test code, allows you to define the repository branch to use</td>
 <td><code>main</code></td>
@@ -1299,7 +1304,8 @@
   <span class="n">cypress</span> <span class="o">{</span>
     <span class="n">npm_script</span> <span class="o">=</span> <span class="s1">&#39;npm run cy:run:myTestSuite&#39;</span>
     <span class="n">report_path</span> <span class="o">=</span> <span class="s1">&#39;cypress/reports/**&#39;</span>
-    <span class="n">test_repo</span> <span class="o">=</span> <span class="s1">&#39;.&#39;</span>
+    <span class="n">test_repo</span> <span class="o">=</span> <span class="s1">&#39;https://github.com/username/my-cypress-test-repository&#39;</span>
+    <span class="n">test_repo_creds</span> <span class="o">=</span> <span class="s1">&#39;my-github-creds&#39;</span>
     <span class="n">branch</span> <span class="o">=</span> <span class="s1">&#39;main&#39;</span>
     <span class="n">container_image</span> <span class="o">=</span> <span class="s1">&#39;cypress/browsers:node14.17.0-chrome91-ff89&#39;</span>
     <span class="n">container_registry</span> <span class="o">=</span> <span class="s1">&#39;https://index.docker.io/v1/&#39;</span>

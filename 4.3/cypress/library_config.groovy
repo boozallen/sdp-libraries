@@ -5,6 +5,7 @@ fields {
   }
   optional {
     test_repo = String
+    test_repo_creds = String
     branch = String
     container_image = String
     container_registry = String
