@@ -46,6 +46,8 @@ void call() {
       else {
         sh prepTestRepo
       }
+      //update reportPath
+      reportPath = "test_repo_dir/" + reportPath
     }
 
     // run tests inside container
