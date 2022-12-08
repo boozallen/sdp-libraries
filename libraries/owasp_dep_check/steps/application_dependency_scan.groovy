@@ -25,7 +25,7 @@ void call() {
       }
     }
 
-    String image_tag = config?.image_tag ?: "latest"
+    String image_tag = config?.image_tag ?: "7.3.0-8.6-2"
     inside_sdp_image "owasp-dep-check:$image_tag", {
       unstash "workspace"
 
