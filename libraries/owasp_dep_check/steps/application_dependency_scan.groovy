@@ -50,7 +50,7 @@ void call() {
         error "Error occured when running OWASP Dependency Check: ${ex.getMessage()}"
       } finally {
         archiveArtifacts allowEmptyArchive: true, artifacts: "${resultsDir}/"
-        junit allowEmptyResults: true, healthScaleFactor: 0.0, testResults: "${resultsDir}/dependency-check-junit.xml"
+        //junit allowEmptyResults: true, healthScaleFactor: 0.0, testResults: "${resultsDir}/dependency-check-junit.xml"
       }
     }
   }
