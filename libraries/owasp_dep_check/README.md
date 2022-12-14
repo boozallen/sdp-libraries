@@ -30,7 +30,7 @@ OWASP Dependency Check Library Configuration Options
 | `cvss_threshold`         | A number between 0 and 10, inclusive, representing the failure threshold for vulnerabilities (**note:** will never fail unless a threshold is provided) |                                    |
 | `allow_suppression_file` | Allows whitelisting vulnerabilities using a suppression XML file                                                                                        | `true`                             |
 | `suppression_file`       | Path to the suppression file (see [here](https://jeremylong.github.io/DependencyCheck/general/suppression.html) for how to create a suppression file)   | `dependency-check-suppression.xml` |
-| `image_tag`              | The tag for the scanner Docker image used                                                                                                               | `latest`                           |
+| `image_tag`              | The tag for the scanner Docker image used                                                                                                               | `7.3.0-8.6-2`                      |
 
 ## Example Configuration Snippet
 
