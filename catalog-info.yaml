@@ -21,4 +21,4 @@ metadata:
 spec:
   type: docs
   lifecycle: production
-  owner: uip/uip-studio
+  owner: uip/software-studio
