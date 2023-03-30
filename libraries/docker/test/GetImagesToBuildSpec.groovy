@@ -37,7 +37,7 @@ public class GetImagesToBuildSpec extends JTEPipelineSpecification {
     when:
       def imageList = GetImagesToBuild()
     then:
-      imageList == [[registry: "test_registry", repo:repo , context: build_context, tag: "8675309"]]
+      imageList == [[registry: "test_registry", repo:repo , context: build_context, tag: "8675309", dockerfile: "Dockerfile"]]
     where:
       build_strategy | build_context | repo
       "dockerfile"   | "."           | "git_repo"
@@ -52,7 +52,7 @@ public class GetImagesToBuildSpec extends JTEPipelineSpecification {
     when:
       def imageList = GetImagesToBuild()
     then:
-      imageList == [[registry: "test_registry", repo: repo, context: build_context, tag: "8675309"]]
+      imageList == [[registry: "test_registry", repo: repo, context: build_context, tag: "8675309", dockerfile: "Dockerfile"]]
     where:
       build_strategy | build_context | repo
       "dockerfile"   | "."           | "test_prefix/git_repo"
@@ -67,7 +67,7 @@ public class GetImagesToBuildSpec extends JTEPipelineSpecification {
     when:
       def imageList = GetImagesToBuild()
     then:
-      imageList == [[registry: "test_registry", repo: repo, context: build_context, tag: "8675309"]]
+      imageList == [[registry: "test_registry", repo: repo, context: build_context, tag: "8675309", dockerfile: "Dockerfile"]]
     where:
       build_strategy | build_context | repo
       "dockerfile"   | "."           | "test_prefix/my-cool-image-name"
@@ -80,12 +80,13 @@ public class GetImagesToBuildSpec extends JTEPipelineSpecification {
     when:
       GetImagesToBuild()
     then:
-      y * getPipelineMock("error")("build strategy: ${x} not one of [docker-compose, modules, dockerfile, buildx]")
+      y * getPipelineMock("error")("build strategy: ${x} not one of [docker-compose, modules, dockerfiles, dockerfile, buildx]")
     where:
       x                | y
       "docker-compose" | 0
       "Kobayashi Maru" | 1
       "modules"        | 0
+      "dockerfiles"     | 0
       "dockerfile"     | 0
       "Starfleet"      | 1
       "buildx"         | 0
@@ -114,12 +115,14 @@ public class GetImagesToBuildSpec extends JTEPipelineSpecification {
           registry: "test_registry",
           repo: "vulcan_planet",
           context: "planet",
-          tag: "1234abcd"
+          tag: "1234abcd",
+          dockerfile: "Dockerfile"
         ], [
           registry: "test_registry",
           repo: "vulcan_planet2",
           context: "planet2",
-          tag: "1234abcd"
+          tag: "1234abcd",
+          dockerfile: "Dockerfile"
         ]
       ]
   }
@@ -132,7 +135,7 @@ public class GetImagesToBuildSpec extends JTEPipelineSpecification {
     when:
       def imageList = GetImagesToBuild()
     then:
-      imageList == [[registry: "test_registry", repo: "vulcan", context: ".", tag: "5678efgh"]]
+      imageList == [[registry: "test_registry", repo: "vulcan", context: ".", tag: "5678efgh", dockerfile: "Dockerfile"]]
   }
 
   def "buildx build_strategy Builds Correct Image for single multiarch image" () {
