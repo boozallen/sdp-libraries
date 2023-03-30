@@ -18,12 +18,12 @@ The Docker library will build Docker images and push them into a Docker reposito
 | `login_to_registry()`   | logs in to the configured container registry                                                                                |
 | `retag()`               | retags the container images determined by `get_images_to_build()`                                                           |
 
-## Example Configuration Snippet
+## Example Configuration Snippets
 
 ---
 
 ```groovy
-libraries{
+libraries {
   docker {
     build_strategy = "dockerfile"
     registry = "docker-registry.default.svc:5000"
@@ -31,8 +31,8 @@ libraries{
     repo_path_prefix = "proj-images"
     image_name = "my-container-image"
     remove_local_image = true
-    build_args{
-      GITHUB_TOKEN{
+    build_args {
+      GITHUB_TOKEN {
         type = "credential"
         id = "github_token"
       }
@@ -42,29 +42,53 @@ libraries{
 }
 ```
 
+```groovy
+libraries {
+  docker {
+    build_strategy = 'dockerfiles'
+    registry = "docker-registry.default.svc:5000"
+    cred = "openshift-docker-registry"
+    repo_path_prefix = "proj-images"
+    image_name = "my-container-image"
+    remove_local_image = true
+    dockerfiles {
+      backend {
+        context = '.'
+        dockerfile = 'Dockerfile.backend'
+      }
+      frontend {
+        context = '.'
+        dockerfile = 'Dockerfile.frontend'
+      }
+    }
+  }
+}
+```
+
 ## Configuration
 
 ---
 
-| Field                      | Description                                                                                                  | Default Value       | Required |
-| -------------------------- | ------------------------------------------------------------------------------------------------------------ | ------------------- | -------- |
-| `build_strategy`           | Sets how the library will build the container image(s); must be `dockerfile`, `docker-compose`, or `modules` | `dockerfile`        | No       |
-| `registry`                 | Where the container images produced during the pipeline builds are going to be pushed to                     |                     | Yes      |
-| `registry_protocol`        | the protocol to prepend to the `registry` when authenticating to the container registry                      | `"https://"`        | No       |
-| `cred`                     | Credentials used for the repository where different docker pipeline tools are stored                         |                     | Yes      |
-| `repo_path_prefix`         | The part of the repository name between the registry name and the last forward-slash                         | ""                  | No       |
-| `image_name`               | Name of the container image being built                                                                      | `env.REPO_NAME`     | No       |
-| `remove_local_image`       | Determines if the pipeline should remove the local image after building or retagging                         | `false`             | No       |
-| `build_args`               | A block of build arguments to pass to `docker build` (for more information, see below)                       |                     | No       |
-| `setExperimentalFlag`      | If the docker version only has buildx as an experimental feature then this allows that flag to be set        | `false`             | No       |
-| `same_repo_different_tags` | When building multiple images don't change the repository name but append the key name to the tag            | `false`             | No       |
-| `buildx[].name { }`        | the key name to the map of the specific element of the buildx array                                          |                     | Yes      |
-| `buildx[].useLatestTag`    | Add an additional latest tag to the image being built on top of the other tag                                | `false`             | No       |
-| `buildx[].tag`             | Override the tag with a string                                                                               | Git SHA from commit | No       |
-| `buildx[].context`         | Dockerfile context for that image                                                                            | `"."`               | No       |
-| `buildx[].dockerfile_path` | Dockerfile location and name for that image                                                                  | `"Dockerfile"`      | No       |
-| `buildx[].platforms`       | array of platforms to be built for that image                                                                | `linux/amd64`       | No       |
-| `buildx[].build_args`      | A block of build arguments to pass for that element to `docker buildx` (for more information, see below)     |                     |          |
+| Field                      | Description                                                                                                                 | Default Value       | Required |
+| -------------------------- | --------------------------------------------------------------------------------------------------------------------------- | ------------------- | -------- |
+| `build_strategy`           | Sets how the library will build the container image(s); must be `dockerfile`, `dockerfiles`, `docker-compose`, or `modules` | `dockerfile`        | No       |
+| `registry`                 | Where the container images produced during the pipeline builds are going to be pushed to                                    |                     | Yes      |
+| `registry_protocol`        | the protocol to prepend to the `registry` when authenticating to the container registry                                     | `"https://"`        | No       |
+| `cred`                     | Credentials used for the repository where different docker pipeline tools are stored                                        |                     | Yes      |
+| `repo_path_prefix`         | The part of the repository name between the registry name and the last forward-slash                                        | ""                  | No       |
+| `image_name`               | Name of the container image being built                                                                                     | `env.REPO_NAME`     | No       |
+| `remove_local_image`       | Determines if the pipeline should remove the local image after building or retagging                                        | `false`             | No       |
+| `build_args`               | A block of build arguments to pass to `docker build` (for more information, see below)                                      |                     | No       |
+| `setExperimentalFlag`      | If the docker version only has buildx as an experimental feature then this allows that flag to be set                       | `false`             | No       |
+| `same_repo_different_tags` | When building multiple images don't change the repository name but append the key name to the tag                           | `false`             | No       |
+| `dockerfiles`              | A map of Dockerfiles to build for the `dockerfiles` build strategy                                                          |                     | No       |
+| `buildx[].name { }`        | the key name to the map of the specific element of the buildx array                                                         |                     | Yes      |
+| `buildx[].useLatestTag`    | Add an additional latest tag to the image being built on top of the other tag                                               | `false`             | No       |
+| `buildx[].tag`             | Override the tag with a string                                                                                              | Git SHA from commit | No       |
+| `buildx[].context`         | Dockerfile context for that image                                                                                           | `"."`               | No       |
+| `buildx[].dockerfile_path` | Dockerfile location and name for that image                                                                                 | `"Dockerfile"`      | No       |
+| `buildx[].platforms`       | array of platforms to be built for that image                                                                               | `linux/amd64`       | No       |
+| `buildx[].build_args`      | A block of build arguments to pass for that element to `docker buildx` (for more information, see below)                    |                     |          |
 
 ## Build Arguments
 
