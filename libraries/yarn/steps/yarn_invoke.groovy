@@ -166,13 +166,15 @@ void setEnvVars(libStepConfig, appStepConfig, config, app_env) {
                          libStepConfig?.yarnInstall ?:
                          "frozen-lockfile"
 
-    if (!["install", "frozen-lockfile", "skip"].contains(yarnInstall)) {
-        error("yarnInstall must be one of \"install\", \"frozen-lockfile\" or \"skip\"; got \"$yarnInstall\"")
+    if (!["install", "frozen-lockfile", "skip", "immutable"].contains(yarnInstall)) {
+        error("yarnInstall must be one of \"install\", \"frozen-lockfile\" \"skip\" or \"immutable\"; got \"$yarnInstall\"")
     }
 
     env.yarnInstall = (yarnInstall == "frozen-lockfile")
                       ? "install --frozen-lockfile"
-                      : yarnInstall
+                      : (yarnInstall == "immutable")
+                        ? "install --immutable"
+                        : yarnInstall
 
     env.scriptCommand = appStepConfig?.script ?:
                         libStepConfig?.script ?:
