@@ -9,25 +9,25 @@ public class NpmInvokeSpec extends JTEPipelineSpecification {
   def NpmInvoke = null
 
   def shellCommandWithNpmInstall = '''
-                            set +x
-                            source ~/.bashrc
-                            nvm install $node_version
-                            nvm version
+                                set +x
+                                source ~/.bashrc
+                                nvm install $node_version
+                                nvm version
 
-                            echo 'Running with NPM install'
-                            npm $npmInstall
-                            npm run $scriptCommand
-                        '''
+                                echo 'Running with NPM install'
+                                npm $npmInstall
+                                npm run $scriptCommand
+                            '''
 
   def shellCommandWithoutNpmInstall = '''
-                            set +x
-                            source ~/.bashrc
-                            nvm install $node_version
-                            nvm version
+                                set +x
+                                source ~/.bashrc
+                                nvm install $node_version
+                                nvm version
 
-                            echo 'Running without NPM install'
-                            npm run $scriptCommand
-                        '''
+                                echo 'Running without NPM install'
+                                npm run $scriptCommand
+                            '''
 
   LinkedHashMap minimalUnitTestConfig = [
     unit_test: [
