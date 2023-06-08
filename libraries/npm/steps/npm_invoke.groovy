@@ -11,7 +11,9 @@ void call(app_env = [:]) {
     LinkedHashMap libStepConfig = config?."${stepContext.name}" ?: [:]
     LinkedHashMap appStepConfig = app_env?.npm?."${stepContext.name}" ?: [:]
 
-    String nvmContainer = config?.nvm_container ?: "nvm:1.0.0"
+    String nvmContainer = libStepConfig?.nvm_container ?:
+                          config?.nvm_container ?:
+                          "nvm:1.0.0"
 
     String stageName = appStepConfig?.stageName ?:
                        libStepConfig?.stageName ?:
@@ -33,62 +35,78 @@ void call(app_env = [:]) {
         this.setEnvVars(libStepConfig, appStepConfig, config, app_env)
 
         // run npm command in nvm container
-        withCredentials(creds) {
-            inside_sdp_image(nvmContainer) {
-                unstash "workspace"
+        def npmBlock = {
+            withCredentials(creds) {
+                inside_sdp_image(nvmContainer) {
+                    unstash "workspace"
 
-                // verify package.json script block has command to run
-                def packageJson = readJSON(file: "package.json")
-                if (!packageJson?.scripts?.containsKey(env.scriptCommand)) {
-                    error("script: '$env.scriptCommand' not found in package.json scripts")
-                }
-                
-                try {
-                    if (env.npmInstall != "skip") {
-                        // run script command after installing dependencies
-                        sh '''
-                            set +x
-                            source ~/.bashrc
-                            nvm install $node_version
-                            nvm version
-
-                            echo 'Running with NPM install'
-                            npm $npmInstall
-                            npm run $scriptCommand
-                        '''
-                    }
-                    else {
-                        // run script command without installing dependencies
-                        sh '''
-                            set +x
-                            source ~/.bashrc
-                            nvm install $node_version
-                            nvm version
-
-                            echo 'Running without NPM install'
-                            npm run $scriptCommand
-                        '''
-                    }
-                }
-                catch (any) {
-                    throw any
-                }
-                finally {
-                    // archive artifacts
-                    artifacts.each{ artifact ->
-                        archiveArtifacts artifacts: artifact, allowEmptyArchive: true
+                    // verify package.json script block has command to run
+                    def packageJson = readJSON(file: "package.json")
+                    if (!packageJson?.scripts?.containsKey(env.scriptCommand)) {
+                        error("script: '$env.scriptCommand' not found in package.json scripts")
                     }
 
-                    // check if using ESLint plugin
-                    def usingEslintPlugin = appStepConfig?.useEslintPlugin ?:
-                                            libStepConfig?.useEslintPlugin ?:
-                                            false
+                    try {
+                        if (env.npmInstall != "skip") {
+                            // run script command after installing dependencies
+                            sh '''
+                                set +x
+                                source ~/.bashrc
+                                nvm install $node_version
+                                nvm version
 
-                    if (usingEslintPlugin) {
-                        recordIssues enabledForFailure: true, tool: esLint(pattern: 'eslint-report.xml')
+                                echo 'Running with NPM install'
+                                npm $npmInstall
+                                npm run $scriptCommand
+                            '''
+                        }
+                        else {
+                            // run script command without installing dependencies
+                            sh '''
+                                set +x
+                                source ~/.bashrc
+                                nvm install $node_version
+                                nvm version
+
+                                echo 'Running without NPM install'
+                                npm run $scriptCommand
+                            '''
+                        }
+                    }
+                    catch (any) {
+                        throw any
+                    }
+                    finally {
+                        // archive artifacts
+                        artifacts.each{ artifact ->
+                            archiveArtifacts artifacts: artifact, allowEmptyArchive: true
+                        }
+
+                        // check if using ESLint plugin
+                        def usingEslintPlugin = appStepConfig?.useEslintPlugin ?:
+                                                libStepConfig?.useEslintPlugin ?:
+                                                false
+
+                        if (usingEslintPlugin) {
+                            recordIssues enabledForFailure: true, tool: esLint(pattern: 'eslint-report.xml')
+                        }
                     }
                 }
             }
+        }
+
+        if (libStepConfig.git) {
+            try {
+                withGit url: libStepConfig.git.url, cred: libStepConfig.git.cred, branch: libStepConfig.git.branch, {
+                    npmBlock()
+                }
+            }
+            catch (any) {
+                throw any
+            }
+        }
+        else {
+            npmBlock()
         }
     }
 }
@@ -150,7 +168,9 @@ void setEnvVars(libStepConfig, appStepConfig, config, app_env) {
         env[it.key] = it.value
     }
 
-    env.node_version = app_env?.npm?.node_version ?: 
+    env.node_version = appStepConfig?.node_version ?:
+                       libStepConfig?.node_version ?:
+                       app_env?.npm?.node_version ?:
                        config?.node_version ?:
                        'lts/*'
     

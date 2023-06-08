@@ -32,17 +32,23 @@ libraries {
 
 ---
 
-| Field                         | Description                                                                                                                           | Default   |
-| ----------------------------- | ------------------------------------------------------------------------------------------------------------------------------------- | --------- |
-| `nvm_container`               | The container image to use                                                                                                            | nvm:1.0.0 |
-| `node_version`                | Node version to run NPM within (installed via NVM)                                                                                    | `lts/*`   |
-| `<step name>.stageName`       | stage name displayed in the Jenkins dashboard                                                                                         | N/A       |
-| `<step name>.script`          | NPM script ran by the step                                                                                                            | N/A       |
-| `<step name>.artifacts`       | array of glob patterns for artifacts that should be archived                                                                          |
-| `<step name>.npmInstall`      | NPM install command to run; npm install can be skipped with value "skip"                                                              | `ci`      |
-| `<step name>.env`             | environment variables to make available to the NPM process; can include key/value pairs and secrets                                   | `[]`      |
-| `<step name>.env.secrets`     | text or username/password credentials to make available to the NPM process; must be present and available in Jenkins credential store | `[]`      |
-| `<step name>.useEslintPlugin` | if the Jenkins ESLint Plugin is installed, will run the `recordIssues` step to send lint results to the plugin dashboard              | `false`   |
+| Field                         | Description                                                                                                                           | Default     |
+| ----------------------------- | ------------------------------------------------------------------------------------------------------------------------------------- | ----------- |
+| `nvm_container`               | The container image to use                                                                                                            | `nvm:1.0.0` |
+| `node_version`                | Node version to run NPM within (installed via NVM)                                                                                    | `lts/*`     |
+| `<step name>.stageName`       | stage name displayed in the Jenkins dashboard                                                                                         | N/A         |
+| `<step name>.script`          | NPM script ran by the step                                                                                                            | N/A         |
+| `<step name>.artifacts`       | array of glob patterns for artifacts that should be archived                                                                          | `[]`        |
+| `<step name>.npmInstall`      | NPM install command to run; npm install can be skipped with value "skip"                                                              | `ci`        |
+| `<step name>.env`             | environment variables to make available to the NPM process; can include key/value pairs and secrets                                   | `[]`        |
+| `<step name>.env.secrets`     | text or username/password credentials to make available to the NPM process; must be present and available in Jenkins credential store | `[]`        |
+| `<step name>.useEslintPlugin` | if the Jenkins ESLint Plugin is installed, will run the `recordIssues` step to send lint results to the plugin dashboard              | `false`     |
+| `<step name>.nvm_container`   | The container image to use (if overriding library default)                                                                            | N/A         |
+| `<step name>.node_version`    | Node version to run NPM within (if overriding library default)                                                                        | N/A         |
+| `<step name>.git.url`         | Git repository to pull and run NPM script from (when different than base job/repository)                                              | N/A         |
+| `<step name>.git.cred`        | ID of credentials to pull the optional Git repository; must be present and available in Jenkins credential store                      | N/A         |
+| `<step name>.git.branch`      | Branch to checkout from optional Git repository                                                                                       | N/A         |
+
 
 ### Full Configuration Example
 
@@ -195,6 +201,17 @@ libraries {
             id = "some-credential-id"
           }
         }
+      }
+    }
+    end_to_end_tests {
+      stageName = "Cypress End-to-End Tests"
+      script = "cy:run"
+      artifacts = ["cypress-results/**/*"]
+      nvm_container = "nvm-chrome-1.0.0"
+      git {
+        url = "https://www.github.com/myaccount/mycypresstestrepo"
+        cred = "github-pat"
+        branch = "main"
       }
     }
   }
