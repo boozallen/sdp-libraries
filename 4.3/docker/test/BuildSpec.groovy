@@ -17,8 +17,8 @@ public class BuildSpec extends JTEPipelineSpecification {
 
     getPipelineMock("get_images_to_build")() >> {
       def images = []
-      images << [registry: "reg1", repo: "repo1", context: "context1", tag: "tag1"]
-      images << [registry: "reg2", repo: "repo2", context: "context2", tag: "tag2"]
+      images << [registry: "reg1", repo: "repo1", context: "context1", tag: "tag1", dockerfile: "Dockerfile"]
+      images << [registry: "reg2", repo: "repo2", context: "context2", tag: "tag2", dockerfile: "Dockerfile.test"]
       return images
     }
   }
@@ -45,8 +45,8 @@ public class BuildSpec extends JTEPipelineSpecification {
     when:
       Build()
     then:
-      1 * getPipelineMock("sh")("docker build context1 -t reg1/repo1:tag1 ")
-      1 * getPipelineMock("sh")("docker build context2 -t reg2/repo2:tag2 ")
+      1 * getPipelineMock("sh")("docker build -f Dockerfile context1 -t reg1/repo1:tag1 ")
+      1 * getPipelineMock("sh")("docker build -f Dockerfile.test context2 -t reg2/repo2:tag2 ")
   }
 
   def "Each Image is Properly Pushed" () {

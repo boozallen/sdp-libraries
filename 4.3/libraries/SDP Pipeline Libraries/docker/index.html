@@ -751,8 +751,8 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#example-configuration-snippet" class="md-nav__link">
-    Example Configuration Snippet
+  <a href="#example-configuration-snippets" class="md-nav__link">
+    Example Configuration Snippets
   </a>
   
 </li>
@@ -1278,8 +1278,8 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#example-configuration-snippet" class="md-nav__link">
-    Example Configuration Snippet
+  <a href="#example-configuration-snippets" class="md-nav__link">
+    Example Configuration Snippets
   </a>
   
 </li>
@@ -1426,9 +1426,9 @@
 </tr>
 </tbody>
 </table>
-<h2 id="example-configuration-snippet">Example Configuration Snippet<a class="headerlink" href="#example-configuration-snippet" title="Permanent link">&para;</a></h2>
+<h2 id="example-configuration-snippets">Example Configuration Snippets<a class="headerlink" href="#example-configuration-snippets" title="Permanent link">&para;</a></h2>
 <hr />
-<div class="highlight"><pre><span></span><code><span class="n">libraries</span><span class="o">{</span>
+<div class="highlight"><pre><span></span><code><span class="n">libraries</span> <span class="o">{</span>
   <span class="n">docker</span> <span class="o">{</span>
     <span class="n">build_strategy</span> <span class="o">=</span> <span class="s2">&quot;dockerfile&quot;</span>
     <span class="n">registry</span> <span class="o">=</span> <span class="s2">&quot;docker-registry.default.svc:5000&quot;</span>
@@ -1436,12 +1436,33 @@
     <span class="n">repo_path_prefix</span> <span class="o">=</span> <span class="s2">&quot;proj-images&quot;</span>
     <span class="n">image_name</span> <span class="o">=</span> <span class="s2">&quot;my-container-image&quot;</span>
     <span class="n">remove_local_image</span> <span class="o">=</span> <span class="kc">true</span>
-    <span class="n">build_args</span><span class="o">{</span>
-      <span class="n">GITHUB_TOKEN</span><span class="o">{</span>
+    <span class="n">build_args</span> <span class="o">{</span>
+      <span class="n">GITHUB_TOKEN</span> <span class="o">{</span>
         <span class="n">type</span> <span class="o">=</span> <span class="s2">&quot;credential&quot;</span>
         <span class="n">id</span> <span class="o">=</span> <span class="s2">&quot;github_token&quot;</span>
       <span class="o">}</span>
       <span class="n">SOME_VALUE</span> <span class="o">=</span> <span class="s2">&quot;some-inline-value-here&quot;</span>
+    <span class="o">}</span>
+  <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><span class="n">libraries</span> <span class="o">{</span>
+  <span class="n">docker</span> <span class="o">{</span>
+    <span class="n">build_strategy</span> <span class="o">=</span> <span class="s1">&#39;dockerfiles&#39;</span>
+    <span class="n">registry</span> <span class="o">=</span> <span class="s2">&quot;docker-registry.default.svc:5000&quot;</span>
+    <span class="n">cred</span> <span class="o">=</span> <span class="s2">&quot;openshift-docker-registry&quot;</span>
+    <span class="n">repo_path_prefix</span> <span class="o">=</span> <span class="s2">&quot;proj-images&quot;</span>
+    <span class="n">image_name</span> <span class="o">=</span> <span class="s2">&quot;my-container-image&quot;</span>
+    <span class="n">remove_local_image</span> <span class="o">=</span> <span class="kc">true</span>
+    <span class="n">dockerfiles</span> <span class="o">{</span>
+      <span class="n">backend</span> <span class="o">{</span>
+        <span class="n">context</span> <span class="o">=</span> <span class="s1">&#39;.&#39;</span>
+        <span class="n">dockerfile</span> <span class="o">=</span> <span class="s1">&#39;Dockerfile.backend&#39;</span>
+      <span class="o">}</span>
+      <span class="n">frontend</span> <span class="o">{</span>
+        <span class="n">context</span> <span class="o">=</span> <span class="s1">&#39;.&#39;</span>
+        <span class="n">dockerfile</span> <span class="o">=</span> <span class="s1">&#39;Dockerfile.frontend&#39;</span>
+      <span class="o">}</span>
     <span class="o">}</span>
   <span class="o">}</span>
 <span class="o">}</span>
@@ -1460,7 +1481,7 @@
 <tbody>
 <tr>
 <td><code>build_strategy</code></td>
-<td>Sets how the library will build the container image(s); must be <code>dockerfile</code>, <code>docker-compose</code>, or <code>modules</code></td>
+<td>Sets how the library will build the container image(s); must be <code>dockerfile</code>, <code>dockerfiles</code>, <code>docker-compose</code>, or <code>modules</code></td>
 <td><code>dockerfile</code></td>
 <td>No</td>
 </tr>
@@ -1516,6 +1537,12 @@
 <td><code>same_repo_different_tags</code></td>
 <td>When building multiple images don't change the repository name but append the key name to the tag</td>
 <td><code>false</code></td>
+<td>No</td>
+</tr>
+<tr>
+<td><code>dockerfiles</code></td>
+<td>A map of Dockerfiles to build for the <code>dockerfiles</code> build strategy</td>
+<td></td>
 <td>No</td>
 </tr>
 <tr>
