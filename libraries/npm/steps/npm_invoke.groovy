@@ -57,7 +57,7 @@ void call(app_env = [:]) {
 
                                 echo 'Running with NPM install'
                                 npm $npmInstall
-                                npm run $scriptCommand
+                                npm run $scriptCommand $scriptArgs
                             '''
                         }
                         else {
@@ -69,7 +69,7 @@ void call(app_env = [:]) {
                                 nvm version
 
                                 echo 'Running without NPM install'
-                                npm run $scriptCommand
+                                npm run $scriptCommand $scriptArgs
                             '''
                         }
                     }
@@ -185,6 +185,11 @@ void setEnvVars(libStepConfig, appStepConfig, config, app_env) {
     env.scriptCommand = appStepConfig?.script ?:
                         libStepConfig?.script ?:
                         null
+
+    def scriptArgs = appStepConfig?.scriptArgs ?:
+                     libStepConfig?.scriptArgs ?:
+                     []
+    env.scriptArgs = scriptArgs.join(" ")
 
     if (!env.scriptCommand) {
         error("No script command found for step: " + stepContext.name)
