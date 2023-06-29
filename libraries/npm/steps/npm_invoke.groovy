@@ -38,6 +38,7 @@ void call(app_env = [:]) {
         def npmBlock = {
             withCredentials(creds) {
                 inside_sdp_image(nvmContainer) {
+                    // if we're running inside a different Git repo, don't unstash
                     if (!libStepConfig.git) {
                         unstash "workspace"
                     }
