@@ -38,6 +38,7 @@ libraries {
 | `node_version`                | Node version to run NPM within (installed via NVM)                                                                                    | `lts/*`     |
 | `<step name>.stageName`       | stage name displayed in the Jenkins dashboard                                                                                         | N/A         |
 | `<step name>.script`          | NPM script ran by the step                                                                                                            | N/A         |
+| `<step name>.scriptArgs`      | array of arguments to pass to the NPM script                                                                                          | `[]`        |
 | `<step name>.artifacts`       | array of glob patterns for artifacts that should be archived                                                                          | `[]`        |
 | `<step name>.npmInstall`      | NPM install command to run; npm install can be skipped with value "skip"                                                              | `ci`        |
 | `<step name>.env`             | environment variables to make available to the NPM process; can include key/value pairs and secrets                                   | `[]`        |
@@ -141,6 +142,7 @@ libraries {
     unit_test {
       stageName = "NPM Unit Tests"
       script = "test"
+      scriptArgs = ["--test=my_tests/unit_test"]
       npmInstall = "install"
       env {
         someKey = "someValue for tests"
@@ -206,6 +208,7 @@ libraries {
     end_to_end_tests {
       stageName = "Cypress End-to-End Tests"
       script = "cy:run"
+      scriptArgs = ["--env=test", "--test=test_suites/my_tests/validation_test"]
       artifacts = ["cypress-results/**/*"]
       nvm_container = "nvm-chrome-1.0.0"
       git {
