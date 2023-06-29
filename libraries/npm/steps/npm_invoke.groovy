@@ -35,11 +35,12 @@ void call(app_env = [:]) {
         this.setEnvVars(libStepConfig, appStepConfig, config, app_env)
 
         // run npm command in nvm container
-        @NonCPS
         def npmBlock = {
             withCredentials(creds) {
                 inside_sdp_image(nvmContainer) {
-                    unstash "workspace"
+                    if (!libStepConfig.git) {
+                        unstash "workspace"
+                    }
 
                     // verify package.json script block has command to run
                     def packageJson = readJSON(file: "package.json")
