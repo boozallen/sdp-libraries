@@ -1329,7 +1329,7 @@ Environment variables and secrets with the same key are set to the definition co
 <tr>
 <td><code>nvm_container</code></td>
 <td>The container image to use</td>
-<td>nvm:1.0.0</td>
+<td><code>nvm:1.0.0</code></td>
 </tr>
 <tr>
 <td><code>node_version</code></td>
@@ -1347,9 +1347,14 @@ Environment variables and secrets with the same key are set to the definition co
 <td>N/A</td>
 </tr>
 <tr>
+<td><code>&lt;step name&gt;.scriptArgs</code></td>
+<td>array of arguments to pass to the NPM script</td>
+<td><code>[]</code></td>
+</tr>
+<tr>
 <td><code>&lt;step name&gt;.artifacts</code></td>
 <td>array of glob patterns for artifacts that should be archived</td>
-<td></td>
+<td><code>[]</code></td>
 </tr>
 <tr>
 <td><code>&lt;step name&gt;.npmInstall</code></td>
@@ -1370,6 +1375,31 @@ Environment variables and secrets with the same key are set to the definition co
 <td><code>&lt;step name&gt;.useEslintPlugin</code></td>
 <td>if the Jenkins ESLint Plugin is installed, will run the <code>recordIssues</code> step to send lint results to the plugin dashboard</td>
 <td><code>false</code></td>
+</tr>
+<tr>
+<td><code>&lt;step name&gt;.nvm_container</code></td>
+<td>The container image to use (if overriding library default)</td>
+<td>N/A</td>
+</tr>
+<tr>
+<td><code>&lt;step name&gt;.node_version</code></td>
+<td>Node version to run NPM within (if overriding library default)</td>
+<td>N/A</td>
+</tr>
+<tr>
+<td><code>&lt;step name&gt;.git.url</code></td>
+<td>Git repository to pull and run NPM script from (when different than base job/repository)</td>
+<td>N/A</td>
+</tr>
+<tr>
+<td><code>&lt;step name&gt;.git.cred</code></td>
+<td>ID of credentials to pull the optional Git repository; must be present and available in Jenkins credential store</td>
+<td>N/A</td>
+</tr>
+<tr>
+<td><code>&lt;step name&gt;.git.branch</code></td>
+<td>Branch to checkout from optional Git repository</td>
+<td>N/A</td>
 </tr>
 </tbody>
 </table>
@@ -1461,6 +1491,7 @@ Environment variables and secrets with the same key are set to the definition co
     <span class="n">unit_test</span> <span class="o">{</span>
       <span class="n">stageName</span> <span class="o">=</span> <span class="s2">&quot;NPM Unit Tests&quot;</span>
       <span class="n">script</span> <span class="o">=</span> <span class="s2">&quot;test&quot;</span>
+      <span class="n">scriptArgs</span> <span class="o">=</span> <span class="o">[</span><span class="s2">&quot;--test=my_tests/unit_test&quot;</span><span class="o">]</span>
       <span class="n">npmInstall</span> <span class="o">=</span> <span class="s2">&quot;install&quot;</span>
       <span class="n">env</span> <span class="o">{</span>
         <span class="n">someKey</span> <span class="o">=</span> <span class="s2">&quot;someValue for tests&quot;</span>
@@ -1521,6 +1552,18 @@ Environment variables and secrets with the same key are set to the definition co
             <span class="n">id</span> <span class="o">=</span> <span class="s2">&quot;some-credential-id&quot;</span>
           <span class="o">}</span>
         <span class="o">}</span>
+      <span class="o">}</span>
+    <span class="o">}</span>
+    <span class="n">end_to_end_tests</span> <span class="o">{</span>
+      <span class="n">stageName</span> <span class="o">=</span> <span class="s2">&quot;Cypress End-to-End Tests&quot;</span>
+      <span class="n">script</span> <span class="o">=</span> <span class="s2">&quot;cy:run&quot;</span>
+      <span class="n">scriptArgs</span> <span class="o">=</span> <span class="o">[</span><span class="s2">&quot;--env=test&quot;</span><span class="o">,</span> <span class="s2">&quot;--test=test_suites/my_tests/validation_test&quot;</span><span class="o">]</span>
+      <span class="n">artifacts</span> <span class="o">=</span> <span class="o">[</span><span class="s2">&quot;cypress-results/**/*&quot;</span><span class="o">]</span>
+      <span class="n">nvm_container</span> <span class="o">=</span> <span class="s2">&quot;nvm-chrome-1.0.0&quot;</span>
+      <span class="n">git</span> <span class="o">{</span>
+        <span class="n">url</span> <span class="o">=</span> <span class="s2">&quot;https://www.github.com/myaccount/mycypresstestrepo&quot;</span>
+        <span class="n">cred</span> <span class="o">=</span> <span class="s2">&quot;github-pat&quot;</span>
+        <span class="n">branch</span> <span class="o">=</span> <span class="s2">&quot;main&quot;</span>
       <span class="o">}</span>
     <span class="o">}</span>
   <span class="o">}</span>
