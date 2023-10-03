@@ -3,7 +3,7 @@ kind: Component
 metadata:
   name: sdp-libraries
   title: Solutions Delivery Platform (SDP) Libraries
-  description: "The Solutions Delivery Platform Pipeline Libraries for the Jenkins Templating Engine (JTE)"
+  description: 'The Solutions Delivery Platform Pipeline Libraries for the Jenkins Templating Engine (JTE)'
   annotations:
     github.com/project-slug: boozallen/sdp-libraries
   tags:
@@ -15,6 +15,7 @@ metadata:
     - devsecops
     - devops
     - supply-chain-security
+    - reusable
   links:
     - url: https://boozallen.github.io/sdp-docs/sdp-libraries/
       title: Documentation Website
