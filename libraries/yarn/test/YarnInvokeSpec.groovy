@@ -174,6 +174,16 @@ public class YarnInvokeSpec extends JTEPipelineSpecification {
       1 * getPipelineMock("sh")(shellCommandWithoutYarnInstall)
   }
 
+  def "Uses Yarn install with 'immutable' when yarnInstall is set to \"immutable\"; runs yarn install step" () {
+    setup:
+      YarnInvoke.getBinding().setVariable("config", [unit_test: [stageName: "Yarn Unit Tests", script: "test", yarnInstall: "immutable"]])
+    when:
+      YarnInvoke()
+    then:
+      YarnInvoke.getBinding().variables.env.yarnInstall == "install --immutable"
+      1 * getPipelineMock("sh")(shellCommandWithYarnInstall)
+  }
+
   def "Archives artifacts correctly" () {
     setup:
       YarnInvoke.getBinding().setVariable("config", [

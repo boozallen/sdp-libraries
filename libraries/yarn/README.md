@@ -39,8 +39,8 @@ libraries {
 | `yarn_version`                | Yarn version to use                                                                                                                    | `latest`          |
 | `<step name>.stageName`       | stage name displayed in the Jenkins dashboard                                                                                          | N/A               |
 | `<step name>.script`          | Yarn script ran by the step                                                                                                            | N/A               |
-| `<step name>.artifacts`       | array of glob patterns for artifacts that should be archived                                                                           |
-| `<step name>.yarnInstall`     | Yarn install command to run; Yarn install can be skipped with value "skip"                                                             | `frozen-lockfile` |
+| `<step name>.artifacts`       | array of glob patterns for artifacts that should be archived                                                                           |                   |
+| `<step name>.yarnInstall`     | Yarn install command to run; Yarn install can be skipped with value `skip`; Also supports `immutable` for Yarn 3 setups                | `frozen-lockfile` |
 | `<step name>.env`             | environment variables to make available to the Yarn process; can include key/value pairs and secrets                                   | `[]`              |
 | `<step name>.env.secrets`     | text or username/password credentials to make available to the Yarn process; must be present and available in Jenkins credential store | `[]`              |
 | `<step name>.useEslintPlugin` | if the Jenkins ESLint Plugin is installed, will run the `recordIssues` step to send lint results to the plugin dashboard               | `false`           |

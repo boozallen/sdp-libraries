@@ -9,25 +9,25 @@ public class NpmInvokeSpec extends JTEPipelineSpecification {
   def NpmInvoke = null
 
   def shellCommandWithNpmInstall = '''
-                            set +x
-                            source ~/.bashrc
-                            nvm install $node_version
-                            nvm version
+                                set +x
+                                source ~/.bashrc
+                                nvm install $node_version
+                                nvm version
 
-                            echo 'Running with NPM install'
-                            npm $npmInstall
-                            npm run $scriptCommand
-                        '''
+                                echo 'Running with NPM install'
+                                npm $npmInstall
+                                npm run $scriptCommand $scriptArgs
+                            '''
 
   def shellCommandWithoutNpmInstall = '''
-                            set +x
-                            source ~/.bashrc
-                            nvm install $node_version
-                            nvm version
+                                set +x
+                                source ~/.bashrc
+                                nvm install $node_version
+                                nvm version
 
-                            echo 'Running without NPM install'
-                            npm run $scriptCommand
-                        '''
+                                echo 'Running without NPM install'
+                                npm run $scriptCommand $scriptArgs
+                            '''
 
   LinkedHashMap minimalUnitTestConfig = [
     unit_test: [
@@ -46,6 +46,7 @@ public class NpmInvokeSpec extends JTEPipelineSpecification {
     NpmInvoke = loadPipelineScriptForStep("npm", "npm_invoke")
     
     explicitlyMockPipelineStep("inside_sdp_image")
+    explicitlyMockPipelineStep("withGit")
     explicitlyMockPipelineVariable("out")
 
     NpmInvoke.getBinding().setVariable("config", config)
@@ -380,5 +381,33 @@ public class NpmInvokeSpec extends JTEPipelineSpecification {
         "- secret 'someUsernamePasswordSecret' must define 'usernameVar'",
         "- secret 'someUsernamePasswordSecret' must define 'passwordVar'"
       ])
+  }
+
+  def "Runs within a withGit block if git config is set" () {
+    setup:
+      NpmInvoke.getBinding().setVariable("config", [
+        unit_test: [
+          stageName: "NPM End-to-End Test",
+          script: "test",
+          git: [
+            url: "https://www.github.com",
+            cred: "my-github-pat",
+            branch: "main"
+          ]
+        ]
+      ])
+    when:
+      NpmInvoke()
+    then:
+      1 * getPipelineMock("withGit").call(_)
+  }
+
+  def "Does not use withGit block if git config is not set" () {
+    setup:
+      NpmInvoke.getBinding().setVariable("config", minimalUnitTestConfig)
+    when:
+      NpmInvoke()
+    then:
+      0 * getPipelineMock("withGit").call(_)
   }
 }

@@ -33,7 +33,7 @@ def call(){
     def (image_reg) = get_registry_info() // config.registry
     def path_prefix = config.repo_path_prefix ? config.repo_path_prefix + "/" : ""
 
-    def build_strategies = [ "docker-compose", "modules", "dockerfile", "buildx" ]
+    def build_strategies = [ "docker-compose", "modules", "dockerfiles", "dockerfile", "buildx" ]
     if (config.build_strategy)
     if (!(config.build_strategy in build_strategies)) {
         error "build strategy: ${config.build_strategy} not one of ${build_strategies}"
@@ -41,6 +41,7 @@ def call(){
 
     def images = []
     def image_name = config.image_name ?: env.REPO_NAME
+    def dockerfiles = config.dockerfiles ?: [:]
 
     switch (config.build_strategy) {
       case "docker-compose":
@@ -52,12 +53,24 @@ def call(){
             registry: image_reg,
             repo: "${path_prefix}${image_name}_${service}".toLowerCase(),
             tag: env.GIT_SHA,
-            context: service
+            context: service,
+            dockerfile: "Dockerfile"
           ])
         }
         break
       case "buildx":
         images = buildx(image_reg,path_prefix)
+        break
+      case "dockerfiles":
+        dockerfiles.each { service, value ->
+          images.push([
+            registry: image_reg,
+            repo: "${path_prefix}${image_name}_${service}".toLowerCase(),
+            tag: env.GIT_SHA,
+            context: value.context,
+            dockerfile: value.dockerfile
+          ])
+        }
         break
       case "dockerfile": //same as null/default case
       case null:
@@ -65,7 +78,8 @@ def call(){
           registry: image_reg,
           repo: "${path_prefix}${image_name}".toLowerCase(),
           tag: env.GIT_SHA,
-          context: "."
+          context: ".",
+          dockerfile: "Dockerfile"
         ])
         break
     }
