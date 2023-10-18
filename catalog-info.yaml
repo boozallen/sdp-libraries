@@ -22,6 +22,5 @@ metadata:
 spec:
   type: docs
   lifecycle: production
-  visibility: public
   owner: uip/software-studio
   system: system:infrastructure-and-pipeline
