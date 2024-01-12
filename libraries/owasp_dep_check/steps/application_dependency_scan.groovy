@@ -45,7 +45,7 @@ void call() {
       
       Boolean skipNodeAudit = config?.skip_node_audit ?: true
       if (skipNodeAudit) {
-        args += "--disableNodeAudit"
+        args += " --disableNodeAudit"
       } 
 
       // perform the scan
