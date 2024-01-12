@@ -42,6 +42,11 @@ void call() {
           echo "\"${suppressionFile}\" does not exist. Skipping suppression."
         }
       }
+      
+      Boolean skipNodeAudit = config?.skip_node_audit ?: true
+      if (skipNodeAudit) {
+        args += "--disableNodeAudit"
+      } 
 
       // perform the scan
       try {
