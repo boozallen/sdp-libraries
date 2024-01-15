@@ -43,7 +43,7 @@ void call() {
         }
       }
       
-      Boolean skipNodeAudit = config?.skip_node_audit ?: true
+      Boolean skipNodeAudit = config?.skip_node_audit ?: false
       if (skipNodeAudit) {
         args += " --disableNodeAudit"
       } 
