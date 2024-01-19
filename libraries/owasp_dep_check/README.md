@@ -31,6 +31,7 @@ OWASP Dependency Check Library Configuration Options
 | `allow_suppression_file` | Allows whitelisting vulnerabilities using a suppression XML file                                                                                        | `true`                             |
 | `suppression_file`       | Path to the suppression file (see [here](https://jeremylong.github.io/DependencyCheck/general/suppression.html) for how to create a suppression file)   | `dependency-check-suppression.xml` |
 | `image_tag`              | The tag for the scanner Docker image used                                                                                                               | `7.3.0-8.6-2`                      |
+| `skip_node_audit`        | Skips the node audit with `--disableNodeAudit` if set to true. This can be useful if you have other mechanisms to audit npm packages (ex: npm audit).   |                                    |
 
 ## Example Configuration Snippet
 
