@@ -17,6 +17,8 @@ public class MavenInvokeSpec extends JTEPipelineSpecification {
         ]
     ]
 
+    LinkedHashMap withMavenParams = [ 'traceability': false ]
+
     static class DummyException extends RuntimeException {
         DummyException(String _message) { super( _message ) }
     }
@@ -87,5 +89,24 @@ public class MavenInvokeSpec extends JTEPipelineSpecification {
             MavenInvoke()
         then:
             1 * getPipelineMock('archiveArtifacts.call')(_ as Map)
+    }
+
+    def 'Command is wrapped with withMaven if withMavenParams are defined' () {
+        setup:
+            getPipelineMock('sh')('mvn archetype:generate -DgroupId=com.mycompany.app -DartifactId=my-app -DarchetypeArtifactId=maven-archetype-quickstart -DarchetypeVersion=1.4 -DinteractiveMode=false && cd my-app')
+            MavenInvoke.getBinding().setVariable('stepContext', [name: 'build'])
+            MavenInvoke.getBinding().setVariable('config', [
+                build: [
+                    stageName: 'Maven Build',
+                    buildContainer: 'mvn',
+                    phases: ['clean', 'install'],
+                    artifacts: ['target/*.jar'],
+                    withMavenParams: withMavenParams
+                ]
+            ])
+        when:
+            MavenInvoke()
+        then:
+            1 * getPipelineMock('withMaven').call(withMavenParams)
     }
 }

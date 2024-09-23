@@ -43,6 +43,17 @@ libraries {
       phases = ['build']
       artifacts = ['target/*.jar']
     }
+    aThirdMavenStep {
+      stageName = 'Maven Build'
+      buildContainer = 'mvn'
+      phases = ['build']
+      artifacts = ['target/*.jar']
+      withMavenParams = [
+        'globalMavenSettingsConfig': '1c11594b-8b27-4f9e-a83c-3f2e72969514',
+        'mavenOpts': '-Dsettings.security=/var/lib/jenkins/settings-security.xml',
+        'traceability': false
+      ]
+    }
   }
 }
 ```

@@ -28,6 +28,10 @@ void call(app_env = [:]) {
                     libStepConfig?.artifacts ?:
                     [] as String[]
 
+    def withMavenParams = appStepConfig?.withMavenParams ?:
+                    libStepConfig?.withMavenParams ?:
+                    [] as String[]
+
     // Gather and set non-secret environment variables
     this.setEnvVars(libStepConfig, appStepConfig)
 
@@ -40,13 +44,19 @@ void call(app_env = [:]) {
             inside_sdp_image "${env.buildContainer}", {
                 unstash 'workspace'
 
-                String command = 'mvn '
+                String command = withMavenParams ? '$MVN_CMD ' : 'mvn '
                 options.each { value -> command += "${value} " }
                 goals.each { value -> command += "${value} " }
                 phases.each { value -> command += "${value} " }
 
                 try {
-                    sh command
+                    if (withMavenParams) {
+                      withMaven (withMavenParams) {
+                          sh command
+                      }
+                    } else {
+                      sh command
+                    }
                 }
                 catch (any) {
                     throw any
