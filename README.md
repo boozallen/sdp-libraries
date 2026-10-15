@@ -1,4 +1,6 @@
 # SDP Pipeline Libraries
+# ⚠️ PROJECT RETIRED / UNMAINTAINED
+This repository is no longer actively maintained.
 
 This repository contains [Booz Allen's](https://boozallen.com) pipeline libraries that integrate with the [Jenkins Templating Engine](https://plugins.jenkins.io/templating-engine/).
 
